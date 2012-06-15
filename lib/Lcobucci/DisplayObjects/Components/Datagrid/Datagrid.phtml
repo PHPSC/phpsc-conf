@@ -1,0 +1,33 @@
+<table id="<?php echo $this->getId(); ?>" class="<?php echo $this->getStyleClass(); ?>" style="<?php echo $this->getInlineStyle(); ?>">
+	<thead>
+		<tr>
+		<?php foreach ($this->getColumns() as $column) { ?>
+			<th class="<?php echo $column->getClass(); ?>">
+				<?php echo $column->getLabel(); ?>
+			</th>
+		<?php } ?>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->getDataProvider() as $item) { ?>
+		<tr>
+			<?php foreach ($this->getColumns() as $column) { ?>
+			<td class="<?php echo $column->getClass(); ?>">
+				<?php echo $column->getContent($item); ?>
+			</td>
+			<?php } ?>
+		</tr>
+	<?php } ?>
+	</tbody>
+	<?php if ($this->willDisplayLabelsOnFooter()) { ?>
+	<tfoot>
+		<tr>
+		<?php foreach ($this->getColumns() as $column) { ?>
+			<th class="<?php echo $column->getClass(); ?>">
+				<?php echo $column->getLabel(); ?>
+			</th>
+		<?php } ?>
+		</tr>
+	</tfoot>
+	<?php } ?>
+</table>

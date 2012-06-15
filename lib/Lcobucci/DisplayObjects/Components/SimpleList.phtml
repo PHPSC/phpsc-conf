@@ -1,0 +1,7 @@
+<div id="<?php echo $this->getId()?>" class="display-objects-list">
+	<?php foreach ($this->getDataProvider() as $index => $obj) { ?>
+	<div id="<?php echo $this->getId(); ?>_item<?php echo $index; ?>">
+		<?php echo $this->getRenderer()->render($obj); ?>
+	</div>
+	<?php } ?>
+</div>
