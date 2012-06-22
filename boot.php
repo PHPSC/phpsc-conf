@@ -6,7 +6,7 @@ set_include_path(
 
 require 'Lcobucci/Common/ClassLoader/SplAutoloader.php';
 
-use Lcobucci\Common\ClassLoader\SplAutoloader;
+use Lcobucci\Common\ClassLoader\SplClassLoader;
 
-$loader = new SplAutoloader();
+$loader = new SplClassLoader();
 $loader->register();
