@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://lcobucci.com/action-mapper/schema"
+	xmlns="http://lcobucci.com/action-mapper/schema"
+	elementFormDefault="qualified">
+	
+	<xs:element name="routing" type="routesConfig" />
+	
+	<xs:complexType name="routesConfig">
+		<xs:sequence>
+			<xs:element name="definitionBaseClass" type="classType" minOccurs="0" />
+			<xs:element name="routes" type="routesContainer" minOccurs="1" />
+			<xs:element name="filters" type="filtersContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="routesContainer">
+		<xs:sequence>
+			<xs:element name="route" type="routeType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="routeType">
+		<xs:attribute name="pattern" type="patternType" use="required" />
+		<xs:attribute name="class" type="classType" use="required" />
+		<xs:attribute name="method" type="methodType" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="filtersContainer">
+		<xs:sequence>
+			<xs:element name="filter" type="filterType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="filterType">
+		<xs:attribute name="pattern" type="patternType" use="required" />
+		<xs:attribute name="class" type="classType" use="required" />
+		<xs:attribute name="before" type="xs:boolean" use="optional" default="true" />
+	</xs:complexType>
+	
+	<xs:simpleType name="patternType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="/(([a-zA-Z0-9-_\*%\.]{1,})?/?)*" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="classType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\\?[A-Z]([a-zA-Z0-9_]{1,})?)*" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="methodType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(_\*)?([a-z][a-zA-Z0-9_]{1,})?" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
