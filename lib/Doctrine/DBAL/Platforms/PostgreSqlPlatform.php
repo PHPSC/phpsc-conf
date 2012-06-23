@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -316,7 +316,8 @@ class PostgreSqlPlatform extends AbstractPlatform
      * create a new database
      *
      * @param string $name name of the database that should be created
-     * @return string
+     * @throws PDOException
+     * @return void
      * @override
      */
     public function getCreateDatabaseSQL($name)
@@ -328,6 +329,7 @@ class PostgreSqlPlatform extends AbstractPlatform
      * drop an existing database
      *
      * @param string $name name of the database that should be dropped
+     * @throws PDOException
      * @access public
      */
     public function getDropDatabaseSQL($name)
@@ -402,7 +404,7 @@ class PostgreSqlPlatform extends AbstractPlatform
             $sql[] = 'ALTER TABLE ' . $diff->name . ' ' . $query;
         }
 
-        foreach ($diff->changedColumns as $columnDiff) {
+        foreach ($diff->changedColumns AS $columnDiff) {
             if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
                 continue;
             }
@@ -455,7 +457,7 @@ class PostgreSqlPlatform extends AbstractPlatform
 
         $tableSql = array();
 
-        if ( ! $this->onSchemaAlterTable($diff, $tableSql)) {
+        if (!$this->onSchemaAlterTable($diff, $tableSql)) {
             if ($diff->newName !== false) {
                 $sql[] = 'ALTER TABLE ' . $diff->name . ' RENAME TO ' . $diff->newName;
             }
@@ -500,7 +502,7 @@ class PostgreSqlPlatform extends AbstractPlatform
     }
 
     /**
-     * @param  \Doctrine\DBAL\Schema\ForeignKeyConstraint|string $foreignKey
+     * @param  ForeignKeyConstraint|string $foreignKey
      * @param  Table|string $table
      * @return string
      */
@@ -512,10 +514,10 @@ class PostgreSqlPlatform extends AbstractPlatform
     /**
      * Gets the SQL used to create a table.
      *
-     * @param string $tableName
+     * @param unknown_type $tableName
      * @param array $columns
      * @param array $options
-     * @return string
+     * @return unknown
      */
     protected function _getCreateTableSQL($tableName, array $columns, array $options = array())
     {
@@ -531,7 +533,7 @@ class PostgreSqlPlatform extends AbstractPlatform
         $sql[] = $query;
 
         if (isset($options['indexes']) && ! empty($options['indexes'])) {
-            foreach ($options['indexes'] as $index) {
+            foreach ($options['indexes'] AS $index) {
                 $sql[] = $this->getCreateIndexSQL($index, $tableName);
             }
         }
@@ -615,17 +617,6 @@ class PostgreSqlPlatform extends AbstractPlatform
     public function getSmallIntTypeDeclarationSQL(array $field)
     {
         return 'SMALLINT';
-    }
-
-    /**
-     * Decleration for a UUID field in PostgreSQL
-     *
-     * @param array $field
-     * @return string
-     */
-    public function getGuidTypeDeclartionSQL(array $field)
-    {
-        return 'UUID';
     }
 
     /**
@@ -777,7 +768,6 @@ class PostgreSqlPlatform extends AbstractPlatform
             'money'         => 'decimal',
             'numeric'       => 'decimal',
             'year'          => 'date',
-            'uuid'          => 'guid',
             'bytea'         => 'blob',
         );
     }

@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -380,7 +380,7 @@ class MySqlPlatform extends AbstractPlatform
      *                              )
      *                          );
      *
-     * @return string
+     * @return void
      * @override
      */
     protected function _getCreateTableSQL($tableName, array $columns, array $options = array())
@@ -410,28 +410,31 @@ class MySqlPlatform extends AbstractPlatform
         if (!empty($options['temporary'])) {
             $query .= 'TEMPORARY ';
         }
-        $query .= 'TABLE ' . $tableName . ' (' . $queryFields . ') ';
+        $query.= 'TABLE ' . $tableName . ' (' . $queryFields . ')';
+
+        $optionStrings = array();
 
         if (isset($options['comment'])) {
-            $query .= 'COMMENT = ' . $options['comment'] . ' ';
+            $optionStrings['comment'] = 'COMMENT = ' . $options['comment'];
+        }
+        if (isset($options['charset'])) {
+            $optionStrings['charset'] = 'DEFAULT CHARACTER SET ' . $options['charset'];
+            if (isset($options['collate'])) {
+                $optionStrings['charset'] .= ' COLLATE ' . $options['collate'];
+            }
         }
 
-        if ( ! isset($options['charset'])) {
-            $options['charset'] = 'utf8';
+        // get the type of the table
+        if (isset($options['engine'])) {
+            $optionStrings[] = 'ENGINE = ' . $options['engine'];
+        } else {
+            // default to innodb
+            $optionStrings[] = 'ENGINE = InnoDB';
         }
 
-        if ( ! isset($options['collate'])) {
-            $options['collate'] = 'utf8_general_ci';
+        if ( ! empty($optionStrings)) {
+            $query.= ' '.implode(' ', $optionStrings);
         }
-
-        $query .= 'DEFAULT CHARACTER SET ' . $options['charset'];
-        $query .= ' COLLATE ' . $options['collate'];
-
-        if ( ! isset($options['engine'])) {
-            $options['engine'] = 'InnoDB';
-        }
-        $query .= ' ENGINE = ' . $options['engine'];
-
         $sql[] = $query;
 
         if (isset($options['foreignKeys'])) {
@@ -457,7 +460,7 @@ class MySqlPlatform extends AbstractPlatform
             $queryParts[] =  'RENAME TO ' . $diff->newName;
         }
 
-        foreach ($diff->addedColumns as $column) {
+        foreach ($diff->addedColumns AS $fieldName => $column) {
             if ($this->onSchemaAlterTableAddColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -467,7 +470,7 @@ class MySqlPlatform extends AbstractPlatform
             $queryParts[] = 'ADD ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
         }
 
-        foreach ($diff->removedColumns as $column) {
+        foreach ($diff->removedColumns AS $column) {
             if ($this->onSchemaAlterTableRemoveColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -475,12 +478,12 @@ class MySqlPlatform extends AbstractPlatform
             $queryParts[] =  'DROP ' . $column->getQuotedName($this);
         }
 
-        foreach ($diff->changedColumns as $columnDiff) {
+        foreach ($diff->changedColumns AS $columnDiff) {
             if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
                 continue;
             }
 
-            /* @var $columnDiff \Doctrine\DBAL\Schema\ColumnDiff */
+            /* @var $columnDiff Doctrine\DBAL\Schema\ColumnDiff */
             $column = $columnDiff->column;
             $columnArray = $column->toArray();
             $columnArray['comment'] = $this->getColumnComment($column);
@@ -488,7 +491,7 @@ class MySqlPlatform extends AbstractPlatform
                     . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
         }
 
-        foreach ($diff->renamedColumns as $oldColumnName => $column) {
+        foreach ($diff->renamedColumns AS $oldColumnName => $column) {
             if ($this->onSchemaAlterTableRenameColumn($oldColumnName, $column, $diff, $columnSql)) {
                 continue;
             }
@@ -502,7 +505,7 @@ class MySqlPlatform extends AbstractPlatform
         $sql = array();
         $tableSql = array();
 
-        if ( ! $this->onSchemaAlterTable($diff, $tableSql)) {
+        if (!$this->onSchemaAlterTable($diff, $tableSql)) {
             if (count($queryParts) > 0) {
                 $sql[] = 'ALTER TABLE ' . $diff->name . ' ' . implode(", ", $queryParts);
             }
@@ -527,7 +530,7 @@ class MySqlPlatform extends AbstractPlatform
         $sql = array();
         $table = $diff->name;
 
-        foreach ($diff->removedIndexes as $remKey => $remIndex) {
+        foreach ($diff->removedIndexes AS $remKey => $remIndex) {
 
             foreach ($diff->addedIndexes as $addKey => $addIndex) {
                 if ($remIndex->getColumns() == $addIndex->getColumns()) {
@@ -556,23 +559,6 @@ class MySqlPlatform extends AbstractPlatform
 
         return $sql;
     }
-
-
-    /**
-     * @override
-     */
-    protected function getCreateIndexSQLFlags(Index $index)
-    {
-        $type = '';
-        if ($index->isUnique()) {
-            $type .= 'UNIQUE ';
-        } else if ($index->hasFlag('fulltext')) {
-            $type .= 'FULLTEXT ';
-        }
-
-        return $type;
-    }
-
 
     /**
      * Obtain DBMS specific SQL code portion needed to declare an integer type
@@ -633,7 +619,7 @@ class MySqlPlatform extends AbstractPlatform
      * Return the FOREIGN KEY query section dealing with non-standard options
      * as MATCH, INITIALLY DEFERRED, ON UPDATE, ...
      *
-     * @param \Doctrine\DBAL\Schema\ForeignKeyConstraint $foreignKey
+     * @param ForeignKeyConstraint $foreignKey
      * @return string
      * @override
      */
@@ -738,8 +724,6 @@ class MySqlPlatform extends AbstractPlatform
             'blob'          => 'blob',
             'mediumblob'    => 'blob',
             'tinyblob'      => 'blob',
-            'binary'        => 'blob',
-            'varbinary'     => 'blob',
         );
     }
 

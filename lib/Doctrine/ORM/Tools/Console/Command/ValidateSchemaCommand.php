@@ -15,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
 */
 
@@ -65,9 +65,9 @@ EOT
 
         $exit = 0;
         if ($errors) {
-            foreach ($errors as $className => $errorMessages) {
+            foreach ($errors AS $className => $errorMessages) {
                 $output->write("<error>[Mapping]  FAIL - The entity-class '" . $className . "' mapping is invalid:</error>\n");
-                foreach ($errorMessages as $errorMessage) {
+                foreach ($errorMessages AS $errorMessage) {
                     $output->write('* ' . $errorMessage . "\n");
                 }
                 $output->write("\n");
@@ -84,6 +84,6 @@ EOT
             $output->write('<info>[Database] OK - The database schema is in sync with the mapping files.</info>' . "\n");
         }
 
-        return $exit;
+        exit($exit);
     }
 }

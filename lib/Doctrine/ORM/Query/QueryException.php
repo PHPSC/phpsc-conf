@@ -15,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -26,7 +26,7 @@ use Doctrine\ORM\Query\AST\PathExpression;
 /**
  * Description of QueryException
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
  * @version $Revision: 3938 $
@@ -37,19 +37,14 @@ use Doctrine\ORM\Query\AST\PathExpression;
  */
 class QueryException extends \Doctrine\ORM\ORMException
 {
-    public static function dqlError($dql)
+    public static function syntaxError($message)
     {
-        return new self($dql);
+        return new self('[Syntax Error] ' . $message);
     }
 
-    public static function syntaxError($message, $previous = null)
+    public static function semanticalError($message)
     {
-        return new self('[Syntax Error] ' . $message, 0, $previous);
-    }
-
-    public static function semanticalError($message, $previous = null)
-    {
-        return new self('[Semantical Error] ' . $message, 0, $previous);
+        return new self('[Semantical Error] ' . $message);
     }
 
     public static function invalidLockMode()

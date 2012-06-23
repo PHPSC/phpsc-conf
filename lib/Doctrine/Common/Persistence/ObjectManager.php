@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -72,14 +72,6 @@ interface ObjectManager
     function merge($object);
 
     /**
-     * Clears the ObjectManager. All objects that are currently managed
-     * by this ObjectManager become detached.
-     *
-     * @param string $objectName if given, only objects of this type will get detached
-     */
-    function clear($objectName = null);
-
-    /**
      * Detaches an object from the ObjectManager, causing a managed object to
      * become detached. Unflushed changes made to the object if any
      * (including removal of the object), will not be synchronized to the database.
@@ -127,7 +119,7 @@ interface ObjectManager
     /**
      * Gets the metadata factory used to gather the metadata of classes.
      *
-     * @return \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
+     * @return Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
      */
     function getMetadataFactory();
 

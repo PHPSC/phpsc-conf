@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -49,7 +49,7 @@ final class DocParser
     /**
      * The lexer.
      *
-     * @var \Doctrine\Common\Annotations\DocLexer
+     * @var Doctrine\Common\Annotations\DocLexer
      */
     private $lexer;
 
@@ -63,7 +63,7 @@ final class DocParser
     /**
      * Doc Parser used to collect annotation target
      *
-     * @var \Doctrine\Common\Annotations\DocParser
+     * @var Doctrine\Common\Annotations\DocParser
      */
     private static $metadataParser;
 
@@ -223,11 +223,6 @@ final class DocParser
         $this->ignoredAnnotationNames = $names;
     }
 
-    /**
-     * Sets ignore on not-imported annotations
-     *
-     * @param $bool
-     */
     public function setIgnoreNotImportedAnnotations($bool)
     {
         $this->ignoreNotImportedAnnotations = (Boolean) $bool;
@@ -235,10 +230,7 @@ final class DocParser
 
     /**
      * Sets the default namespaces.
-     *
-     * @param array $namespace
-     *
-     * @throws \RuntimeException
+     * @param array $namespaces
      */
     public function addNamespace($namespace)
     {
@@ -248,12 +240,6 @@ final class DocParser
         $this->namespaces[] = $namespace;
     }
 
-    /**
-     * Sets the imports
-     *
-     * @param array $imports
-     * @throws \RuntimeException
-     */
     public function setImports(array $imports)
     {
         if ($this->namespaces) {
@@ -301,7 +287,7 @@ final class DocParser
      * Attempts to match the given token with the current lookahead token.
      * If they match, updates the lookahead token; otherwise raises a syntax error.
      *
-     * @param int $token type of Token.
+     * @param int Token type.
      * @return bool True if tokens match; false otherwise.
      */
     private function match($token)
@@ -336,8 +322,7 @@ final class DocParser
      *
      * @param string $expected Expected string.
      * @param array $token Optional token.
-     *
-     * @throws AnnotationException
+     * @throws SyntaxException
      */
     private function syntaxError($expected, $token = null)
     {
@@ -387,7 +372,7 @@ final class DocParser
     /**
      * Collects parsing metadata for a given annotation class
      *
-     * @param string $name The annotation name
+     * @param   string $name        The annotation name
      */
     private function collectAnnotationMetadata($name)
     {
@@ -545,7 +530,6 @@ final class DocParser
      * NameSpacePart  ::= identifier | null | false | true
      * SimpleName     ::= identifier | null | false | true
      *
-     * @throws AnnotationException
      * @return mixed False if it is not a valid annotation.
      */
     private function Annotation()
@@ -553,7 +537,20 @@ final class DocParser
         $this->match(DocLexer::T_AT);
 
         // check if we have an annotation
-        $name = $this->Identifier();
+        if ($this->lexer->isNextTokenAny(self::$classIdentifiers)) {
+            $this->lexer->moveNext();
+            $name = $this->lexer->token['value'];
+        } else if ($this->lexer->isNextToken(DocLexer::T_NAMESPACE_SEPARATOR)) {
+            $name = '';
+        } else {
+            $this->syntaxError('namespace separator or identifier');
+        }
+
+        while ($this->lexer->lookahead['position'] === $this->lexer->token['position'] + strlen($this->lexer->token['value']) && $this->lexer->isNextToken(DocLexer::T_NAMESPACE_SEPARATOR)) {
+            $this->match(DocLexer::T_NAMESPACE_SEPARATOR);
+            $this->matchAny(self::$classIdentifiers);
+            $name .= '\\'.$this->lexer->token['value'];
+        }
 
         // only process names which are not fully qualified, yet
         // fully qualified names must start with a \
@@ -750,91 +747,6 @@ final class DocParser
     }
 
     /**
-     * Constant ::= integer | string | float | boolean
-     *
-     * @throws AnnotationException
-     * @return mixed
-     */
-    private function Constant()
-    {
-        $identifier = $this->Identifier();
-
-        if (!defined($identifier) && false !== strpos($identifier, '::') && '\\' !== $identifier[0]) {
-
-            list($className, $const) = explode('::', $identifier);
-            $alias = (false === $pos = strpos($className, '\\'))? $className : substr($className, 0, $pos);
-
-            $found = false;
-            switch (true) {
-                case !empty ($this->namespaces):
-                    foreach ($this->namespaces as $ns) {
-                        if (class_exists($ns.'\\'.$className) || interface_exists($ns.'\\'.$className)) {
-                             $className = $ns.'\\'.$className;
-                             $found = true;
-                             break;
-                        }
-                    }
-                    break;
-
-                case isset($this->imports[$loweredAlias = strtolower($alias)]):
-                    $found = true;
-                    if (false !== $pos) {
-                        $className = $this->imports[$loweredAlias].substr($className, $pos);
-                    } else {
-                        $className = $this->imports[$loweredAlias];
-                    }
-                    break;
-
-                default:
-                    if(isset($this->imports['__NAMESPACE__'])) {
-                        $ns = $this->imports['__NAMESPACE__'];
-                        if (class_exists($ns.'\\'.$className) || interface_exists($ns.'\\'.$className)) {
-                             $className = $ns.'\\'.$className;
-                             $found = true;
-                        }
-                    }
-                    break;
-            }
-
-            if ($found) {
-                 $identifier = $className . '::' . $const;
-            }
-        }
-
-        if (!defined($identifier)) {
-            throw AnnotationException::semanticalErrorConstants($identifier, $this->context);
-        }
-
-        return constant($identifier);
-    }
-
-    /**
-     * Identifier ::= string
-     *
-     * @return string
-     */
-    private function Identifier()
-    {
-        // check if we have an annotation
-        if ($this->lexer->isNextTokenAny(self::$classIdentifiers)) {
-            $this->lexer->moveNext();
-            $className = $this->lexer->token['value'];
-        } else {
-            $this->syntaxError('namespace separator or identifier');
-        }
-
-        while ($this->lexer->lookahead['position'] === ($this->lexer->token['position'] + strlen($this->lexer->token['value']))
-                && $this->lexer->isNextToken(DocLexer::T_NAMESPACE_SEPARATOR)) {
-
-            $this->match(DocLexer::T_NAMESPACE_SEPARATOR);
-            $this->matchAny(self::$classIdentifiers);
-            $className .= '\\' . $this->lexer->token['value'];
-        }
-
-        return $className;
-    }
-
-    /**
      * Value ::= PlainValue | FieldAssignment
      *
      * @return mixed
@@ -863,10 +775,6 @@ final class DocParser
 
         if ($this->lexer->isNextToken(DocLexer::T_AT)) {
             return $this->Annotation();
-        }
-
-        if ($this->lexer->isNextToken(DocLexer::T_IDENTIFIER)) {
-            return $this->Constant();
         }
 
         switch ($this->lexer->lookahead['type']) {
@@ -959,8 +867,8 @@ final class DocParser
 
     /**
      * ArrayEntry ::= Value | KeyValuePair
-     * KeyValuePair ::= Key ("=" | ":") PlainValue | Constant
-     * Key ::= string | integer | Constant
+     * KeyValuePair ::= Key ("=" | ":") PlainValue
+     * Key ::= string | integer
      *
      * @return array
      */
@@ -970,14 +878,9 @@ final class DocParser
 
         if (DocLexer::T_EQUALS === $peek['type']
                 || DocLexer::T_COLON === $peek['type']) {
+            $this->matchAny(array(DocLexer::T_INTEGER, DocLexer::T_STRING));
 
-            if ($this->lexer->isNextToken(DocLexer::T_IDENTIFIER)) {
-                $key = $this->Constant();
-            } else {
-                $this->matchAny(array(DocLexer::T_INTEGER, DocLexer::T_STRING));
-                $key = $this->lexer->token['value'];
-            }
-
+            $key = $this->lexer->token['value'];
             $this->matchAny(array(DocLexer::T_EQUALS, DocLexer::T_COLON));
 
             return array($key, $this->PlainValue());

@@ -15,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
 */
 
@@ -34,10 +34,6 @@ class ProxyException extends \Doctrine\ORM\ORMException {
 
     public static function proxyDirectoryRequired() {
         return new self("You must configure a proxy directory. See docs for details");
-    }
-
-    public static function proxyDirectoryNotWritable() {
-        return new self("Your proxy directory must be writable.");
     }
 
     public static function proxyNamespaceRequired() {

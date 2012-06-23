@@ -15,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -50,7 +50,7 @@ class XmlDriver extends AbstractFileDriver
     public function loadMetadataForClass($className, ClassMetadataInfo $metadata)
     {
         $xmlRoot = $this->getElement($className);
-        
+
         if ($xmlRoot->getName() == 'entity') {
             if (isset($xmlRoot['repository-class'])) {
                 $metadata->setCustomRepositoryClass((string)$xmlRoot['repository-class']);
@@ -85,58 +85,6 @@ class XmlDriver extends AbstractFileDriver
             }
         }
 
-        // Evaluate native named queries
-        if (isset($xmlRoot->{'named-native-queries'})) {
-            foreach ($xmlRoot->{'named-native-queries'}->{'named-native-query'} as $nativeQueryElement) {
-                $metadata->addNamedNativeQuery(array(
-                    'name'              => isset($nativeQueryElement['name']) ? (string)$nativeQueryElement['name'] : null,
-                    'query'             => isset($nativeQueryElement->query) ? (string)$nativeQueryElement->query : null,
-                    'resultClass'       => isset($nativeQueryElement['result-class']) ? (string)$nativeQueryElement['result-class'] : null,
-                    'resultSetMapping'  => isset($nativeQueryElement['result-set-mapping']) ? (string)$nativeQueryElement['result-set-mapping'] : null,
-                ));
-            }
-        }
-
-        // Evaluate sql result set mapping
-        if (isset($xmlRoot->{'sql-result-set-mappings'})) {
-            foreach ($xmlRoot->{'sql-result-set-mappings'}->{'sql-result-set-mapping'} as $rsmElement) {
-                $entities   = array();
-                $columns    = array();
-                foreach ($rsmElement as $entityElement) {
-                    //<entity-result/>
-                    if (isset($entityElement['entity-class'])) {
-                        $entityResult = array(
-                            'fields'                => array(),
-                            'entityClass'           => (string)$entityElement['entity-class'],
-                            'discriminatorColumn'   => isset($entityElement['discriminator-column']) ? (string)$entityElement['discriminator-column'] : null,
-                        );
-
-                        foreach ($entityElement as $fieldElement) {
-                            $entityResult['fields'][] = array(
-                                'name'      => isset($fieldElement['name']) ? (string)$fieldElement['name'] : null,
-                                'column'    => isset($fieldElement['column']) ? (string)$fieldElement['column'] : null,
-                            );
-                        }
-
-                        $entities[] = $entityResult;
-                    }
-
-                    //<column-result/>
-                    if (isset($entityElement['name'])) {
-                        $columns[] = array(
-                            'name' => (string)$entityElement['name'],
-                        );
-                    }
-                }
-
-                $metadata->addSqlResultSetMapping(array(
-                    'name'          => (string)$rsmElement['name'],
-                    'entities'      => $entities,
-                    'columns'       => $columns
-                ));
-            }
-        }
-
         /* not implemented specially anyway. use table = schema.table
         if (isset($xmlRoot['schema'])) {
             $metadata->table['schema'] = (string)$xmlRoot['schema'];
@@ -151,10 +99,9 @@ class XmlDriver extends AbstractFileDriver
                 if (isset($xmlRoot->{'discriminator-column'})) {
                     $discrColumn = $xmlRoot->{'discriminator-column'};
                     $metadata->setDiscriminatorColumn(array(
-                        'name' => isset($discrColumn['name']) ? (string)$discrColumn['name'] : null,
-                        'type' => isset($discrColumn['type']) ? (string)$discrColumn['type'] : null,
-                        'length' => isset($discrColumn['length']) ? (string)$discrColumn['length'] : null,
-                        'columnDefinition' => isset($discrColumn['column-definition']) ? (string)$discrColumn['column-definition'] : null
+                        'name' => (string)$discrColumn['name'],
+                        'type' => (string)$discrColumn['type'],
+                        'length' => (string)$discrColumn['length']
                     ));
                 } else {
                     $metadata->setDiscriminatorColumn(array('name' => 'dtype', 'type' => 'string', 'length' => 255));
@@ -163,7 +110,7 @@ class XmlDriver extends AbstractFileDriver
                 // Evaluate <discriminator-map...>
                 if (isset($xmlRoot->{'discriminator-map'})) {
                     $map = array();
-                    foreach ($xmlRoot->{'discriminator-map'}->{'discriminator-mapping'} as $discrMapElement) {
+                    foreach ($xmlRoot->{'discriminator-map'}->{'discriminator-mapping'} AS $discrMapElement) {
                         $map[(string)$discrMapElement['value']] = (string)$discrMapElement['class'];
                     }
                     $metadata->setDiscriminatorMap($map);
@@ -214,25 +161,57 @@ class XmlDriver extends AbstractFileDriver
             }
         }
 
-        if (isset($xmlRoot->options)) {
-            $metadata->table['options'] = $this->_parseOptions($xmlRoot->options->children());
-        }
-
-        // The mapping assignement is done in 2 times as a bug might occurs on some php/xml lib versions
-        // The internal SimpleXmlIterator get resetted, to this generate a duplicate field exception
-        $mappings = array();
         // Evaluate <field ...> mappings
         if (isset($xmlRoot->field)) {
             foreach ($xmlRoot->field as $fieldMapping) {
-                $mapping = $this->columnToArray($fieldMapping);
+                $mapping = array(
+                    'fieldName' => (string)$fieldMapping['name'],
+                );
+
+                if (isset($fieldMapping['type'])) {
+                    $mapping['type'] = (string)$fieldMapping['type'];
+                }
+
+                if (isset($fieldMapping['column'])) {
+                    $mapping['columnName'] = (string)$fieldMapping['column'];
+                }
+
+                if (isset($fieldMapping['length'])) {
+                    $mapping['length'] = (int)$fieldMapping['length'];
+                }
+
+                if (isset($fieldMapping['precision'])) {
+                    $mapping['precision'] = (int)$fieldMapping['precision'];
+                }
+
+                if (isset($fieldMapping['scale'])) {
+                    $mapping['scale'] = (int)$fieldMapping['scale'];
+                }
+
+                if (isset($fieldMapping['unique'])) {
+                    $mapping['unique'] = ((string)$fieldMapping['unique'] == "false") ? false : true;
+                }
+
+                if (isset($fieldMapping['options'])) {
+                    $mapping['options'] = (array)$fieldMapping['options'];
+                }
+
+                if (isset($fieldMapping['nullable'])) {
+                    $mapping['nullable'] = ((string)$fieldMapping['nullable'] == "false") ? false : true;
+                }
+
+                if (isset($fieldMapping['version']) && $fieldMapping['version']) {
+                    $metadata->setVersionMapping($mapping);
+                }
+
+                if (isset($fieldMapping['column-definition'])) {
+                    $mapping['columnDefinition'] = (string)$fieldMapping['column-definition'];
+                }
+
                 $metadata->mapField($mapping);
             }
         }
 
-        foreach ($mappings as $mapping) {
-             $metadata->mapField($mapping);
-        }
-        
         // Evaluate <id ...> mappings
         $associationIds = array();
         foreach ($xmlRoot->id as $idElement) {
@@ -248,10 +227,6 @@ class XmlDriver extends AbstractFileDriver
 
             if (isset($idElement['type'])) {
                 $mapping['type'] = (string)$idElement['type'];
-            }
-
-            if (isset($idElement['length'])) {
-                $mapping['length'] = (string)$idElement['length'];
             }
 
             if (isset($idElement['column'])) {
@@ -278,11 +253,6 @@ class XmlDriver extends AbstractFileDriver
                     'sequenceName' => (string)$seqGenerator['sequence-name'],
                     'allocationSize' => (string)$seqGenerator['allocation-size'],
                     'initialValue' => (string)$seqGenerator['initial-value']
-                ));
-            } else if (isset($idElement->{'custom-id-generator'})) {
-                $customGenerator = $idElement->{'custom-id-generator'};
-                $metadata->setCustomGeneratorDefinition(array(
-                    'class' => (string) $customGenerator['class']
                 ));
             } else if (isset($idElement->{'table-generator'})) {
                 throw MappingException::tableIdGeneratorNotImplemented($className);
@@ -314,10 +284,10 @@ class XmlDriver extends AbstractFileDriver
                     $joinColumns = array();
 
                     if (isset($oneToOneElement->{'join-column'})) {
-                        $joinColumns[] = $this->joinColumnToArray($oneToOneElement->{'join-column'});
+                        $joinColumns[] = $this->_getJoinColumnMapping($oneToOneElement->{'join-column'});
                     } else if (isset($oneToOneElement->{'join-columns'})) {
                         foreach ($oneToOneElement->{'join-columns'}->{'join-column'} as $joinColumnElement) {
-                            $joinColumns[] = $this->joinColumnToArray($joinColumnElement);
+                            $joinColumns[] = $this->_getJoinColumnMapping($joinColumnElement);
                         }
                     }
 
@@ -359,7 +329,7 @@ class XmlDriver extends AbstractFileDriver
 
                 if (isset($oneToManyElement->{'order-by'})) {
                     $orderBy = array();
-                    foreach ($oneToManyElement->{'order-by'}->{'order-by-field'} as $orderByField) {
+                    foreach ($oneToManyElement->{'order-by'}->{'order-by-field'} AS $orderByField) {
                         $orderBy[(string)$orderByField['name']] = (string)$orderByField['direction'];
                     }
                     $mapping['orderBy'] = $orderBy;
@@ -398,10 +368,10 @@ class XmlDriver extends AbstractFileDriver
                 $joinColumns = array();
 
                 if (isset($manyToOneElement->{'join-column'})) {
-                    $joinColumns[] = $this->joinColumnToArray($manyToOneElement->{'join-column'});
+                    $joinColumns[] = $this->_getJoinColumnMapping($manyToOneElement->{'join-column'});
                 } else if (isset($manyToOneElement->{'join-columns'})) {
                     foreach ($manyToOneElement->{'join-columns'}->{'join-column'} as $joinColumnElement) {
-                        $joinColumns[] = $this->joinColumnToArray($joinColumnElement);
+                        $joinColumns[] = $this->_getJoinColumnMapping($joinColumnElement);
                     }
                 }
 
@@ -448,11 +418,11 @@ class XmlDriver extends AbstractFileDriver
                     }
 
                     foreach ($joinTableElement->{'join-columns'}->{'join-column'} as $joinColumnElement) {
-                        $joinTable['joinColumns'][] = $this->joinColumnToArray($joinColumnElement);
+                        $joinTable['joinColumns'][] = $this->_getJoinColumnMapping($joinColumnElement);
                     }
 
                     foreach ($joinTableElement->{'inverse-join-columns'}->{'join-column'} as $joinColumnElement) {
-                        $joinTable['inverseJoinColumns'][] = $this->joinColumnToArray($joinColumnElement);
+                        $joinTable['inverseJoinColumns'][] = $this->_getJoinColumnMapping($joinColumnElement);
                     }
 
                     $mapping['joinTable'] = $joinTable;
@@ -464,7 +434,7 @@ class XmlDriver extends AbstractFileDriver
 
                 if (isset($manyToManyElement->{'order-by'})) {
                     $orderBy = array();
-                    foreach ($manyToManyElement->{'order-by'}->{'order-by-field'} as $orderByField) {
+                    foreach ($manyToManyElement->{'order-by'}->{'order-by-field'} AS $orderByField) {
                         $orderBy[(string)$orderByField['name']] = (string)$orderByField['direction'];
                     }
                     $mapping['orderBy'] = $orderBy;
@@ -480,62 +450,6 @@ class XmlDriver extends AbstractFileDriver
             }
         }
 
-        // Evaluate association-overrides
-        if (isset($xmlRoot->{'attribute-overrides'})) {
-            foreach ($xmlRoot->{'attribute-overrides'}->{'attribute-override'} as $overrideElement) {
-                $fieldName = (string) $overrideElement['name'];
-                foreach ($overrideElement->field as $field) {
-                    $mapping = $this->columnToArray($field);
-                    $mapping['fieldName'] = $fieldName;
-                    $metadata->setAttributeOverride($fieldName, $mapping);
-                }
-            }
-        }
-
-        // Evaluate association-overrides
-        if (isset($xmlRoot->{'association-overrides'})) {
-            foreach ($xmlRoot->{'association-overrides'}->{'association-override'} as $overrideElement) {
-                $fieldName  = (string) $overrideElement['name'];
-                $override   = array();
-
-                // Check for join-columns
-                if (isset($overrideElement->{'join-columns'})) {
-                    $joinColumns = array();
-                    foreach ($overrideElement->{'join-columns'}->{'join-column'} as $joinColumnElement) {
-                        $joinColumns[] = $this->joinColumnToArray($joinColumnElement);
-                    }
-                    $override['joinColumns'] = $joinColumns;
-                }
-
-                // Check for join-table
-                if ($overrideElement->{'join-table'}) {
-                    $joinTable          = null;
-                    $joinTableElement   = $overrideElement->{'join-table'};
-
-                    $joinTable = array(
-                        'name'      => (string) $joinTableElement['name'],
-                        'schema'    => (string) $joinTableElement['schema']
-                    );
-
-                    if (isset($joinTableElement->{'join-columns'})) {
-                        foreach ($joinTableElement->{'join-columns'}->{'join-column'} as $joinColumnElement) {
-                            $joinTable['joinColumns'][] = $this->joinColumnToArray($joinColumnElement);
-                        }
-                    }
-
-                    if (isset($joinTableElement->{'inverse-join-columns'})) {
-                        foreach ($joinTableElement->{'inverse-join-columns'}->{'join-column'} as $joinColumnElement) {
-                            $joinTable['inverseJoinColumns'][] = $this->joinColumnToArray($joinColumnElement);
-                        }
-                    }
-
-                    $override['joinTable'] = $joinTable;
-                }
-
-                $metadata->setAssociationOverride($fieldName, $override);
-            }
-        }
-
         // Evaluate <lifecycle-callbacks...>
         if (isset($xmlRoot->{'lifecycle-callbacks'})) {
             foreach ($xmlRoot->{'lifecycle-callbacks'}->{'lifecycle-callback'} as $lifecycleCallback) {
@@ -545,42 +459,13 @@ class XmlDriver extends AbstractFileDriver
     }
 
     /**
-     * Parses (nested) option elements.
-     *
-     * @param $options The XML element.
-     * @return array The options array.
-     */
-    private function _parseOptions(SimpleXMLElement $options)
-    {
-        $array = array();
-
-        foreach ($options as $option) {
-            if ($option->count()) {
-                $value = $this->_parseOptions($option->children());
-            } else {
-                $value = (string) $option;
-            }
-
-            $attr = $option->attributes();
-
-            if (isset($attr->name)) {
-                $array[(string) $attr->name] = $value;
-            } else {
-                $array[] = $value;
-            }
-        }
-
-        return $array;
-    }
-
-    /**
      * Constructs a joinColumn mapping array based on the information
      * found in the given SimpleXMLElement.
      *
      * @param $joinColumnElement The XML element.
      * @return array The mapping array.
      */
-    private function joinColumnToArray(SimpleXMLElement $joinColumnElement)
+    private function _getJoinColumnMapping(SimpleXMLElement $joinColumnElement)
     {
         $joinColumn = array(
             'name' => (string)$joinColumnElement['name'],
@@ -604,61 +489,6 @@ class XmlDriver extends AbstractFileDriver
         }
 
         return $joinColumn;
-    }
-
-     /**
-     * Parse the given field as array
-     *
-     * @param   SimpleXMLElement   $fieldMapping
-     * @return  array
-     */
-    private function columnToArray(SimpleXMLElement $fieldMapping)
-    {
-        $mapping = array(
-            'fieldName' => (string)$fieldMapping['name'],
-        );
-
-        if (isset($fieldMapping['type'])) {
-            $mapping['type'] = (string)$fieldMapping['type'];
-        }
-
-        if (isset($fieldMapping['column'])) {
-            $mapping['columnName'] = (string)$fieldMapping['column'];
-        }
-
-        if (isset($fieldMapping['length'])) {
-            $mapping['length'] = (int)$fieldMapping['length'];
-        }
-
-        if (isset($fieldMapping['precision'])) {
-            $mapping['precision'] = (int)$fieldMapping['precision'];
-        }
-
-        if (isset($fieldMapping['scale'])) {
-            $mapping['scale'] = (int)$fieldMapping['scale'];
-        }
-
-        if (isset($fieldMapping['unique'])) {
-            $mapping['unique'] = ((string)$fieldMapping['unique'] == "false") ? false : true;
-        }
-
-        if (isset($fieldMapping['nullable'])) {
-            $mapping['nullable'] = ((string)$fieldMapping['nullable'] == "false") ? false : true;
-        }
-
-        if (isset($fieldMapping['version']) && $fieldMapping['version']) {
-            $metadata->setVersionMapping($mapping);
-        }
-
-        if (isset($fieldMapping['column-definition'])) {
-            $mapping['columnDefinition'] = (string)$fieldMapping['column-definition'];
-        }
-
-        if (isset($fieldMapping->options)) {
-            $mapping['options'] = $this->_parseOptions($fieldMapping->options->children());
-        }
-
-        return $mapping;
     }
 
     /**

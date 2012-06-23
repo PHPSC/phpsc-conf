@@ -16,7 +16,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 /**
  * ClassMetadata exporter for Doctrine YAML mapping files
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
  * @version $Revision$
@@ -114,8 +114,8 @@ class YamlExporter extends AbstractExporter
             $fieldMappings[$name] = $fieldMapping;
         }
 
-        if ( ! $metadata->isIdentifierComposite && $idGeneratorType = $this->_getIdGeneratorTypeString($metadata->generatorType)) {
-            $ids[$metadata->getSingleIdentifierFieldName()]['generator']['strategy'] = $idGeneratorType;
+        if ($idGeneratorType = $this->_getIdGeneratorTypeString($metadata->generatorType)) {
+            $ids[$metadata->getSingleIdentifierFieldName()]['generator']['strategy'] = $this->_getIdGeneratorTypeString($metadata->generatorType);
         }
 
         if ($ids) {
@@ -129,6 +129,7 @@ class YamlExporter extends AbstractExporter
             $array['fields'] = array_merge($array['fields'], $fieldMappings);
         }
 
+        $associations = array();
         foreach ($metadata->associationMappings as $name => $associationMapping) {
             $cascade = array();
             if ($associationMapping['isCascadeRemove']) {
@@ -171,13 +172,7 @@ class YamlExporter extends AbstractExporter
                 );
 
                 $associationMappingArray = array_merge($associationMappingArray, $oneToOneMappingArray);
-
-                if ($associationMapping['type'] & ClassMetadataInfo::ONE_TO_ONE) {
-                    $array['oneToOne'][$name] = $associationMappingArray;
-                } else {
-                    $array['manyToOne'][$name] = $associationMappingArray;
-                }
-
+                $array['oneToOne'][$name] = $associationMappingArray;
             } else if ($associationMapping['type'] == ClassMetadataInfo::ONE_TO_MANY) {
                 $oneToManyMappingArray = array(
                     'mappedBy'      => $associationMapping['mappedBy'],

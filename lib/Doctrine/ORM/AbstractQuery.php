@@ -13,23 +13,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
 namespace Doctrine\ORM;
 
-use Doctrine\Common\Util\ClassUtils;
-use Doctrine\Common\Collections\ArrayCollection;
-
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Cache\QueryCacheProfile;
-
-use Doctrine\ORM\Query\QueryException;
+use Doctrine\DBAL\Types\Type,
+    Doctrine\DBAL\Cache\QueryCacheProfile,
+    Doctrine\ORM\Query\QueryException,
+    Doctrine\ORM\Internal\Hydration\CacheHydrator;
 
 /**
  * Base contract for ORM queries. Base class for Query and NativeQuery.
  *
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
@@ -64,9 +62,14 @@ abstract class AbstractQuery
     const HYDRATE_SIMPLEOBJECT = 5;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection The parameter map of this query.
+     * @var array The parameter map of this query.
      */
-    protected $parameters;
+    protected $_params = array();
+
+    /**
+     * @var array The parameter type map of this query.
+     */
+    protected $_paramTypes = array();
 
     /**
      * @var ResultSetMapping The user-specified ResultSetMapping to use.
@@ -111,17 +114,7 @@ abstract class AbstractQuery
     public function __construct(EntityManager $em)
     {
         $this->_em = $em;
-        $this->parameters = new ArrayCollection();
     }
-
-    /**
-     * Gets the SQL query that corresponds to this query object.
-     * The returned SQL syntax depends on the connection driver that is used
-     * by this query object at the time of this method call.
-     *
-     * @return string SQL query
-     */
-    abstract public function getSQL();
 
     /**
      * Retrieves the associated EntityManager of this Query instance.
@@ -142,67 +135,69 @@ abstract class AbstractQuery
      */
     public function free()
     {
-        $this->parameters = new ArrayCollection();
-
+        $this->_params = array();
+        $this->_paramTypes = array();
         $this->_hints = array();
     }
 
     /**
      * Get all defined parameters.
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection The defined query parameters.
+     * @return array The defined query parameters.
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return $this->_params;
+    }
+
+    /**
+     * Get all defined parameter types.
+     *
+     * @return array The defined query parameter types.
+     */
+    public function getParameterTypes()
+    {
+        return $this->_paramTypes;
     }
 
     /**
      * Gets a query parameter.
      *
      * @param mixed $key The key (index or name) of the bound parameter.
-     *
      * @return mixed The value of the bound parameter.
      */
     public function getParameter($key)
     {
-        $filteredParameters = $this->parameters->filter(
-            function ($parameter) use ($key)
-            {
-                // Must not be identical because of string to integer conversion
-                return ($key == $parameter->getName());
-            }
-        );
+        if (isset($this->_params[$key])) {
+            return $this->_params[$key];
+        }
 
-        return count($filteredParameters) ? $filteredParameters->first() : null;
+        return null;
     }
 
     /**
-     * Sets a collection of query parameters.
+     * Gets a query parameter type.
      *
-     * @param \Doctrine\Common\Collections\ArrayCollection|array $parameters
-     *
-     * @return \Doctrine\ORM\AbstractQuery This query instance.
+     * @param mixed $key The key (index or name) of the bound parameter.
+     * @return mixed The parameter type of the bound parameter.
      */
-    public function setParameters($parameters)
+    public function getParameterType($key)
     {
-        // BC compatibility with 2.3-
-        if (is_array($parameters)) {
-            $parameterCollection = new ArrayCollection();
-
-            foreach ($parameters as $key => $value) {
-                $parameter = new Query\Parameter($key, $value);
-
-                $parameterCollection->add($parameter);
-            }
-
-            $parameters = $parameterCollection;
+        if (isset($this->_paramTypes[$key])) {
+            return $this->_paramTypes[$key];
         }
 
-        $this->parameters = $parameters;
-
-        return $this;
+        return null;
     }
+
+    /**
+     * Gets the SQL query that corresponds to this query object.
+     * The returned SQL syntax depends on the connection driver that is used
+     * by this query object at the time of this method call.
+     *
+     * @return string SQL query
+     */
+    abstract public function getSQL();
 
     /**
      * Sets a query parameter.
@@ -212,29 +207,19 @@ abstract class AbstractQuery
      * @param string $type The parameter type. If specified, the given value will be run through
      *                     the type conversion of this type. This is usually not needed for
      *                     strings and numeric types.
-     *
      * @return \Doctrine\ORM\AbstractQuery This query instance.
      */
     public function setParameter($key, $value, $type = null)
     {
-        $filteredParameters = $this->parameters->filter(
-            function ($parameter) use ($key)
-            {
-                // Must not be identical because of string to integer conversion
-                return ($key == $parameter->getName());
-            }
-        );
+        $key = trim($key, ':');
 
-        if (count($filteredParameters)) {
-            $parameter = $filteredParameters->first();
-            $parameter->setValue($value, $type);
-
-            return $this;
+        $value = $this->processParameterValue($value);
+        if ($type === null) {
+            $type = Query\ParameterTypeInferer::inferType($value);
         }
 
-        $parameter = new Query\Parameter($key, $value, $type);
-
-        $this->parameters->add($parameter);
+        $this->_paramTypes[$key] = $type;
+        $this->_params[$key] = $value;
 
         return $this;
     }
@@ -245,18 +230,18 @@ abstract class AbstractQuery
      * @param mixed $value
      * @return array
      */
-    public function processParameterValue($value)
+    private function processParameterValue($value)
     {
         switch (true) {
             case is_array($value):
-                foreach ($value as $key => $paramValue) {
-                    $paramValue  = $this->processParameterValue($paramValue);
-                    $value[$key] = is_array($paramValue) ? $paramValue[key($paramValue)] : $paramValue;
+                for ($i = 0, $l = count($value); $i < $l; $i++) {
+                    $paramValue = $this->processParameterValue($value[$i]);
+                    $value[$i] = is_array($paramValue) ? $paramValue[key($paramValue)] : $paramValue;
                 }
 
                 return $value;
 
-            case is_object($value) && $this->_em->getMetadataFactory()->hasMetadataFor(ClassUtils::getClass($value)):
+            case is_object($value) && $this->_em->getMetadataFactory()->hasMetadataFor(get_class($value)):
                 return $this->convertObjectParameterToScalarValue($value);
 
             default:
@@ -264,30 +249,42 @@ abstract class AbstractQuery
         }
     }
 
-    private function convertObjectParameterToScalarValue($value)
+    protected function convertObjectParameterToScalarValue($value)
     {
         $class = $this->_em->getClassMetadata(get_class($value));
 
         if ($class->isIdentifierComposite) {
-            throw new \InvalidArgumentException(
-                "Binding an entity with a composite primary key to a query is not supported. " .
-                "You should split the parameter into the explicit fields and bind them seperately."
-            );
+            throw new \InvalidArgumentException("Binding an entity with a composite primary key to a query is not supported. You should split the parameter into the explicit fields and bind them seperately.");
         }
 
-        $values = ($this->_em->getUnitOfWork()->getEntityState($value) === UnitOfWork::STATE_MANAGED)
-            ? $this->_em->getUnitOfWork()->getEntityIdentifier($value)
-            : $class->getIdentifierValues($value);
+        if ($this->_em->getUnitOfWork()->getEntityState($value) === UnitOfWork::STATE_MANAGED) {
+            $values = $this->_em->getUnitOfWork()->getEntityIdentifier($value);
+        } else {
+            $values = $class->getIdentifierValues($value);
+        }
 
         $value = $values[$class->getSingleIdentifierFieldName()];
-
-        if ( ! $value) {
-            throw new \InvalidArgumentException(
-                "Binding entities to query parameters only allowed for entities that have an identifier."
-            );
+        if (!$value) {
+            throw new \InvalidArgumentException("Binding entities to query parameters only allowed for entities that have an identifier.");
         }
 
         return $value;
+    }
+
+    /**
+     * Sets a collection of query parameters.
+     *
+     * @param array $params
+     * @param array $types
+     * @return \Doctrine\ORM\AbstractQuery This query instance.
+     */
+    public function setParameters(array $params, array $types = array())
+    {
+        foreach ($params as $key => $value) {
+            $this->setParameter($key, $value, isset($types[$key]) ? $types[$key] : null);
+        }
+
+        return $this;
     }
 
     /**
@@ -529,37 +526,37 @@ abstract class AbstractQuery
     /**
      * Gets the list of results for the query.
      *
-     * Alias for execute(null, $hydrationMode = HYDRATE_OBJECT).
+     * Alias for execute(array(), $hydrationMode = HYDRATE_OBJECT).
      *
      * @return array
      */
     public function getResult($hydrationMode = self::HYDRATE_OBJECT)
     {
-        return $this->execute(null, $hydrationMode);
+        return $this->execute(array(), $hydrationMode);
     }
 
     /**
      * Gets the array of results for the query.
      *
-     * Alias for execute(null, HYDRATE_ARRAY).
+     * Alias for execute(array(), HYDRATE_ARRAY).
      *
      * @return array
      */
     public function getArrayResult()
     {
-        return $this->execute(null, self::HYDRATE_ARRAY);
+        return $this->execute(array(), self::HYDRATE_ARRAY);
     }
 
     /**
      * Gets the scalar results for the query.
      *
-     * Alias for execute(null, HYDRATE_SCALAR).
+     * Alias for execute(array(), HYDRATE_SCALAR).
      *
      * @return array
      */
     public function getScalarResult()
     {
-        return $this->execute(null, self::HYDRATE_SCALAR);
+        return $this->execute(array(), self::HYDRATE_SCALAR);
     }
 
     /**
@@ -571,7 +568,7 @@ abstract class AbstractQuery
      */
     public function getOneOrNullResult($hydrationMode = null)
     {
-        $result = $this->execute(null, $hydrationMode);
+        $result = $this->execute(array(), $hydrationMode);
 
         if ($this->_hydrationMode !== self::HYDRATE_SINGLE_SCALAR && ! $result) {
             return null;
@@ -603,7 +600,7 @@ abstract class AbstractQuery
      */
     public function getSingleResult($hydrationMode = null)
     {
-        $result = $this->execute(null, $hydrationMode);
+        $result = $this->execute(array(), $hydrationMode);
 
         if ($this->_hydrationMode !== self::HYDRATE_SINGLE_SCALAR && ! $result) {
             throw new NoResultException;
@@ -672,18 +669,18 @@ abstract class AbstractQuery
      * Executes the query and returns an IterableResult that can be used to incrementally
      * iterate over the result.
      *
-     * @param \Doctrine\Common\Collections\ArrayCollection|array $parameters The query parameters.
+     * @param array $params The query parameters.
      * @param integer $hydrationMode The hydration mode to use.
      * @return \Doctrine\ORM\Internal\Hydration\IterableResult
      */
-    public function iterate($parameters = null, $hydrationMode = null)
+    public function iterate(array $params = array(), $hydrationMode = null)
     {
         if ($hydrationMode !== null) {
             $this->setHydrationMode($hydrationMode);
         }
 
-        if ( ! empty($parameters)) {
-            $this->setParameters($parameters);
+        if ($params) {
+            $this->setParameters($params);
         }
 
         $stmt = $this->_doExecute();
@@ -696,18 +693,18 @@ abstract class AbstractQuery
     /**
      * Executes the query.
      *
-     * @param \Doctrine\Common\Collections\ArrayCollection|array $parameters Query parameters.
+     * @param array $params Any additional query parameters.
      * @param integer $hydrationMode Processing mode to be used during the hydration process.
      * @return mixed
      */
-    public function execute($parameters = null, $hydrationMode = null)
+    public function execute($params = array(), $hydrationMode = null)
     {
         if ($hydrationMode !== null) {
             $this->setHydrationMode($hydrationMode);
         }
 
-        if ( ! empty($parameters)) {
-            $this->setParameters($parameters);
+        if ($params) {
+            $this->setParameters($params);
         }
 
         $setCacheEntry = function() {};
@@ -729,7 +726,6 @@ abstract class AbstractQuery
 
             $setCacheEntry = function($data) use ($cache, $result, $cacheKey, $realCacheKey, $queryCacheProfile) {
                 $result[$realCacheKey] = $data;
-
                 $cache->save($cacheKey, $result, $queryCacheProfile->getLifetime());
             };
         }
@@ -760,25 +756,24 @@ abstract class AbstractQuery
      */
     protected function getHydrationCacheId()
     {
-        $parameters = array();
+        $params = $this->getParameters();
 
-        foreach ($this->getParameters() as $parameter) {
-            $parameters[$parameter->getName()] = $this->processParameterValue($parameter->getValue());
+        foreach ($params AS $key => $value) {
+            $params[$key] = $this->processParameterValue($value);
         }
 
         $sql                    = $this->getSQL();
         $queryCacheProfile      = $this->getHydrationCacheProfile();
         $hints                  = $this->getHints();
         $hints['hydrationMode'] = $this->getHydrationMode();
-
         ksort($hints);
 
-        return $queryCacheProfile->generateCacheKeys($sql, $parameters, $hints);
+        return $queryCacheProfile->generateCacheKeys($sql, $params, $hints);
     }
 
     /**
      * Set the result cache id to use to store the result set cache entry.
-     * If this is not explicitly set by the developer then a hash is automatically
+     * If this is not explicitely set by the developer then a hash is automatically
      * generated for you.
      *
      * @param string $id
@@ -818,8 +813,8 @@ abstract class AbstractQuery
      */
     public function __clone()
     {
-        $this->parameters = new ArrayCollection();
-
+        $this->_params = array();
+        $this->_paramTypes = array();
         $this->_hints = array();
     }
 }

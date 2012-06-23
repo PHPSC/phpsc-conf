@@ -13,15 +13,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.phpdoctrine.org>.
  */
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
-use Doctrine\DBAL\Driver\SQLSrv\SQLSrvException;
+use Doctrine\DBAL\Events;
 
 /**
  * SQL Server Schema Manager
@@ -105,35 +104,26 @@ class SQLServerSchemaManager extends AbstractSchemaManager
      */
     protected function _getPortableTableIndexesList($tableIndexRows, $tableName=null)
     {
-        // TODO: Remove code duplication with AbstractSchemaManager;
         $result = array();
-        foreach ($tableIndexRows as $tableIndex) {
+        foreach ($tableIndexRows AS $tableIndex) {
             $indexName = $keyName = $tableIndex['index_name'];
             if (strpos($tableIndex['index_description'], 'primary key') !== false) {
                 $keyName = 'primary';
             }
             $keyName = strtolower($keyName);
 
-            $flags = array();
-            if (strpos($tableIndex['index_description'], 'clustered') !== false) {
-                $flags[] = 'clustered';
-            } else if (strpos($tableIndex['index_description'], 'nonclustered') !== false) {
-                $flags[] = 'nonclustered';
-            }
-
             $result[$keyName] = array(
                 'name' => $indexName,
                 'columns' => explode(', ', $tableIndex['index_keys']),
                 'unique' => strpos($tableIndex['index_description'], 'unique') !== false,
                 'primary' => strpos($tableIndex['index_description'], 'primary key') !== false,
-                'flags' => $flags,
             );
         }
 
         $eventManager = $this->_platform->getEventManager();
 
         $indexes = array();
-        foreach ($result as $indexKey => $data) {
+        foreach ($result AS $indexKey => $data) {
             $index = null;
             $defaultPrevented = false;
 
@@ -145,7 +135,7 @@ class SQLServerSchemaManager extends AbstractSchemaManager
                 $index = $eventArgs->getIndex();
             }
 
-            if ( ! $defaultPrevented) {
+            if (!$defaultPrevented) {
                 $index = new Index($data['name'], $data['columns'], $data['unique'], $data['primary']);
             }
 
@@ -219,45 +209,8 @@ class SQLServerSchemaManager extends AbstractSchemaManager
             } else {
                 throw $e;
             }
-        } catch(SQLSrvException $e) {
-            if (strpos($e->getMessage(), 'SQLSTATE [01000, 15472]') === 0) {
-                return array();
-            } else {
-                throw $e;
-            }
         }
 
         return $this->_getPortableTableIndexesList($tableIndexes, $table);
-    }
-
-    /**
-     * @override
-     */
-    public function alterTable(TableDiff $tableDiff)
-    {
-        if(count($tableDiff->removedColumns) > 0) {
-            foreach($tableDiff->removedColumns as $col){
-                $columnConstraintSql = $this->getColumnConstraintSQL($tableDiff->name, $col->getName());
-                foreach ($this->_conn->fetchAll($columnConstraintSql) as $constraint) {
-                    $this->_conn->exec("ALTER TABLE $tableDiff->name DROP CONSTRAINT " . $constraint['Name']);
-                }
-            }
-        }
-
-        return parent::alterTable($tableDiff);
-    }
-
-    /**
-     * This function retrieves the constraints for a given column.
-     */
-    private function getColumnConstraintSQL($table, $column)
-    {
-        return "SELECT SysObjects.[Name]
-            FROM SysObjects INNER JOIN (SELECT [Name],[ID] FROM SysObjects WHERE XType = 'U') AS Tab
-            ON Tab.[ID] = Sysobjects.[Parent_Obj]
-            INNER JOIN sys.default_constraints DefCons ON DefCons.[object_id] = Sysobjects.[ID]
-            INNER JOIN SysColumns Col ON Col.[ColID] = DefCons.[parent_column_id] AND Col.[ID] = Tab.[ID]
-            WHERE Col.[Name] = " . $this->_conn->quote($column) ." AND Tab.[Name] = " . $this->_conn->quote($table) . "
-            ORDER BY Col.[Name]";
     }
 }

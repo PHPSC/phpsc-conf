@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -24,7 +24,7 @@ use \Doctrine\DBAL\Platforms\AbstractPlatform;
 /**
  * Schema Diff
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -125,36 +125,36 @@ class SchemaDiff
         $sql = array();
 
         if ($platform->supportsForeignKeyConstraints() && $saveMode == false) {
-            foreach ($this->orphanedForeignKeys as $orphanedForeignKey) {
+            foreach ($this->orphanedForeignKeys AS $orphanedForeignKey) {
                 $sql[] = $platform->getDropForeignKeySQL($orphanedForeignKey, $orphanedForeignKey->getLocalTableName());
             }
         }
 
         if ($platform->supportsSequences() == true) {
-            foreach ($this->changedSequences as $sequence) {
+            foreach ($this->changedSequences AS $sequence) {
                 $sql[] = $platform->getAlterSequenceSQL($sequence);
             }
 
             if ($saveMode === false) {
-                foreach ($this->removedSequences as $sequence) {
+                foreach ($this->removedSequences AS $sequence) {
                     $sql[] = $platform->getDropSequenceSQL($sequence);
                 }
             }
 
-            foreach ($this->newSequences as $sequence) {
+            foreach ($this->newSequences AS $sequence) {
                 $sql[] = $platform->getCreateSequenceSQL($sequence);
             }
         }
 
         $foreignKeySql = array();
-        foreach ($this->newTables as $table) {
+        foreach ($this->newTables AS $table) {
             $sql = array_merge(
                 $sql,
                 $platform->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES)
             );
 
             if ($platform->supportsForeignKeyConstraints()) {
-                foreach ($table->getForeignKeys() as $foreignKey) {
+                foreach ($table->getForeignKeys() AS $foreignKey) {
                     $foreignKeySql[] = $platform->getCreateForeignKeySQL($foreignKey, $table);
                 }
             }
@@ -162,12 +162,12 @@ class SchemaDiff
         $sql = array_merge($sql, $foreignKeySql);
 
         if ($saveMode === false) {
-            foreach ($this->removedTables as $table) {
+            foreach ($this->removedTables AS $table) {
                 $sql[] = $platform->getDropTableSQL($table);
             }
         }
 
-        foreach ($this->changedTables as $tableDiff) {
+        foreach ($this->changedTables AS $tableDiff) {
             $sql = array_merge($sql, $platform->getAlterTableSQL($tableDiff));
         }
 

@@ -15,14 +15,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
 */
 
 namespace Doctrine\DBAL\Schema;
 
 use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
-use Doctrine\DBAL\Events;
 
 /**
  * IBM Db2 Schema Manager
@@ -114,7 +113,7 @@ class DB2SchemaManager extends AbstractSchemaManager
     protected function _getPortableTablesList($tables)
     {
         $tableNames = array();
-        foreach ($tables as $tableRow) {
+        foreach ($tables AS $tableRow) {
             $tableRow = array_change_key_case($tableRow, \CASE_LOWER);
             $tableNames[] = $tableRow['name'];
         }
@@ -125,8 +124,9 @@ class DB2SchemaManager extends AbstractSchemaManager
     {
         $eventManager = $this->_platform->getEventManager();
 
+        $tableIndexRows = array();
         $indexes = array();
-        foreach($tableIndexes as $indexKey => $data) {
+        foreach($tableIndexes AS $indexKey => $data) {
             $data = array_change_key_case($data, \CASE_LOWER);
             $unique = ($data['uniquerule'] == "D") ? false : true;
             $primary = ($data['uniquerule'] == "P");
@@ -156,7 +156,7 @@ class DB2SchemaManager extends AbstractSchemaManager
                 $index = $eventArgs->getIndex();
             }
 
-            if ( ! $defaultPrevented) {
+            if (!$defaultPrevented) {
                 $index = new Index($data['name'], $data['columns'], $data['unique'], $data['primary']);
             }
 

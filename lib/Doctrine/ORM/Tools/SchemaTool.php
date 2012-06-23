@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -33,7 +33,7 @@ use Doctrine\ORM\ORMException,
  * The SchemaTool is a tool to create/drop/update database schemas based on
  * <tt>ClassMetadata</tt> class descriptors.
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
  * @version $Revision$
@@ -208,13 +208,13 @@ class SchemaTool
             }
 
             $pkColumns = array();
-            foreach ($class->identifier as $identifierField) {
+            foreach ($class->identifier AS $identifierField) {
                 if (isset($class->fieldMappings[$identifierField])) {
                     $pkColumns[] = $class->getQuotedColumnName($identifierField, $this->_platform);
                 } else if (isset($class->associationMappings[$identifierField])) {
                     /* @var $assoc \Doctrine\ORM\Mapping\OneToOne */
                     $assoc = $class->associationMappings[$identifierField];
-                    foreach ($assoc['joinColumns'] as $joinColumn) {
+                    foreach ($assoc['joinColumns'] AS $joinColumn) {
                         $pkColumns[] = $joinColumn['name'];
                     }
                 }
@@ -224,20 +224,14 @@ class SchemaTool
             }
 
             if (isset($class->table['indexes'])) {
-                foreach ($class->table['indexes'] as $indexName => $indexData) {
+                foreach ($class->table['indexes'] AS $indexName => $indexData) {
                     $table->addIndex($indexData['columns'], is_numeric($indexName) ? null : $indexName);
                 }
             }
 
             if (isset($class->table['uniqueConstraints'])) {
-                foreach ($class->table['uniqueConstraints'] as $indexName => $indexData) {
+                foreach ($class->table['uniqueConstraints'] AS $indexName => $indexData) {
                     $table->addUniqueIndex($indexData['columns'], is_numeric($indexName) ? null : $indexName);
-                }
-            }
-
-            if (isset($class->table['options'])) {
-                foreach ($class->table['options'] as $key => $val) {
-                    $table->addOption($key, $val);
                 }
             }
 
@@ -288,16 +282,11 @@ class SchemaTool
             $discrColumn['length'] = 255;
         }
 
-        $options = array(
-            'length'    => isset($discrColumn['length']) ? $discrColumn['length'] : null,
-            'notnull'   => true
+        $table->addColumn(
+            $discrColumn['name'],
+            $discrColumn['type'],
+            array('length' => $discrColumn['length'], 'notnull' => true)
         );
-
-        if (isset($discrColumn['columnDefinition'])) {
-            $options['columnDefinition'] = $discrColumn['columnDefinition'];
-        }
-
-        $table->addColumn($discrColumn['name'], $discrColumn['type'], $options);
     }
 
     /**
@@ -424,7 +413,7 @@ class SchemaTool
 
                 $this->_gatherRelationJoinColumns($mapping['joinColumns'], $table, $foreignClass, $mapping, $primaryKeyColumns, $uniqueConstraints);
 
-                foreach($uniqueConstraints as $indexName => $unique) {
+                foreach($uniqueConstraints AS $indexName => $unique) {
                     $table->addUniqueIndex($unique['columns'], is_numeric($indexName) ? null : $indexName);
                 }
             } else if ($mapping['type'] == ClassMetadata::ONE_TO_MANY && $mapping['isOwningSide']) {
@@ -446,7 +435,7 @@ class SchemaTool
 
                 $theJoinTable->setPrimaryKey($primaryKeyColumns);
 
-                foreach($uniqueConstraints as $indexName => $unique) {
+                foreach($uniqueConstraints AS $indexName => $unique) {
                     $theJoinTable->addUniqueIndex($unique['columns'], is_numeric($indexName) ? null : $indexName);
                 }
             }
@@ -474,7 +463,7 @@ class SchemaTool
             return array($class, $referencedFieldName);
         } else if (in_array($referencedColumnName, $class->getIdentifierColumnNames())) {
             // it seems to be an entity as foreign key
-            foreach ($class->getIdentifierFieldNames() as $fieldName) {
+            foreach ($class->getIdentifierFieldNames() AS $fieldName) {
                 if ($class->hasAssociation($fieldName) && $class->getSingleAssociationJoinColumnName($fieldName) == $referencedColumnName) {
                     return $this->getDefiningClass(
                         $this->_em->getClassMetadata($class->associationMappings[$fieldName]['targetEntity']),
@@ -627,9 +616,9 @@ class SchemaTool
 
         $sm = $this->_em->getConnection()->getSchemaManager();
         $fullSchema = $sm->createSchema();
-        foreach ($fullSchema->getTables() as $table) {
+        foreach ($fullSchema->getTables() AS $table) {
             if (!$schema->hasTable($table->getName())) {
-                foreach ($table->getForeignKeys() as $foreignKey) {
+                foreach ($table->getForeignKeys() AS $foreignKey) {
                     /* @var $foreignKey \Doctrine\DBAL\Schema\ForeignKeyConstraint */
                     if ($schema->hasTable($foreignKey->getForeignTableName())) {
                         $visitor->acceptForeignKey($table, $foreignKey);
@@ -637,17 +626,17 @@ class SchemaTool
                 }
             } else {
                 $visitor->acceptTable($table);
-                foreach ($table->getForeignKeys() as $foreignKey) {
+                foreach ($table->getForeignKeys() AS $foreignKey) {
                     $visitor->acceptForeignKey($table, $foreignKey);
                 }
             }
         }
 
         if ($this->_platform->supportsSequences()) {
-            foreach ($schema->getSequences() as $sequence) {
+            foreach ($schema->getSequences() AS $sequence) {
                 $visitor->acceptSequence($sequence);
             }
-            foreach ($schema->getTables() as $table) {
+            foreach ($schema->getTables() AS $table) {
                 /* @var $sequence Table */
                 if ($table->hasPrimaryKey()) {
                     $columns = $table->getPrimaryKey()->getColumns();

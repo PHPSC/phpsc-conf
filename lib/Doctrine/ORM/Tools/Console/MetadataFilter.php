@@ -15,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
 */
 
@@ -65,7 +65,7 @@ class MetadataFilter extends \FilterIterator implements \Countable
         $it = $this->getInnerIterator();
         $metadata = $it->current();
 
-        foreach ($this->_filter as $filter) {
+        foreach ($this->_filter AS $filter) {
             if (strpos($metadata->name, $filter) !== false) {
                 return true;
             }

@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -54,6 +54,7 @@ class ObjectHydrator extends AbstractHydrator
     private $_rootAliases = array();
     private $_initializedCollections = array();
     private $_existingCollections = array();
+    //private $_createdEntities;
 
 
     /** @override */
@@ -207,8 +208,8 @@ class ObjectHydrator extends AbstractHydrator
     /**
      * Gets an entity instance.
      *
-     * @param array $data The instance data.
-     * @param string $dqlAlias The DQL alias of the entity's class.
+     * @param $data The instance data.
+     * @param $dqlAlias The DQL alias of the entity's class.
      * @return object The entity.
      */
     private function _getEntity(array $data, $dqlAlias)
@@ -216,16 +217,7 @@ class ObjectHydrator extends AbstractHydrator
         $className = $this->_rsm->aliasMap[$dqlAlias];
 
         if (isset($this->_rsm->discriminatorColumns[$dqlAlias])) {
-
-            if ( ! isset($this->_rsm->metaMappings[$this->_rsm->discriminatorColumns[$dqlAlias]])) {
-                throw HydrationException::missingDiscriminatorMetaMappingColumn($className, $this->_rsm->discriminatorColumns[$dqlAlias], $dqlAlias);
-            }
-
             $discrColumn = $this->_rsm->metaMappings[$this->_rsm->discriminatorColumns[$dqlAlias]];
-
-            if ( ! isset($data[$discrColumn])) {
-                throw HydrationException::missingDiscriminatorColumn($className, $discrColumn, $dqlAlias);
-            }
 
             if ($data[$discrColumn] === "") {
                 throw HydrationException::emptyDiscriminatorValue($dqlAlias);
@@ -338,7 +330,7 @@ class ObjectHydrator extends AbstractHydrator
                 $path = $parentAlias . '.' . $dqlAlias;
 
                 // We have a RIGHT JOIN result here. Doctrine cannot hydrate RIGHT JOIN Object-Graphs
-                if ( ! isset($nonemptyComponents[$parentAlias])) {
+                if (!isset($nonemptyComponents[$parentAlias])) {
                     // TODO: Add special case code where we hydrate the right join objects into identity map at least
                     continue;
                 }
@@ -524,22 +516,6 @@ class ObjectHydrator extends AbstractHydrator
             foreach ($scalars as $name => $value) {
                 $result[$resultKey][$name] = $value;
             }
-        }
-    }
-
-    /**
-     * When executed in a hydrate() loop we may have to clear internal state to
-     * decrease memory consumption.
-     */
-    public function onClear($eventArgs)
-    {
-        parent::onClear($eventArgs);
-
-        $aliases              = array_keys($this->_identifierMap);
-        $this->_identifierMap = array();
-
-        foreach ($aliases as $alias) {
-            $this->_identifierMap[$alias] = array();
         }
     }
 }

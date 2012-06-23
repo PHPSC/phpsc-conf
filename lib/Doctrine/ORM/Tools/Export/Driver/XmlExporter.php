@@ -16,7 +16,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 /**
  * ClassMetadata exporter for Doctrine XML mapping files
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
  * @version $Revision$
@@ -95,10 +95,7 @@ class XmlExporter extends AbstractExporter
             }
         }
 
-        $trackingPolicy = $this->_getChangeTrackingPolicyString($metadata->changeTrackingPolicy);
-        if ( $trackingPolicy != 'DEFERRED_IMPLICIT') {
-            $root->addChild('change-tracking-policy', $trackingPolicy);
-        }
+        $root->addChild('change-tracking-policy', $this->_getChangeTrackingPolicyString($metadata->changeTrackingPolicy));
 
         if (isset($metadata->table['indexes'])) {
             $indexesXml = $root->addChild('indexes');
@@ -130,7 +127,7 @@ class XmlExporter extends AbstractExporter
             }
         }
 
-        if ( ! $metadata->isIdentifierComposite && $idGeneratorType = $this->_getIdGeneratorTypeString($metadata->generatorType)) {
+        if ($idGeneratorType = $this->_getIdGeneratorTypeString($metadata->generatorType)) {
             $id[$metadata->getSingleIdentifierFieldName()]['generator']['strategy'] = $idGeneratorType;
         }
 
@@ -186,17 +183,7 @@ class XmlExporter extends AbstractExporter
                 }
             }
         }
-        $orderMap = array(
-            ClassMetadataInfo::ONE_TO_ONE,
-            ClassMetadataInfo::ONE_TO_MANY,
-            ClassMetadataInfo::MANY_TO_ONE,
-            ClassMetadataInfo::MANY_TO_MANY,
-        );
-        uasort($metadata->associationMappings, function($m1, $m2)use(&$orderMap){
-            $a1 = array_search($m1['type'],$orderMap);
-            $a2 = array_search($m2['type'],$orderMap);
-            return strcmp($a1, $a2);
-        });
+
         foreach ($metadata->associationMappings as $name => $associationMapping) {
             if ($associationMapping['type'] == ClassMetadataInfo::ONE_TO_ONE) {
                 $associationMappingXml = $root->addChild('one-to-one');
@@ -217,11 +204,8 @@ class XmlExporter extends AbstractExporter
             if (isset($associationMapping['inversedBy'])) {
                 $associationMappingXml->addAttribute('inversed-by', $associationMapping['inversedBy']);
             }
-            if (isset($associationMapping['indexBy'])) {
-                $associationMappingXml->addAttribute('index-by', $associationMapping['indexBy']);
-            }
-            if (isset($associationMapping['orphanRemoval']) && $associationMapping['orphanRemoval']!==false) {
-                $associationMappingXml->addAttribute('orphan-removal', 'true');
+            if (isset($associationMapping['orphanRemoval'])) {
+                $associationMappingXml->addAttribute('orphan-removal', $associationMapping['orphanRemoval']);
             }
             if (isset($associationMapping['joinTable']) && $associationMapping['joinTable']) {
                 $joinTableXml = $associationMappingXml->addChild('join-table');
@@ -306,7 +290,7 @@ class XmlExporter extends AbstractExporter
             }
         }
 
-        if (isset($metadata->lifecycleCallbacks) && count($metadata->lifecycleCallbacks)>0) {
+        if (isset($metadata->lifecycleCallbacks)) {
             $lifecycleCallbacksXml = $root->addChild('lifecycle-callbacks');
             foreach ($metadata->lifecycleCallbacks as $name => $methods) {
                 foreach ($methods as $method) {

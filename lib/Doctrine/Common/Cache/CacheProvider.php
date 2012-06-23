@@ -14,7 +14,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -38,11 +38,6 @@ abstract class CacheProvider implements Cache
      * @var string The namespace to prefix all cache ids with
      */
     private $namespace = '';
-
-    /**
-     * @var string The namespace version
-     */
-    private $namespaceVersion;
 
     /**
      * Set the namespace to prefix all cache ids with.
@@ -122,12 +117,10 @@ abstract class CacheProvider implements Cache
      */
     public function deleteAll()
     {
-        $namespaceCacheKey = $this->getNamespaceCacheKey();
-        $namespaceVersion  = $this->getNamespaceVersion() + 1;
+        $namespaceCacheKey = sprintf(self::DOCTRINE_NAMESPACE_CACHEKEY, $this->namespace);
+        $namespaceVersion  = ($this->doContains($namespaceCacheKey)) ? $this->doFetch($namespaceCacheKey) : 1;
 
-        $this->namespaceVersion = $namespaceVersion;
-
-        return $this->doSave($namespaceCacheKey, $namespaceVersion);
+        return $this->doSave($namespaceCacheKey, $namespaceVersion + 1);
     }
 
     /**
@@ -138,44 +131,10 @@ abstract class CacheProvider implements Cache
      */
     private function getNamespacedId($id)
     {
-        $namespaceVersion  = $this->getNamespaceVersion();
+        $namespaceCacheKey = sprintf(self::DOCTRINE_NAMESPACE_CACHEKEY, $this->namespace);
+        $namespaceVersion  = ($this->doContains($namespaceCacheKey)) ? $this->doFetch($namespaceCacheKey) : 1;
 
         return sprintf('%s[%s][%s]', $this->namespace, $id, $namespaceVersion);
-    }
-
-    /**
-     * Namespace cache key
-     *
-     * @return string $namespaceCacheKey
-     */
-    private function getNamespaceCacheKey()
-    {
-        return sprintf(self::DOCTRINE_NAMESPACE_CACHEKEY, $this->namespace);
-    }
-
-    /**
-     * Namespace version
-     *
-     * @return string $namespaceVersion
-     */
-    private function getNamespaceVersion()
-    {
-        if (null !== $this->namespaceVersion) {
-            return $this->namespaceVersion;
-        }
-
-        $namespaceCacheKey = $this->getNamespaceCacheKey();
-        $namespaceVersion = $this->doFetch($namespaceCacheKey);
-
-        if (false === $namespaceVersion) {
-            $namespaceVersion = 1;
-
-            $this->doSave($namespaceCacheKey, $namespaceVersion);
-        }
-
-        $this->namespaceVersion = $namespaceVersion;
-
-        return $this->namespaceVersion;
     }
 
     /**
@@ -199,9 +158,7 @@ abstract class CacheProvider implements Cache
      *
      * @param string $id The cache id.
      * @param string $data The cache entry/data.
-     * @param bool|int $lifeTime The lifetime. If != false, sets a specific lifetime for this
-     *                           cache entry (null => infinite lifeTime).
-     *
+     * @param int $lifeTime The lifetime. If != false, sets a specific lifetime for this cache entry (null => infinite lifeTime).
      * @return boolean TRUE if the entry was successfully stored in the cache, FALSE otherwise.
      */
     abstract protected function doSave($id, $data, $lifeTime = false);

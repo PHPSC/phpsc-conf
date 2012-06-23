@@ -1,5 +1,7 @@
 <?php
 /*
+ *  $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -13,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -22,44 +24,23 @@ namespace Doctrine\ORM\Query\Expr;
 /**
  * Expression class for building DQL Order By parts
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
+ * @version $Revision$
  * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
 class OrderBy
 {
-    /**
-     * @var string
-     */
-    protected $preSeparator = '';
+    protected $_preSeparator = '';
+    protected $_separator = ', ';
+    protected $_postSeparator = '';
+    protected $_allowedClasses = array();
 
-    /**
-     * @var string
-     */
-    protected $separator = ', ';
+    private $_parts = array();
 
-    /**
-     * @var string
-     */
-    protected $postSeparator = '';
-
-    /**
-     * @var array
-     */
-    protected $allowedClasses = array();
-
-    /**
-     * @var array
-     */
-    protected $parts = array();
-
-    /**
-     * @param string $sort
-     * @param string $order
-     */
     public function __construct($sort = null, $order = null)
     {
         if ($sort) {
@@ -67,37 +48,19 @@ class OrderBy
         }
     }
 
-    /**
-     * @param string $sort
-     * @param string $order
-     */
     public function add($sort, $order = null)
     {
         $order = ! $order ? 'ASC' : $order;
-        $this->parts[] = $sort . ' '. $order;
+        $this->_parts[] = $sort . ' '. $order;
     }
 
-    /**
-     * @return integer
-     */
     public function count()
     {
-        return count($this->parts);
+        return count($this->_parts);
     }
 
-    /**
-     * @return array
-     */
-    public function getParts()
-    {
-        return $this->parts;
-    }
-
-    /**
-     * @return string
-     */
     public function __tostring()
     {
-        return $this->preSeparator . implode($this->separator, $this->parts) . $this->postSeparator;
+        return $this->_preSeparator . implode($this->_separator, $this->_parts) . $this->_postSeparator;
     }
 }

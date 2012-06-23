@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -37,7 +37,7 @@ use Doctrine\ORM\Mapping\ClassMetadata,
  * @author    Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author    Roman Borschel <roman@code-factory.org>
  * @author    Giorgio Sironi <piccoloprincipeazzurro@gmail.com>
- * @todo      Design for inheritance to allow custom implementations?
+ * @todo Design for inheritance to allow custom implementations?
  */
 final class PersistentCollection implements Collection
 {
@@ -389,7 +389,6 @@ final class PersistentCollection implements Collection
 
         if ($this->association !== null &&
             $this->association['type'] & ClassMetadata::TO_MANY &&
-            $this->owner &&
             $this->association['orphanRemoval']) {
             $this->em->getUnitOfWork()->scheduleOrphanRemoval($removed);
         }
@@ -428,7 +427,6 @@ final class PersistentCollection implements Collection
 
         if ($this->association !== null &&
             $this->association['type'] & ClassMetadata::TO_MANY &&
-            $this->owner &&
             $this->association['orphanRemoval']) {
             $this->em->getUnitOfWork()->scheduleOrphanRemoval($element);
         }
@@ -633,9 +631,7 @@ final class PersistentCollection implements Collection
 
         $uow = $this->em->getUnitOfWork();
 
-        if ($this->association['type'] & ClassMetadata::TO_MANY &&
-            $this->association['orphanRemoval'] &&
-            $this->owner) {
+        if ($this->association['type'] & ClassMetadata::TO_MANY && $this->association['orphanRemoval']) {
             // we need to initialize here, as orphan removal acts like implicit cascadeRemove,
             // hence for event listeners we need the objects in memory.
             $this->initialize();
@@ -778,15 +774,13 @@ final class PersistentCollection implements Collection
      */
     public function __clone()
     {
+        $this->initialize();
+        $this->owner = null;
+
         if (is_object($this->coll)) {
             $this->coll = clone $this->coll;
         }
-
-        $this->initialize();
-
-        $this->owner    = null;
         $this->snapshot = array();
-
         $this->changed();
     }
 }

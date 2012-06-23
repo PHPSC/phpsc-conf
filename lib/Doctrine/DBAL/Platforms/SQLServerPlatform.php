@@ -14,7 +14,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -153,6 +153,7 @@ class SQLServerPlatform extends AbstractPlatform
     public function getDropIndexSQL($index, $table=null)
     {
         if ($index instanceof \Doctrine\DBAL\Schema\Index) {
+            $index_ = $index;
             $index = $index->getQuotedName($this);
         } else if (!is_string($index)) {
             throw new \InvalidArgumentException('AbstractPlatform::getDropIndexSQL() expects $index parameter to be string or \Doctrine\DBAL\Schema\Index.');
@@ -194,11 +195,7 @@ class SQLServerPlatform extends AbstractPlatform
         }
 
         if (isset($options['primary']) && !empty($options['primary'])) {
-            $flags = '';
-            if (isset($options['primary_index']) && $options['primary_index']->hasFlag('nonclustered')) {
-                $flags = ' NONCLUSTERED';
-            }
-            $columnListSql .= ', PRIMARY KEY' . $flags . ' (' . implode(', ', array_unique(array_values($options['primary']))) . ')';
+            $columnListSql .= ', PRIMARY KEY(' . implode(', ', array_unique(array_values($options['primary']))) . ')';
         }
 
         $query = 'CREATE TABLE ' . $tableName . ' (' . $columnListSql;
@@ -212,34 +209,18 @@ class SQLServerPlatform extends AbstractPlatform
         $sql[] = $query;
 
         if (isset($options['indexes']) && !empty($options['indexes'])) {
-            foreach ($options['indexes'] as $index) {
+            foreach ($options['indexes'] AS $index) {
                 $sql[] = $this->getCreateIndexSQL($index, $tableName);
             }
         }
 
         if (isset($options['foreignKeys'])) {
-            foreach ((array) $options['foreignKeys'] as $definition) {
+            foreach ((array) $options['foreignKeys'] AS $definition) {
                 $sql[] = $this->getCreateForeignKeySQL($definition, $tableName);
             }
         }
 
         return $sql;
-    }
-
-    /**
-     * Get SQL to create an unnamed primary key constraint.
-     *
-     * @param Index $index
-     * @param string|Table $table
-     * @return string
-     */
-    public function getCreatePrimaryKeySQL(Index $index, $table)
-    {
-        $flags = '';
-        if ($index->hasFlag('nonclustered')) {
-            $flags = ' NONCLUSTERED';
-        }
-        return 'ALTER TABLE ' . $table . ' ADD PRIMARY KEY' . $flags . ' (' . $this->getIndexFieldDeclarationListSQL($index->getColumns()) . ')';
     }
 
     /**
@@ -266,25 +247,6 @@ class SQLServerPlatform extends AbstractPlatform
         }
 
         return $constraint;
-    }
-
-    /**
-     * @override
-     */
-    protected function getCreateIndexSQLFlags(Index $index)
-    {
-        $type = '';
-        if ($index->isUnique()) {
-            $type .= 'UNIQUE ';
-        }
-
-        if ($index->hasFlag('clustered')) {
-            $type .= 'CLUSTERED ';
-        } else if ($index->hasFlag('nonclustered')) {
-            $type .= 'NONCLUSTERED ';
-        }
-
-        return $type;
     }
 
     /**
@@ -321,7 +283,7 @@ class SQLServerPlatform extends AbstractPlatform
             $queryParts[] = 'RENAME TO ' . $diff->newName;
         }
 
-        foreach ($diff->addedColumns as $column) {
+        foreach ($diff->addedColumns AS $fieldName => $column) {
             if ($this->onSchemaAlterTableAddColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -329,7 +291,7 @@ class SQLServerPlatform extends AbstractPlatform
             $queryParts[] = 'ADD ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
-        foreach ($diff->removedColumns as $column) {
+        foreach ($diff->removedColumns AS $column) {
             if ($this->onSchemaAlterTableRemoveColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -337,18 +299,18 @@ class SQLServerPlatform extends AbstractPlatform
             $queryParts[] = 'DROP COLUMN ' . $column->getQuotedName($this);
         }
 
-        foreach ($diff->changedColumns as $columnDiff) {
+        foreach ($diff->changedColumns AS $columnDiff) {
             if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
                 continue;
             }
 
-            /* @var $columnDiff \Doctrine\DBAL\Schema\ColumnDiff */
+            /* @var $columnDiff Doctrine\DBAL\Schema\ColumnDiff */
             $column = $columnDiff->column;
             $queryParts[] = 'ALTER COLUMN ' .
                     $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
-        foreach ($diff->renamedColumns as $oldColumnName => $column) {
+        foreach ($diff->renamedColumns AS $oldColumnName => $column) {
             if ($this->onSchemaAlterTableRenameColumn($oldColumnName, $column, $diff, $columnSql)) {
                 continue;
             }
@@ -508,7 +470,7 @@ class SQLServerPlatform extends AbstractPlatform
     {
         $trimFn = '';
 
-        if ( ! $char) {
+        if (!$char) {
             if ($pos == self::TRIM_LEADING) {
                 $trimFn = 'LTRIM';
             } else if ($pos == self::TRIM_TRAILING) {
@@ -605,17 +567,6 @@ class SQLServerPlatform extends AbstractPlatform
         return 'SMALLINT' . $this->_getCommonIntegerTypeDeclarationSQL($field);
     }
 
-    /**
-     * Decleration for a UNIQUEIDENTIFIER (GUID) field in SQL Server
-     *
-     * @param array $field
-     * @return string
-     */
-    public function getGuidTypeDeclartionSQL(array $field)
-    {
-        return 'UNIQUEIDENTIFIER';
-    }
-
     /** @override */
     protected function getVarcharTypeDeclarationSQLSnippet($length, $fixed)
     {
@@ -691,7 +642,7 @@ class SQLServerPlatform extends AbstractPlatform
             } else {
                 $orderby = stristr($query, 'ORDER BY');
 
-                if ( ! $orderby) {
+                if (!$orderby) {
                     $over = 'ORDER BY (SELECT 0)';
                 } else {
                     $over = preg_replace('/\"[^,]*\".\"([^,]*)\"/i', '"inner_tbl"."$1"', $orderby);
@@ -827,7 +778,6 @@ class SQLServerPlatform extends AbstractPlatform
             'binary' => 'text',
             'varbinary' => 'blob',
             'image' => 'text',
-            'uniqueidentifier' => 'guid',
         );
     }
 

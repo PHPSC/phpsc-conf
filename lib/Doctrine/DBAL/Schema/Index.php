@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -39,19 +39,12 @@ class Index extends AbstractAsset implements Constraint
     protected $_isPrimary = false;
 
     /**
-     * Platform specific flags for indexes.
-     *
-     * @var array
-     */
-    protected $_flags = array();
-
-    /**
      * @param string $indexName
      * @param array $column
      * @param bool $isUnique
      * @param bool $isPrimary
      */
-    public function __construct($indexName, array $columns, $isUnique = false, $isPrimary = false, array $flags = array())
+    public function __construct($indexName, array $columns, $isUnique=false, $isPrimary=false)
     {
         $isUnique = ($isPrimary)?true:$isUnique;
 
@@ -59,11 +52,8 @@ class Index extends AbstractAsset implements Constraint
         $this->_isUnique = $isUnique;
         $this->_isPrimary = $isPrimary;
 
-        foreach ($columns as $column) {
+        foreach($columns AS $column) {
             $this->_addColumn($column);
-        }
-        foreach ($flags as $flag) {
-            $this->addFlag($flag);
         }
     }
 
@@ -160,7 +150,7 @@ class Index extends AbstractAsset implements Constraint
         $sameColumns = $this->spansColumns($other->getColumns());
 
         if ($sameColumns) {
-            if ( ! $this->isUnique() && !$this->isPrimary()) {
+            if (!$this->isUnique() && !$this->isPrimary()) {
                 // this is a special case: If the current key is neither primary or unique, any uniqe or
                 // primary key will always have the same effect for the index and there cannot be any constraint
                 // overlaps. This means a primary or unique index can always fullfill the requirements of just an
@@ -195,40 +185,4 @@ class Index extends AbstractAsset implements Constraint
         }
         return false;
     }
-
-    /**
-     * Add Flag for an index that translates to platform specific handling.
-     *
-     * @example $index->addFlag('CLUSTERED')
-     * @param string $flag
-     * @return Index
-     */
-    public function addFlag($flag)
-    {
-        $this->flags[strtolower($flag)] = true;
-        return $this;
-    }
-
-    /**
-     * Does this index have a specific flag?
-     *
-     * @param string $flag
-     * @return bool
-     */
-    public function hasFlag($flag)
-    {
-        return isset($this->flags[strtolower($flag)]);
-    }
-
-    /**
-     * Remove a flag
-     *
-     * @param string $flag
-     * @return void
-     */
-    public function removeFlag($flag)
-    {
-        unset($this->flags[strtolower($flag)]);
-    }
 }
-

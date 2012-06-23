@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -43,7 +43,7 @@ class MappingDriverChain implements MappingDriver
     /**
      * Add a nested driver.
      *
-     * @param MappingDriver $nestedDriver
+     * @param Driver $nestedDriver
      * @param string $namespace
      */
     public function addDriver(MappingDriver $nestedDriver, $namespace)
@@ -65,9 +65,7 @@ class MappingDriverChain implements MappingDriver
      * Loads the metadata for the specified class into the provided container.
      *
      * @param string $className
-     * @param ClassMetadata $metadata
-     *
-     * @throws MappingException
+     * @param ClassMetadataInfo $metadata
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata)
     {

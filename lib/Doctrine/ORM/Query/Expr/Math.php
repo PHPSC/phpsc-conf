@@ -1,5 +1,7 @@
 <?php
 /*
+ *  $Id$
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -13,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -22,87 +24,43 @@ namespace Doctrine\ORM\Query\Expr;
 /**
  * Expression class for DQL math statements
  *
- * 
+ * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
+ * @version $Revision$
  * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
 class Math
 {
-    /**
-     * @var mixed
-     */
-    protected $leftExpr;
+    private $_leftExpr;
+    private $_operator;
+    private $_rightExpr;
 
-    /**
-     * @var string
-     */
-    protected $operator;
-
-    /**
-     * @var mixed
-     */
-    protected $rightExpr;
-
-    /**
-     * Creates a mathematical expression with the given arguments.
-     *
-     * @param mixed     $leftExpr
-     * @param string    $operator
-     * @param mixed     $rightExpr
-     */
     public function __construct($leftExpr, $operator, $rightExpr)
     {
-        $this->leftExpr  = $leftExpr;
-        $this->operator  = $operator;
-        $this->rightExpr = $rightExpr;
+        $this->_leftExpr  = $leftExpr;
+        $this->_operator  = $operator;
+        $this->_rightExpr = $rightExpr;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLeftExpr()
-    {
-        return $this->leftExpr;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOperator()
-    {
-        return $this->operator;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRightExpr()
-    {
-        return $this->rightExpr;
-    }
-
-    /**
-     * @return string
-     */
     public function __toString()
     {
         // Adjusting Left Expression
-        $leftExpr = (string) $this->leftExpr;
+        $leftExpr = (string) $this->_leftExpr;
 
-        if ($this->leftExpr instanceof Math) {
+        if ($this->_leftExpr instanceof Math) {
             $leftExpr = '(' . $leftExpr . ')';
         }
 
         // Adjusting Right Expression
-        $rightExpr = (string) $this->rightExpr;
+        $rightExpr = (string) $this->_rightExpr;
 
-        if ($this->rightExpr instanceof Math) {
+        if ($this->_rightExpr instanceof Math) {
             $rightExpr = '(' . $rightExpr . ')';
         }
 
-        return $leftExpr . ' ' . $this->operator . ' ' . $rightExpr;
+        return $leftExpr . ' ' . $this->_operator . ' ' . $rightExpr;
     }
 }

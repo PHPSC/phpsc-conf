@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -24,7 +24,6 @@ use Doctrine\DBAL\Connection,
     Doctrine\DBAL\Driver,
     Doctrine\DBAL\Configuration,
     Doctrine\Common\EventManager,
-    Doctrine\DBAL\Event\ConnectionEventArgs,
     Doctrine\DBAL\Events;
 
 /**
@@ -162,7 +161,7 @@ class MasterSlaveConnection extends Connection
         }
 
         if ($this->_eventManager->hasListeners(Events::postConnect)) {
-            $eventArgs = new ConnectionEventArgs($this);
+            $eventArgs = new Event\ConnectionEventArgs($this);
             $this->_eventManager->dispatchEvent(Events::postConnect, $eventArgs);
         }
 

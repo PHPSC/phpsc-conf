@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -24,7 +24,6 @@ use ReflectionException,
     Doctrine\ORM\EntityManager,
     Doctrine\DBAL\Platforms,
     Doctrine\ORM\Events,
-    Doctrine\Common\Util\ClassUtils,
     Doctrine\Common\Persistence\Mapping\RuntimeReflectionService,
     Doctrine\Common\Persistence\Mapping\ReflectionService,
     Doctrine\Common\Persistence\Mapping\ClassMetadataFactory as ClassMetadataFactoryInterface;
@@ -155,44 +154,41 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
      */
     public function getMetadataFor($className)
     {
-        if (isset($this->loadedMetadata[$className])) {
-            return $this->loadedMetadata[$className];
-        }
+        if ( ! isset($this->loadedMetadata[$className])) {
+            $realClassName = $className;
 
-        $realClassName = $className;
+            // Check for namespace alias
+            if (strpos($className, ':') !== false) {
+                list($namespaceAlias, $simpleClassName) = explode(':', $className);
+                $realClassName = $this->em->getConfiguration()->getEntityNamespace($namespaceAlias) . '\\' . $simpleClassName;
 
-        // Check for namespace alias
-        if (strpos($className, ':') !== false) {
-            list($namespaceAlias, $simpleClassName) = explode(':', $className);
-            $realClassName = $this->em->getConfiguration()->getEntityNamespace($namespaceAlias) . '\\' . $simpleClassName;
-        } else {
-            $realClassName = ClassUtils::getRealClass($realClassName);
-        }
+                if (isset($this->loadedMetadata[$realClassName])) {
+                    // We do not have the alias name in the map, include it
+                    $this->loadedMetadata[$className] = $this->loadedMetadata[$realClassName];
 
-        if (isset($this->loadedMetadata[$realClassName])) {
-            // We do not have the alias name in the map, include it
-            $this->loadedMetadata[$className] = $this->loadedMetadata[$realClassName];
-            return $this->loadedMetadata[$realClassName];
-        }
-
-        if ($this->cacheDriver) {
-            if (($cached = $this->cacheDriver->fetch("$realClassName\$CLASSMETADATA")) !== false) {
-                $this->wakeupReflection($cached, $this->getReflectionService());
-                $this->loadedMetadata[$realClassName] = $cached;
-            } else {
-                foreach ($this->loadMetadata($realClassName) as $loadedClassName) {
-                    $this->cacheDriver->save(
-                        "$loadedClassName\$CLASSMETADATA", $this->loadedMetadata[$loadedClassName], null
-                    );
+                    return $this->loadedMetadata[$realClassName];
                 }
             }
-        } else {
-            $this->loadMetadata($realClassName);
-        }
 
-        if ($className != $realClassName) {
-            // We do not have the alias name in the map, include it
-            $this->loadedMetadata[$className] = $this->loadedMetadata[$realClassName];
+            if ($this->cacheDriver) {
+                if (($cached = $this->cacheDriver->fetch("$realClassName\$CLASSMETADATA")) !== false) {
+                    $this->wakeupReflection($cached, $this->getReflectionService());
+                    $this->loadedMetadata[$realClassName] = $cached;
+                } else {
+                    foreach ($this->loadMetadata($realClassName) as $loadedClassName) {
+                        $this->cacheDriver->save(
+                            "$loadedClassName\$CLASSMETADATA", $this->loadedMetadata[$loadedClassName], null
+                        );
+                    }
+                }
+            } else {
+                $this->loadMetadata($realClassName);
+            }
+
+            if ($className != $realClassName) {
+                // We do not have the alias name in the map, include it
+                $this->loadedMetadata[$className] = $this->loadedMetadata[$realClassName];
+            }
         }
 
         return $this->loadedMetadata[$className];
@@ -330,19 +326,7 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
                 $this->addInheritedNamedQueries($class, $parent);
             }
 
-            if ($parent && !empty ($parent->namedNativeQueries)) {
-                $this->addInheritedNamedNativeQueries($class, $parent);
-            }
-
-            if ($parent && !empty ($parent->sqlResultSetMappings)) {
-                $this->addInheritedSqlResultSetMappings($class, $parent);
-            }
-
             $class->setParentClasses($visited);
-
-            if ( $class->isRootEntity() && ! $class->isInheritanceTypeNone() && ! $class->discriminatorMap) {
-                $this->addDefaultDiscriminatorMap($class);
-            }
 
             if ($this->evm->hasListeners(Events::loadClassMetadata)) {
                 $eventArgs = new \Doctrine\ORM\Event\LoadClassMetadataEventArgs($class, $this->em);
@@ -411,96 +395,7 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
      */
     protected function newClassMetadataInstance($className)
     {
-        return new ClassMetadata($className, $this->em->getConfiguration()->getNamingStrategy());
-    }
-
-    /**
-     * Adds a default discriminator map if no one is given
-     *
-     * If an entity is of any inheritance type and does not contain a
-     * discrimiator map, then the map is generated automatically. This process
-     * is expensive computation wise.
-     *
-     * The automatically generated discriminator map contains the lowercase shortname of
-     * each class as key.
-     *
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $class
-     */
-    private function addDefaultDiscriminatorMap(ClassMetadata $class)
-    {
-        $allClasses = $this->driver->getAllClassNames();
-        $subClassesMetadata = array();
-        $fqcn = $class->getName();
-        $map = array($this->getShortName($class->name) => $fqcn);
-
-        $duplicates = array();
-        foreach ($allClasses as $subClassCandidate) {
-            if (is_subclass_of($subClassCandidate, $fqcn)) {
-                $shortName = $this->getShortName($subClassCandidate);
-
-                if (isset($map[$shortName])) {
-                    $duplicates[] = $shortName;
-                }
-
-                $map[$shortName] = $subClassCandidate;
-            }
-        }
-
-        if ($duplicates) {
-            throw MappingException::duplicateDiscriminatorEntry($class->name, $duplicates, $map);
-        }
-
-        $class->setDiscriminatorMap($map);
-    }
-
-    /**
-     * Get the lower-case shortname of a class.
-     *
-     * @param string $className
-     * @return string
-     */
-    private function getShortName($className)
-    {
-        if (strpos($className, "\\") === false) {
-            return strtolower($className);
-        }
-
-        $parts = explode("\\", $className);
-        return strtolower(end($parts));
-    }
-
-    /**
-     * Cache the metadata
-     *
-     * @param $className
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $metadata
-     */
-    private function cacheMetadata($className, ClassMetadata $metadata)
-    {
-        $this->cacheDriver->save(
-            "$className\$CLASSMETADATA", $metadata, null
-        );
-    }
-
-    /**
-     * Verify if metadata is cached
-     *
-     * @param $className
-     * @return bool
-     */
-    private function cacheContainsMetadata($className)
-    {
-        return $this->cacheDriver->contains("$className\$CLASSMETADATA");
-    }
-
-    /**
-     * Fetch metadata from cache
-     *
-     * @param $className
-     */
-    private function fetchMetadataFromCache($className)
-    {
-        return $this->cacheDriver->fetch("$className\$CLASSMETADATA");
+        return new ClassMetadata($className);
     }
 
     /**
@@ -511,7 +406,7 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
      */
     private function addInheritedFields(ClassMetadata $subClass, ClassMetadata $parentClass)
     {
-        foreach ($parentClass->fieldMappings as $mapping) {
+        foreach ($parentClass->fieldMappings as $fieldName => $mapping) {
             if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
                 $mapping['inherited'] = $parentClass->name;
             }
@@ -572,58 +467,6 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
     }
 
     /**
-     * Adds inherited named native queries to the subclass mapping.
-     *
-     * @since 2.3
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $subClass
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $parentClass
-     */
-    private function addInheritedNamedNativeQueries(ClassMetadata $subClass, ClassMetadata $parentClass)
-    {
-        foreach ($parentClass->namedNativeQueries as $name => $query) {
-            if (!isset ($subClass->namedNativeQueries[$name])) {
-                $subClass->addNamedNativeQuery(array(
-                    'name'              => $query['name'],
-                    'query'             => $query['query'],
-                    'isSelfClass'       => $query['isSelfClass'],
-                    'resultSetMapping'  => $query['resultSetMapping'],
-                    'resultClass'       => $query['isSelfClass'] ? $subClass->name : $query['resultClass'],
-                ));
-            }
-        }
-    }
-
-    /**
-     * Adds inherited sql result set mappings to the subclass mapping.
-     *
-     * @since 2.3
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $subClass
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $parentClass
-     */
-    private function addInheritedSqlResultSetMappings(ClassMetadata $subClass, ClassMetadata $parentClass)
-    {
-        foreach ($parentClass->sqlResultSetMappings as $name => $mapping) {
-            if (!isset ($subClass->sqlResultSetMappings[$name])) {
-                $entities = array();
-                foreach ($mapping['entities'] as $entity) {
-                    $entities[] = array(
-                        'fields'                => $entity['fields'],
-                        'isSelfClass'           => $entity['isSelfClass'],
-                        'discriminatorColumn'   => $entity['discriminatorColumn'],
-                        'entityClass'           => $entity['isSelfClass'] ? $subClass->name : $entity['entityClass'],
-                    );
-                }
-
-                $subClass->addSqlResultSetMapping(array(
-                    'name'          => $mapping['name'],
-                    'columns'       => $mapping['columns'],
-                    'entities'      => $entities,
-                ));
-            }
-        }
-    }
-
-    /**
      * Completes the ID generator mapping. If "auto" is specified we choose the generator
      * most appropriate for the targeted database platform.
      *
@@ -672,19 +515,8 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
             case ClassMetadata::GENERATOR_TYPE_NONE:
                 $class->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
                 break;
-            case ClassMetadata::GENERATOR_TYPE_UUID:
-                $class->setIdGenerator(new \Doctrine\ORM\Id\UuidGenerator());
-                break;
             case ClassMetadata::GENERATOR_TYPE_TABLE:
                 throw new ORMException("TableGenerator not yet implemented.");
-                break;
-            case ClassMetadata::GENERATOR_TYPE_CUSTOM:
-                $definition = $class->customGeneratorDefinition;
-                if (!class_exists($definition['class'])) {
-                    throw new ORMException("Can't instantiate custom generator : " .
-                        $definition['class']);
-                }
-                $class->setIdGenerator(new $definition['class']);
                 break;
             default:
                 throw new ORMException("Unknown generator type: " . $class->generatorType);

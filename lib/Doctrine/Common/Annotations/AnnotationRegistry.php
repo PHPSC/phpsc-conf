@@ -13,15 +13,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
 namespace Doctrine\Common\Annotations;
 
-/**
- * AnnotationRegistry
- */
 final class AnnotationRegistry
 {
     /**
@@ -49,11 +46,6 @@ final class AnnotationRegistry
         self::$loaders = array();
     }
 
-    /**
-     * Register file
-     *
-     * @param string $file
-     */
     static public function registerFile($file)
     {
         require_once $file;
@@ -85,28 +77,26 @@ final class AnnotationRegistry
     }
 
     /**
-     * Register an autoloading callable for annotations, much like spl_autoload_register().
+     * Register an autoloading callabale for annotations, much like spl_autoload_register().
      *
      * NOTE: These class loaders HAVE to be silent when a class was not found!
      * IMPORTANT: Loaders have to return true if they loaded a class that could contain the searched annotation class.
      *
-     * @param callable $callable
-     *
-     * @throws \InvalidArgumentException
+     * @param callabale $callabale
      */
-    static public function registerLoader($callable)
+    static public function registerLoader($callabale)
     {
-        if (!is_callable($callable)) {
+        if (!is_callable($callabale)) {
             throw new \InvalidArgumentException("A callable is expected in AnnotationRegistry::registerLoader().");
         }
-        self::$loaders[] = $callable;
+        self::$loaders[] = $callabale;
     }
 
     /**
      * Autoload an annotation class silently.
      *
      * @param string $class
-     * @return boolean
+     * @return void
      */
     static public function loadAnnotationClass($class)
     {

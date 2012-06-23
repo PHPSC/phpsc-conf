@@ -69,7 +69,7 @@ class WhereInWalker extends TreeWalkerAdapter
     public function walkSelectStatement(SelectStatement $AST)
     {
         $rootComponents = array();
-        foreach ($this->_getQueryComponents() as $dqlAlias => $qComp) {
+        foreach ($this->_getQueryComponents() AS $dqlAlias => $qComp) {
             $isParent = array_key_exists('parent', $qComp)
                 && $qComp['parent'] === null
                 && $qComp['nestingLevel'] == 0
@@ -81,18 +81,14 @@ class WhereInWalker extends TreeWalkerAdapter
         if (count($rootComponents) > 1) {
             throw new \RuntimeException("Cannot count query which selects two FROM components, cannot make distinction");
         }
-        $root                = reset($rootComponents);
-        $parentName          = key($root);
-        $parent              = current($root);
-        $identifierFieldName = $parent['metadata']->getSingleIdentifierFieldName();
+        $root = reset($rootComponents);
+        $parentName = key($root);
+        $parent = current($root);
 
-        $pathType = PathExpression::TYPE_STATE_FIELD;
-        if (isset($parent['metadata']->associationMappings[$identifierFieldName])) {
-            $pathType = PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION;
-        }
-
-        $pathExpression       = new PathExpression(PathExpression::TYPE_STATE_FIELD | PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION, $parentName, $identifierFieldName);
-        $pathExpression->type = $pathType;
+        $pathExpression = new PathExpression(
+            PathExpression::TYPE_STATE_FIELD, $parentName, $parent['metadata']->getSingleIdentifierFieldName()
+        );
+        $pathExpression->type = PathExpression::TYPE_STATE_FIELD;
 
         $count = $this->_getQuery()->getHint(self::HINT_PAGINATOR_ID_COUNT);
 
@@ -124,9 +120,7 @@ class WhereInWalker extends TreeWalkerAdapter
                         $conditionalPrimary
                     ))
                 ));
-            } elseif ($AST->whereClause->conditionalExpression instanceof ConditionalExpression
-                || $AST->whereClause->conditionalExpression instanceof ConditionalFactor
-            ) {
+            } elseif ($AST->whereClause->conditionalExpression instanceof ConditionalExpression) {
                 $tmpPrimary = new ConditionalPrimary;
                 $tmpPrimary->conditionalExpression = $AST->whereClause->conditionalExpression;
                 $AST->whereClause->conditionalExpression = new ConditionalTerm(array(

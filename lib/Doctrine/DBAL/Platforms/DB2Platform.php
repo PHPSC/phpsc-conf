@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
+ * and is licensed under the LGPL. For more information, see
  * <http://www.doctrine-project.org>.
 */
 
@@ -358,7 +358,7 @@ class DB2Platform extends AbstractPlatform
 
         $sqls = parent::_getCreateTableSQL($tableName, $columns, $options);
 
-        foreach ($indexes as $definition) {
+        foreach ($indexes as $index => $definition) {
             $sqls[] = $this->getCreateIndexSQL($definition, $tableName);
         }
         return $sqls;
@@ -376,7 +376,7 @@ class DB2Platform extends AbstractPlatform
         $columnSql = array();
 
         $queryParts = array();
-        foreach ($diff->addedColumns as $column) {
+        foreach ($diff->addedColumns AS $fieldName => $column) {
             if ($this->onSchemaAlterTableAddColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -384,7 +384,7 @@ class DB2Platform extends AbstractPlatform
             $queryParts[] = 'ADD COLUMN ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
-        foreach ($diff->removedColumns as $column) {
+        foreach ($diff->removedColumns AS $column) {
             if ($this->onSchemaAlterTableRemoveColumn($column, $diff, $columnSql)) {
                 continue;
             }
@@ -392,18 +392,18 @@ class DB2Platform extends AbstractPlatform
             $queryParts[] =  'DROP COLUMN ' . $column->getQuotedName($this);
         }
 
-        foreach ($diff->changedColumns as $columnDiff) {
+        foreach ($diff->changedColumns AS $columnDiff) {
             if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
                 continue;
             }
 
-            /* @var $columnDiff \Doctrine\DBAL\Schema\ColumnDiff */
+            /* @var $columnDiff Doctrine\DBAL\Schema\ColumnDiff */
             $column = $columnDiff->column;
             $queryParts[] =  'ALTER ' . ($columnDiff->oldColumnName) . ' '
                     . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
-        foreach ($diff->renamedColumns as $oldColumnName => $column) {
+        foreach ($diff->renamedColumns AS $oldColumnName => $column) {
             if ($this->onSchemaAlterTableRenameColumn($oldColumnName, $column, $diff, $columnSql)) {
                 continue;
             }
@@ -413,7 +413,7 @@ class DB2Platform extends AbstractPlatform
 
         $tableSql = array();
 
-        if ( ! $this->onSchemaAlterTable($diff, $tableSql)) {
+        if (!$this->onSchemaAlterTable($diff, $tableSql)) {
             if (count($queryParts) > 0) {
                 $sql[] = 'ALTER TABLE ' . $diff->name . ' ' . implode(" ", $queryParts);
             }
