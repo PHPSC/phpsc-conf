@@ -138,6 +138,8 @@ class SplClassLoader
 
             if (stream_resolve_include_path($file)) {
                 require $file;
+
+                return true;
             }
         }
     }

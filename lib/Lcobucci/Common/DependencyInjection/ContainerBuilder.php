@@ -29,15 +29,28 @@ class ContainerBuilder
         $baseClass = null,
         $cacheDirectory = null
     ) {
-		$builder = new static();
-	    $builder->cacheDirectory = $cacheDirectory ?: sys_get_temp_dir();
-	    $builder->cacheDirectory = rtrim($builder->cacheDirectory, '/');
-
-		if ($baseClass !== null) {
-		    $builder->baseClass = $baseClass;
-		}
+		$builder = new static($baseClass, $cacheDirectory);
 
 		return $builder->getContainer(realpath($file), $path);
+	}
+
+	/**
+	 * @param string $baseClass
+	 * @param string $cacheDirectory
+	 */
+	public function __construct($baseClass = null, $cacheDirectory = null)
+	{
+	    if ($baseClass !== null) {
+	        $this->baseClass = $baseClass;
+	    }
+
+	    if ($cacheDirectory === null) {
+	        $this->cacheDirectory = sys_get_temp_dir();
+
+	        return ;
+	    }
+
+	    $this->cacheDirectory = rtrim($cacheDirectory, '/');
 	}
 
 	/**
