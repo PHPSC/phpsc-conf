@@ -4,9 +4,9 @@ set_include_path(
     . __DIR__ . '/src'
 );
 
-require 'Lcobucci/Common/ClassLoader/SplAutoloader.php';
+require 'Lcobucci/ActionMapper2/ClassLoader/SplClassLoader.php';
 
-use Lcobucci\Common\ClassLoader\SplClassLoader;
+use Lcobucci\ActionMapper2\ClassLoader\SplClassLoader;
 
 $loader = new SplClassLoader();
 $loader->register();
