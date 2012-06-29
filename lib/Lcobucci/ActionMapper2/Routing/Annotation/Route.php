@@ -157,7 +157,7 @@ class Route
      */
     protected function getRequestedPath(RouteDefinition $route, Request $request)
     {
-        $pattern = substr($route->getPattern(), 0, -2);
+        $pattern = rtrim($route->getPattern(), '/*');
         $regex = RouteDefinitionCreator::createRegex($pattern, false);
         $path = preg_replace($regex, '', $request->getRequestedPath());
 

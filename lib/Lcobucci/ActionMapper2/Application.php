@@ -1,10 +1,11 @@
 <?php
 namespace Lcobucci\ActionMapper2;
 
-use \Symfony\Component\HttpFoundation\SessionStorage\NativeSessionStorage;
 use \Lcobucci\ActionMapper2\DependencyInjection\Container as ActionMapperContainer;
-use \Symfony\Component\DependencyInjection\Container;
-use \Symfony\Component\HttpFoundation\Session;
+use \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use \Symfony\Component\HttpFoundation\Session\SessionInterface;
+use \Symfony\Component\HttpFoundation\Session\Session;
+use \Symfony\Component\DependencyInjection\ContainerInterface;
 use \Lcobucci\ActionMapper2\Routing\RouteManager;
 use \Lcobucci\ActionMapper2\Errors\ErrorHandler;
 use \Lcobucci\ActionMapper2\Http\Response;
@@ -23,7 +24,7 @@ class Application
     protected $errorHandler;
 
     /**
-     * @var \Symfony\Component\DependencyInjection\Container
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     private $dependencyContainer;
 
@@ -40,12 +41,12 @@ class Application
     /**
      * @param \Lcobucci\ActionMapper2\Routing\RouteManager $routeManager
      * @param \Lcobucci\ActionMapper2\Errors\ErrorHandler $errorHandler
-     * @param \Symfony\Component\DependencyInjection\Container $dependencyContainer
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $dependencyContainer
      */
     public function __construct(
         RouteManager $routeManager,
         ErrorHandler $errorHandler,
-        Container $dependencyContainer = null
+        ContainerInterface $dependencyContainer = null
     ) {
         $this->routeManager = $routeManager;
         $this->errorHandler = $errorHandler;
@@ -56,9 +57,9 @@ class Application
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\Container $dependencyContainer
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $dependencyContainer
      */
-    public function setDependencyContainer(Container $dependencyContainer)
+    public function setDependencyContainer(ContainerInterface $dependencyContainer)
     {
         if ($dependencyContainer instanceof ActionMapperContainer) {
             $dependencyContainer->setApplication($this);
@@ -68,7 +69,7 @@ class Application
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\Container
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     public function getDependencyContainer()
     {
@@ -135,9 +136,9 @@ class Application
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Session $session
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
      */
-    public function setSession(Session $session)
+    public function setSession(SessionInterface $session)
     {
         if (!$this->getRequest()->hasSession()) {
             $this->getRequest()->setSession($session);
@@ -145,7 +146,7 @@ class Application
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Session
+     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
      */
     public function getSession()
     {

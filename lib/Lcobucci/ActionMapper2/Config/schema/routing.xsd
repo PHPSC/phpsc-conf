@@ -40,7 +40,7 @@
 	
 	<xs:simpleType name="patternType">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="/(([a-zA-Z0-9-_\*%\.]{1,})?/?)*" />
+			<xs:pattern value="/(([a-zA-Z0-9\-_\*%\.]{1,})?/?)*" />
 		</xs:restriction>
 	</xs:simpleType>
 	

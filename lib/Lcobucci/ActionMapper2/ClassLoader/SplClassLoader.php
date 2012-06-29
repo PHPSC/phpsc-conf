@@ -15,4 +15,12 @@ class SplClassLoader extends \Lcobucci\Common\ClassLoader\SplClassLoader
         parent::register();
         AnnotationRegistry::registerLoader(array($this, 'loadClass'));
     }
+
+    /**
+     * @see \Lcobucci\Common\ClassLoader\SplClassLoader::loadClass()
+     */
+    public function loadClass($className)
+    {
+        return parent::loadClass(ltrim($className, '\\'));
+    }
 }
