@@ -21,7 +21,7 @@ class Controller implements Route
     /**
      * @var \Lcobucci\ActionMapper2\Application
      */
-    private $application;
+    protected $application;
 
     /**
      * @see \Lcobucci\ActionMapper2\Routing\Route::setRequest()

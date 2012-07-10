@@ -67,7 +67,7 @@ class RoutesBuilder
         if (isset($metadata->filters)) {
             foreach ($metadata->filters as $filter) {
                 $manager->addFilter(
-                    $filter->patter,
+                    $filter->pattern,
                     $filter->handler,
                     $filter->before
                 );
