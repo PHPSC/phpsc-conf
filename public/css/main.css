@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+
+@IMPORT url('structure.css');
+
+.formItems {
+	padding-top: 20px;
+	padding-left: 20px;
+}
+
+.formItems label {
+	font-weight: bold;
+}
+
+.control-group {
+	display: block;
+	width: 100%;
+	padding-top: 15px;
+	margin-top: 5px;
+	border-top: 1px solid #E5E5E5;
+}
