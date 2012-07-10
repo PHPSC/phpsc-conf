@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services ../lib/Symfony/Component/DependencyInjection/Loader/schema/services-1.0.xsd">
+	<parameters>
+		<parameter key="db.host">127.0.0.1</parameter>
+		<parameter key="db.schema">phpsc</parameter>
+		<parameter key="db.user">root</parameter>
+		<parameter key="db.password">admin</parameter>
+		<parameter key="db.driver">pdo_mysql</parameter>
+		<parameter key="db.charset">utf8</parameter>
+		<parameter key="doctrine.entity.dir">/home/luis/Zend/workspaces/luis/git-repos/phpsc-conf/src/JeanCSil/Sicor/Domain/Entity</parameter>
+		<parameter key="doctrine.proxy.dir">/home/luis/Zend/workspaces/luis/git-repos/phpsc-conf/tmp/proxy</parameter>
+		<parameter key="doctrine.proxy.namespace">\PHPSC\Conference\Domain\Entity\Proxy</parameter>
+		<parameter key="doctrine.proxy.auto">true</parameter>
+		
+		<!-- Twitter Params -->
+		<parameter key="twitter.consumerKey">xWRpbO2lEhrNgabJcnqiRA</parameter>
+		<parameter key="twitter.consumerSecret">3E44vJsH46s1eAGeEaGhiz7P9FgplVPx4uSxVeojo</parameter>
+		<parameter key="twitter.callback">http://127.0.0.1/workspace/git-repos/phpsc-conf/public/oauth/callback</parameter>
+	</parameters>
+	<services>
+		<!-- Twitter Services -->
+		<service id="twitter.provider"
+			class="PHPSC\Conference\Application\Service\TwitterAccessProvider">
+			<argument type="service" id="session" />
+			<argument>%twitter.consumerKey%</argument>
+			<argument>%twitter.consumerSecret%</argument>
+			<argument>%twitter.callback%</argument>
+		</service>
+		
+		<!-- Entity Repositories -->
+		<service id="user.repository" factory-service="entityManager" factory-method="getRepository">
+			<argument>PHPSC\Conference\Domain\Entity\User</argument>
+		</service>
+	</services>
+</container>

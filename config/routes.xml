@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routing xmlns="http://lcobucci.com/action-mapper/schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://lcobucci.com/action-mapper/schema ../lib/Lcobucci/ActionMapper2/Config/schema/routing.xsd ">
+	<routes>
+		<route pattern="/*" class="\PHPSC\Conference\Application\Action\Home" />
+		<route pattern="/contact/*" class="\PHPSC\Conference\Application\Action\Contact" />
+		<route pattern="/oauth/*" class="\PHPSC\Conference\Application\Action\OAuth" />
+		<route pattern="/user/*" class="\PHPSC\Conference\Application\Action\User" />
+	</routes>
+	<filters>
+		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Action\UserFilter" />
+	</filters>
+</routing>
