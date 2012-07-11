@@ -2,7 +2,7 @@
 set_include_path(
     __DIR__ . '/lib' . PATH_SEPARATOR
     . __DIR__ . '/src' . PATH_SEPARATOR
-    . __DIR__ . '/templates'
+    . __DIR__ . '/ui'
 );
 
 require 'Lcobucci/ActionMapper2/ClassLoader/SplClassLoader.php';
