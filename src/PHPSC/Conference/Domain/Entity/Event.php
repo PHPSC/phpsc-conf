@@ -52,7 +52,7 @@ class Event implements Entity
     private $submissionStart;
 
     /**
-     * @Column(type="datetime", name="submissions_start")
+     * @Column(type="datetime", name="submissions_end")
      * @var \DateTime
      */
     private $submissionEnd;
