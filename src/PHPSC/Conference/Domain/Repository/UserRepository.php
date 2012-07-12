@@ -13,13 +13,15 @@ class UserRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('user')
                       ->andWhere('user.twitterUser = ?1')
-                      ->setParameter('1', $twitterUser)
+                      ->setParameter(1, $twitterUser)
                       ->setMaxResults(1)
                       ->getQuery();
 
         $query->useQueryCache(true);
         $query->useResultCache(true, 60 * 3);
 
-        return $query->getFirstResult();
+        $results = $query->getResult();
+
+        return $results[0];
     }
 }

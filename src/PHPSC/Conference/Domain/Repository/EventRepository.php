@@ -18,6 +18,8 @@ class EventRepository extends EntityRepository
         $query->useQueryCache(true);
         $query->useResultCache(true, 60 * 5);
 
-        return $query->getFirstResult();
+        $results = $query->getResult();
+
+        return $results[0];
     }
 }
