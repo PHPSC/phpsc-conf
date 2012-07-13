@@ -9,7 +9,7 @@
             <p>Data Início: <strong><?php echo $this->getEvent()->getSubmissionStart()->format('d/m/Y H:i'); ?></strong>
             <br />Data Fim: <strong><?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i'); ?></strong></p>
         <?php } else { ?>
-            <p>Está aberta a chamada de trabalhos, envie sua proposta de palestra!</p>
+            <p>Está aberta a chamada de trabalhos, não perca tempo e envie sua proposta de palestra!</p>
             <p><a class="btn btn-primary btn-large" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Desejo contribuir &raquo;</a></p>
         <?php } ?>
     </div>
@@ -22,8 +22,9 @@
             esta data passarão pela avaliação por membros do <strong>PHPSC</strong> e também da comunidade.</p>
         <p>Os palestrantes terão acesso às análises para cada trabalho que submeter.</p>
         <p>A grade de propostas aprovadas será disponibilizada neste site após o período de submissão de trabalhos.</p>
-        <p><a class="btn" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Enviar proposta &raquo;</a></p>
-        <p><a class="btn" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">Visualizar meus trabalhos submetidos &raquo;</a></p>
+        <p>
+            <a class="btn btn-small btn-primary" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Enviar proposta &raquo;</a>&nbsp;&nbsp;
+            <a class="btn btn-small" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">Meus trabalhos submetidos &raquo;</a></p>
     </div>
 </div>
 <?php } ?>
