@@ -15,7 +15,7 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
      */
     protected function getEntityManagerService()
     {
-        return $this->services['entityManager'] = EntityManager::create(
+        $this->services['entitymanager'] = $em = EntityManager::create(
             array(
                 'host' => $this->getParameter('db.host'),
                 'dbname' => $this->getParameter('db.schema'),
@@ -26,6 +26,8 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
             ),
             $this->get('doctrine.config')
         );
+
+        return $em;
     }
 
     /**
