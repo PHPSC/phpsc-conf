@@ -10,13 +10,22 @@ class NewTalkFilter extends Filter
      */
     public function process()
     {
+        if ($this->getAuthenticationService()->getTwitterUser() === null) {
+            $this->request->getSession()->set(
+                    'redirectTo',
+                    '/call4papers/submissions/new'
+            );
+
+            $this->application->redirect('/oauth/redirect');
+        }
+
         if ($this->getAuthenticationService()->getLoggedUser() === null) {
             $this->request->getSession()->set(
                 'redirectTo',
                 '/call4papers/submissions/new'
             );
 
-            $this->application->redirect('/oauth/redirect');
+            $this->application->redirect('/user/new');
         }
 
         $event = $this->getEventManagement()->findCurrentEvent();
