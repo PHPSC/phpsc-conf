@@ -1,0 +1,28 @@
+<div class="hero-unit" style="padding: 30px;">
+    <h2>Chamada de trabalhos</h2>
+    <h3><?php echo $this->getEvent()->getName(); ?></h3>
+    <div style="margin-top: 15px;">
+        <?php if (!$this->getEvent()->hasTalkSubmissions()) { ?>
+            <p>Os trabalhos deste evento serão cadastrados internamente, fique atento às novidades!</p>
+        <?php } elseif (!$this->getEvent()->isSubmissionsInterval(new \DateTime())) { ?>
+            <p>Atenção: não está no período de submissão de trabalhos.</p>
+            <p>Data Início: <strong><?php echo $this->getEvent()->getSubmissionStart()->format('d/m/Y H:i'); ?></strong>
+            <br />Data Fim: <strong><?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i'); ?></strong></p>
+        <?php } else { ?>
+            <p>Está aberta a chamada de trabalhos, envie sua proposta de palestra!</p>
+            <p><a class="btn btn-primary btn-large" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Desejo contribuir &raquo;</a></p>
+        <?php } ?>
+    </div>
+</div>
+<?php if ($this->getEvent()->isSubmissionsInterval(new \DateTime())) { ?>
+<div class="row">
+    <div class="span9">
+        <h3>Maiores informações</h3>
+        <p>As propostas serão aceitas até <strong><?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i'); ?></strong>, após
+            esta data passarão pela avaliação por membros do <strong>PHPSC</strong> e também da comunidade.</p>
+        <p>Os palestrantes terão acesso às análises para cada trabalho que submeter.</p>
+        <p>A grade de propostas aprovadas será disponibilizada neste site após o período de submissão de trabalhos.</p>
+        <p><a class="btn" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Enviar proposta &raquo;</a></p>
+    </div>
+</div>
+<?php } ?>

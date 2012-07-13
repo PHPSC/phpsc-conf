@@ -16,10 +16,11 @@ class EventRepository extends EntityRepository
                       ->getQuery();
 
         $query->useQueryCache(true);
-        $query->useResultCache(true, 60 * 5);
 
         $results = $query->getResult();
 
-        return $results[0];
+        if (isset($results[0])) {
+            return $results[0];
+        }
     }
 }
