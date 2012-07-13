@@ -1,5 +1,14 @@
-<h2 style="float:left">Meus trabalhos submetidos</h2>
-<a style="float:right" class="btn btn-primary" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Submeter trabalho</a>
-<br clear="all" />
-<br clear="all" />
+<div class="row" style="margin-bottom: 20px;">
+    <div class="span7">
+        <h2>Meus trabalhos submetidos</h2>
+    </div>
+    <div class="span2">
+        <a class="btn btn-primary" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Submeter trabalho</a>
+    </div>
+</div>
+<div class="alert alert-info">
+    <button class="close" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading">Atenção</h4>
+    <span>Nesta página você visualizará informações sobre os trabalhos que você submeteu.</span>
+</div>
 <?php echo $this->getDatagrid(); ?>

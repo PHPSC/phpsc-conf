@@ -29,21 +29,33 @@ class Grid extends UIComponent
     {
         return $this->talks;
     }
-    
+
     /**
      * @return string|\Lcobucci\DisplayObjects\Components\Datagrid\Datagrid
      */
     public function getDatagrid()
     {
-    	$datagrid = new Datagrid('talks', $this->getTalks(), array(
-    		new DatagridColumn('#', 'id'),
-    		new DatagridColumn('Nome', 'title'),
-    		new DatagridColumn('Descrição Curta', 'shortDescription'),
-    		new DatagridColumn('Aprovada?', 'approved', '', function($value){
-    			return ($value ? 'Sim' : 'Não');
-    		}),
-    	));
+    	$datagrid = new Datagrid(
+	        'talks',
+	        $this->getTalks(),
+	        array(
+        		new DatagridColumn('Nome', 'title'),
+        		new DatagridColumn('Tipo', 'type.description'),
+        		new DatagridColumn('Descrição curta', 'shortDescription'),
+        		new DatagridColumn(
+    		        'Aprovada',
+    		        'approved',
+    		        '',
+    		        function ($value)
+    		        {
+        			    return $value ? 'Sim' : 'Não';
+        		    }
+    	        ),
+        	)
+	    );
+
     	$datagrid->setStyleClass('table table-striped');
+
     	return $datagrid;
     }
 }
