@@ -1,6 +1,8 @@
 <?php
 namespace PHPSC\Conference\Application\View\Pages\Call4Papers;
 
+use PHPSC\Conference\Domain\Entity\Talk;
+
 use \PHPSC\Conference\Application\View\Main;
 use \PHPSC\Conference\Domain\Entity\Event;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
@@ -39,18 +41,44 @@ class Grid extends UIComponent
 	        'talks',
 	        $this->getTalks(),
 	        array(
-        		new DatagridColumn('Nome', 'title'),
-        		new DatagridColumn('Tipo', 'type.description'),
-        		new DatagridColumn('Descrição curta', 'shortDescription'),
+        		new DatagridColumn('Nome', 'title', 'span3'),
+        		new DatagridColumn('Tipo', 'type.description', 'span2'),
+        		new DatagridColumn(
+    		        'Nível',
+    		        'complexity',
+		            'span2',
+    		        function ($complexity)
+    		        {
+    		            switch ($complexity) {
+    		                case Talk::HIGH_COMPLEXITY:
+    		                    return 'Avançado';
+    		                case Talk::MEDIUM_COMPLEXITY:
+    		                    return 'Intermediário';
+    		                default:
+    		                    return 'Básico';
+    		            }
+    		        }
+		        ),
         		new DatagridColumn(
     		        'Aprovada',
     		        'approved',
-    		        '',
-    		        function ($value)
+    		        'span1',
+    		        function ($approved)
     		        {
-        			    return $value ? 'Sim' : 'Não';
+        			    return $approved ? 'Sim' : 'Não';
         		    }
     	        ),
+    	        new DatagridColumn(
+	                '',
+	                'id',
+	                'span1',
+	                function ($id)
+	                {
+                        return '<a href="#" class="btn btn-mini btn-info" title="Ver informações (em breve)">
+                                    <i class="icon-eye-open"></i>
+                                </a>';
+	                }
+                )
         	)
 	    );
 
