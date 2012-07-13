@@ -9,8 +9,8 @@
 		<parameter key="db.password">admin</parameter>
 		<parameter key="db.driver">pdo_mysql</parameter>
 		<parameter key="db.charset">utf8</parameter>
-		<parameter key="doctrine.entity.dir">/home/luis/Zend/workspaces/luis/git-repos/phpsc-conf/src/PHPSC/Conference/Domain/Entity</parameter>
-		<parameter key="doctrine.proxy.dir">/home/luis/Zend/workspaces/luis/git-repos/phpsc-conf/tmp/proxy</parameter>
+		<parameter key="doctrine.entity.dir">src/PHPSC/Conference/Domain/Entity</parameter>
+		<parameter key="doctrine.proxy.dir">tmp/proxy</parameter>
 		<parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
 		<parameter key="doctrine.proxy.auto">true</parameter>
 		<parameter key="doctrine.cache">array</parameter>
