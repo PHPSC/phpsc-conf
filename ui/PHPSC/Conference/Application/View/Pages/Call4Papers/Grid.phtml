@@ -1,16 +1,5 @@
-<?php
-
-	use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
-	use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
-
-	$datagrid = new Datagrid('talks', $this->getTalks(), array(
-		new DatagridColumn('#', 'id'),
-		new DatagridColumn('Nome', 'title'),
-		new DatagridColumn('Descrição Curta', 'shortDescription'),
-		new DatagridColumn('Aprovada?', 'approved', '', function($value){
-			return ($value ? 'Sim' : 'Não');
-		}),
-	));
-
-	$datagrid->setStyleClass('table table-striped');
-	echo $datagrid;
+<h2 style="float:left">Meus trabalhos submetidos</h2>
+<a style="float:right" class="btn btn-primary" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new">Submeter trabalho</a>
+<br clear="all" />
+<br clear="all" />
+<?php echo $this->getDatagrid(); ?>
