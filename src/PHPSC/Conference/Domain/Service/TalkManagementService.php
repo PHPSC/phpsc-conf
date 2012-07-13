@@ -67,9 +67,14 @@ class TalkManagementService
 
         return $talk;
     }
-    
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return \PHPSC\Conference\Domain\Entity\Talk[]
+     */
     public function findByUserAndEvent(User $user, Event $event)
     {
-    	return $this->talkRepository->findBy(array());
+    	return $this->talkRepository->findByUserAndEvent($user, $event);
     }
 }
