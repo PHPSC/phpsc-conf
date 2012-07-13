@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#userForm').submit(function () {
 		$('#userForm button').prop('disabled', true);
+		$('html, body').animate({scrollTop:0}, 'fast');
 		
 		$.ajax(
 			{
@@ -32,6 +33,16 @@ $(document).ready(function() {
 					$('.alert h4').html('Cadastro realizado com sucesso');
 					$('.alert span').html('Seja bem vindo @' + response.data.twitterUser + '!');
 					$('.alert').addClass('alert-success').fadeIn();
+					
+					if (response.redirectTo) {
+						setTimeout(
+							function()
+							{
+								window.location = baseUrl + response.redirectTo;
+							},
+							1000
+						);
+					}
 				}
 			}
 		);

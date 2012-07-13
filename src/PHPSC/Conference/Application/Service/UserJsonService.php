@@ -33,10 +33,17 @@ class UserJsonService
      * @param string $githubUser
      * @param string $bio
      * @param boolean $follow
+     * @param string $redirectTo
      * @return string
      */
-    public function create($name, $email, $githubUser, $bio, $follow)
-    {
+    public function create(
+        $name,
+        $email,
+        $githubUser,
+        $bio,
+        $follow,
+        $redirectTo
+    ) {
         $user = $this->authService->getTwitterUser();
 
         try {
@@ -54,7 +61,8 @@ class UserJsonService
                     'data' => array(
                         'id' => $user->getId(),
                         'twitterUser' => $user->getTwitterUser()
-                    )
+                    ),
+                    'redirectTo' => $redirectTo
                 )
             );
         } catch (\InvalidArgumentException $error) {

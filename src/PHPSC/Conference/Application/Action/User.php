@@ -27,6 +27,10 @@ class User extends Controller
      */
     public function newUser()
     {
+        if ($redirectTo = $this->request->getSession()->get('redirectTo')) {
+            $this->request->getSession()->remove('redirectTo');
+        }
+
         $this->response->setContentType('application/json', 'UTF-8');
 
         return $this->getUserJsonService()->create(
@@ -34,7 +38,8 @@ class User extends Controller
             $this->request->request->get('email'),
             $this->request->request->get('githubUser'),
             $this->request->request->get('bio'),
-            $this->request->request->get('follow') == 'true'
+            $this->request->request->get('follow') == 'true',
+            $redirectTo ?: '/'
         );
     }
 
