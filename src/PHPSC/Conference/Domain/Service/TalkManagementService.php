@@ -67,4 +67,9 @@ class TalkManagementService
 
         return $talk;
     }
+    
+    public function findByUserAndEvent(User $user, Event $event)
+    {
+    	return $this->talkRepository->findBy(array());
+    }
 }

@@ -3,6 +3,7 @@ namespace PHPSC\Conference\Application\Action;
 
 use \PHPSC\Conference\Application\View\Pages\Call4Papers\Form;
 use \PHPSC\Conference\Application\View\Pages\Call4Papers\Index;
+use \PHPSC\Conference\Application\View\Pages\Call4Papers\Grid;
 use \PHPSC\Conference\Application\View\Main;
 
 use \Lcobucci\ActionMapper2\Routing\Controller;
@@ -18,6 +19,18 @@ class Call4Papers extends Controller
         $event = $this->getEventManagement()->findCurrentEvent();
 
         return Main::create(new Index($event), $this->application);
+    }
+    
+    /**
+     * @Route("/submissions", methods={"GET"})
+     */
+    public function listTalks()
+    {
+    	$user = $this->getAuthenticationService()->getLoggedUser();
+    	$event = $this->getEventManagement()->findCurrentEvent();
+    	$talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
+    	
+    	return Main::create(new Grid($talks), $this->application);
     }
 
     /**
@@ -61,5 +74,21 @@ class Call4Papers extends Controller
     protected function getTalkJsonService()
     {
         return $this->get('talk.json.service');
+    }
+    
+    /**
+     * @return \PHPSC\Conference\Domain\Service\TalkManagementService
+     */
+    protected function getTalkManagement()
+    {
+    	return $this->get('talk.management.service');
+    }
+    
+    /**
+     * @return \PHPSC\Conference\Application\Service\AuthenticationService
+     */
+    protected function getAuthenticationService()
+    {
+    	return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

@@ -1,0 +1,16 @@
+<?php
+
+	use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
+	use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
+
+	$datagrid = new Datagrid('talks', $this->getTalks(), array(
+		new DatagridColumn('#', 'id'),
+		new DatagridColumn('Nome', 'title'),
+		new DatagridColumn('Descrição Curta', 'shortDescription'),
+		new DatagridColumn('Aprovada?', 'approved', '', function($value){
+			return ($value ? 'Sim' : 'Não');
+		}),
+	));
+
+	$datagrid->setStyleClass('table table-striped');
+	echo $datagrid;
