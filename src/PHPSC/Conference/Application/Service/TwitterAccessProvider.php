@@ -125,7 +125,7 @@ class TwitterAccessProvider
      */
     public function callback($oauthToken, $oauthVerifier)
     {
-        if ($oauthToken != $this->token->key) {
+        if (is_null($this->token) || $oauthToken != $this->token->key) {
             throw new TwitterConnectionException(
                 'Token inválido'
             );
