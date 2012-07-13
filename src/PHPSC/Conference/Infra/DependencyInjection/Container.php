@@ -35,6 +35,7 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
     {
         $this->services['doctrine.config'] = $instance = new Configuration();
 
+        $baseDir = realpath(__DIR__ . '/../../../../../') . '/';
         $cache = $this->getParameter('doctrine.cache') == 'apc'
                  ? new ApcCache()
                  : new ArrayCache();
@@ -42,10 +43,24 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
         $instance->setMetadataCacheImpl($cache);
         $instance->setQueryCacheImpl($cache);
         $instance->setResultCacheImpl($cache);
-        $instance->setProxyDir($this->getParameter('doctrine.proxy.dir'));
-        $instance->setProxyNamespace($this->getParameter('doctrine.proxy.namespace'));
-        $instance->setAutoGenerateProxyClasses($this->getParameter('doctrine.proxy.auto'));
-        $instance->setMetadataDriverImpl($instance->newDefaultAnnotationDriver($this->getParameter('doctrine.entity.dir')));
+
+        $instance->setProxyDir(
+            $baseDir . $this->getParameter('doctrine.proxy.dir')
+        );
+
+        $instance->setProxyNamespace(
+            $this->getParameter('doctrine.proxy.namespace')
+        );
+
+        $instance->setAutoGenerateProxyClasses(
+            $this->getParameter('doctrine.proxy.auto')
+        );
+
+        $instance->setMetadataDriverImpl(
+            $instance->newDefaultAnnotationDriver(
+                $baseDir . $this->getParameter('doctrine.entity.dir')
+            )
+        );
 
         return $instance;
     }
