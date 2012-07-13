@@ -25,7 +25,7 @@
             <label for="longDescription">Descrição</label>
             <textarea rows="5" cols="1" class="span5" id="longDescription" name="longDescription" placeholder="Descrição detalhada sobre a palestra..."><?php echo $this->getTalk()->getLongDescription(); ?></textarea>
             <label for="tags">Palavras-chave</label>
-            <input type="text" id="tags" name="tags" value="<?php echo $this->getTalk()->getTags(); ?>" class="span5" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="12">
+            <input type="text" id="tags" name="tags" value="<?php echo $this->getTalk()->getTags(); ?>" class="span5" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="120">
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Enviar dados &raquo;</button>&nbsp;&nbsp;

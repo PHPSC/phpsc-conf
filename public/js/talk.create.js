@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#talkForm').submit(function () {
 		$('#talkForm button').prop('disabled', true);
+		$('html, body').animate({scrollTop:0}, 'fast');
 		
 		$.ajax(
 			{
@@ -31,8 +32,16 @@ $(document).ready(function() {
 					}
 					
 					$('.alert h4').html('Cadastro realizado com sucesso');
-					$('.alert span').html('A propostas "' + response.data.title + '" foi cadastrada com sucesso!');
+					$('.alert span').html('A proposta "' + response.data.title + '" foi cadastrada com sucesso!');
 					$('.alert').addClass('alert-success').fadeIn();
+					
+					setTimeout(
+						function()
+						{
+							window.location = baseUrl + '/call4papers/submissions';
+						},
+						1000
+					);
 				}
 			}
 		);

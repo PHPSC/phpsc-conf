@@ -30,6 +30,9 @@
 
         <?php echo $this->renderFooter(); ?>
 
+    	<script type="text/javascript">
+            var baseUrl = '<?php echo $this->getBaseUrl(); ?>';
+    	</script>
         <?php foreach ($this->getScripts() as $script) { ?>
         	<script src="<?php echo $script; ?>" type="text/javascript"></script>
         <?php } ?>

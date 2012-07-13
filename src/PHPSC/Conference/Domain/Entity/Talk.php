@@ -67,13 +67,13 @@ class Talk implements Entity
     private $type;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", nullable=false, name="short_description")
      * @var string
      */
     private $shortDescription;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", nullable=false, name="long_description")
      * @var string
      */
     private $longDescription;

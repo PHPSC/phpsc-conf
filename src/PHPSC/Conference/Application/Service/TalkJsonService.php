@@ -92,7 +92,7 @@ class TalkJsonService
         } catch (\Exception $error) {
             return json_encode(
                 array(
-                    'error' => $error->getMessage()
+                    'error' => 'Erro interno no processamento da requisição'
                 )
             );
         }
