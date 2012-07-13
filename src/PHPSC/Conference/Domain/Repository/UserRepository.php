@@ -19,8 +19,6 @@ class UserRepository extends EntityRepository
 
         $query->useQueryCache(true);
 
-        $results = $query->getResult();
-
-        return isset($results[0]) ? $results[0] : null;
+        return $query->getSingleResult();
     }
 }
