@@ -24,7 +24,7 @@ class Form extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return \PHPSC\Conference\Domain\Entity\Talk
      */
     public function getTalk()
     {
