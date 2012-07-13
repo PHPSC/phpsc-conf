@@ -178,4 +178,26 @@ class Event implements Entity
     {
         $this->submissionEnd = $submissionEnd;
     }
+
+    /**
+     * @return boolean
+     */
+    public function hasTalkSubmissions()
+    {
+        return $this->getSubmissionStart() !== null;
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return boolean
+     */
+    public function isSubmissionsInterval(DateTime $date)
+    {
+        if (!$this->hasTalkSubmissions()) {
+            return false;
+        }
+
+        return $date >= $this->getSubmissionStart()
+               && $date <= $this->getSubmissionEnd();
+    }
 }

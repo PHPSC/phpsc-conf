@@ -1,6 +1,8 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 use \PHPSC\Conference\Infra\Persistence\Entity;
 use \InvalidArgumentException;
 use \DateTime;
@@ -55,6 +57,24 @@ class User implements Entity
      * @var \DateTime
      */
     private $creationTime;
+
+    /**
+     * @ManyToMany(targetEntity="Talk")
+     * @JoinTable(name="interest",
+     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")}
+     * )
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $interests;
+
+    /**
+     * Inicializador do objeto
+     */
+    public function __construct()
+    {
+        $this->interests = new ArrayCollection();
+    }
 
 	/**
      * @return number
@@ -206,6 +226,21 @@ class User implements Entity
     public function setCreationTime(DateTime $creationTime)
     {
         $this->creationTime = $creationTime;
+    }
+	/**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getInterests()
+    {
+        return $this->interests;
+    }
+
+	/**
+     * @param \Doctrine\Common\Collections\ArrayCollection $interests
+     */
+    public function setInterests(ArrayCollection $interests)
+    {
+        $this->interests = $interests;
     }
 
     /**

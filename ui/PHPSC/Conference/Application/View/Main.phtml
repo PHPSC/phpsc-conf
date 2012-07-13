@@ -30,8 +30,8 @@
 
         <?php echo $this->renderFooter(); ?>
 
-    	<script src="<?php echo $this->getBaseUrl(); ?>/js/jquery-1.7.2.min.js"></script>
-    	<script src="<?php echo $this->getBaseUrl(); ?>/js/bootstrap.min.js"></script>
-    	<script src="<?php echo $this->getBaseUrl(); ?>/js/twitter.box.js"></script>
+        <?php foreach ($this->getScripts() as $script) { ?>
+        	<script src="<?php echo $script; ?>" type="text/javascript"></script>
+        <?php } ?>
     </body>
 </html>

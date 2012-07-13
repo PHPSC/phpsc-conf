@@ -37,7 +37,7 @@ class Talk implements Entity
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Event", cascade={"all"})
+     * @ManyToOne(targetEntity="Event")
 	 * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\Event
      */
@@ -60,7 +60,7 @@ class Talk implements Entity
     private $title;
 
     /**
-     * @ManyToOne(targetEntity="TalkType", cascade={"all"})
+     * @ManyToOne(targetEntity="TalkType")
 	 * @JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\TalkType
      */
@@ -221,7 +221,7 @@ class Talk implements Entity
     {
         if (empty($shortDescription)) {
             throw new InvalidArgumentException(
-                'A descrição curta não pode ser vazia'
+                'O resumo não pode ser vazio'
             );
         }
 
@@ -229,7 +229,7 @@ class Talk implements Entity
     }
 
 	/**
-     * @return string
+     * @return string$type
      */
     public function getLongDescription()
     {
@@ -243,7 +243,7 @@ class Talk implements Entity
     {
         if (empty($longDescription)) {
             throw new InvalidArgumentException(
-                'A descrição longa não pode ser vazia'
+                'A descrição não pode ser vazia'
             );
         }
 
@@ -263,9 +263,15 @@ class Talk implements Entity
      */
     public function setComplexity($complexity)
     {
-        if (!in_array($complexity, array('H', 'M', 'L'))) {
+        $possible = array(
+            static::LOW_COMPLEXITY,
+            static::MEDIUM_COMPLEXITY,
+            static::HIGH_COMPLEXITY
+        );
+
+        if (!in_array($complexity, $possible)) {
             throw new InvalidArgumentException(
-                'Valor inválido para complexidade'
+                'O valor inválido para nível'
             );
         }
 
@@ -327,7 +333,7 @@ class Talk implements Entity
      */
     public function setApproved($approved)
     {
-        if ($approved !== null && !is_bool($approved)) {
+        if (!is_bool($approved)) {
             throw new InvalidArgumentException(
                 'Aprovado deve ser TRUE ou FALSE'
             );
@@ -350,5 +356,42 @@ class Talk implements Entity
     public function setCreationTime(DateTime $creationTime)
     {
         $this->creationTime = $creationTime;
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param \PHPSC\Conference\Domain\Entity\User $speaker
+     * @param \PHPSC\Conference\Domain\Entity\TalkType $type
+     * @param string $title
+     * @param string $shortDescription
+     * @param string $longDescription
+     * @param string $complexity
+     * @param string $tags
+     * @return \PHPSC\Conference\Domain\Entity\Talk
+     */
+    public static function create(
+        Event $event,
+        User $speaker,
+        TalkType $type,
+        $title,
+        $shortDescription,
+        $longDescription,
+        $complexity,
+        $tags = null
+    ) {
+        $talk = new static();
+
+        $talk->setEvent($event);
+        $talk->setType($type);
+        $talk->setTitle($title);
+        $talk->setComplexity($complexity);
+        $talk->setTags($tags);
+        $talk->setShortDescription($shortDescription);
+        $talk->setLongDescription($longDescription);
+        $talk->setCreationTime(new DateTime());
+        $talk->setApproved(false);
+        $talk->getSpeakers()->add($speaker);
+
+        return $talk;
     }
 }

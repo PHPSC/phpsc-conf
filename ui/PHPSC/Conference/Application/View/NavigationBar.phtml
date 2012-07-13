@@ -2,15 +2,15 @@
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<div class="btn-group pull-right">
-			    <?php if ($user = $this->getLoggedUser()) { ?>
+			    <?php if ($user = $this->getTwitterUser()) { ?>
 			        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 0px;"><img alt="<?php echo $user->screen_name; ?>"
 		                title="Logado como @<?php echo $user->screen_name; ?>"
 			            src="<?php echo $user->profile_image_url; ?>"
 			            height="30"
 			            width="30"></a>
 		            <ul class="dropdown-menu">
-    					<li><a href="#">Meus dados</a></li>
-    					<li><a href="#">Trabalhos submetidos</a></li>
+    					<li><a href="<?php echo $this->getBaseUrl(); ?>/user">Meus dados</a></li>
+    					<li><a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">Trabalhos submetidos</a></li>
     					<li class="divider"></li>
     					<li><a href="<?php echo $this->getBaseUrl(); ?>/oauth/logoff">Sair</a></li>
     				</ul>

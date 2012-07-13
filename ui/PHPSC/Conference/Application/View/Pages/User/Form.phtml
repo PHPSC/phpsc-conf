@@ -1,0 +1,27 @@
+<form id="userForm" class="well" action="<?php echo $this->getFormAction(); ?>" method="post">
+    <fieldset>
+        <legend><?php echo $this->getTitle(); ?></legend>
+        <div class="formItems">
+            <div class="alert alert-info">
+                <h4 class="alert-heading">Atenção</h4>
+                <span>Você ainda não possui cadastro no nosso sistema, favor preencher os dados abaixo!</span>
+            </div>
+            <label for="name">Nome</label>
+            <input type="text" id="name" required="required" name="name" value="<?php echo $this->getUser()->getName(); ?>" class="span5" placeholder="Digite seu nome..." maxlength="80">
+            <label for="email">Email</label>
+            <input type="email" id="email" required="required" name="email" value="<?php echo $this->getUser()->getEmail(); ?>" class="span5" placeholder="Digite seu email..." maxlength="160">
+            <label for="githubUser">Login no Github</label>
+            <input type="text" id="githubUser" name="githubUser" value="<?php echo $this->getUser()->getGithubUser(); ?>" class="span5" placeholder="Digite seu usuário no Github..." maxlength="60">
+            <label for="bio">Biografia</label>
+            <textarea rows="5" cols="1" class="span5" id="bio" name="bio" placeholder="Conte-nos um pouco sobre você..."><?php echo $this->getUser()->getBio(); ?></textarea>
+            <?php if ($this->isFirstAccess()) { ?>
+            <br /><input type="checkbox" id="follow" name="follow" checked="checked" /> <label for="follow" style="display: inline; font-weight: normal; font-size: 85%">Desejo seguir o @<strong>PHP_SC</strong> no Twitter</label>
+            <?php } ?>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Enviar dados &raquo;</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>

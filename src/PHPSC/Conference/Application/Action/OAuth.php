@@ -29,7 +29,17 @@ class OAuth extends Controller
             $this->request->get('oauth_verifier')
         );
 
-        $this->redirect('/user/new');
+        if (!$this->getAuthenticationService()->getLoggedUser()) {
+            $this->redirect('/user/new');
+        }
+
+        $path = $this->request->getSession()->get('redirectTo', '/');
+
+        if ($path != '/') {
+            $this->request->getSession()->remove('redirectTo');
+        }
+
+        $this->redirect($path);
     }
 
     /**
@@ -49,5 +59,13 @@ class OAuth extends Controller
     protected function getTwitterProvider()
     {
         return $this->get('twitter.provider');
+    }
+
+    /**
+     * @return \PHPSC\Conference\Application\Service\AuthenticationService
+     */
+    protected function getAuthenticationService()
+    {
+        return $this->get('authentication.service');
     }
 }

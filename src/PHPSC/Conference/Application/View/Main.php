@@ -22,6 +22,11 @@ class Main extends UIComponent
     protected $content;
 
     /**
+     * @var array
+     */
+    protected static $scripts;
+
+    /**
      * @param \Lcobucci\DisplayObjects\Core\UIComponent $content
      * @param \Lcobucci\ActionMapper2\Application $application
      * @return \PHPSC\Conference\Application\View\Main
@@ -44,6 +49,10 @@ class Main extends UIComponent
     public function __construct(UIComponent $content)
     {
         $this->content = $content;
+
+        static::appendScript($this->getBaseUrl() . '/js/twitter.box.js', true);
+        static::appendScript($this->getBaseUrl() . '/js/bootstrap.min.js', true);
+        static::appendScript($this->getBaseUrl() . '/js/jquery-1.7.2.min.js', true);
     }
 
     /**
@@ -100,5 +109,32 @@ class Main extends UIComponent
     public function renderFooter()
     {
         return new Footer();
+    }
+
+    /**
+     * @param string $url
+     */
+    public static function appendScript($url, $prepend = false)
+    {
+        if (static::$scripts === null) {
+            static::$scripts = array();
+        }
+
+        if (!in_array($url, static::$scripts)) {
+            if ($prepend) {
+                array_unshift(static::$scripts, $url);
+                return ;
+            }
+
+            static::$scripts[] = $url;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getScripts()
+    {
+        return static::$scripts;
     }
 }

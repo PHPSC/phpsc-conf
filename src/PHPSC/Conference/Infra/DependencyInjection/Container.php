@@ -1,6 +1,7 @@
 <?php
 namespace PHPSC\Conference\Infra\DependencyInjection;
 
+use \Doctrine\Common\Cache\ArrayCache;
 use \Doctrine\Common\Cache\ApcCache;
 use \Doctrine\ORM\Configuration;
 use \Doctrine\ORM\EntityManager;
@@ -34,7 +35,10 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
     {
         $this->services['doctrine.config'] = $instance = new Configuration();
 
-        $cache = new ApcCache();
+        $cache = $this->getParameter('doctrine.cache') == 'apc'
+                 ? new ApcCache()
+                 : new ArrayCache();
+
         $instance->setMetadataCacheImpl($cache);
         $instance->setQueryCacheImpl($cache);
         $instance->setResultCacheImpl($cache);

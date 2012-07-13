@@ -45,18 +45,18 @@ class NavigationBar extends UIComponent
     /**
      * @return \stdClass
      */
-    public function getLoggedUser()
+    public function getTwitterUser()
     {
-        $provider = $this->getTwitterProvider();
+        $provider = $this->getAuthenticationService();
 
-        return $provider->getLoggedUser();
+        return $provider->getTwitterUser();
     }
 
     /**
-     * @return \PHPSC\Conference\Application\Service\TwitterAccessProvider
+     * @return \PHPSC\Conference\Application\Service\AuthenticationService
      */
-    protected function getTwitterProvider()
+    protected function getAuthenticationService()
     {
-        return $this->application->getDependencyContainer()->get('twitter.provider');
+        return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

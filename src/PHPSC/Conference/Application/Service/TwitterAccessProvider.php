@@ -90,7 +90,12 @@ class TwitterAccessProvider
      */
     public function redirectToLogin()
     {
+        $redirectPath = $this->session->get('redirectTo');
         $this->logoff();
+
+        if ($redirectPath) {
+            $this->session->set('redirectTo', $redirectPath);
+        }
 
         $client = $this->getClient();
         $token = $client->getRequestToken($this->consumer->callbackUrl);
@@ -151,23 +156,13 @@ class TwitterAccessProvider
      */
     public function getLoggedUser()
     {
-        if (!$this->isLogged() && $this->token) {
+        if ($this->token) {
             $client = $this->getClient();
             $data = $client->verifyCredentials(false, true);
 
             if ($client->lastStatusCode() == 200) {
-                $this->session->set('loggedUser', $data);
+                return $data;
             }
         }
-
-        return $this->session->get('loggedUser');
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isLogged()
-    {
-        return $this->session->has('loggedUser');
     }
 }
