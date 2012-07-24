@@ -10,6 +10,12 @@
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <script type="text/javascript">
+            var baseUrl = '<?php echo $this->getBaseUrl(); ?>';
+    	</script>
+        <?php foreach ($this->getScripts() as $script) { ?>
+        	<script src="<?php echo $script; ?>" type="text/javascript"></script>
+        <?php } ?>
     </head>
 
     <body>
@@ -29,12 +35,5 @@
         </div>
 
         <?php echo $this->renderFooter(); ?>
-
-    	<script type="text/javascript">
-            var baseUrl = '<?php echo $this->getBaseUrl(); ?>';
-    	</script>
-        <?php foreach ($this->getScripts() as $script) { ?>
-        	<script src="<?php echo $script; ?>" type="text/javascript"></script>
-        <?php } ?>
     </body>
 </html>
