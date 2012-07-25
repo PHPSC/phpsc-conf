@@ -11,16 +11,6 @@
 	font-weight: bold;
 }
 
-
-#mapContent {
-	background: white;
-	border: 1px solid #CCC;
-	border-radius: 8px;
-	display: inline-table;
-	width: 100%;
-	padding: 15px;
-}
-
 .control-group {
 	display: block;
 	width: 100%;
@@ -40,4 +30,10 @@ footer div.social_links {
 footer div.social_links a {
 	margin: 5px;
 	text-decoration: none;
+}
+
+#mapEvento {
+	width: 100%;
+	height: 250px;
+	margin-bottom: 10px;
 }

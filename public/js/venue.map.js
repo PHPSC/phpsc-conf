@@ -1,12 +1,10 @@
 $(document).ready(function () {
-	
-	
 	var location = new google.maps.LatLng(lat,lng);
 	
 	var mapContato = new google.maps.Map(
 		document.getElementById('mapEvento'),
 		{
-			zoom:11,
+			zoom:16,
 			center: location,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			mapTypeControl:false,
@@ -18,9 +16,10 @@ $(document).ready(function () {
 		}
 	);
 
-	var icon = new google.maps.MarkerImage(baseUrl + '/img/pin.png',
-	      	new google.maps.Size(62, 80),
-	      	new google.maps.Point(0, 0)
+	var icon = new google.maps.MarkerImage(
+		baseUrl + '/img/pin.png',
+      	new google.maps.Size(62, 80),
+      	new google.maps.Point(0, 0)
 	);
 
 	new google.maps.Marker(
@@ -40,18 +39,25 @@ function geocodePosition(location)
 {
 	var geocoder = new google.maps.Geocoder();
 	
-    geocoder.geocode({
-        latLng: location
-    }, function (responses) {
-        if (responses && responses.length > 0) {
-        	updateMarkerStatus(responses[0].formatted_address);
-        	} else {
-        		updateMarkerStatus(';( Endereço não encontrado.');
-        }
-    });
+    geocoder.geocode(
+		{
+			latLng: location
+		},
+		function (responses) {
+	        if (responses && responses.length > 0) {
+	        	updateMarkerStatus(responses[0].formatted_address);
+	    	} else {
+	    		updateMarkerStatus(';( Endereço não encontrado.');
+	        }
+		}
+	);
 }
 
-function updateMarkerStatus(local) {
+function updateMarkerStatus(local)
+{
 	var address = local.toString().split(',');
-	document.getElementById('address').innerHTML = '<i class="icon-map-marker"></i> ' + address[0];
+	var street = address[0];
+	var city = address[2].trim();
+	
+	document.getElementById('address').innerHTML = '<i class="icon-map-marker"></i> ' + street + ', ' + city;
 }
