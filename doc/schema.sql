@@ -12,8 +12,8 @@ CREATE  TABLE IF NOT EXISTS `phpsc`.`location` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(60) NOT NULL ,
   `description` TEXT NOT NULL ,
-  `longitude` DECIMAL(13,2) NULL ,
-  `latitude` DECIMAL(13,2) NULL ,
+  `longitude` DECIMAL(13,7) NULL ,
+  `latitude` DECIMAL(13,7) NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
