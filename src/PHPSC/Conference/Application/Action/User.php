@@ -44,12 +44,30 @@ class User extends Controller
     }
 
     /**
+     * @Route("/", methods={"GET"})
+     */
+    public function editForm()
+    {
+        return $this->showForm(
+            $this->getAuthenticationService()->getLoggedUser()
+        );
+    }
+
+    /**
      * @Route("/(id)", methods={"POST"}, requirements={"[\d]{1,}"})
      * @param int $id
      */
     public function updateUser($id)
     {
+        $this->response->setContentType('application/json', 'UTF-8');
 
+        return $this->getUserJsonService()->update(
+            $id,
+            $this->request->request->get('name'),
+            $this->request->request->get('email'),
+            $this->request->request->get('githubUser'),
+            $this->request->request->get('bio')
+        );
     }
 
     /**
@@ -75,5 +93,13 @@ class User extends Controller
     protected function getUserJsonService()
     {
         return $this->get('user.json.service');
+    }
+
+    /**
+     * @return \PHPSC\Conference\Application\Service\AuthenticationService
+     */
+    protected function getAuthenticationService()
+    {
+    	return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

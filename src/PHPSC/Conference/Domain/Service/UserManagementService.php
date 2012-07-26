@@ -64,6 +64,41 @@ class UserManagementService
     }
 
     /**
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string $githubUser
+     * @param string $bio
+     * @return \PHPSC\Conference\Domain\Entity\User
+     */
+    public function update(
+        $id,
+        $name,
+        $email,
+        $githubUser,
+        $bio
+    ) {
+        $user = $this->getById($id);
+        $user->setName($name);
+        $user->setEmail($email);
+        $user->setGithubUser($githubUser);
+        $user->setBio($bio);
+
+        $this->repository->update($user);
+
+        return $user;
+    }
+
+    /**
+     * @param int $id
+     * @return \PHPSC\Conference\Domain\Entity\User
+     */
+    public function getById($id)
+    {
+        return $this->repository->findOneById($id);
+    }
+
+    /**
      * @param string $twitterUser
      * @return \PHPSC\Conference\Domain\Entity\User
      */
