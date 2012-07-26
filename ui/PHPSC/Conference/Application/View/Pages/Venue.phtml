@@ -1,22 +1,31 @@
 <div class="row title">
     <div class="span9">
         <h1>O Local</h1>
-        Esse ano, o evento será realizado em São José (ao lado de Florianópolis) na UNIVALI.
     </div>
 </div>
 <div class="row">
-    <div class="span5">
-
+    <div class="<?php echo $this->displayMap() ? 'span4' : 'span9'; ?>">
+        <p>Esse ano, o evento será realizado em São José (ao lado de Florianópolis) na UNIVALI.</p>
         <p>
-        <b>Campus São José - Unidade Kobrasol</b><br/>
-        Rua Adhemar da Silva, s/n - Kobrasol - São José/SC
-        <br/>(Rua da Caixa Econômica, em frente à Previdência Social)
+            <strong>Campus São José - Unidade Kobrasol</strong><br/>
+            Rua Adhemar da Silva, s/n - Kobrasol - São José/SC<br/>
+            (Rua da Caixa Econômica, em frente à Previdência Social)
         </p>
 
+        <h3>Como chegar?</h3>
+        <ul>
+            <li>Desde o aeroporto</li>
+            <li>Terminal Rita Maria</li>
+            <li>Desde a BR 101</li>
+        </ul>
+
+        <h3>Hospedagem</h3>
+        <p>Os hotéis abaixo listados, apoiam a realização do evento e colaboram com preços mais baixos para os participantes.</p>
     </div>
-    <div class="span4">
+    <?php if ($this->displayMap()) { ?>
+    <div class="span5">
         <ul class="thumbnails">
-            <li class="span4">
+            <li class="span5">
                 <div class="thumbnail">
                     <div id="mapEvento"></div>
                     <h6 id="address"></h6>
@@ -24,31 +33,11 @@
             </li>
         </ul>
     </div>
+    <?php } ?>
 </div>
-
-<div class="row title">
-    <div class="span9">
-        <h1>Como chegar?</h1>
-         <p>
-            <b>Desde o aeroporto</b><br/>
-         </p>
-         <p>
-            <b>Terminal Rita Maria</b><br/>
-         </p>
-        <p>
-            <b>Desde a BR 101</b><br/>
-         </p>
-
-    </div>
-</div>
-
-<div class="row title">
-    <div class="span9">
-        <h1>Hospedagem</h1>
-        Os hotéis abaixo listados, apoiam a realização do evento e colaboram com preços mais baixos para os participantes.
-    </div>
-</div>
+<?php if ($this->displayMap()) { ?>
 <script type="text/javascript">
-    var lat = -27.590016;
-    var lng = -48.61164;
+    var lat = <?php echo $this->getEvent()->getLocation()->getLatitude(); ?>;
+    var lng = <?php echo $this->getEvent()->getLocation()->getLongitude(); ?>;
 </script>
+<?php } ?>

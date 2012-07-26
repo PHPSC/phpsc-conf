@@ -31,6 +31,17 @@ class Home extends Controller
      */
     public function displayVenue()
     {
-        return Main::create(new Venue(), $this->application);
+        return Main::create(
+            new Venue($this->getEventManagement()->findCurrentEvent()),
+            $this->application
+        );
+    }
+
+    /**
+     * @return \PHPSC\Conference\Domain\Service\EventManagementService
+     */
+    protected function getEventManagement()
+    {
+        return $this->get('event.management.service');
     }
 }

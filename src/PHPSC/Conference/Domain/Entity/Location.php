@@ -146,4 +146,12 @@ class Location implements Entity
 
         $this->latitude = $latitude;
     }
+
+    /**
+     * @return boolean
+     */
+    public function hasGeoPoint()
+    {
+        return $this->getLatitude() !== null && $this->getLongitude() !== null;
+    }
 }
