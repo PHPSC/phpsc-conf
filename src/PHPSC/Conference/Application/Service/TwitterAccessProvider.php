@@ -98,23 +98,32 @@ class TwitterAccessProvider
         }
 
         $client = $this->getClient();
-        $token = $client->getRequestToken($this->consumer->callbackUrl);
 
-        if ($client->lastStatusCode() == 200) {
-            $this->session->set(
-                'authToken',
-                array(
-                    'token' => $token['oauth_token'],
-                    'secret' => $token['oauth_token_secret']
-                )
+        try {
+            $token = $client->getRequestToken($this->consumer->callbackUrl);
+
+            if ($client->lastStatusCode() == 200) {
+                $this->session->set(
+                    'authToken',
+                    array(
+                        'token' => $token['oauth_token'],
+                        'secret' => $token['oauth_token_secret']
+                    )
+                );
+
+                return $client->getAuthorizeURL($token);
+            }
+
+            throw new TwitterConnectionException(
+                'Não foi possível conectar ao twitter'
             );
-
-            return $client->getAuthorizeURL($token);
+        } catch (\ErrorException $error) {
+            throw new TwitterConnectionException(
+                'Não foi possível conectar ao twitter',
+                null,
+                $error
+            );
         }
-
-        throw new TwitterConnectionException(
-            'Não foi possível conectar ao twitter'
-        );
     }
 
     /**

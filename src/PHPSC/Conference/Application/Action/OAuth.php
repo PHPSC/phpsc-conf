@@ -1,6 +1,7 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
+use \PHPSC\Conference\Application\Service\TwitterConnectionException;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
 
@@ -11,10 +12,14 @@ class OAuth extends Controller
      */
     public function redirectToTwitter()
     {
-        $provider = $this->getTwitterProvider();
-        $url = $provider->redirectToLogin();
+        try {
+            $provider = $this->getTwitterProvider();
+            $url = $provider->redirectToLogin();
 
-        $this->redirect($url);
+            $this->redirect($url);
+        } catch (TwitterConnectionException $error) {
+            $this->redirect('/');
+        }
     }
 
     /**
@@ -24,19 +29,23 @@ class OAuth extends Controller
     {
         $provider = $this->getTwitterProvider();
 
-        $provider->callback(
-            $this->request->get('oauth_token'),
-            $this->request->get('oauth_verifier')
-        );
+        try {
+            $provider->callback(
+                $this->request->get('oauth_token'),
+                $this->request->get('oauth_verifier')
+            );
 
-        if (!$this->getAuthenticationService()->getLoggedUser()) {
-            $this->redirect('/user/new');
-        }
+            if (!$this->getAuthenticationService()->getLoggedUser()) {
+                $this->redirect('/user/new');
+            }
 
-        $path = $this->request->getSession()->get('redirectTo', '/');
+            $path = $this->request->getSession()->get('redirectTo', '/');
 
-        if ($path != '/') {
-            $this->request->getSession()->remove('redirectTo');
+            if ($path != '/') {
+                $this->request->getSession()->remove('redirectTo');
+            }
+        } catch (TwitterConnectionException $error) {
+            $path = '/';
         }
 
         $this->redirect($path);
