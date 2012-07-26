@@ -21,6 +21,8 @@ class Grid extends UIComponent
      */
     public function __construct(array $talks)
     {
+        Main::appendScript($this->getBaseUrl() . '/js/submissions.grid.js');
+
         $this->talks = $talks;
     }
 
@@ -30,6 +32,22 @@ class Grid extends UIComponent
     public function getTalks()
     {
         return $this->talks;
+    }
+
+    /**
+     * @return number
+     */
+    public function getTalksCount()
+    {
+        return count($this->getTalks());
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasTalks()
+    {
+        return $this->getTalksCount() > 0;
     }
 
     /**

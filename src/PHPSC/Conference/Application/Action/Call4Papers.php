@@ -20,7 +20,7 @@ class Call4Papers extends Controller
 
         return Main::create(new Index($event), $this->application);
     }
-    
+
     /**
      * @Route("/submissions", methods={"GET"})
      */
@@ -29,7 +29,7 @@ class Call4Papers extends Controller
     	$user = $this->getAuthenticationService()->getLoggedUser();
     	$event = $this->getEventManagement()->findCurrentEvent();
     	$talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
-    	
+
     	return Main::create(new Grid($talks), $this->application);
     }
 
@@ -61,6 +61,49 @@ class Call4Papers extends Controller
     }
 
     /**
+     * @Route("/submissions/share", methods={"POST"})
+     */
+    public function share()
+    {
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
+        $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
+
+        $this->response->setContentType('application/json', 'UTF-8');
+
+        $response = $this->getTwitterClient()->updateStatus(
+            'Estou colaborando no #phpscConf com ' . count($talks)
+            . ' trabalho(s). Contribua você também através do site'
+            . ' http://cfp.phpsc.com.br! via @PHP_SC'
+        );
+
+        if (isset($response['id'])) {
+            $response = array(
+                'data' => array(
+                    'id' => $response['id'],
+                    'text' => $response['text'],
+                )
+            );
+        } else {
+            $response = array(
+                'error' => 'Não foi possível enviar o tweet, tente novamente!'
+            );
+        }
+
+        return json_encode(
+            $response
+        );
+    }
+
+    /**
+     * @return \Abraham\TwitterOAuth\TwitterClient
+     */
+    protected function getTwitterClient()
+    {
+        return $this->get('twitter.client');
+    }
+
+    /**
      * @return \PHPSC\Conference\Domain\Service\EventManagementService
      */
     protected function getEventManagement()
@@ -75,7 +118,7 @@ class Call4Papers extends Controller
     {
         return $this->get('talk.json.service');
     }
-    
+
     /**
      * @return \PHPSC\Conference\Domain\Service\TalkManagementService
      */
@@ -83,7 +126,7 @@ class Call4Papers extends Controller
     {
     	return $this->get('talk.management.service');
     }
-    
+
     /**
      * @return \PHPSC\Conference\Application\Service\AuthenticationService
      */
