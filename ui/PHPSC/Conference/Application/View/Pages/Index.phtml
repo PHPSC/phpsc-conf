@@ -1,3 +1,13 @@
+<div id="fb-root"></div>
+<script type="text/javascript">
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
 <div class="hero-unit">
     <h1>PHP SC Conf 2012</h1>
     <p>É chegada a hora de mais um PHP SC Conf. Um dos eventos mais esperados da comunidade PHP de Santa Catarina.</p>
@@ -11,12 +21,25 @@
     </div>
     <div class="span4">
         <h2>Inscrições</h2>
-        <p>            
-           Fique ligado, pois em breve abriremos as inscrições para o evento e as inscrições feitas antecipadamente terão um valor mais bacana. 
+        <p>
+           Fique ligado, pois em breve abriremos as inscrições para o evento e as inscrições feitas antecipadamente terão um valor mais bacana.
            <?php
            //Aproveite a oportunidade de pagar um pouquinho menos e faça agora mesmo a sua inscrição para o evento sobre PHP mais bacana do estado.
            ?>
         </p>
         <p><a class="btn" href="#">Maiores Informações &raquo;</a></p>
+    </div>
+</div>
+<div class="row">
+    <div class="span9 title">
+        <h3>PHPSC nas redes sociais</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="span5" id="twitterBox"></div>
+   <div class="span4 fb-like-box"
+       data-href="https://www.facebook.com/pages/PHP-Santa-Catarina/478179522208583"
+       data-height="250" data-show-faces="true"
+       data-stream="false" data-header="false">
     </div>
 </div>

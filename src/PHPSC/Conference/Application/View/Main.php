@@ -50,7 +50,6 @@ class Main extends UIComponent
     {
         $this->content = $content;
 
-        static::appendScript($this->getBaseUrl() . '/js/twitter.box.js', true);
         static::appendScript($this->getBaseUrl() . '/js/bootstrap.min.js', true);
         static::appendScript($this->getBaseUrl() . '/js/jquery-1.7.2.min.js', true);
     }
