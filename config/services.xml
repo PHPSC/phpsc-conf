@@ -2,6 +2,10 @@
 <container xmlns="http://symfony.com/schema/dic/services"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://symfony.com/schema/dic/services ../lib/Symfony/Component/DependencyInjection/Loader/schema/services-1.0.xsd">
+	<imports>
+		<import resource="twitter.xml" />
+		<import resource="pagseguro.xml" />
+	</imports>
 	<parameters>
 		<parameter key="db.host">127.0.0.1</parameter>
 		<parameter key="db.schema">phpsc</parameter>
@@ -14,24 +18,8 @@
 		<parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
 		<parameter key="doctrine.proxy.auto">true</parameter>
 		<parameter key="doctrine.cache">array</parameter>
-		
-		<!-- Twitter Params -->
-		<parameter key="twitter.consumerKey">xWRpbO2lEhrNgabJcnqiRA</parameter>
-		<parameter key="twitter.consumerSecret">3E44vJsH46s1eAGeEaGhiz7P9FgplVPx4uSxVeojo</parameter>
-		<parameter key="twitter.callback">http://127.0.0.1/workspace/git-repos/phpsc-conf/public/oauth/callback</parameter>
 	</parameters>
 	<services>
-		<!-- Twitter Services -->
-		<service id="twitter.provider"
-			class="PHPSC\Conference\Application\Service\TwitterAccessProvider">
-			<argument type="service" id="session" />
-			<argument>%twitter.consumerKey%</argument>
-			<argument>%twitter.consumerSecret%</argument>
-			<argument>%twitter.callback%</argument>
-		</service>
-		<service id="twitter.client" factory-service="twitter.provider"
-			factory-method="getClient" />
-		
 		<!-- Application Services -->
 		<service id="authentication.service" class="PHPSC\Conference\Application\Service\AuthenticationService">
 			<argument type="service" id="session" />

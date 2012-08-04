@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services ../lib/Symfony/Component/DependencyInjection/Loader/schema/services-1.0.xsd">
+	<parameters>
+		<parameter key="twitter.consumerKey">xWRpbO2lEhrNgabJcnqiRA</parameter>
+		<parameter key="twitter.consumerSecret">3E44vJsH46s1eAGeEaGhiz7P9FgplVPx4uSxVeojo</parameter>
+		<parameter key="twitter.callback">http://127.0.0.1/workspace/git-repos/phpsc-conf/public/oauth/callback</parameter>
+	</parameters>
+	<services>
+		<service id="twitter.provider"
+			class="PHPSC\Conference\Application\Service\TwitterAccessProvider">
+			<argument type="service" id="session" />
+			<argument>%twitter.consumerKey%</argument>
+			<argument>%twitter.consumerSecret%</argument>
+			<argument>%twitter.callback%</argument>
+		</service>
+		<service id="twitter.client" factory-service="twitter.provider"
+			factory-method="getClient" />
+	</services>
+</container>
