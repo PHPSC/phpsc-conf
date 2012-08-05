@@ -11,7 +11,7 @@ use \PHPSC\Conference\Application\View\Main;
 class Home extends Controller
 {
     /**
-     * @Route("/")
+     * @Route
      */
     public function displayHome()
     {
