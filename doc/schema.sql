@@ -143,6 +143,53 @@ CREATE  TABLE IF NOT EXISTS `phpsc`.`interest` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `phpsc`.`attendee`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `phpsc`.`attendee` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `event_id` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
+  `cost` DECIMAL(13,2) NOT NULL ,
+  `status` ENUM('0', '1', '2', '3', '4') NOT NULL ,
+  `creation_time` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_attendee_event1` (`event_id` ASC) ,
+  INDEX `fk_attendee_user1` (`user_id` ASC) ,
+  UNIQUE INDEX `attendee_index0` (`event_id` ASC, `user_id` ASC, `status` ASC) ,
+  CONSTRAINT `fk_attendee_event1`
+    FOREIGN KEY (`event_id` )
+    REFERENCES `phpsc`.`event` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_attendee_user1`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `phpsc`.`user` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `phpsc`.`registration_info`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `phpsc`.`registration_info` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `event_id` INT NOT NULL ,
+  `start` DATETIME NOT NULL ,
+  `end` DATETIME NOT NULL ,
+  `regular_price` DECIMAL(13,2) NOT NULL ,
+  `early_price` DECIMAL(13,2) NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `fk_registration_info_event1` (`event_id` ASC) ,
+  CONSTRAINT `fk_registration_info_event1`
+    FOREIGN KEY (`event_id` )
+    REFERENCES `phpsc`.`event` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -162,7 +209,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `phpsc`;
-INSERT INTO `phpsc`.`event` (`id`, `location_id`, `name`, `start`, `end`, `submissions_start`, `submissions_end`) VALUES (NULL, 1, 'PHPSC Conference 2012', '2012-10-27', '2012-10-27', NULL, NULL);
+INSERT INTO `phpsc`.`event` (`id`, `location_id`, `name`, `start`, `end`, `submissions_start`, `submissions_end`) VALUES (NULL, 1, 'PHPSC Conference 2012', '2012-10-27', '2012-10-27', '2012-08-06', '2012-09-16');
 
 COMMIT;
 
@@ -175,5 +222,14 @@ INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'M
 INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Palestra', '01:00');
 INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Palestra Curta', '0:20');
 INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Mesa Redonda', '01:00');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `phpsc`.`registration_info`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `phpsc`;
+INSERT INTO `phpsc`.`registration_info` (`id`, `event_id`, `start`, `end`, `regular_price`, `early_price`) VALUES (NULL, 1, '2012-08-06 00:00:00', '2012-10-26 23:59:59', 15, 10);
 
 COMMIT;
