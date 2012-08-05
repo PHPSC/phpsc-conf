@@ -5,12 +5,12 @@
 		
 		if (address.length > 1) {
 			var street = address[0];
-			var neighborhood = address[1].split(' - ')[1].trim();
+			var district = address[1].split(' - ')[1].trim();
 			var city = address[2].trim();
 			
 			placeholder.html(
 				'<i class="icon-map-marker"></i> ' + street + ', '
-				+ neighborhood + ', ' + city
+				+ district + ', ' + city
 			);
 			
 			return ;
