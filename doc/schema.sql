@@ -180,6 +180,8 @@ CREATE  TABLE IF NOT EXISTS `phpsc`.`registration_info` (
   `end` DATETIME NOT NULL ,
   `regular_price` DECIMAL(13,2) NOT NULL ,
   `early_price` DECIMAL(13,2) NULL ,
+  `student_label` VARCHAR(45) NULL ,
+  `student_rules` TEXT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `fk_registration_info_event1` (`event_id` ASC) ,
   CONSTRAINT `fk_registration_info_event1`
@@ -230,6 +232,6 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `phpsc`;
-INSERT INTO `phpsc`.`registration_info` (`id`, `event_id`, `start`, `end`, `regular_price`, `early_price`) VALUES (NULL, 1, '2012-08-06 00:00:00', '2012-10-26 23:59:59', 15, 10);
+INSERT INTO `phpsc`.`registration_info` (`id`, `event_id`, `start`, `end`, `regular_price`, `early_price`, `student_label`, `student_rules`) VALUES (NULL, 1, '2012-08-06 00:00:00', '2012-10-26 23:59:59', 15, 10, 'Sou estudante da UNIVALI', '<h6>Atenção</h6>\n<p>Estudantes da UNIVALI (Universidade do Vale do Itajaí) serão contemplados com <strong>100%</strong> de desconto <strong>no valor da inscrição do evento</strong></p>\n<p>Será <strong>obrigatória</strong> a apresentação do comprovante de matrícula no credenciamento, no início do evento</p>\n<p><strong>Importante:</strong> as pessoas que se inscreverem como alunos da UNIVALI e não apresentarem o comprovante de matrícula deverão pagar, no credenciamento, o valor de <strong>(R$ 20,00)</strong> correspondente à inscrições realizadas no dia do evento</p>');
 
 COMMIT;
