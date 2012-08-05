@@ -30,16 +30,4 @@ class Form extends UIComponent
     {
         return $this->talk;
     }
-
-    /**
-     * @return string
-     */
-    public function getFormAction()
-    {
-        $base = $this->getBaseUrl();
-
-        return !$this->isFirstAccess()
-               ? $base . '/user/' . $this->talk->getId()
-               : $base . '/user/';
-    }
 }
