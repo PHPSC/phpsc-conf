@@ -40,3 +40,7 @@ footer {
 .title {
 	margin-bottom: 10px;
 }
+
+legend {
+	margin-bottom: 0px;
+}
