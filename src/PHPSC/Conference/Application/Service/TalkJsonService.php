@@ -1,9 +1,9 @@
 <?php
 namespace PHPSC\Conference\Application\Service;
 
-use PHPSC\Conference\Domain\Service\EventManagementService;
-
+use \PHPSC\Conference\Domain\Service\EventManagementService;
 use \PHPSC\Conference\Domain\Service\TalkManagementService;
+use \Abraham\TwitterOAuth\TwitterClient;
 
 class TalkJsonService
 {
@@ -23,18 +23,26 @@ class TalkJsonService
     protected $eventManager;
 
     /**
+     * @var \Abraham\TwitterOAuth\TwitterClient
+     */
+    protected $twitterClient;
+
+    /**
      * @param \PHPSC\Conference\Application\Service\AuthenticationService $authService
      * @param \PHPSC\Conference\Domain\Service\TalkManagementService $talkManager
      * @param \PHPSC\Conference\Domain\Service\EventManagementService $eventManager
+     * @param \Abraham\TwitterOAuth\TwitterClient $twitterClient
      */
     public function __construct(
         AuthenticationService $authService,
         TalkManagementService $talkManager,
-        EventManagementService $eventManager
+        EventManagementService $eventManager,
+        TwitterClient $twitterClient
     ) {
         $this->authService = $authService;
         $this->talkManager = $talkManager;
         $this->eventManager = $eventManager;
+        $this->twitterClient = $twitterClient;
     }
 
     /**
@@ -96,5 +104,33 @@ class TalkJsonService
                 )
             );
         }
+    }
+
+    /**
+     * @param int $numberOfTalks
+     * @return string
+     */
+    public function share($numberOfTalks)
+    {
+        $response = $this->twitterClient->updateStatus(
+            'Estou colaborando no #phpscConf com ' . $numberOfTalks
+            . ' trabalho(s). Contribua você também através do site'
+            . ' http://cfp.phpsc.com.br! via @PHP_SC'
+        );
+
+        if (isset($response['id'])) {
+            $response = array(
+                'data' => array(
+                    'id' => $response['id'],
+                    'text' => $response['text'],
+                )
+            );
+        } else {
+            $response = array(
+                'error' => 'Não foi possível enviar o tweet, tente novamente!'
+            );
+        }
+
+        return json_encode($response);
     }
 }

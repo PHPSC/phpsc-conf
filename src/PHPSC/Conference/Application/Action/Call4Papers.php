@@ -71,36 +71,7 @@ class Call4Papers extends Controller
 
         $this->response->setContentType('application/json', 'UTF-8');
 
-        $response = $this->getTwitterClient()->updateStatus(
-            'Estou colaborando no #phpscConf com ' . count($talks)
-            . ' trabalho(s). Contribua você também através do site'
-            . ' http://cfp.phpsc.com.br! via @PHP_SC'
-        );
-
-        if (isset($response['id'])) {
-            $response = array(
-                'data' => array(
-                    'id' => $response['id'],
-                    'text' => $response['text'],
-                )
-            );
-        } else {
-            $response = array(
-                'error' => 'Não foi possível enviar o tweet, tente novamente!'
-            );
-        }
-
-        return json_encode(
-            $response
-        );
-    }
-
-    /**
-     * @return \Abraham\TwitterOAuth\TwitterClient
-     */
-    protected function getTwitterClient()
-    {
-        return $this->get('twitter.client');
+        return $this->getTalkJsonService()->share(count($talks));
     }
 
     /**
