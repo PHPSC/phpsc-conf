@@ -156,7 +156,6 @@ CREATE  TABLE IF NOT EXISTS `phpsc`.`attendee` (
   PRIMARY KEY (`id`) ,
   INDEX `fk_attendee_event1` (`event_id` ASC) ,
   INDEX `fk_attendee_user1` (`user_id` ASC) ,
-  UNIQUE INDEX `attendee_index0` (`event_id` ASC, `user_id` ASC, `status` ASC) ,
   CONSTRAINT `fk_attendee_event1`
     FOREIGN KEY (`event_id` )
     REFERENCES `phpsc`.`event` (`id` )
