@@ -70,7 +70,7 @@ class AttendeeJsonService
             if ($attendee->getCost() > 0) {
                 $paymentResponse = $this->paymentManager->create(
                     $attendee,
-                    null
+                    $redirectTo
                 );
 
                 return json_encode(
@@ -125,11 +125,11 @@ class AttendeeJsonService
                 . ' também através do site http://cfp.phpsc.com.br! via @PHP_SC'
         );
 
-        if (isset($response['id'])) {
+        if (is_object($response) && isset($response->id)) {
             $response = array(
                 'data' => array(
-                    'id' => $response['id'],
-                    'text' => $response['text'],
+                    'id' => $response->id,
+                    'text' => $response->text
                 )
             );
         } else {
