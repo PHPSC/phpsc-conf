@@ -64,4 +64,18 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
 
         return $instance;
     }
+
+    /**
+     * @see \Symfony\Component\DependencyInjection\Container::getParameter()
+     */
+    public function getParameter($name)
+    {
+        if ($name == 'twitter.callback') {
+            return $this->application->getRequest()->getUriForPath(
+                parent::getParameter($name)
+            );
+        }
+
+        return parent::getParameter($name);
+    }
 }
