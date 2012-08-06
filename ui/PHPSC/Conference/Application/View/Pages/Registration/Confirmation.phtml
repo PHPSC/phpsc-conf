@@ -1,0 +1,28 @@
+<div class="hero-unit" style="padding: 30px;">
+    <h2>Parabéns!</h2>
+    <p>Sua inscrição no <?php echo $this->getEvent()->getName(); ?> foi registrada com sucesso.</p>
+    <div style="margin-top: 15px;">
+        <p>Não perca tempo, convide seus amigos para participar deste evento também!</p>
+        <p><a class="btn btn-info btn-large" href="#share" data-toggle="modal"><i class="icon-share icon-white"></i> Compartilhar</a></p>
+    </div>
+</div>
+<div id="share" class="modal hide fade" style="display: none; ">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Compartilhar inscrição</h3>
+    </div>
+    <div class="modal-body">
+        <div id="shareMsg" class="alert alert-error hidden">
+            <h4></h4>
+        </div>
+        <h4 style="margin-bottom: 10px;">Você concorda com o envio de um tweet com o conteúdo abaixo?</h4>
+        <p style="margin: 0px 10px;">
+            <q>Acabo de me inscrever no #phpscConf. Participe você
+            também através do site http://cfp.phpsc.com.br! via @PHP_SC</q>
+        </p>
+    </div>
+    <div id="shareButtons" class="modal-footer">
+        <button class="btn" data-dismiss="modal">Cancelar</button>
+        <button id="shareConfirm" class="btn btn-primary">Concordo</button>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="hero-unit" style="padding: 30px;">
+    <h2>Inscrições de participantes</h2>
+    <h3><?php echo $this->getEvent()->getName(); ?></h3>
+    <div style="margin-top: 15px;">
+        <?php if (!$this->getEvent()->hasAttendeeRegistration()) { ?>
+            <p>Ainda não foram registrados as datas de inscrição de participantes, aguarde!</p>
+        <?php } elseif (!$this->getEvent()->isRegistrationInterval(new \DateTime())) { ?>
+            <p>Atenção as inscrições ainda não iniciaram.</p>
+            <p>Data Início: <strong><?php echo $this->getEvent()->getRegistrationInfo()->getStart()->format('d/m/Y H:i'); ?></strong>
+            <br />Data Fim: <strong><?php echo $this->getEvent()->getRegistrationInfo()->getEnd()->format('d/m/Y H:i'); ?></strong></p>
+        <?php } else { ?>
+            <p>Está aberta a inscrição, não perca tempo e garanta seu lugar no evento!</p>
+            <p><a class="btn btn-primary btn-large" href="<?php echo $this->getBaseUrl(); ?>/registration/new">Participar &raquo;</a></p>
+        <?php } ?>
+    </div>
+</div>
+<?php if ($this->getEvent()->hasAttendeeRegistration()) { ?>
+<div class="row">
+    <div class="span9">
+        <h2>Maiores informações</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="span9">
+        <h3>Estudantes</h3>
+        <?php echo $this->getEvent()->getRegistrationInfo()->getStudentRules(); ?>
+    </div>
+</div>
+<div class="row">
+    <div class="span9">
+        <h3>Palestrantes</h3>
+        <p>A inscrição de palestrantes com propostas aprovadas será <strong>automática</strong>, não sendo necessário nenhuma intervenção.</p>
+        <p>Os palestrantes que não tiverem nenhuma proposta aprovada, deverão realizar a inscrição a partir de <strong><?php echo $this->getEvent()->getTalkApprovalEnd()->format('d/m/Y H:i:s'); ?></strong>.</p>
+    </div>
+</div>
+<?php } ?>

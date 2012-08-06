@@ -1,6 +1,7 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
+use \PHPSC\Conference\Domain\Service\TalkManagementService;
 use \PHPSC\Conference\Infra\Persistence\Entity;
 use \InvalidArgumentException;
 use \DateTime;
@@ -32,6 +33,12 @@ class Event implements Entity
      * @var \PHPSC\Conference\Domain\Entity\Location
      */
     private $location;
+
+    /**
+     * @OneToOne(targetEntity="RegistrationInfo", mappedBy="event")
+     * @var \PHPSC\Conference\Domain\Entity\RegistrationInfo
+     */
+    private $registrationInfo;
 
     /**
      * @Column(type="date", nullable=false, name="start")
@@ -116,6 +123,71 @@ class Event implements Entity
     }
 
 	/**
+     * @return \PHPSC\Conference\Domain\Entity\RegistrationInfo
+     */
+    public function getRegistrationInfo()
+    {
+        return $this->registrationInfo;
+    }
+
+	/**
+     * @param \PHPSC\Conference\Domain\Entity\RegistrationInfo $registrationInfo
+     */
+    public function setRegistrationInfo(RegistrationInfo $registrationInfo)
+    {
+        $this->registrationInfo = $registrationInfo;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasAttendeeRegistration()
+    {
+        return $this->getRegistrationInfo() !== null;
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return boolean
+     */
+    public function isRegistrationInterval(DateTime $date)
+    {
+        if (!$this->hasAttendeeRegistration()) {
+            return false;
+        }
+
+        return $date >= $this->getRegistrationInfo()->getStart()
+               && $date <= $this->getRegistrationInfo()->getEnd();
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param \PHPSC\Conference\Domain\Service\TalkManagementService $talkService
+     * @return float
+     */
+    public function getRegistrationCost(
+        User $user,
+        TalkManagementService $talkService
+    ) {
+        if (!$this->hasAttendeeRegistration()) {
+            return 0;
+        }
+
+        if (!$this->getRegistrationInfo()->hasEarlyPrice()) {
+            return $this->getRegistrationInfo()->getRegularPrice();
+        }
+
+        if ($talkService->userHasAnyTalk($user, $this)
+            && $this->isSpeakerPromotionalInterval(new DateTime())) {
+            return $this->getRegistrationInfo()->getEarlyPrice();
+        }
+
+        return $talkService->eventHasAnyApprovedTalk($this)
+               ? $this->getRegistrationInfo()->getRegularPrice()
+               : $this->getRegistrationInfo()->getEarlyPrice();
+    }
+
+	/**
      * @return \DateTime
      */
     public function getStartDate()
@@ -185,6 +257,36 @@ class Event implements Entity
     public function hasTalkSubmissions()
     {
         return $this->getSubmissionStart() !== null;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTalkApprovalEnd()
+    {
+        if (!$this->hasTalkSubmissions()) {
+            return null;
+        }
+
+        $approvalEnd = clone $this->getSubmissionEnd();
+        $approvalEnd->modify('+7 days');
+
+        return $approvalEnd;
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return boolean
+     */
+    public function isSpeakerPromotionalInterval(DateTime $date)
+    {
+        if ($approvalEnd = $this->getTalkApprovalEnd()) {
+            $approvalEnd->modify('+7 days');
+
+            return $date <= $approvalEnd;
+        }
+
+        return false;
     }
 
     /**

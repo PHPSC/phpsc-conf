@@ -71,10 +71,63 @@ class TalkManagementService
     /**
      * @param \PHPSC\Conference\Domain\Entity\User $user
      * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param boolean $approvedOnly
      * @return \PHPSC\Conference\Domain\Entity\Talk[]
      */
-    public function findByUserAndEvent(User $user, Event $event)
+    public function findByUserAndEvent(
+        User $user,
+        Event $event,
+        $approvedOnly = false
+    ) {
+    	return $this->talkRepository->findByUserAndEvent(
+	        $user,
+	        $event,
+	        $approvedOnly
+        );
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return boolean
+     */
+    public function userHasAnyTalk(User $user, Event $event)
     {
-    	return $this->talkRepository->findByUserAndEvent($user, $event);
+        $talks = $this->findByUserAndEvent($user, $event);
+
+        return isset($talks[0]);
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return boolean
+     */
+    public function userHasAnyApprovedTalk(User $user, Event $event)
+    {
+        $talks = $this->findByUserAndEvent($user, $event, true);
+
+        return isset($talks[0]);
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param boolean $approvedOnly
+     * @return \PHPSC\Conference\Domain\Entity\Talk[]
+     */
+    public function findByEvent(Event $event, $approvedOnly = false)
+    {
+    	return $this->talkRepository->findByEvent($event, $approvedOnly);
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return boolean
+     */
+    public function eventHasAnyApprovedTalk(Event $event)
+    {
+        $talks = $this->findByEvent($event, true);
+
+        return isset($talks[0]);
     }
 }

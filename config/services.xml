@@ -34,8 +34,16 @@
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="talk.management.service" />
 			<argument type="service" id="event.management.service" />
+			<argument type="service" id="twitter.client" />
 		</service>
-		
+		<service id="attendee.json.service" class="PHPSC\Conference\Application\Service\AttendeeJsonService">
+			<argument type="service" id="authentication.service" />
+			<argument type="service" id="event.management.service" />
+			<argument type="service" id="attendee.management.service" />
+			<argument type="service" id="payment.management.service" />
+			<argument type="service" id="twitter.client" />
+		</service>
+
 		<!-- Domain Services -->
 		<service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
 			<argument type="service" id="user.repository" />
@@ -47,6 +55,16 @@
 		<service id="talk.management.service" class="PHPSC\Conference\Domain\Service\TalkManagementService">
 			<argument type="service" id="talk.repository" />
 			<argument type="service" id="talkType.repository" />
+		</service>
+		<service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
+			<argument type="service" id="attendee.repository" />
+			<argument type="service" id="talk.management.service" />
+		</service>
+		<service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
+			<argument type="service" id="pagseguro.notificationService" />
+			<argument type="service" id="pagseguro.paymentService" />
+			<argument type="service" id="talk.management.service" />
+			<argument type="service" id="attendee.management.service" />
 		</service>
 		
 		<!-- Entity Repositories -->
@@ -64,6 +82,9 @@
 		</service>
 		<service id="talkType.repository" factory-service="entityManager" factory-method="getRepository">
 			<argument>PHPSC\Conference\Domain\Entity\TalkType</argument>
+		</service>
+		<service id="attendee.repository" factory-service="entityManager" factory-method="getRepository">
+			<argument>PHPSC\Conference\Domain\Entity\Attendee</argument>
 		</service>
 	</services>
 </container>

@@ -28,6 +28,7 @@ class NavigationBar extends UIComponent
             array('Página Inicial', '/'),
             array('Sobre o Evento', '/about'),
             array('O Local', '/venue'),
+            array('Inscrições', '/registration'),
             array('Chamada de Trabalhos', '/call4papers'),
             array('Contato', '/contact')
         );

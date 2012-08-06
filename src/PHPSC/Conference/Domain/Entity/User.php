@@ -1,8 +1,7 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
+use \Doctrine\Common\Collections\ArrayCollection;
 use \PHPSC\Conference\Infra\Persistence\Entity;
 use \InvalidArgumentException;
 use \DateTime;
