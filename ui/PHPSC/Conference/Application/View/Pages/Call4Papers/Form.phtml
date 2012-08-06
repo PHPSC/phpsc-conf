@@ -1,6 +1,6 @@
 <form id="talkForm" class="well" action="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions" method="post">
     <fieldset>
-        <legend>Chamada de trabalhos</legend>
+        <legend>Submissão de Palestras</legend>
         <div class="formItems">
             <div class="alert alert-info">
                 <h4 class="alert-heading">Prezado palestrante</h4>
@@ -10,9 +10,9 @@
             <input type="text" required="required" id="title" name="title" value="<?php echo $this->getTalk()->getTitle(); ?>" class="span5" placeholder="Digite o título da palestra..." maxlength="120">
             <label for="type">Tipo de trabalho</label>
             <select id="type" name="type" class="span5">
-                <option value="2">Palestra (duração: 0:50)</option>
-                <option value="3">Palestra Curta (duração: 0:15)</option>
-                <option value="1">Mincurso (duração: 4:00)</option>
+                <option value="2">Palestra (duração: 0:50 minutos)</option>
+                <option value="3">Palestra Curta (duração: 0:15 minutos)</option>
+                <option value="1">Minicurso (duração: 4:00 horas)</option>
             </select>
             <label for="complexity">Nível</label>
             <select id="complexity" name="complexity" class="span5">
@@ -21,14 +21,14 @@
                 <option value="H">Avançado</option>
             </select>
             <label for="shortDescription">Resumo</label>
-            <textarea rows="5" cols="1" class="span5" id="shortDescription" name="shortDescription" placeholder="Descrição resumida sobre a palestra..."><?php echo $this->getTalk()->getShortDescription(); ?></textarea>
+            <textarea rows="5" cols="1" class="span5" id="shortDescription" name="shortDescription" placeholder="Esse resumo será usado para divulgação da palestra na grade. Venda seu peixe!"><?php echo $this->getTalk()->getShortDescription(); ?></textarea>
             <label for="longDescription">Descrição</label>
-            <textarea rows="5" cols="1" class="span5" id="longDescription" name="longDescription" placeholder="Descrição detalhada sobre a palestra..."><?php echo $this->getTalk()->getLongDescription(); ?></textarea>
+            <textarea rows="5" cols="1" class="span5" id="longDescription" name="longDescription" placeholder="Detalhe mais sua palestra, usaremos essas informações para avaliá-la."><?php echo $this->getTalk()->getLongDescription(); ?></textarea>
             <label for="tags">Palavras-chave</label>
             <input type="text" id="tags" name="tags" value="<?php echo $this->getTalk()->getTags(); ?>" class="span5" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="120">
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-primary">Enviar dados &raquo;</button>&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary">Submeter Palestra&nbsp;&raquo;</button>&nbsp;&nbsp;
                     <a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions" class="btn">Cancelar</a>
                 </div>
             </div>
