@@ -70,7 +70,7 @@ class AttendeeJsonService
             if ($attendee->getCost() > 0) {
                 $paymentResponse = $this->paymentManager->create(
                     $attendee,
-                    null
+                    $redirectTo
                 );
 
                 return json_encode(
