@@ -121,8 +121,8 @@ class TalkJsonService
         if (isset($response['id'])) {
             $response = array(
                 'data' => array(
-                    'id' => $response['id'],
-                    'text' => $response['text'],
+                    'id' => $response['id']/*,
+                    'text' => $response['text']*/
                 )
             );
         } else {
