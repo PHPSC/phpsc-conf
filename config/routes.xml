@@ -14,6 +14,7 @@
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Action\UserFilter" />
 		<filter pattern="/call4papers/submissions/new" class="\PHPSC\Conference\Application\Action\NewTalkFilter" />
+		<filter pattern="/call4papers/submissions" class="\PHPSC\Conference\Application\Action\NewTalkFilter" />
 		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Action\NewAttendeeFilter" />
 	</filters>
 </routing>

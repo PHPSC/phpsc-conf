@@ -12,8 +12,8 @@ class NewTalkFilter extends Filter
     {
         if ($this->getAuthenticationService()->getTwitterUser() === null) {
             $this->request->getSession()->set(
-                    'redirectTo',
-                    '/call4papers/submissions/new'
+                'redirectTo',
+                $this->request->getRequestedPath()
             );
 
             $this->application->redirect('/oauth/redirect');
@@ -22,7 +22,7 @@ class NewTalkFilter extends Filter
         if ($this->getAuthenticationService()->getLoggedUser() === null) {
             $this->request->getSession()->set(
                 'redirectTo',
-                '/call4papers/submissions/new'
+                $this->request->getRequestedPath()
             );
 
             $this->application->redirect('/user/new');
