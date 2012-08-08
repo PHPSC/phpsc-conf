@@ -53,17 +53,27 @@ class AttendeeManagementService
     /**
      * @param \PHPSC\Conference\Domain\Entity\Event $event
      * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return boolean
+     * @return \PHPSC\Conference\Domain\Entity\Attendee
      */
-    public function isAnActiveAttendee(Event $event, User $user)
+    public function findActiveRegistration(Event $event, User $user)
     {
         foreach ($this->findByEventAndUser($event, $user) as $attendee) {
             if ($attendee->isActive()) {
-                return true;
+                return $attendee;
             }
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @return boolean
+     */
+    public function hasAnActiveRegistration(Event $event, User $user)
+    {
+        return $this->findActiveRegistration($event, $user) !== null;
     }
 
     /**
@@ -74,7 +84,7 @@ class AttendeeManagementService
      */
     public function create(Event $event, User $user, $isStudent = false)
     {
-        if ($this->isAnActiveAttendee($event, $user)) {
+        if ($this->hasAnActiveRegistration($event, $user)) {
             throw new InvalidArgumentException(
                 'Você já possui uma inscrição neste evento'
             );

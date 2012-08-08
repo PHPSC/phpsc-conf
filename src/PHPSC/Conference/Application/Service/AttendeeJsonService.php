@@ -5,6 +5,7 @@ use \PHPSC\Conference\Domain\Service\AttendeeManagementService;
 use \PHPSC\Conference\Domain\Service\PaymentManagementService;
 use \PHPSC\Conference\Domain\Service\EventManagementService;
 use \PHPSC\PagSeguro\Error\PagSeguroException;
+use \PHPSC\Conference\Domain\Entity\Attendee;
 use \Abraham\TwitterOAuth\TwitterClient;
 
 class AttendeeJsonService
@@ -55,6 +56,11 @@ class AttendeeJsonService
         $this->twitterClient = $twitterClient;
     }
 
+    /**
+     * @param boolean $isStudent
+     * @param string $redirectTo
+     * @return string
+     */
     public function create($isStudent, $redirectTo)
     {
         $event = $this->eventManager->findCurrentEvent();
@@ -68,19 +74,7 @@ class AttendeeJsonService
             );
 
             if ($attendee->getCost() > 0) {
-                $paymentResponse = $this->paymentManager->create(
-                    $attendee,
-                    $redirectTo
-                );
-
-                return json_encode(
-                    array(
-                        'data' => array(
-                            'id' => $attendee->getId(),
-                            'redirectTo' => $paymentResponse->getRedirectionUrl()
-                        )
-                    )
-                );
+                return $this->createPayment($attendee, $redirectTo);
             }
 
             return json_encode(
@@ -103,12 +97,6 @@ class AttendeeJsonService
                     'error' => 'Não foi possível salvar os dados na camada de persistência'
                 )
             );
-        } catch (PagSeguroException $error) {
-            return json_encode(
-                array(
-                    'error' => 'Erro de comunicação com o pagseguro'
-                )
-            );
         } catch (\Exception $error) {
             return json_encode(
                 array(
@@ -118,11 +106,72 @@ class AttendeeJsonService
         }
     }
 
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Attendee $attendee
+     * @param string $redirectTo
+     * @return string
+     */
+    protected function createPayment(Attendee $attendee, $redirectTo)
+    {
+        try {
+            $paymentResponse = $this->paymentManager->create(
+                $attendee,
+                $redirectTo
+            );
+
+            return json_encode(
+                array(
+                    'data' => array(
+                        'id' => $attendee->getId(),
+                        'redirectTo' => $paymentResponse->getRedirectionUrl()
+                    )
+                )
+            );
+        } catch (\InvalidArgumentException $error) {
+            return json_encode(
+                array(
+                    'error' => $error->getMessage()
+                )
+            );
+        } catch (PagSeguroException $error) {
+            return json_encode(
+                array(
+                    'error' => 'Erro de comunicação com o pagseguro'
+                )
+            );
+        }
+    }
+
+    /**
+     * @param string $redirectTo
+     * @return string
+     */
+    public function resendPayment($redirectTo)
+    {
+        $attendee = $this->attendeeManager->findActiveRegistration(
+            $this->eventManager->findCurrentEvent(),
+            $this->authService->getLoggedUser()
+        );
+
+        if ($attendee === null) {
+            return json_encode(
+                array(
+                    'error' => 'Você não possui inscrição ativa neste evento!'
+                )
+            );
+        }
+
+        return $this->createPayment($attendee, $redirectTo);
+    }
+
+    /**
+     * @return string
+     */
     public function share()
     {
         $response = $this->twitterClient->updateStatus(
-                'Acabo de me inscrever no #phpscConf. Participe você'
-                . ' também através do site http://cfp.phpsc.com.br! via @PHP_SC'
+            'Acabo de me inscrever no #phpscConf. Participe você'
+            . ' também através do site http://cfp.phpsc.com.br! via @PHP_SC'
         );
 
         if (is_object($response) && isset($response->id)) {

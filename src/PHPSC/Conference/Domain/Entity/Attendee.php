@@ -178,9 +178,57 @@ class Attendee implements Entity
     /**
      * @return boolean
      */
+    public function isApproved()
+    {
+        return $this->getStatus() == static::APPROVED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCancelled()
+    {
+        return $this->getStatus() == static::CANCELLED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPaymentNotVerified()
+    {
+        return $this->getStatus() == static::CHECK_PAYMENT;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isWaitingForPayment()
+    {
+        return $this->getStatus() == static::WAITING_PAYMENT;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPaymentNotNecessary()
+    {
+        return $this->getStatus() == static::PAYMENT_NOT_NECESSARY;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPaymentRequired()
+    {
+        return $this->isWaitingForPayment() && $this->getCost() > 0;
+    }
+
+    /**
+     * @return boolean
+     */
     public function isActive()
     {
-        return $this->getStatus() != static::CANCELLED;
+        return !$this->isCancelled();
     }
 
     /**
@@ -188,8 +236,7 @@ class Attendee implements Entity
      */
     public function approve()
     {
-        if ($this->getStatus() === static::CHECK_PAYMENT
-            || $this->getStatus() === static::WAITING_PAYMENT) {
+        if ($this->isPaymentNotVerified() || $this->isWaitingForPayment()) {
             $this->setStatus(static::APPROVED);
         }
     }

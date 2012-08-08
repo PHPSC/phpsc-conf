@@ -1,26 +1,26 @@
 <?php
 namespace PHPSC\Conference\Application\View\Pages\Registration;
 
-use PHPSC\Conference\Application\View\Main;
-
-use \PHPSC\Conference\Domain\Entity\Event;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
+use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\Domain\Entity\Attendee;
 
 class AlreadyRegistered extends UIComponent
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\Event
+     * @var \PHPSC\Conference\Domain\Entity\Attendee
      */
-    protected $event;
+    protected $attendee;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param \PHPSC\Conference\Domain\Entity\Attendee $attendee
      */
-    public function __construct(Event $event)
+    public function __construct(Attendee $attendee)
     {
-        $this->event = $event;
+        $this->attendee = $attendee;
 
         Main::appendScript($this->getBaseUrl() . '/js/registration.share.js');
+        Main::appendScript($this->getBaseUrl() . '/js/registration.resendPayment.js');
     }
 
     /**
@@ -28,6 +28,14 @@ class AlreadyRegistered extends UIComponent
      */
     public function getEvent()
     {
-        return $this->event;
+        return $this->attendee->getEvent();
+    }
+
+    /**
+     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     */
+    public function getAttendee()
+    {
+        return $this->attendee;
     }
 }

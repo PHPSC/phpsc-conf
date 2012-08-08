@@ -43,16 +43,39 @@ class Registration extends Controller
     {
         $user = $this->getAuthenticationService()->getLoggedUser();
         $event = $this->getEventManagement()->findCurrentEvent();
+        $attendee = $this->getAttendeeManagement()->findActiveRegistration(
+            $event,
+            $user
+        );
 
-        if ($this->getAttendeeManagement()->isAnActiveAttendee($event, $user)) {
-            return Main::create(
-                new AlreadyRegistered($event),
-                $this->application
-            );
+        if ($attendee !== null) {
+            $this->redirect('/registration/registered');
         }
 
         return Main::create(
             new Form($user, $event, $this->getTalkManagement()),
+            $this->application
+        );
+    }
+
+    /**
+     * @Route("/registered", methods={"GET"})
+     */
+    public function registered()
+    {
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
+        $attendee = $this->getAttendeeManagement()->findActiveRegistration(
+            $event,
+            $user
+        );
+
+        if ($attendee === null) {
+            $this->redirect('/registration/new');
+        }
+
+        return Main::create(
+            new AlreadyRegistered($attendee),
             $this->application
         );
     }
@@ -78,6 +101,18 @@ class Registration extends Controller
         $this->response->setContentType('application/json', 'UTF-8');
 
         return $this->getAttendeeJsonService()->share();
+    }
+
+    /**
+     * @Route("/resendPayment", methods={"POST"})
+     */
+    public function resendPayment()
+    {
+        $this->response->setContentType('application/json', 'UTF-8');
+
+        return $this->getAttendeeJsonService()->resendPayment(
+            $this->request->getUriForPath('/registration/new')
+        );
     }
 
     /**

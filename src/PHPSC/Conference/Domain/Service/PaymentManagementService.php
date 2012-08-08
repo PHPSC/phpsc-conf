@@ -7,6 +7,7 @@ use \PHPSC\PagSeguro\NotificationService;
 use \PHPSC\PagSeguro\ValueObject\Sender;
 use \PHPSC\PagSeguro\ValueObject\Item;
 use \PHPSC\PagSeguro\PaymentService;
+use \InvalidArgumentException;
 
 class PaymentManagementService
 {
@@ -55,6 +56,12 @@ class PaymentManagementService
      */
     public function create(Attendee $attendee, $redirectTo = null)
     {
+        if (!$attendee->isPaymentRequired()) {
+            throw new InvalidArgumentException(
+                'O pagamento não é necessário para esta inscrição'
+            );
+        }
+
         $description = $this->talkService->eventHasAnyApprovedTalk($attendee->getEvent())
                        ? 'Inscrição Regular - '
                        : 'Inscrição Antecipada - ';

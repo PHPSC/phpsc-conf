@@ -13,7 +13,7 @@ class NewAttendeeFilter extends Filter
         if ($this->getAuthenticationService()->getTwitterUser() === null) {
             $this->request->getSession()->set(
                 'redirectTo',
-                '/registration/new'
+                $this->request->getRequestedPath()
             );
 
             $this->application->redirect('/oauth/redirect');
@@ -22,7 +22,7 @@ class NewAttendeeFilter extends Filter
         if ($this->getAuthenticationService()->getLoggedUser() === null) {
             $this->request->getSession()->set(
                 'redirectTo',
-                '/registration/new'
+                $this->request->getRequestedPath()
             );
 
             $this->application->redirect('/user/new');
