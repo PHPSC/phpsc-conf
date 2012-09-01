@@ -68,8 +68,8 @@ class Grid extends UIComponent
 	        'talks',
 	        $this->getTalks(),
 	        array(
-        		new DatagridColumn('Nome', 'title', 'span3'),
-        		new DatagridColumn('Tipo', 'type.description', 'span2'),
+        		new DatagridColumn('Nome', 'title', 'span5'),
+        		new DatagridColumn('Tipo', 'type.description', ''),
         		new DatagridColumn(
     		        'Nível',
     		        'complexity',
@@ -89,16 +89,20 @@ class Grid extends UIComponent
         		new DatagridColumn(
     		        'Aprovada',
     		        'approved',
-    		        'span1',
+    		        'span2',
     		        function ($approved)
     		        {
+    		            if ($approved === null) {
+    		                return 'Não avaliada';
+    		            }
+
         			    return $approved ? 'Sim' : 'Não';
         		    }
     	        ),
     	        new DatagridColumn(
 	                '',
 	                'id',
-	                'span1',
+	                '',
 	                function ($id)
 	                {
                         return '<a href="#" class="btn btn-mini btn-info" title="Ver informações (em breve)">

@@ -97,7 +97,7 @@ class Talk implements Entity
     private $startTime;
 
     /**
-     * @Column(type="boolean", nullable=false)
+     * @Column(type="boolean")
      * @var boolean
      */
     private $approved;
@@ -333,7 +333,7 @@ class Talk implements Entity
      */
     public function setApproved($approved)
     {
-        if (!is_bool($approved)) {
+        if ($approved !== null && !is_bool($approved)) {
             throw new InvalidArgumentException(
                 'Aprovado deve ser TRUE ou FALSE'
             );
@@ -389,7 +389,6 @@ class Talk implements Entity
         $talk->setShortDescription($shortDescription);
         $talk->setLongDescription($longDescription);
         $talk->setCreationTime(new DateTime());
-        $talk->setApproved(false);
         $talk->getSpeakers()->add($speaker);
 
         return $talk;
