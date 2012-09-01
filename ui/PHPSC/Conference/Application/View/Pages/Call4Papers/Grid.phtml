@@ -26,7 +26,9 @@
         <?php if ($this->hasTalks()) { ?>
             <a class="btn btn-info" href="#share" data-toggle="modal"><i class="icon-share icon-white"></i> Compartilhar</a>
         <?php } ?>
-        <a class="btn btn-primary" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new"><i class="icon-certificate icon-white"></i> Novo trabalho</a>
+        <?php if ($this->allowSubmission()) { ?>
+            <a class="btn btn-primary" href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions/new"><i class="icon-certificate icon-white"></i> Novo trabalho</a>
+        <?php } ?>
     </div>
 </div>
 <div class="alert alert-info">

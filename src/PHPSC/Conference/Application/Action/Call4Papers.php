@@ -30,7 +30,7 @@ class Call4Papers extends Controller
     	$event = $this->getEventManagement()->findCurrentEvent();
     	$talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
 
-    	return Main::create(new Grid($talks), $this->application);
+    	return Main::create(new Grid($event, $talks), $this->application);
     }
 
     /**

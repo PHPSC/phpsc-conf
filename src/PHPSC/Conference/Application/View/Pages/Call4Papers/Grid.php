@@ -19,10 +19,11 @@ class Grid extends UIComponent
     /**
      * @param array $talks
      */
-    public function __construct(array $talks)
+    public function __construct(Event $event, array $talks)
     {
         Main::appendScript($this->getBaseUrl() . '/js/submissions.grid.js');
 
+        $this->event = $event;
         $this->talks = $talks;
     }
 
@@ -48,6 +49,14 @@ class Grid extends UIComponent
     public function hasTalks()
     {
         return $this->getTalksCount() > 0;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function allowSubmission()
+    {
+        return $this->event->isSubmissionsInterval(new \DateTime());
     }
 
     /**
