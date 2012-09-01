@@ -17,13 +17,13 @@
 		<parameter key="doctrine.cache">array</parameter>
 	
 		<!-- Twitter -->
-		<parameter key="twitter.consumerKey"></parameter>
-		<parameter key="twitter.consumerSecret"></parameter>
+		<parameter key="twitter.consumerKey">gDym2zTEAzHNH1YexM1PPQ</parameter>
+		<parameter key="twitter.consumerSecret">fTJ02IMrDsgoVe7TuPCEaNBpwKxq9KUaGH1gOEKr8LI</parameter>
 		<parameter key="twitter.callback">/oauth/callback</parameter>
 		
 		<!-- Pagseguro -->
-		<parameter key="pagseguro.email"></parameter>
-		<parameter key="pagseguro.token"></parameter>
+		<parameter key="pagseguro.email">pagseguro@johnathan.com.br</parameter>
+		<parameter key="pagseguro.token">1B14E35F729D4267992BC76FCCCF5E74</parameter>
 	</parameters>
 	<services>
 		<!-- Twitter -->
