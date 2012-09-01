@@ -9,7 +9,7 @@
             <p>Você poderá enviar suas palestras a partir de <strong><?php echo $this->getEvent()->getSubmissionStart()->format('d/m/Y H:i'); ?></strong></p>
         <?php } elseif (new \DateTime() > $this->getEvent()->getSubmissionEnd()) { ?>
             <p>A submissão de trabalhos foi finalizada em <strong><?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i'); ?></strong>.</p>
-            <p>Agradecemos a participação de todos, em breve o resultado da avaliação estará disponível na
+            <p>Agradecemos a participação de todos, em breve o resultado da avaliação de suas palestras estará disponível na
                 <a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">lista de trabalhos submetidos</a>.
             </p>
         <?php } else { ?>
