@@ -4,13 +4,13 @@
     <div style="margin-top: 15px;">
         <?php if (!$this->getEvent()->hasTalkSubmissions()) { ?>
             <p>Os trabalhos deste evento serão cadastrados internamente, fique atento às novidades!</p>
-        <?php } elseif ($this->getEvent()->getSubmissionStart() < new \DateTime()) { ?>
-            <p>Ainda não está aberta a submissão de trabalhos, aguarde mais um pouco!.</p>
+        <?php } elseif (new \DateTime() < $this->getEvent()->getSubmissionStart()) { ?>
+            <p>Ainda não está aberta a submissão de trabalhos, aguarde mais um pouco!</p>
             <p>Você poderá enviar suas palestras a partir de <strong><?php echo $this->getEvent()->getSubmissionStart()->format('d/m/Y H:i'); ?></strong></p>
-        <?php } elseif ($this->getEvent()->getSubmissionEnd() > new \DateTime()) { ?>
+        <?php } elseif (new \DateTime() > $this->getEvent()->getSubmissionEnd()) { ?>
             <p>A submissão de trabalhos foi finalizada em <strong><?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i'); ?></strong>.</p>
             <p>Agradecemos a participação de todos, em breve o resultado da avaliação estará disponível na
-                <a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">lista de trabalhos submetidos</a>
+                <a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">lista de trabalhos submetidos</a>.
             </p>
         <?php } else { ?>
             <p>Está aberta a chamada de trabalhos, não perca tempo e envie sua proposta de palestra!</p>
