@@ -30,7 +30,9 @@ class NewTalkFilter extends Filter
 
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        if (!$event->isSubmissionsInterval(new \DateTime())) {
+        if ($this->request->getRequestedPath() == '/call4papers/submissions/new'
+            && $this->request->isMethod('get')
+            && !$event->isSubmissionsInterval(new \DateTime())) {
             $this->application->redirect('/call4papers');
         }
     }
