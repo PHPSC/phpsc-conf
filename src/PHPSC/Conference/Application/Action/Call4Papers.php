@@ -55,9 +55,35 @@ class Call4Papers extends Controller
      */
     public function talkForm()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-
         return Main::create(new Form(), $this->application);
+    }
+
+    /**
+     * @Route("/submissions/(id)", methods={"GET"}, requirements={"[\d]{1,}"})
+     */
+    public function talkInfo($id)
+    {
+        $this->response->setContentType('application/json', 'UTF-8');
+
+        return $this->getTalkJsonService()->getById($id);
+    }
+
+    /**
+     * @Route("/submissions/(id)", methods={"PUT"}, requirements={"[\d]{1,}"})
+     */
+    public function updateTalk($id)
+    {
+        $this->response->setContentType('application/json', 'UTF-8');
+
+        return $this->getTalkJsonService()->update(
+            $id,
+            $this->request->request->get('title'),
+            $this->request->request->get('type'),
+            $this->request->request->get('shortDescription'),
+            $this->request->request->get('longDescription'),
+            $this->request->request->get('complexity'),
+            $this->request->request->get('tags')
+        );
     }
 
     /**

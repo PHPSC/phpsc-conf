@@ -31,9 +31,9 @@
         <?php } ?>
     </div>
 </div>
-<div class="alert alert-info">
-    <button class="close" data-dismiss="alert">&times;</button>
+<div id="gridMsg" class="alert alert-info">
     <h4 class="alert-heading">Atenção</h4>
     <span>Nesta página você visualizará informações sobre os trabalhos que você submeteu.</span>
 </div>
 <?php echo $this->getDatagrid(); ?>
+<?php echo $this->getTalkModal(); ?>

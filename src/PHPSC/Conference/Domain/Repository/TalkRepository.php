@@ -8,6 +8,29 @@ use \PHPSC\Conference\Infra\Persistence\EntityRepository;
 class TalkRepository extends EntityRepository
 {
     /**
+     * @param int $id
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @return \PHPSC\Conference\Domain\Entity\Talk
+     */
+    public function findById($id, User $user = null)
+    {
+        $query = $this->createQueryBuilder('talk')
+                      ->andWhere('talk.id = ?1')
+                      ->setParameter(1, $id)
+                      ->setMaxResults(1);
+
+        if ($user !== null) {
+            $query->andWhere('?2 MEMBER OF talk.speakers')
+                  ->setParameter(2, $user);
+        }
+
+        $query = $query->getQuery();
+        $query->useQueryCache(true);
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
      * @param \PHPSC\Conference\Domain\Entity\User $user
      * @param \PHPSC\Conference\Domain\Entity\Event $event
      * @param boolean $approvedOnly

@@ -1,13 +1,12 @@
 <?php
 namespace PHPSC\Conference\Application\View\Pages\Call4Papers;
 
-use PHPSC\Conference\Domain\Entity\Talk;
-
-use \PHPSC\Conference\Application\View\Main;
-use \PHPSC\Conference\Domain\Entity\Event;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
 use \Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
+use \Lcobucci\DisplayObjects\Core\UIComponent;
+use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\Domain\Entity\Event;
+use \PHPSC\Conference\Domain\Entity\Talk;
 
 class Grid extends UIComponent
 {
@@ -22,6 +21,7 @@ class Grid extends UIComponent
     public function __construct(Event $event, array $talks)
     {
         Main::appendScript($this->getBaseUrl() . '/js/submissions.grid.js');
+        Main::appendScript($this->getBaseUrl() . '/js/view-or-edit-talk.js');
 
         $this->event = $event;
         $this->talks = $talks;
@@ -64,12 +64,14 @@ class Grid extends UIComponent
      */
     public function getDatagrid()
     {
+        $readOnly = !$this->allowSubmission();
+
     	$datagrid = new Datagrid(
 	        'talks',
 	        $this->getTalks(),
 	        array(
         		new DatagridColumn('Nome', 'title', 'span5'),
-        		new DatagridColumn('Tipo', 'type.description', ''),
+        		new DatagridColumn('Tipo', 'type.description', 'span2'),
         		new DatagridColumn(
     		        'Nível',
     		        'complexity',
@@ -103,10 +105,18 @@ class Grid extends UIComponent
 	                '',
 	                'id',
 	                '',
-	                function ($id)
+	                function ($id) use ($readOnly)
 	                {
-                        return '<a href="#" class="btn btn-mini btn-info" title="Ver informações (em breve)">
-                                    <i class="icon-eye-open"></i>
+	                    $title = 'Editar';
+	                    $icon = 'icon-pencil';
+
+	                    if ($readOnly) {
+	                        $title = 'Ver informações';
+	                        $icon = 'icon-eye-open';
+	                    }
+
+                        return '<a href="#" id="action-' . $id . '" class="btn btn-mini btn-info" title="' . $title . '">
+                                    <i class="' . $icon . '"></i>
                                 </a>';
 	                }
                 )
@@ -116,5 +126,10 @@ class Grid extends UIComponent
     	$datagrid->setStyleClass('table table-striped');
 
     	return $datagrid;
+    }
+
+    public function getTalkModal()
+    {
+        return new TalkWindow(!$this->allowSubmission());
     }
 }

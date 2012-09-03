@@ -1,11 +1,12 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
+use \PHPSC\Conference\Domain\Repository\TalkTypeRepository;
+use \PHPSC\Conference\Domain\Repository\TalkRepository;
 use \PHPSC\Conference\Domain\Entity\Event;
 use \PHPSC\Conference\Domain\Entity\Talk;
 use \PHPSC\Conference\Domain\Entity\User;
-use \PHPSC\Conference\Domain\Repository\TalkTypeRepository;
-use \PHPSC\Conference\Domain\Repository\TalkRepository;
+use \InvalidArgumentException;
 use \RuntimeException;
 
 class TalkManagementService
@@ -64,6 +65,47 @@ class TalkManagementService
         );
 
         $this->talkRepository->append($talk);
+
+        return $talk;
+    }
+
+    /**
+     * @param int $id
+     * @param \PHPSC\Conference\Domain\Entity\User $speaker
+     * @param int $typeId
+     * @param string $title
+     * @param string $shortDescription
+     * @param string $longDescription
+     * @param string $complexity
+     * @param string $tags
+     * @return \PHPSC\Conference\Domain\Entity\Talk
+     */
+    public function update(
+        $id,
+        User $speaker,
+        $typeId,
+        $title,
+        $shortDescription,
+        $longDescription,
+        $complexity,
+        $tags
+    ) {
+        $talk = $this->findById($id, $speaker);
+
+        if ($talk === null) {
+            throw new InvalidArgumentException(
+                'Submissão de trabalho não encontrada'
+            );
+        }
+
+        $talk->setTitle($title);
+        $talk->setType($this->talkTypeRepository->findOneById($typeId));
+        $talk->setShortDescription($shortDescription);
+        $talk->setLongDescription($longDescription);
+        $talk->setComplexity($complexity);
+        $talk->setTags($tags);
+
+        $this->talkRepository->update($talk);
 
         return $talk;
     }
@@ -129,5 +171,18 @@ class TalkManagementService
         $talks = $this->findByEvent($event, true);
 
         return isset($talks[0]);
+    }
+
+    /**
+     * @param in $id
+     * @param \PHPSC\Conference\Domain\User $user
+     * @return \PHPSC\Conference\Domain\Entity\Talk
+     */
+    public function findById($id, User $user = null)
+    {
+        return $this->talkRepository->findById(
+            $id,
+            $user
+        );
     }
 }

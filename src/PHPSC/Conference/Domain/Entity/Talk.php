@@ -292,13 +292,23 @@ class Talk implements Entity
     public function setTags($tags)
     {
         if ($tags !== null) {
-            $tags = (string) $tags;
+            $tags = strtolower((string) $tags);
 
             if (empty($tags)) {
                 throw new InvalidArgumentException(
                     'As tags não podem ser vazias'
                 );
             }
+
+            $tags = explode(',', $tags);
+            array_walk(
+                $tags,
+                function (&$value, $key)
+                {
+                    $value = trim($value);
+                }
+            );
+            $tags = implode(',', $tags);
         }
 
         $this->tags = $tags;
