@@ -1,9 +1,7 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \Lcobucci\ActionMapper2\Routing\Filter;
-
-class UserFilter extends Filter
+class UserFilter extends BasicFilter
 {
     /**
      * @see \Lcobucci\ActionMapper2\Routing\Filter::process()
@@ -20,14 +18,5 @@ class UserFilter extends Filter
             && $service->getLoggedUser()) {
             $this->application->redirect('/');
         }
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->application->getDependencyContainer()
-                                 ->get('authentication.service');
     }
 }

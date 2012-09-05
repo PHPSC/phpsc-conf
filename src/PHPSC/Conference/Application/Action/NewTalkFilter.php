@@ -1,32 +1,15 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \Lcobucci\ActionMapper2\Routing\Filter;
-
-class NewTalkFilter extends Filter
+class NewTalkFilter extends BasicFilter
 {
     /**
      * @see \Lcobucci\ActionMapper2\Routing\Filter::process()
      */
     public function process()
     {
-        if ($this->getAuthenticationService()->getTwitterUser() === null) {
-            $this->request->getSession()->set(
-                'redirectTo',
-                $this->request->getRequestedPath()
-            );
-
-            $this->application->redirect('/oauth/redirect');
-        }
-
-        if ($this->getAuthenticationService()->getLoggedUser() === null) {
-            $this->request->getSession()->set(
-                'redirectTo',
-                $this->request->getRequestedPath()
-            );
-
-            $this->application->redirect('/user/new');
-        }
+        $this->validateTwitterSession();
+        $this->validateUserRegistration();
 
         $event = $this->getEventManagement()->findCurrentEvent();
 
@@ -35,15 +18,6 @@ class NewTalkFilter extends Filter
             && !$event->isSubmissionsInterval(new \DateTime())) {
             $this->application->redirect('/call4papers');
         }
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->application->getDependencyContainer()
-                                 ->get('authentication.service');
     }
 
     /**
