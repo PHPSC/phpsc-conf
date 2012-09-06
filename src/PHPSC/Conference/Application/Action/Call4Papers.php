@@ -8,7 +8,6 @@ use \PHPSC\Conference\Application\View\Pages\Call4Papers\Index;
 use \PHPSC\Conference\Application\View\Pages\Call4Papers\Grid;
 use \PHPSC\Conference\Application\View\Main;
 use \PHPSC\Conference\Domain\Entity\Event;
-use \PHPSC\Conference\Domain\Entity\User;
 
 use \Lcobucci\ActionMapper2\Routing\Controller;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
@@ -118,12 +117,13 @@ class Call4Papers extends Controller
         );
     }
 
+
     /**
      * @param Event $event
      * @param User $user
      * @return \Lcobucci\DisplayObjects\Core\UIComponent
      */
-    protected function getFeedbackListFor(Event $event, User $user)
+    protected function getFeedbackListFor(Event $event, \PHPSC\Conference\Domain\Entity\User $user)
     {
         if (!$this->getTalkManagement()->userHasAnyTalk($user, $event)
             && !$this->getAttendeeManagement()->hasAnActiveRegistration($event, $user)) {
