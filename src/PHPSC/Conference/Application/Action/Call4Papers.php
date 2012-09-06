@@ -1,10 +1,14 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
+use \PHPSC\Conference\Application\View\Pages\Call4Papers\FeedbackMessage;
+use \PHPSC\Conference\Application\View\Pages\Call4Papers\FeedbackList;
 use \PHPSC\Conference\Application\View\Pages\Call4Papers\Form;
 use \PHPSC\Conference\Application\View\Pages\Call4Papers\Index;
 use \PHPSC\Conference\Application\View\Pages\Call4Papers\Grid;
 use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\Domain\Entity\Event;
+use \PHPSC\Conference\Domain\Entity\User;
 
 use \Lcobucci\ActionMapper2\Routing\Controller;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
@@ -101,6 +105,68 @@ class Call4Papers extends Controller
     }
 
     /**
+     * @Route("/feedback", methods={"GET"})
+     */
+    public function feedbackList()
+    {
+    	$user = $this->getAuthenticationService()->getLoggedUser();
+    	$event = $this->getEventManagement()->findCurrentEvent();
+
+    	return Main::create(
+	        $this->getFeedbackListFor($event, $user),
+	        $this->application
+        );
+    }
+
+    /**
+     * @param Event $event
+     * @param User $user
+     * @return \Lcobucci\DisplayObjects\Core\UIComponent
+     */
+    protected function getFeedbackListFor(Event $event, User $user)
+    {
+        if (!$this->getTalkManagement()->userHasAnyTalk($user, $event)
+            && !$this->getAttendeeManagement()->hasAnActiveRegistration($event, $user)) {
+            return new FeedbackMessage();
+        }
+
+        return new FeedbackList(
+            $this->getTalkManagement()->findNonRated($event, $user),
+            $this->request->getUriForPath('/call4papers/feedback'),
+            $this->getOpinionManagement()->getLikesCount($event, $user)
+        );
+    }
+
+    /**
+     * @Route("/feedback", methods={"POST"})
+     */
+    public function createFeedback()
+    {
+        $this->response->setContentType('application/json', 'UTF-8');
+
+        return $this->getOpinionJsonService()->create(
+            $this->request->request->get('talkId', 0),
+            $this->request->request->get('likes', 1) == 1
+        );
+    }
+
+    /**
+     * @Route("/feedback/share", methods={"POST"})
+     */
+    public function shareFeedback()
+    {
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
+
+        $this->response->setContentType('application/json', 'UTF-8');
+
+        return $this->getOpinionJsonService()->share(
+            $this->getOpinionManagement()->getLikesCount($event, $user),
+            $this->request->getUriForPath('/call4papers/feedback')
+        );
+    }
+
+    /**
      * @return \PHPSC\Conference\Domain\Service\EventManagementService
      */
     protected function getEventManagement()
@@ -125,10 +191,34 @@ class Call4Papers extends Controller
     }
 
     /**
+     * @return \PHPSC\Conference\Domain\Service\AttendeeManagementService
+     */
+    protected function getAttendeeManagement()
+    {
+        return $this->get('attendee.management.service');
+    }
+
+    /**
+     * @return \PHPSC\Conference\Domain\Service\OpinionManagementService
+     */
+    protected function getOpinionManagement()
+    {
+        return $this->get('opinion.management.service');
+    }
+
+    /**
+     * @return \PHPSC\Conference\Application\Service\OpinionJsonService
+     */
+    protected function getOpinionJsonService()
+    {
+        return $this->get('opinion.json.service');
+    }
+
+    /**
      * @return \PHPSC\Conference\Application\Service\AuthenticationService
      */
     protected function getAuthenticationService()
     {
-    	return $this->application->getDependencyContainer()->get('authentication.service');
+    	return $this->get('authentication.service');
     }
 }

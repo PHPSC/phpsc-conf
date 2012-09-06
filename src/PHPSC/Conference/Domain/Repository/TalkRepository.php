@@ -57,6 +57,31 @@ class TalkRepository extends EntityRepository
 
     /**
      * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @return \PHPSC\Conference\Domain\Entity\Talk[]
+     */
+    public function findNonRated(Event $event, User $user)
+    {
+        $builder = $this->createQueryBuilder('talk')
+                        ->leftJoin('talk.type', 'type')
+                        ->andWhere('talk.event = ?1')
+                        ->andWhere('?2 NOT MEMBER OF talk.speakers')
+                        ->andWhere('NOT EXISTS (SELECT opinion.id FROM PHPSC\Conference\Domain\Entity\Opinion AS opinion WHERE opinion.talk = talk.id AND opinion.user = ?3)')
+                        ->setParameter(1, $event)
+                        ->setParameter(2, $user)
+                        ->setParameter(3, $user)
+                        ->addOrderBy('type.description')
+                        ->addOrderBy('talk.title');
+
+
+        $query = $builder->getQuery();
+        $query->useQueryCache(true);
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
      * @param boolean $approvedOnly
      * @return \PHPSC\Conference\Domain\Entity\Talk[]
      */

@@ -660,13 +660,13 @@ a.thumbnail:hover{border-color:#4183c4;-webkit-box-shadow:0 1px 4px rgba(0, 105,
 .label{padding:1px 4px 2px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
 .badge{padding:1px 9px 2px;-webkit-border-radius:9px;-moz-border-radius:9px;border-radius:9px;}
 a.label:hover,a.badge:hover{color:#ffffff;text-decoration:none;cursor:pointer;}
-.label-important,.badge-important{background-color:#393939;}
+.label-important,.badge-important{background-color:#BD2C00;}
 .label-important[href],.badge-important[href]{background-color:#202020;}
-.label-warning,.badge-warning{background-color:#ff7d00;}
+.label-warning,.badge-warning{background-color:#E3E84D;}
 .label-warning[href],.badge-warning[href]{background-color:#cc6400;}
-.label-success,.badge-success{background-color:#333333;}
+.label-success,.badge-success{background-color:#6CC644;}
 .label-success[href],.badge-success[href]{background-color:#1a1a1a;}
-.label-info,.badge-info{background-color:#1b3650;}
+.label-info,.badge-info{background-color:#4183C4;}
 .label-info[href],.badge-info[href]{background-color:#0e1c2a;}
 .label-inverse,.badge-inverse{background-color:#333333;}
 .label-inverse[href],.badge-inverse[href]{background-color:#1a1a1a;}

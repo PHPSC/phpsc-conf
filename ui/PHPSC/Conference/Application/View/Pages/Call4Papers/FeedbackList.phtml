@@ -1,0 +1,34 @@
+<div id="share" class="modal hide fade" style="display: none; ">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Compartilhar opinião</h3>
+    </div>
+    <div class="modal-body">
+        <div id="shareMsg" class="alert alert-error hide">
+            <h4></h4>
+        </div>
+        <h4 style="margin-bottom: 10px;">Você concorda com o envio de um tweet com o conteúdo abaixo?</h4>
+        <p style="margin: 0px 10px;">
+            <q>Gostei de <span id="likesCount"><?php echo $this->getLikesCount(); ?> submiss<?php echo $this->getLikesCount() < 2 ? 'ão' : 'ões'; ?></span> do #phpscConf. Dê sua opinião
+            também através do site <?php echo $this->getShareUrl(); ?>! via @PHP_SC</q>
+        </p>
+    </div>
+    <div id="shareButtons" class="modal-footer">
+        <button class="btn" data-dismiss="modal">Cancelar</button>
+        <button id="shareConfirm" class="btn btn-primary">Concordo</button>
+    </div>
+</div>
+<div class="row" style="margin-bottom: 20px;">
+    <div class="span5">
+        <h2>Trabalhos submetidos</h2>
+    </div>
+    <div class="span4" style="text-align: right">
+        <a id="shareFeedback" class="btn btn-info<?php if ($this->getLikesCount() < 1) { ?> hide<?php }?>" href="#share" data-toggle="modal"><i class="icon-share icon-white"></i> Compartilhar</a>
+    </div>
+</div>
+<div id="gridMsg" class="alert alert-info">
+    <h4 class="alert-heading">Sua opinião é muito importante!</h4>
+    <span>Nesta página você visualizará as submissões realizadas, e poderá dar seu parecer sobre cada uma.</span>
+</div>
+<?php echo $this->getList(); ?>
+<h2 id="thanks" style="text-align: center; padding-top: 20px;" class="hide">Obrigado =D</h2>

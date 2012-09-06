@@ -122,25 +122,31 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `phpsc`.`interest`
+-- Table `phpsc`.`opinion`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `phpsc`.`interest` (
-  `talk_id` INT NOT NULL ,
-  `user_id` INT NOT NULL ,
-  PRIMARY KEY (`talk_id`, `user_id`) ,
-  INDEX `fk_talk_has_user_user2` (`user_id` ASC) ,
-  INDEX `fk_talk_has_user_talk2` (`talk_id` ASC) ,
-  CONSTRAINT `fk_talk_has_user_talk2`
-    FOREIGN KEY (`talk_id` )
-    REFERENCES `phpsc`.`talk` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_talk_has_user_user2`
+CREATE  TABLE IF NOT EXISTS `phpsc`.`opinion` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `user_id` INT(11) NOT NULL ,
+  `talk_id` INT(11) NOT NULL ,
+  `likes` TINYINT(1) NOT NULL DEFAULT 1 ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_opinion_user1` (`user_id` ASC) ,
+  INDEX `fk_opinion_talk1` (`talk_id` ASC) ,
+  UNIQUE INDEX `opinion_index0` (`user_id` ASC, `talk_id` ASC) ,
+  INDEX `opinion_index1` (`likes` ASC) ,
+  CONSTRAINT `fk_opinion_user1`
     FOREIGN KEY (`user_id` )
     REFERENCES `phpsc`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_opinion_talk1`
+    FOREIGN KEY (`talk_id` )
+    REFERENCES `phpsc`.`talk` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------

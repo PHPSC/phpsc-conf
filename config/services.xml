@@ -29,6 +29,12 @@
 			<argument type="service" id="payment.management.service" />
 			<argument type="service" id="twitter.client" />
 		</service>
+		<service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
+			<argument type="service" id="authentication.service" />
+			<argument type="service" id="talk.management.service" />
+			<argument type="service" id="opinion.management.service" />
+			<argument type="service" id="twitter.client" />
+		</service>
 
 		<!-- Domain Services -->
 		<service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
@@ -52,6 +58,9 @@
 			<argument type="service" id="talk.management.service" />
 			<argument type="service" id="attendee.management.service" />
 		</service>
+		<service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
+			<argument type="service" id="opinion.repository" />
+		</service>
 		
 		<!-- Entity Repositories -->
 		<service id="user.repository" factory-service="entityManager" factory-method="getRepository">
@@ -71,6 +80,9 @@
 		</service>
 		<service id="attendee.repository" factory-service="entityManager" factory-method="getRepository">
 			<argument>PHPSC\Conference\Domain\Entity\Attendee</argument>
+		</service>
+		<service id="opinion.repository" factory-service="entityManager" factory-method="getRepository">
+			<argument>PHPSC\Conference\Domain\Entity\Opinion</argument>
 		</service>
 	</services>
 </container>

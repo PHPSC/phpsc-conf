@@ -16,6 +16,11 @@ class Grid extends UIComponent
     protected $event;
 
     /**
+     * @var array
+     */
+    protected $talks;
+
+    /**
      * @param array $talks
      */
     public function __construct(Event $event, array $talks)

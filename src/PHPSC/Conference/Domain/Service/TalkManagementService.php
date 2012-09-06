@@ -185,4 +185,19 @@ class TalkManagementService
             $user
         );
     }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @return \PHPSC\Conference\Domain\Entity\Talk[]
+     */
+    public function findNonRated(
+        Event $event,
+        User $user
+    ) {
+    	return $this->talkRepository->findNonRated(
+	        $event,
+	        $user
+        );
+    }
 }
