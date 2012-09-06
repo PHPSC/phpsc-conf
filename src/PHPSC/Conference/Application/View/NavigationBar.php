@@ -24,14 +24,26 @@ class NavigationBar extends UIComponent
      */
     public function getOptions()
     {
-        return array(
+        $event = $this->getEventManagement()->findCurrentEvent();
+
+        $items = array(
             array('Página Inicial', '/'),
             array('Sobre o Evento', '/about'),
             array('O Local', '/venue'),
-            array('Inscrições', '/registration'),
-            array('Chamada de Trabalhos', '/call4papers'),
-            array('Contato', '/contact')
+            array('Inscrições', '/registration')
         );
+
+        if ($event->isSubmissionsInterval(new \DateTime())) {
+            $items[] = array('Chamada de Trabalhos', '/call4papers');
+        } else {
+            $items[] = array('Grade de Palestras', '/talks');
+        }
+
+        $items[] = array('Contato', '/contact');
+
+
+
+        return $items;
     }
 
     /**
@@ -59,5 +71,13 @@ class NavigationBar extends UIComponent
     protected function getAuthenticationService()
     {
         return $this->application->getDependencyContainer()->get('authentication.service');
+    }
+
+    /**
+     * @return \PHPSC\Conference\Domain\Service\EventManagementService
+     */
+    protected function getEventManagement()
+    {
+        return $this->application->getDependencyContainer()->get('event.management.service');
     }
 }

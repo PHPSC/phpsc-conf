@@ -10,6 +10,7 @@
 		<route pattern="/call4papers/*" class="\PHPSC\Conference\Application\Action\Call4Papers" />
 		<route pattern="/payment/*" class="\PHPSC\Conference\Application\Action\Payment" />
 		<route pattern="/registration/*" class="\PHPSC\Conference\Application\Action\Registration" />
+		<route pattern="/talks/*" class="\PHPSC\Conference\Application\Action\Talks" />
 	</routes>
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Action\UserFilter" />
