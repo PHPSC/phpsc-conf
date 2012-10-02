@@ -15,7 +15,13 @@ class Talks extends Controller
     {
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(new Index($event), $this->application);
+        return Main::create(
+            new Index(
+                $event,
+                $this->getTalkManagement()->eventHasAnyApprovedTalk($event)
+            ),
+            $this->application
+        );
     }
 
     /**
@@ -24,5 +30,13 @@ class Talks extends Controller
     protected function getEventManagement()
     {
         return $this->get('event.management.service');
+    }
+
+    /**
+     * @return \PHPSC\Conference\Domain\Service\TalkManagementService
+     */
+    protected function getTalkManagement()
+    {
+    	return $this->get('talk.management.service');
     }
 }

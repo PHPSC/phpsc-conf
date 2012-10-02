@@ -12,11 +12,18 @@ class Index extends UIComponent
     protected $event;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @var boolean
      */
-    public function __construct(Event $event)
+    protected $hasApprovedTalks;
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param boolean $hasApprovedTalks
+     */
+    public function __construct(Event $event, $hasApprovedTalks = false)
     {
         $this->event = $event;
+        $this->hasApprovedTalks = $hasApprovedTalks;
     }
 
     /**
@@ -25,5 +32,13 @@ class Index extends UIComponent
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasApprovedTalks()
+    {
+        return $this->hasApprovedTalks;
     }
 }
