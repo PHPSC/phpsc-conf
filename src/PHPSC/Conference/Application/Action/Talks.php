@@ -20,7 +20,8 @@ class Talks extends Controller
                 $event,
                 $this->getTalkManagement()->eventHasAnyApprovedTalk($event)
             ),
-            $this->application
+            $this->application,
+            'Confira aqui a grade de palestras aprovadas para o evento!'
         );
     }
 
