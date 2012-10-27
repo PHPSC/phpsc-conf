@@ -11,6 +11,7 @@
 		<route pattern="/payment/*" class="\PHPSC\Conference\Application\Action\Payment" />
 		<route pattern="/registration/*" class="\PHPSC\Conference\Application\Action\Registration" />
 		<route pattern="/talks/*" class="\PHPSC\Conference\Application\Action\Talks" />
+		<route pattern="/status" class="\PHPSC\Conference\Application\Action\Status" />
 	</routes>
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Action\UserFilter" />

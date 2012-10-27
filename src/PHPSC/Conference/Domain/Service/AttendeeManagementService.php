@@ -147,4 +147,16 @@ class AttendeeManagementService
 
         return $attendee;
     }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return multitype:number
+     */
+    public function getSummary(Event $event)
+    {
+        return array(
+            'inscritos' => $this->repository->getCountOfActiveAttendee($event),
+            'presentes' => $this->repository->getCountOfArrivedAttendee($event)
+        );
+    }
 }

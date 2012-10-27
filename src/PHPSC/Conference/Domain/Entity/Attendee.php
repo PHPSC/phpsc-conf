@@ -72,6 +72,12 @@ class Attendee implements Entity
     private $status;
 
     /**
+     * @Column(type="boolean", nullable=false)
+     * @var boolean
+     */
+    private $arrived;
+
+    /**
      * @Column(type="datetime", name="creation_time", nullable=false)
      * @var \DateTime
      */
@@ -247,6 +253,22 @@ class Attendee implements Entity
     public function cancel()
     {
         $this->setStatus(static::CANCELLED);
+    }
+
+	/**
+     * @return boolean
+     */
+    public function hasArrived()
+    {
+        return $this->arrived;
+    }
+
+	/**
+     * @param boolean $arrived
+     */
+    public function setArrived($arrived)
+    {
+        $this->arrived = $arrived;
     }
 
 	/**

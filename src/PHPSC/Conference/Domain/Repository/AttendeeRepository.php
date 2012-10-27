@@ -26,4 +26,46 @@ class AttendeeRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return number
+     */
+    public function getCountOfActiveAttendee(Event $event)
+    {
+        $query = $this->createQueryBuilder('attendee')
+                      ->select('COUNT(attendee.id)')
+                      ->andWhere('attendee.event = ?1')
+                      ->andWhere('attendee.status NOT IN (?2, ?3)')
+                      ->setParameter(1, $event)
+                      ->setParameter(2, '2')
+                      ->setParameter(3, '4')
+                      ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getSingleScalarResult();
+    }
+
+    /**
+     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @return number
+     */
+    public function getCountOfArrivedAttendee(Event $event)
+    {
+        $query = $this->createQueryBuilder('attendee')
+                      ->select('COUNT(attendee.id)')
+                      ->andWhere('attendee.event = ?1')
+                      ->andWhere('attendee.arrived = ?2')
+                      ->andWhere('attendee.status NOT IN (?3, ?4)')
+                      ->setParameter(1, $event)
+                      ->setParameter(2, true)
+                      ->setParameter(3, '2')
+                      ->setParameter(4, '4')
+                      ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getSingleScalarResult();
+    }
 }
