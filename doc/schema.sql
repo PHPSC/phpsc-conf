@@ -240,3 +240,63 @@ USE `phpsc`;
 INSERT INTO `phpsc`.`registration_info` (`id`, `event_id`, `start`, `end`, `regular_price`, `early_price`, `student_label`, `student_rules`) VALUES (NULL, 1, '2012-08-06 00:00:00', '2012-10-26 23:59:59', 15, 10, 'Sou estudante da UNIVALI', '<p>Estudantes da UNIVALI (Universidade do Vale do Itajaí) serão contemplados com <strong>100%</strong> de desconto <strong>no valor da inscrição do evento</strong>.</p>\n<p>Será <strong>obrigatória</strong> a apresentação do comprovante de matrícula no credenciamento, no início do evento.</p>\n<p><strong>Importante:</strong> as pessoas que se inscreverem como alunos da UNIVALI e não apresentarem o comprovante de matrícula deverão pagar, no credenciamento, o valor de <strong>R$ 20,00</strong> (correspondente à inscrições realizadas no dia do evento).</p>');
 
 COMMIT;
+
+ALTER TABLE `phpsc`.`user` CHANGE COLUMN `twitter_user` `twitter_user` VARCHAR(60) NULL DEFAULT NULL  ;
+
+CREATE  TABLE IF NOT EXISTS `phpsc`.`sponsor` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `user_id` INT(11) NOT NULL ,
+  `name` VARCHAR(45) NOT NULL ,
+  `creation_time` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_sponsor_user1` (`user_id` ASC) ,
+  CONSTRAINT `fk_sponsor_user1`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `phpsc`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+CREATE  TABLE IF NOT EXISTS `phpsc`.`event_sponsor` (
+  `event_id` INT(11) NOT NULL ,
+  `sponsor_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`event_id`, `sponsor_id`) ,
+  INDEX `fk_event_has_sponsor_sponsor1` (`sponsor_id` ASC) ,
+  INDEX `fk_event_has_sponsor_event1` (`event_id` ASC) ,
+  CONSTRAINT `fk_event_has_sponsor_event1`
+    FOREIGN KEY (`event_id` )
+    REFERENCES `phpsc`.`event` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_has_sponsor_sponsor1`
+    FOREIGN KEY (`sponsor_id` )
+    REFERENCES `phpsc`.`sponsor` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+ALTER TABLE `phpsc`.`attendee` ADD COLUMN `arrived` TINYINT(1) NOT NULL DEFAULT 0  AFTER `status` ;
+
+CREATE  TABLE IF NOT EXISTS `phpsc`.`event_organizer` (
+  `event_id` INT(11) NOT NULL ,
+  `user_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`event_id`, `user_id`) ,
+  INDEX `fk_event_has_user_user1` (`user_id` ASC) ,
+  INDEX `fk_event_has_user_event1` (`event_id` ASC) ,
+  CONSTRAINT `fk_event_has_user_event1`
+    FOREIGN KEY (`event_id` )
+    REFERENCES `phpsc`.`event` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_has_user_user1`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `phpsc`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
