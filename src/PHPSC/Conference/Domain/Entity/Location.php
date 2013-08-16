@@ -20,25 +20,25 @@ class Location implements Entity
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=60, nullable=false)
      * @var string
      */
     private $name;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", columnDefinition="TEXT NOT NULL")
      * @var string
      */
     private $description;
 
     /**
-     * @Column(type="decimal")
+     * @Column(type="decimal", precision=13, scale=7, nullable=true)
      * @var float
      */
     private $longitude;
 
     /**
-     * @Column(type="decimal")
+     * @Column(type="decimal", precision=13, scale=7, nullable=true)
      * @var float
      */
     private $latitude;

@@ -8,7 +8,13 @@ use \DateTime;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\EventRepository")
- * @Table("event")
+ * @Table(
+ *     "event",
+ *     indexes={
+ *         @Index(name="event_index0", columns={"start"}),
+ *         @Index(name="evento_index1", columns={"submissions_start", "submissions_end"})
+ *     }
+ * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class Event implements Entity
@@ -22,7 +28,7 @@ class Event implements Entity
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=80, nullable=false)
      * @var string
      */
     private $name;
@@ -53,13 +59,13 @@ class Event implements Entity
     private $endDate;
 
     /**
-     * @Column(type="datetime", name="submissions_start")
+     * @Column(type="datetime", name="submissions_start", nullable=true)
      * @var \DateTime
      */
     private $submissionStart;
 
     /**
-     * @Column(type="datetime", name="submissions_end")
+     * @Column(type="datetime", name="submissions_end", nullable=true)
      * @var \DateTime
      */
     private $submissionEnd;

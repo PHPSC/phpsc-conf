@@ -60,19 +60,19 @@ class Attendee implements Entity
     private $user;
 
     /**
-     * @Column(type="decimal", nullable=false)
+     * @Column(type="decimal", precision=13, scale=2, nullable=false)
      * @var float
      */
     private $cost;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", columnDefinition="ENUM('0', '1', '2', '3', '4') NOT NULL")
      * @var string
      */
     private $status;
 
     /**
-     * @Column(type="boolean", nullable=false)
+     * @Column(type="boolean", options={"default" = 0}, nullable=false)
      * @var boolean
      */
     private $arrived;

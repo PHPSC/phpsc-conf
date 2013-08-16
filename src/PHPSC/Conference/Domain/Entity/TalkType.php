@@ -21,7 +21,7 @@ class TalkType implements Entity
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=45, nullable=false)
      * @var string
      */
     private $description;

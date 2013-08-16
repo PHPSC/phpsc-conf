@@ -22,31 +22,31 @@ class User implements Entity
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=80, nullable=false)
      * @var string
      */
     private $name;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=160, nullable=false)
      * @var string
      */
     private $email;
 
     /**
-     * @Column(type="string", nullable=false, name="twitter_user")
+     * @Column(type="string", length=60, nullable=true, name="twitter_user", unique=true)
      * @var string
      */
     private $twitterUser;
 
     /**
-     * @Column(type="string", name="github_user")
+     * @Column(type="string", name="github_user", length=60, nullable=true)
      * @var string
      */
     private $githubUser;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string", columnDefinition="TEXT")
      * @var string
      */
     private $bio;
@@ -56,24 +56,6 @@ class User implements Entity
      * @var \DateTime
      */
     private $creationTime;
-
-    /**
-     * @ManyToMany(targetEntity="Talk")
-     * @JoinTable(name="interest",
-     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")}
-     * )
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    private $interests;
-
-    /**
-     * Inicializador do objeto
-     */
-    public function __construct()
-    {
-        $this->interests = new ArrayCollection();
-    }
 
 	/**
      * @return number
@@ -225,21 +207,6 @@ class User implements Entity
     public function setCreationTime(DateTime $creationTime)
     {
         $this->creationTime = $creationTime;
-    }
-	/**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getInterests()
-    {
-        return $this->interests;
-    }
-
-	/**
-     * @param \Doctrine\Common\Collections\ArrayCollection $interests
-     */
-    public function setInterests(ArrayCollection $interests)
-    {
-        $this->interests = $interests;
     }
 
     /**

@@ -22,7 +22,7 @@ class RegistrationInfo implements Entity
 
     /**
      * @OneToOne(targetEntity="Event", inversedBy="registrationInfo")
-     * @JoinColumn(name="event_id", referencedColumnName="id")
+     * @JoinColumn(name="event_id", referencedColumnName="id", unique=true, nullable=false)
      * @var \PHPSC\Conference\Domain\Event
      */
     private $event;
@@ -40,25 +40,25 @@ class RegistrationInfo implements Entity
     private $end;
 
     /**
-     * @Column(type="decimal", nullable=false, name="regular_price")
+     * @Column(type="decimal", precision=13, scale=2, nullable=false, name="regular_price")
      * @var float
      */
     private $regularPrice;
 
     /**
-     * @Column(type="decimal", name="early_price")
+     * @Column(type="decimal", precision=13, scale=2, name="early_price", nullable=true)
      * @var float
      */
     private $earlyPrice;
 
     /**
-     * @Column(type="string", name="student_label")
+     * @Column(type="string", length=45, name="student_label", nullable=true)
      * @var string
      */
     private $studentLabel;
 
     /**
-     * @Column(type="string", name="student_rules")
+     * @Column(type="string", name="student_rules", columnDefinition="TEXT")
      * @var string
      */
     private $studentRules;

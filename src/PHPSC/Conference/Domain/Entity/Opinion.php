@@ -5,7 +5,11 @@ use \PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\OpinionRepository")
- * @Table("opinion")
+ * @Table(
+ *     "opinion",
+ *     uniqueConstraints={@UniqueConstraint(name="opinion_index0",columns={"user_id", "talk_id"})},
+ *     indexes={@Index(name="opinion_index1", columns={"likes"})}
+ * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class Opinion implements Entity
@@ -33,7 +37,7 @@ class Opinion implements Entity
     private $talk;
 
     /**
-     * @Column(type="boolean", nullable=false)
+     * @Column(type="boolean", options={"default" = 1}, nullable=false)
      * @var boolean
      */
     private $likes;

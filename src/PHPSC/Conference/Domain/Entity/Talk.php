@@ -54,7 +54,7 @@ class Talk implements Entity
     private $speakers;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=120, nullable=false)
      * @var string
      */
     private $title;
@@ -67,37 +67,37 @@ class Talk implements Entity
     private $type;
 
     /**
-     * @Column(type="string", nullable=false, name="short_description")
+     * @Column(type="string", name="short_description", columnDefinition="TEXT NOT NULL")
      * @var string
      */
     private $shortDescription;
 
     /**
-     * @Column(type="string", nullable=false, name="long_description")
+     * @Column(type="string", name="long_description", columnDefinition="TEXT NOT NULL")
      * @var string
      */
     private $longDescription;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", columnDefinition="ENUM('L','M','H') NOT NULL DEFAULT 'L'")
      * @var string
      */
     private $complexity;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string", length=120, nullable=true)
      * @var string
      */
     private $tags;
 
     /**
-     * @Column(type="datetime", name="start_time")
+     * @Column(type="datetime", name="start_time", nullable=true)
      * @var \DateTime
      */
     private $startTime;
 
     /**
-     * @Column(type="boolean")
+     * @Column(type="boolean", nullable=true)
      * @var boolean
      */
     private $approved;
