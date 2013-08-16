@@ -42,7 +42,7 @@ class Opinion implements Entity
      */
     private $likes;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -50,7 +50,7 @@ class Opinion implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -58,7 +58,7 @@ class Opinion implements Entity
         $this->id = $id;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\User
      */
     public function getUser()
@@ -66,7 +66,7 @@ class Opinion implements Entity
         return $this->user;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\User $user
      */
     public function setUser(User $user)
@@ -74,7 +74,7 @@ class Opinion implements Entity
         $this->user = $user;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\Talk
      */
     public function getTalk()
@@ -82,14 +82,14 @@ class Opinion implements Entity
         return $this->talk;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\Talk $talk
      */
     public function setTalk(Talk $talk)
     {
         $this->talk = $talk;
     }
-	/**
+    /**
      * @return boolean
      */
     public function getLikes()
@@ -97,7 +97,7 @@ class Opinion implements Entity
         return $this->likes;
     }
 
-	/**
+    /**
      * @param boolean $likes
      */
     public function setLikes($likes)

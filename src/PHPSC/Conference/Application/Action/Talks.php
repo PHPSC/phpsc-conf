@@ -38,6 +38,6 @@ class Talks extends Controller
      */
     protected function getTalkManagement()
     {
-    	return $this->get('talk.management.service');
+        return $this->get('talk.management.service');
     }
 }

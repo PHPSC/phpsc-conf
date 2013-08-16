@@ -152,6 +152,6 @@ class Registration extends Controller
      */
     protected function getAuthenticationService()
     {
-    	return $this->application->getDependencyContainer()->get('authentication.service');
+        return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

@@ -71,66 +71,66 @@ class Grid extends UIComponent
     {
         $readOnly = !$this->allowSubmission();
 
-    	$datagrid = new Datagrid(
-	        'talks',
-	        $this->getTalks(),
-	        array(
-        		new DatagridColumn('Nome', 'title', 'span5'),
-        		new DatagridColumn('Tipo', 'type.description', 'span2'),
-        		new DatagridColumn(
-    		        'Nível',
-    		        'complexity',
-		            'span2',
-    		        function ($complexity)
-    		        {
-    		            switch ($complexity) {
-    		                case Talk::HIGH_COMPLEXITY:
-    		                    return 'Avançado';
-    		                case Talk::MEDIUM_COMPLEXITY:
-    		                    return 'Intermediário';
-    		                default:
-    		                    return 'Básico';
-    		            }
-    		        }
-		        ),
-        		new DatagridColumn(
-    		        'Aprovada',
-    		        'approved',
-    		        'span2',
-    		        function ($approved)
-    		        {
-    		            if ($approved === null) {
-    		                return 'Não avaliada';
-    		            }
+        $datagrid = new Datagrid(
+            'talks',
+            $this->getTalks(),
+            array(
+                new DatagridColumn('Nome', 'title', 'span5'),
+                new DatagridColumn('Tipo', 'type.description', 'span2'),
+                new DatagridColumn(
+                    'Nível',
+                    'complexity',
+                    'span2',
+                    function ($complexity) {
+                        switch ($complexity) {
+                            case Talk::HIGH_COMPLEXITY:
+                                return 'Avançado';
+                            case Talk::MEDIUM_COMPLEXITY:
+                                return 'Intermediário';
+                            default:
+                                return 'Básico';
+                        }
+                    }
+                ),
+                new DatagridColumn(
+                    'Aprovada',
+                    'approved',
+                    'span2',
+                    function ($approved) {
+                        if ($approved === null) {
+                            return 'Não avaliada';
+                        }
 
-        			    return $approved ? 'Sim' : 'Não';
-        		    }
-    	        ),
-    	        new DatagridColumn(
-	                '',
-	                'id',
-	                '',
-	                function ($id) use ($readOnly)
-	                {
-	                    $title = 'Editar';
-	                    $icon = 'icon-pencil';
+                        return $approved ? 'Sim' : 'Não';
+                    }
+                ),
+                new DatagridColumn(
+                    '',
+                    'id',
+                    '',
+                    function ($id) use ($readOnly) {
+                        $title = 'Editar';
+                        $icon = 'icon-pencil';
 
-	                    if ($readOnly) {
-	                        $title = 'Ver informações';
-	                        $icon = 'icon-eye-open';
-	                    }
+                        if ($readOnly) {
+                            $title = 'Ver informações';
+                            $icon = 'icon-eye-open';
+                        }
 
-                        return '<a href="#" id="action-' . $id . '" class="btn btn-mini btn-info" title="' . $title . '">
+                        return '<a href="#"
+                                    id="action-' . $id . '"
+                                    class="btn btn-mini btn-info"
+                                    title="' . $title . '">
                                     <i class="' . $icon . '"></i>
                                 </a>';
-	                }
+                    }
                 )
-        	)
-	    );
+            )
+        );
 
-    	$datagrid->setStyleClass('table table-striped');
+        $datagrid->setStyleClass('table table-striped');
 
-    	return $datagrid;
+        return $datagrid;
     }
 
     public function getTalkModal()

@@ -37,5 +37,4 @@ abstract class BasicFilter extends Filter
         return $this->application->getDependencyContainer()
                                  ->get('authentication.service');
     }
-
 }

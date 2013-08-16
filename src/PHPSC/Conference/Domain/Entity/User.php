@@ -1,7 +1,6 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \Doctrine\Common\Collections\ArrayCollection;
 use \PHPSC\Conference\Infra\Persistence\Entity;
 use \InvalidArgumentException;
 use \DateTime;
@@ -15,8 +14,8 @@ class User implements Entity
 {
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+      * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
@@ -57,7 +56,7 @@ class User implements Entity
      */
     private $creationTime;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -65,7 +64,7 @@ class User implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -79,7 +78,7 @@ class User implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getName()
@@ -87,7 +86,7 @@ class User implements Entity
         return $this->name;
     }
 
-	/**
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -99,7 +98,7 @@ class User implements Entity
         $this->name = (string) $name;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getEmail()
@@ -107,7 +106,7 @@ class User implements Entity
         return $this->email;
     }
 
-	/**
+    /**
      * @param string $email
      */
     public function setEmail($email)
@@ -119,7 +118,7 @@ class User implements Entity
         $this->email = (string) $email;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getTwitterUser()
@@ -127,7 +126,7 @@ class User implements Entity
         return $this->twitterUser;
     }
 
-	/**
+    /**
      * @param string $twitterUser
      */
     public function setTwitterUser($twitterUser)
@@ -141,7 +140,7 @@ class User implements Entity
         $this->twitterUser = (string) $twitterUser;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getGithubUser()
@@ -149,7 +148,7 @@ class User implements Entity
         return $this->githubUser;
     }
 
-	/**
+    /**
      * @param string $githubUser
      */
     public function setGithubUser($githubUser)
@@ -167,7 +166,7 @@ class User implements Entity
         $this->githubUser = $githubUser;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getBio()
@@ -175,7 +174,7 @@ class User implements Entity
         return $this->bio;
     }
 
-	/**
+    /**
      * @param string $bio
      */
     public function setBio($bio)
@@ -193,7 +192,7 @@ class User implements Entity
         $this->bio = $bio;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getCreationTime()
@@ -201,7 +200,7 @@ class User implements Entity
         return $this->creationTime;
     }
 
-	/**
+    /**
      * @param \DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)

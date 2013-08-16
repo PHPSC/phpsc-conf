@@ -39,22 +39,22 @@ class Attendee implements Entity
 
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+      * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
 
     /**
      * @ManyToOne(targetEntity="Event", cascade={"all"})
-	 * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
+     * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\Event
      */
     private $event;
 
     /**
      * @ManyToOne(targetEntity="User", cascade={"all"})
-	 * @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\User
      */
     private $user;
@@ -83,7 +83,7 @@ class Attendee implements Entity
      */
     private $creationTime;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -91,7 +91,7 @@ class Attendee implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -105,7 +105,7 @@ class Attendee implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\Event
      */
     public function getEvent()
@@ -113,7 +113,7 @@ class Attendee implements Entity
         return $this->event;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\Event $event
      */
     public function setEvent(Event $event)
@@ -121,7 +121,7 @@ class Attendee implements Entity
         $this->event = $event;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\User
      */
     public function getUser()
@@ -129,7 +129,7 @@ class Attendee implements Entity
         return $this->user;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\User $user
      */
     public function setUser(User $user)
@@ -137,7 +137,7 @@ class Attendee implements Entity
         $this->user = $user;
     }
 
-	/**
+    /**
      * @return number
      */
     public function getCost()
@@ -145,7 +145,7 @@ class Attendee implements Entity
         return $this->cost;
     }
 
-	/**
+    /**
      * @param number $cost
      */
     public function setCost($cost)
@@ -153,7 +153,7 @@ class Attendee implements Entity
         $this->cost = (float) $cost;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getStatus()
@@ -161,7 +161,7 @@ class Attendee implements Entity
         return $this->status;
     }
 
-	/**
+    /**
      * @param string $status
      */
     public function setStatus($status)
@@ -255,7 +255,7 @@ class Attendee implements Entity
         $this->setStatus(static::CANCELLED);
     }
 
-	/**
+    /**
      * @return boolean
      */
     public function hasArrived()
@@ -263,7 +263,7 @@ class Attendee implements Entity
         return $this->arrived;
     }
 
-	/**
+    /**
      * @param boolean $arrived
      */
     public function setArrived($arrived)
@@ -271,7 +271,7 @@ class Attendee implements Entity
         $this->arrived = $arrived;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getCreationTime()
@@ -279,7 +279,7 @@ class Attendee implements Entity
         return $this->creationTime;
     }
 
-	/**
+    /**
      * @param \DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)

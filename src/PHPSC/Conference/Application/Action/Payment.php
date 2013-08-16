@@ -1,8 +1,6 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\PagSeguro\ValueObject\Item;
-use \PHPSC\PagSeguro\ValueObject\Payment\PaymentRequest;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
 

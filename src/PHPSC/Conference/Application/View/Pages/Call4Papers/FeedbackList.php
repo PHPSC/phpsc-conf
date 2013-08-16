@@ -5,7 +5,6 @@ use PHPSC\Conference\Application\View\Main;
 
 use \Lcobucci\DisplayObjects\Components\SimpleList;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \PHPSC\Conference\Domain\Entity\Event;
 
 class FeedbackList extends UIComponent
 {

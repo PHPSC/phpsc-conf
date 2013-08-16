@@ -86,6 +86,6 @@ class Form extends UIComponent
         return $this->talkService->userHasAnyApprovedTalk(
             $this->user,
             $this->event
-            );
+        );
     }
 }

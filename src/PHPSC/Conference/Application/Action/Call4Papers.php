@@ -29,11 +29,11 @@ class Call4Papers extends Controller
      */
     public function listTalks()
     {
-    	$user = $this->getAuthenticationService()->getLoggedUser();
-    	$event = $this->getEventManagement()->findCurrentEvent();
-    	$talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
+        $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
 
-    	return Main::create(new Grid($event, $talks), $this->application);
+        return Main::create(new Grid($event, $talks), $this->application);
     }
 
     /**
@@ -108,12 +108,12 @@ class Call4Papers extends Controller
      */
     public function feedbackList()
     {
-    	$user = $this->getAuthenticationService()->getLoggedUser();
-    	$event = $this->getEventManagement()->findCurrentEvent();
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
 
-    	return Main::create(
-	        $this->getFeedbackListFor($event, $user),
-	        $this->application
+        return Main::create(
+            $this->getFeedbackListFor($event, $user),
+            $this->application
         );
     }
 
@@ -187,7 +187,7 @@ class Call4Papers extends Controller
      */
     protected function getTalkManagement()
     {
-    	return $this->get('talk.management.service');
+        return $this->get('talk.management.service');
     }
 
     /**
@@ -219,6 +219,6 @@ class Call4Papers extends Controller
      */
     protected function getAuthenticationService()
     {
-    	return $this->get('authentication.service');
+        return $this->get('authentication.service');
     }
 }
