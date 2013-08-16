@@ -5,9 +5,8 @@ set_include_path(
     . __DIR__ . '/ui'
 );
 
-require 'Lcobucci/ActionMapper2/ClassLoader/SplClassLoader.php';
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
-use Lcobucci\ActionMapper2\ClassLoader\SplClassLoader;
-
-$loader = new SplClassLoader();
-$loader->register();
+$autoloader = require __DIR__ . '/vendor/autoload.php';
+$autoloader->setUseIncludePath(true); // temporary
+AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));

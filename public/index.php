@@ -16,7 +16,7 @@ $app = ApplicationBuilder::build(
     '\PHPSC\Conference\Infra\DependencyInjection\Container'
 );
 
-UIComponent::setDefaultBaseUrl($app->getRequest()->getBasePath());
+UIComponent::setBaseUrl($app->getRequest()->getBasePath());
 
 $app->startSession('PHPSC_SSID');
 $app->run();

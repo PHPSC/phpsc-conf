@@ -1,0 +1,33 @@
+{
+	"name" : "phpsc/conf",
+	"description" : "Event management system",
+	"type" : "project",
+	"authors" : [{
+			"name" : "Luís Otávio Cobucci Oblonczyk",
+			"email" : "lcobucci@gmail.com",
+			"homepage" : "http://about.me"
+		}
+	],
+	"keywords" : [
+		"phpsc conference",
+		"event",
+		"talk",
+		"attendee"
+	],
+	"homepage" : "http://conf.phpsc.com.br/",
+	"license" : [
+		"BSD-3-Clause"
+	],
+	"require" : {
+		"lcobucci/display-objects" : "dev-develop",
+		"lcobucci/action-mapper" : "dev-develop",
+		"phpsc/pagseguro" : "dev-develop",
+		"doctrine/orm" : "*"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"PHPSC\\Conference" : "src"
+		}
+	},
+	"minimum-stability" : "dev"
+}

@@ -1,9 +1,0 @@
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#<?php echo $this->getId(); ?>')
-		.dataTable(<?php echo $this->getOptions(); ?>)<?php if ($this->hasFilters()) { ?>
-		.columnFilter(<?php echo $this->getFilters(); ?>)<?php } ?>;
-	<?php echo $this->getJsCommands(); ?>
-});
-</script>
-<?php echo $this->getTable(); ?>
