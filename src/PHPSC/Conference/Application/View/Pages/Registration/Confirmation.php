@@ -20,7 +20,7 @@ class Confirmation extends UIComponent
     {
         $this->event = $event;
 
-        Main::appendScript($this->getBaseUrl() . '/js/registration.share.js');
+        Main::appendScript($this->getUrl('js/registration.share.js'));
     }
 
     /**

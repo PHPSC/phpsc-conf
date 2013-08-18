@@ -1,4 +1,4 @@
-<form id="talkForm" class="well" action="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions" method="post">
+<form id="talkForm" class="well" action="<?php echo $this->getUrl('call4papers/submissions'); ?>" method="post">
     <fieldset>
         <legend>Submissão de Palestras</legend>
         <div class="formItems">
@@ -29,7 +29,7 @@
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Submeter Palestra&nbsp;&raquo;</button>&nbsp;&nbsp;
-                    <a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions" class="btn">Cancelar</a>
+                    <a href="<?php echo $this->getUrl('call4papers/submissions'); ?>" class="btn">Cancelar</a>
                 </div>
             </div>
         </div>

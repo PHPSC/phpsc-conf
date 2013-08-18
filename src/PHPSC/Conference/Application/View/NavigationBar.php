@@ -27,19 +27,19 @@ class NavigationBar extends UIComponent
         $event = $this->getEventManagement()->findCurrentEvent();
 
         $items = array(
-            array('Página Inicial', '/'),
-            array('Sobre o Evento', '/about'),
-            array('O Local', '/venue'),
-            array('Inscrições', '/registration')
+            array('Página Inicial', ''),
+            array('Sobre o Evento', 'about'),
+            array('O Local', 'venue'),
+            array('Inscrições', 'registration')
         );
 
         if ($event->isSubmissionsInterval(new \DateTime())) {
-            $items[] = array('Chamada de Trabalhos', '/call4papers');
+            $items[] = array('Chamada de Trabalhos', 'call4papers');
         } else {
-            $items[] = array('Grade de Palestras', '/talks');
+            $items[] = array('Grade de Palestras', 'talks');
         }
 
-        $items[] = array('Contato', '/contact');
+        $items[] = array('Contato', 'contact');
 
 
 

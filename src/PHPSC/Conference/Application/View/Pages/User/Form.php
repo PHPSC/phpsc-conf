@@ -21,9 +21,9 @@ class Form extends UIComponent
         $this->user = $user;
 
         if ($this->isFirstAccess()) {
-            Main::appendScript($this->getBaseUrl() . '/js/user.create.js');
+            Main::appendScript($this->getUrl('js/user.create.js'));
         } else {
-            Main::appendScript($this->getBaseUrl() . '/js/user.edit.js');
+            Main::appendScript($this->getUrl('js/user.edit.js'));
         }
     }
 
@@ -61,11 +61,9 @@ class Form extends UIComponent
      */
     public function getFormAction()
     {
-        $base = $this->getBaseUrl();
-
         return !$this->isFirstAccess()
-               ? $base . '/user/' . $this->user->getId()
-               : $base . '/user/';
+               ? $this->getUrl('user/' . $this->user->getId())
+               : $this->getUrl('user');
     }
 
     public function isFirstAccess()

@@ -34,7 +34,7 @@ class FeedbackList extends UIComponent
         $this->shareUrl = $shareUrl;
         $this->likesCount = $likesCount;
 
-        Main::appendScript($this->getBaseUrl() . '/js/submissions.feedback.js');
+        Main::appendScript($this->getUrl('js/submissions.feedback.js'));
     }
 
     /**

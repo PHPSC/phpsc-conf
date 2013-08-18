@@ -39,7 +39,7 @@ class Form extends UIComponent
         $this->event = $event;
         $this->talkService = $talkService;
 
-        Main::appendScript($this->getBaseUrl() . '/js/attendee.create.js');
+        Main::appendScript($this->getUrl('js/attendee.create.js'));
     }
 
     /**

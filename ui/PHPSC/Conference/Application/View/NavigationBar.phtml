@@ -9,13 +9,13 @@
 			            height="30"
 			            width="30"></a>
 		            <ul class="dropdown-menu">
-    					<li><a href="<?php echo $this->getBaseUrl(); ?>/user">Meus dados</a></li>
-    					<li><a href="<?php echo $this->getBaseUrl(); ?>/call4papers/submissions">Trabalhos submetidos</a></li>
+    					<li><a href="<?php echo $this->getUrl('user'); ?>">Meus dados</a></li>
+    					<li><a href="<?php echo $this->getUrl('call4papers/submissions'); ?>">Trabalhos submetidos</a></li>
     					<li class="divider"></li>
-    					<li><a href="<?php echo $this->getBaseUrl(); ?>/oauth/logoff">Sair</a></li>
+    					<li><a href="<?php echo $this->getUrl('oauth/logoff'); ?>">Sair</a></li>
     				</ul>
 			    <?php } else { ?>
-    				<a class="btn" data-toggle="dropdown" href="<?php echo $this->getBaseUrl(); ?>/oauth/redirect" style="margin-top: 3px">
+    				<a class="btn" data-toggle="dropdown" href="<?php echo $this->getUrl('oauth/redirect'); ?>" style="margin-top: 3px">
     				    <i class="icon-user"></i> Logar
     				</a>
 				<?php } ?>
@@ -25,7 +25,7 @@
 				<ul class="nav nav-pills">
 				<?php foreach ($this->getOptions() as $option) { ?>
 					<li <?php echo $this->isActive($option[1]) ? 'class="active"' : ''; ?>>
-				        <a href="<?php echo $this->getBaseUrl() . $option[1]; ?>"><?php echo $option[0]; ?></a>
+				        <a href="<?php echo $this->getUrl($option[1]); ?>"><?php echo $option[0]; ?></a>
 		            </li>
 				<?php } ?>
 				</ul>

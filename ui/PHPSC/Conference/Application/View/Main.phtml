@@ -5,8 +5,8 @@
         <title>PHPSC Conference</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="<?php echo $this->getDescription(); ?>">
-        <link href="<?php echo $this->getBaseUrl(); ?>/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?php echo $this->getBaseUrl(); ?>/css/main.css" rel="stylesheet">
+        <link href="<?php echo $this->getUrl('css/bootstrap.min.css'); ?>" rel="stylesheet">
+        <link href="<?php echo $this->getUrl('css/main.css'); ?>" rel="stylesheet">
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -14,7 +14,7 @@
             var baseUrl = '<?php echo $this->getBaseUrl(); ?>';
     	</script>
         <?php foreach ($this->getScripts() as $script) { ?>
-        	<script src="<?php echo $script; ?>" type="text/javascript"></script>
+            <script src="<?php echo $script; ?>" type="text/javascript"></script>
         <?php } ?>
     </head>
 

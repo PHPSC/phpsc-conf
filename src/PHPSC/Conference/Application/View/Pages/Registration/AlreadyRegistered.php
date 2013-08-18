@@ -19,8 +19,8 @@ class AlreadyRegistered extends UIComponent
     {
         $this->attendee = $attendee;
 
-        Main::appendScript($this->getBaseUrl() . '/js/registration.share.js');
-        Main::appendScript($this->getBaseUrl() . '/js/registration.resendPayment.js');
+        Main::appendScript($this->getUrl('js/registration.share.js'));
+        Main::appendScript($this->getUrl('js/registration.resendPayment.js'));
     }
 
     /**

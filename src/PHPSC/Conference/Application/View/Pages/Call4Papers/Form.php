@@ -20,7 +20,7 @@ class Form extends UIComponent
     {
         $this->talk = $talk ?: new Talk();
 
-        Main::appendScript($this->getBaseUrl() . '/js/talk.create.js');
+        Main::appendScript($this->getUrl('js/talk.create.js'));
     }
 
     /**

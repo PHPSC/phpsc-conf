@@ -1,4 +1,4 @@
-<form id="attendeeForm" class="well" action="<?php echo $this->getBaseUrl(); ?>/registration" method="post">
+<form id="attendeeForm" class="well" action="<?php echo $this->getUrl('registration'); ?>" method="post">
     <fieldset>
         <legend>Inscrição - <?php echo $this->getEvent()->getName(); ?></legend>
         <div class="formItems">
@@ -45,7 +45,7 @@
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Concordo com os termos e desejo participar &raquo;</button>&nbsp;&nbsp;
-                    <a href="<?php echo $this->getBaseUrl(); ?>/registration" class="btn">Cancelar</a>
+                    <a href="<?php echo $this->getUrl('registration'); ?>" class="btn">Cancelar</a>
                 </div>
             </div>
             <?php } ?>
