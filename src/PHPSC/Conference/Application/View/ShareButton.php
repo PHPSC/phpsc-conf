@@ -36,12 +36,18 @@ class ShareButton extends UIComponent
     protected $containerClass;
 
     /**
+     * @var string
+     */
+    protected $containerId;
+
+    /**
      * @param string $title
      * @param string $message
      * @param string $url
      * @param string $user
      * @param string $buttonClass
      * @param string $containerClass
+     * @param string $containerId
      */
     public function __construct(
         $title,
@@ -49,7 +55,8 @@ class ShareButton extends UIComponent
         $url,
         $user,
         $buttonClass = 'btn-info',
-        $containerClass = 'pull-right'
+        $containerClass = 'pull-right',
+        $containerId = 'shareButtons'
     ) {
         $this->title = urlencode($title);
         $this->message = urlencode($message);
@@ -57,6 +64,7 @@ class ShareButton extends UIComponent
         $this->user = urlencode($user);
         $this->buttonClass = $buttonClass;
         $this->containerClass = $containerClass;
+        $this->containerId = $containerId;
     }
 
     /**
@@ -73,6 +81,14 @@ class ShareButton extends UIComponent
     protected function getContainerClass()
     {
         return $this->containerClass;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getContainerId()
+    {
+        return $this->containerId;
     }
 
     protected function getLinks()

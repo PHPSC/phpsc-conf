@@ -2,7 +2,7 @@
 namespace PHPSC\Conference\Application\View\Pages\Call4Papers;
 
 use PHPSC\Conference\Application\View\Main;
-
+use PHPSC\Conference\Application\View\ShareButton;
 use \Lcobucci\DisplayObjects\Components\SimpleList;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 
@@ -51,19 +51,16 @@ class FeedbackList extends UIComponent
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getShareUrl()
+    public function getShareButton()
     {
-        return $this->shareUrl;
-    }
-
-    /**
-     * @return number
-     */
-    public function getLikesCount()
-    {
-        return $this->likesCount;
+        return new ShareButton(
+            'Minha avaliação sobre as palestras',
+            'Gostei de algumas submissões do #phpscConf. Dê sua opinião também!',
+            $this->shareUrl,
+            'PHP_SC',
+            'btn-info',
+            !$this->likesCount ? 'pull-right hide' : 'pull-right',
+            'shareFeedback'
+        );
     }
 }

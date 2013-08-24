@@ -31,7 +31,6 @@
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="talk.management.service" />
 			<argument type="service" id="opinion.management.service" />
-			<argument type="service" id="twitter.client" />
 		</service>
 
 		<!-- Domain Services -->

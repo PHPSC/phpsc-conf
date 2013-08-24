@@ -137,22 +137,6 @@ class Call4Papers extends Controller
     }
 
     /**
-     * @Route("/feedback/share", methods={"POST"})
-     */
-    public function shareFeedback()
-    {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        $this->response->setContentType('application/json', 'UTF-8');
-
-        return $this->getOpinionJsonService()->share(
-            $this->getOpinionManagement()->getLikesCount($event, $user),
-            $this->request->getUriForPath('/call4papers/feedback')
-        );
-    }
-
-    /**
      * @return \PHPSC\Conference\Domain\Service\EventManagementService
      */
     protected function getEventManagement()

@@ -33,8 +33,6 @@
 			<argument>%twitter.consumerSecret%</argument>
 			<argument>%twitter.callback%</argument>
 		</service>
-		<service id="twitter.client" factory-service="twitter.provider"
-			factory-method="getClient" />
 			
 		<!-- PagSeguro -->
 		<service id="pagseguro.credentials"
@@ -53,7 +51,7 @@
 			<argument type="service" id="pagseguro.credentials" />
 		</service>
         
-        <service id="app.cache" class="Doctrine\Common\Cache\ApcCache">
+        <service id="app.cache" class="Doctrine\Common\Cache\ArrayCache">
             <call method="setNamespace">
                 <argument>phpsc.conf-</argument>
             </call>
