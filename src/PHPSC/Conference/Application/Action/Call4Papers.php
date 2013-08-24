@@ -90,20 +90,6 @@ class Call4Papers extends Controller
     }
 
     /**
-     * @Route("/submissions/share", methods={"POST"})
-     */
-    public function share()
-    {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
-        $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
-
-        $this->response->setContentType('application/json', 'UTF-8');
-
-        return $this->getTalkJsonService()->share(count($talks));
-    }
-
-    /**
      * @Route("/feedback", methods={"GET"})
      */
     public function feedbackList()

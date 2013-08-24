@@ -4,6 +4,7 @@ namespace PHPSC\Conference\Application\View\Pages\Registration;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \PHPSC\Conference\Application\View\Main;
 use \PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Application\View\ShareButton;
 
 class AlreadyRegistered extends UIComponent
 {
@@ -19,7 +20,6 @@ class AlreadyRegistered extends UIComponent
     {
         $this->attendee = $attendee;
 
-        Main::appendScript($this->getUrl('js/registration.share.js'));
         Main::appendScript($this->getUrl('js/registration.resendPayment.js'));
     }
 
@@ -37,5 +37,17 @@ class AlreadyRegistered extends UIComponent
     public function getAttendee()
     {
         return $this->attendee;
+    }
+
+    protected function getShareButton()
+    {
+        return new ShareButton(
+            'Acabo de me inscrever no ' . $this->attendee->getEvent()->getName(),
+            'Acabo de me inscrever no #phpscConf. Participe você também!',
+            'http://conf.phpsc.com.br',
+            'PHP_SC',
+            'btn-info btn-large',
+            ''
+        );
     }
 }

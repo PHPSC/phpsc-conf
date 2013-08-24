@@ -20,14 +20,12 @@
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="talk.management.service" />
 			<argument type="service" id="event.management.service" />
-			<argument type="service" id="twitter.client" />
 		</service>
 		<service id="attendee.json.service" class="PHPSC\Conference\Application\Service\AttendeeJsonService">
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="event.management.service" />
 			<argument type="service" id="attendee.management.service" />
 			<argument type="service" id="payment.management.service" />
-			<argument type="service" id="twitter.client" />
 		</service>
 		<service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
 			<argument type="service" id="authentication.service" />

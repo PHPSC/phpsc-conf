@@ -302,6 +302,7 @@ class Attendee implements Entity
         $attendee->setUser($user);
         $attendee->setCost($cost);
         $attendee->setStatus($status);
+        $attendee->setArrived(false);
         $attendee->setCreationTime(new DateTime());
 
         return $attendee;

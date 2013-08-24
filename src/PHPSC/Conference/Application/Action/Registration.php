@@ -94,16 +94,6 @@ class Registration extends Controller
     }
 
     /**
-     * @Route("/share", methods={"POST"})
-     */
-    public function share()
-    {
-        $this->response->setContentType('application/json', 'UTF-8');
-
-        return $this->getAttendeeJsonService()->share();
-    }
-
-    /**
      * @Route("/resendPayment", methods={"POST"})
      */
     public function resendPayment()

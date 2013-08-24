@@ -26,17 +26,53 @@ class ShareButton extends UIComponent
     protected $user;
 
     /**
+     * @var string
+     */
+    protected $buttonClass;
+
+    /**
+     * @var string
+     */
+    protected $containerClass;
+
+    /**
      * @param string $title
      * @param string $message
      * @param string $url
      * @param string $user
+     * @param string $buttonClass
+     * @param string $containerClass
      */
-    public function __construct($title, $message, $url, $user)
-    {
+    public function __construct(
+        $title,
+        $message,
+        $url,
+        $user,
+        $buttonClass = 'btn-info',
+        $containerClass = 'pull-right'
+    ) {
         $this->title = urlencode($title);
         $this->message = urlencode($message);
         $this->url = urlencode($url);
         $this->user = urlencode($user);
+        $this->buttonClass = $buttonClass;
+        $this->containerClass = $containerClass;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getButtonClass()
+    {
+        return $this->buttonClass;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getContainerClass()
+    {
+        return $this->containerClass;
     }
 
     protected function getLinks()
