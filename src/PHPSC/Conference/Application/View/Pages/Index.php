@@ -1,15 +1,8 @@
 <?php
 namespace PHPSC\Conference\Application\View\Pages;
 
-use PHPSC\Conference\Application\View\Main;
-
-use \Lcobucci\DisplayObjects\Core\UIComponent;
+use Lcobucci\DisplayObjects\Core\UIComponent;
 
 class Index extends UIComponent
 {
-    public function __construct()
-    {
-        Main::appendScript('http://widgets.twimg.com/j/2/widget.js');
-        Main::appendScript($this->getUrl('js/twitter.box.js'));
-    }
 }
