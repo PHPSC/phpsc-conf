@@ -7,13 +7,15 @@ require __DIR__ . '/../boot.php';
 
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \Lcobucci\ActionMapper2\Config\ApplicationBuilder;
+use Lcobucci\ActionMapper2\DependencyInjection\ContainerConfig;
 
 $app = ApplicationBuilder::build(
     __DIR__ . '/../config/routes.xml',
-    __DIR__ . '/../config/services.xml',
-    null,
-    __DIR__ . '/../tmp',
-    '\PHPSC\Conference\Infra\DependencyInjection\Container'
+    new ContainerConfig(
+        __DIR__ . '/../config/services.xml',
+        __DIR__ . '/../tmp',
+        '\PHPSC\Conference\Infra\DependencyInjection\Container'
+    )
 );
 
 UIComponent::setBaseUrl($app->getRequest()->getBasePath());
