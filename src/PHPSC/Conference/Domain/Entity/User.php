@@ -1,9 +1,9 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use PHPSC\Conference\Infra\Persistence\Entity;
+use InvalidArgumentException;
+use DateTime;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\UserRepository")
@@ -14,7 +14,7 @@ class User implements Entity
 {
     /**
      * @Id
-      * @Column(type="integer")
+     * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
      * @var int
      */

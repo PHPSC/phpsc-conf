@@ -11,8 +11,7 @@ $(document).ready(function() {
 					name: $('#name').val(),
 					email: $('#email').val(),
 					githubUser: $('#githubUser').val(),
-					bio: $('#bio').val(),
-					follow: $('#follow').prop('checked')
+					bio: $('#bio').val()
 				},
 				success: function(response)
 				{

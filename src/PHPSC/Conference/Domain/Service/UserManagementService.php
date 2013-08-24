@@ -13,20 +13,11 @@ class UserManagementService
     private $repository;
 
     /**
-     * @var \Abraham\TwitterOAuth\TwitterClient
-     */
-    private $client;
-
-    /**
      * @param \PHPSC\Conference\Domain\Repository\UserRepository $repository
-     * @param \Abraham\TwitterOAuth\TwitterClient $client
      */
-    public function __construct(
-        UserRepository $repository,
-        TwitterClient $client
-    ) {
+    public function __construct(UserRepository $repository)
+    {
         $this->repository = $repository;
-        $this->client = $client;
     }
 
     /**
@@ -35,7 +26,6 @@ class UserManagementService
      * @param string $email
      * @param string $githubUser
      * @param string $bio
-     * @param boolean $follow
      * @return \PHPSC\Conference\Domain\Entity\User
      */
     public function create(
@@ -43,8 +33,7 @@ class UserManagementService
         $twitterUser,
         $email,
         $githubUser,
-        $bio,
-        $follow
+        $bio
     ) {
         $user = User::create(
             $name,
@@ -55,10 +44,6 @@ class UserManagementService
         );
 
         $this->repository->append($user);
-
-        if ($follow) {
-            $this->client->createFriendship('PHP_SC');
-        }
 
         return $user;
     }

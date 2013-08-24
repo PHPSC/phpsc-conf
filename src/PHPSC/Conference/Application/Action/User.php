@@ -38,7 +38,6 @@ class User extends Controller
             $this->request->request->get('email'),
             $this->request->request->get('githubUser'),
             $this->request->request->get('bio'),
-            $this->request->request->get('follow') == 'true',
             $redirectTo ?: '/'
         );
     }

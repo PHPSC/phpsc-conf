@@ -39,7 +39,6 @@
 		<!-- Domain Services -->
 		<service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
 			<argument type="service" id="user.repository" />
-			<argument type="service" id="twitter.client" />
 		</service>
 		<service id="event.management.service" class="PHPSC\Conference\Domain\Service\EventManagementService">
 			<argument type="service" id="event.repository" />

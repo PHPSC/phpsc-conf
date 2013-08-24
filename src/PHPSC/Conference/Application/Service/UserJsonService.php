@@ -41,7 +41,6 @@ class UserJsonService
         $email,
         $githubUser,
         $bio,
-        $follow,
         $redirectTo
     ) {
         $user = $this->authService->getTwitterUser();
@@ -52,8 +51,7 @@ class UserJsonService
                 $user->screen_name,
                 $email,
                 !empty($githubUser) ? $githubUser : null,
-                !empty($bio) ? $bio : null,
-                $follow
+                !empty($bio) ? $bio : null
             );
 
             return json_encode(

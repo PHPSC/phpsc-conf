@@ -14,9 +14,6 @@
             <input type="text" id="githubUser" name="githubUser" value="<?php echo $this->getUser()->getGithubUser(); ?>" class="span5" placeholder="Digite seu usuário no Github..." maxlength="60">
             <label for="bio">Biografia</label>
             <textarea rows="5" cols="1" class="span5" id="bio" name="bio" placeholder="Conte-nos um pouco sobre você..."><?php echo $this->getUser()->getBio(); ?></textarea>
-            <?php if ($this->isFirstAccess()) { ?>
-            <br /><input type="checkbox" id="follow" name="follow" checked="checked" /> <label for="follow" style="display: inline; font-weight: normal; font-size: 85%">Desejo seguir o @<strong>PHP_SC</strong> no Twitter</label>
-            <?php } ?>
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Enviar dados &raquo;</button>
