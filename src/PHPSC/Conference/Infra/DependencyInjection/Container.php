@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
 {
@@ -53,6 +54,10 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
 
         $instance->setAutoGenerateProxyClasses(
             $this->getParameter('doctrine.proxy.auto')
+        );
+
+        AnnotationRegistry::registerFile(
+            $baseDir . 'vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php'
         );
 
         $reader = new SimpleAnnotationReader();
