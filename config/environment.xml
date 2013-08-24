@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://symfony.com/schema/dic/services ../lib/Symfony/Component/DependencyInjection/Loader/schema/services-1.0.xsd">
+	xsi:schemaLocation="http://symfony.com/schema/dic/services ../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
 	<parameters>
 		<!-- Database -->
 		<parameter key="db.host">127.0.0.1</parameter>
@@ -14,7 +14,6 @@
 		<parameter key="doctrine.proxy.dir">tmp/proxy</parameter>
 		<parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
 		<parameter key="doctrine.proxy.auto">true</parameter>
-		<parameter key="doctrine.cache">array</parameter>
 	
 		<!-- Twitter -->
 		<parameter key="twitter.consumerKey"></parameter>
@@ -22,7 +21,7 @@
 		<parameter key="twitter.callback">/oauth/callback</parameter>
 		
 		<!-- Pagseguro -->
-		<parameter key="pagseguro.email">pagseguro@johnathan.com.br</parameter>
+		<parameter key="pagseguro.email"></parameter>
 		<parameter key="pagseguro.token"></parameter>
 	</parameters>
 	<services>
@@ -53,5 +52,11 @@
 			class="PHPSC\PagSeguro\NotificationService">
 			<argument type="service" id="pagseguro.credentials" />
 		</service>
+        
+        <service id="app.cache" class="Doctrine\Common\Cache\ApcCache">
+            <call method="setNamespace">
+                <argument>phpsc.conf-</argument>
+            </call>
+        </service>
 	</services>
 </container>

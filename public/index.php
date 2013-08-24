@@ -15,7 +15,9 @@ $app = ApplicationBuilder::build(
         __DIR__ . '/../config/services.xml',
         __DIR__ . '/../tmp',
         '\PHPSC\Conference\Infra\DependencyInjection\Container'
-    )
+    ),
+    null,
+    'app.cache'
 );
 
 UIComponent::setBaseUrl($app->getRequest()->getBasePath());

@@ -1,10 +1,11 @@
 <?php
 namespace PHPSC\Conference\Infra\DependencyInjection;
 
-use \Doctrine\Common\Cache\ArrayCache;
-use \Doctrine\Common\Cache\ApcCache;
-use \Doctrine\ORM\Configuration;
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Annotations\SimpleAnnotationReader;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
 {
@@ -36,10 +37,8 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
         $this->services['doctrine.config'] = $instance = new Configuration();
 
         $baseDir = realpath(__DIR__ . '/../../../../../') . '/';
-        $cache = $this->getParameter('doctrine.cache') == 'apc'
-                 ? new ApcCache()
-                 : new ArrayCache();
 
+        $cache = $this->get('app.cache');
         $instance->setMetadataCacheImpl($cache);
         $instance->setQueryCacheImpl($cache);
         $instance->setResultCacheImpl($cache);
@@ -56,9 +55,13 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
             $this->getParameter('doctrine.proxy.auto')
         );
 
+        $reader = new SimpleAnnotationReader();
+        $reader->addNamespace('Doctrine\ORM\Mapping');
+
         $instance->setMetadataDriverImpl(
-            $instance->newDefaultAnnotationDriver(
-                $baseDir . $this->getParameter('doctrine.entity.dir')
+            new AnnotationDriver(
+                new CachedReader($reader, $cache),
+                array($baseDir . $this->getParameter('doctrine.entity.dir'))
             )
         );
 
