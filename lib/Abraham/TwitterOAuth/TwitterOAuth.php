@@ -13,7 +13,7 @@ class TwitterOAuth
     /**
      * @var string
      */
-    const API_ROOT = 'https://api.twitter.com/1/';
+    const API_ROOT = 'https://api.twitter.com/1.1/';
 
     /**
      * @var string
