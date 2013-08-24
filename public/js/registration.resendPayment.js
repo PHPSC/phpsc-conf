@@ -6,7 +6,7 @@ $(document).ready(function () {
 		
 		$.ajax(
 			{
-				url: baseUrl + '/registration/resendPayment',
+				url: baseUrl + 'registration/resendPayment',
 				type: 'post',
 				success: function (response)
 				{

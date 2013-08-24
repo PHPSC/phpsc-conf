@@ -10,7 +10,7 @@ $(document).ready(function () {
 		
 		$.ajax(
 			{
-				url: baseUrl + '/call4papers/submissions/' + id,
+				url: baseUrl + 'call4papers/submissions/' + id,
 				type: 'GET',
 				success: function (response)
 				{
@@ -37,7 +37,7 @@ $(document).ready(function () {
 						
 						$.ajax(
 							{
-								url: baseUrl + '/call4papers/submissions/' + id,
+								url: baseUrl + 'call4papers/submissions/' + id,
 								type: 'PUT',
 								data: {
 									title: $('#title').val(),

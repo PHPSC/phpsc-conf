@@ -22,7 +22,7 @@ $(document).ready(function () {
 		
 		$.ajax(
 			{
-				url: baseUrl + '/call4papers/feedback/share',
+				url: baseUrl + 'call4papers/feedback/share',
 				type: 'POST',
 				success: function (result)
 				{
@@ -67,7 +67,7 @@ function submitFeedback(id, likes, elementToRemove)
 {
 	$.ajax(
 		{
-			url: baseUrl + '/call4papers/feedback',
+			url: baseUrl + 'call4papers/feedback',
 			type: 'POST',
 			data: {
 				talkId: id,

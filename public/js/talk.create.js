@@ -38,7 +38,7 @@ $(document).ready(function() {
 					setTimeout(
 						function()
 						{
-							window.location = baseUrl + '/call4papers/submissions';
+							window.location = baseUrl + 'call4papers/submissions';
 						},
 						1000
 					);

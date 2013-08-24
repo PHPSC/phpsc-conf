@@ -6,7 +6,7 @@ $(document).ready(function () {
 		
 		$.ajax(
 			{
-				url: baseUrl + '/registration/share',
+				url: baseUrl + 'registration/share',
 				type: 'post',
 				success: function (result)
 				{
