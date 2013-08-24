@@ -1,0 +1,10 @@
+<div class="btn-group pull-right">
+    <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="icon-share icon-white"></i> Compartilhar <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" style="min-width: 120px; text-align: left;">
+    <?php foreach ($this->getLinks() as $provider => $uri) { ?>
+        <li><a href="<?= $uri ?>" target="_blank"><?= $provider ?></a></li>
+        <?php } ?>
+    </ul>
+</div>

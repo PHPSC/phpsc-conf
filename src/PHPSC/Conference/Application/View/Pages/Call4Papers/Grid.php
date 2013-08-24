@@ -7,6 +7,7 @@ use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \PHPSC\Conference\Application\View\Main;
 use \PHPSC\Conference\Domain\Entity\Event;
 use \PHPSC\Conference\Domain\Entity\Talk;
+use PHPSC\Conference\Application\View\ShareButton;
 
 class Grid extends UIComponent
 {
@@ -25,11 +26,27 @@ class Grid extends UIComponent
      */
     public function __construct(Event $event, array $talks)
     {
-        Main::appendScript($this->getUrl('js/submissions.grid.js'));
         Main::appendScript($this->getUrl('js/view-or-edit-talk.js'));
 
         $this->event = $event;
         $this->talks = $talks;
+    }
+
+    public function getShareButton()
+    {
+        if (!$this->hasTalks()) {
+            return null;
+        }
+
+        return new ShareButton(
+            'Estou colaborando no ' . $this->event->getName(),
+            sprintf(
+                'Estou colaborando no #phpscConf com %d trabalho(s). Contribua você também!',
+                $this->getTalksCount()
+            ),
+            'http://conf.phpsc.com.br',
+            'PHP_SC'
+        );
     }
 
     /**
