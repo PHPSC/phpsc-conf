@@ -127,18 +127,18 @@ class Grid extends UIComponent
                     '',
                     function ($id) use ($readOnly) {
                         $title = 'Editar';
-                        $icon = 'icon-pencil';
+                        $icon = 'pencil';
 
                         if ($readOnly) {
                             $title = 'Ver informações';
-                            $icon = 'icon-eye-open';
+                            $icon = 'eye-open';
                         }
 
                         return '<a href="#"
                                     id="action-' . $id . '"
                                     class="btn btn-mini btn-info"
                                     title="' . $title . '">
-                                    <i class="' . $icon . '"></i>
+                                    <span class="glyphicon glyphicon-' . $icon . '"></span>
                                 </a>';
                     }
                 )
