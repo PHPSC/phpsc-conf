@@ -1,4 +1,4 @@
-<div class="hero-unit" style="padding: 30px;">
+<div class="jumbotron" style="padding: 30px;">
     <h2>Chamada de trabalhos</h2>
     <h3><?php echo $this->getEvent()->getName(); ?></h3>
     <div style="margin-top: 15px;">
@@ -20,7 +20,7 @@
 </div>
 <?php if ($this->getEvent()->isSubmissionsInterval(new \DateTime())) { ?>
 <div class="row">
-    <div class="span9">
+    <div class="col-md-9">
         <h3 style="margin-bottom: 10px;">Maiores informações</h3>
         <p>As propostas serão aceitas até <strong><?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i'); ?></strong>, após
             esta data passarão pela avaliação dos membros do <strong>PHPSC</strong> e também da comunidade.</p>

@@ -1,4 +1,4 @@
-<div class="hero-unit" style="padding: 30px;">
+<div class="jumbotron" style="padding: 30px;">
     <?php if (!$this->getAttendee()->isPaymentRequired()) { ?>
     <h2>Você já está inscrito!</h2>
     <p style="margin-left: 10px; text-align: justify;">Sua inscrição no <?php echo $this->getEvent()->getName(); ?> está registrada com sucesso.</p>
@@ -36,7 +36,7 @@
         </p>
     </div>
     <div id="payButtons" class="modal-footer">
-        <button class="btn" data-dismiss="modal">Não</button>
+        <button class="btn btn-default" data-dismiss="modal">Não</button>
         <button id="payConfirm" class="btn btn-primary">Sim</button>
     </div>
 </div>

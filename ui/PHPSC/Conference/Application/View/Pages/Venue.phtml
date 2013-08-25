@@ -1,10 +1,10 @@
 <div class="row title">
-    <div class="span9">
+    <div class="col-md-9">
         <h1>O Local</h1>
     </div>
 </div>
 <div class="row">
-    <div class="<?php echo $this->displayMap() ? 'span4' : 'span9'; ?>">
+    <div class="<?= $this->displayMap() ? 'col-md-4' : 'col-md-9'; ?>">
         <p>Esse ano, o evento será realizado em São José (ao lado de Florianópolis) na UNIVALI.</p>
         <img src="http://www.univali.br/uploads/temp/telefones/saojose.jpg" alt="UNIVALI Campus São José" />
         <p style="margin-top: 10px;">
@@ -21,10 +21,10 @@
         </ul>
     </div>
     <?php if ($this->displayMap()) { ?>
-    <div class="span5">
-        <ul class="thumbnails">
-            <li class="span5">
-                <div class="thumbnail">
+    <div class="col-md-5">
+        <ul class="list-unstyled">
+            <li>
+                <div class="img-thumbnail">
                     <div id="mapEvento"></div>
                     <h6 id="address"></h6>
                 </div>
@@ -32,7 +32,7 @@
         </ul>
     </div>
     <?php } ?>
-    <div class="span9">
+    <div class="col-md-9">
         <h3>Transporte</h3>
         <p>Contratamos uma empresa para fazer o transporte dos palestrantes e participantes do evento.</p>
         <p>O ônibus irá parar nos seguintes locais:</p>
@@ -50,11 +50,11 @@
             seguinte <a href="https://docs.google.com/spreadsheet/viewform?formkey=dHdSeUUyYWM1ckhQS0Jmbk5ZM3llZmc6MQ" target="_blank">formulário</a>.
         </p>
     </div>
-    <div class="span9">
+    <div class="col-md-9">
         <h3>Hospedagem</h3>
         <p>Os seguintes hotéis são próximos do evento ou dos pontos de encontro do transporte que contratamos (os preços aqui listados foram consultados em 16/10/2012):</p>
         <div class="row" style="margin-top: 15px;">
-            <div class="span4">
+            <div class="col-md-4">
                 <h4>
                     <a href="http://www.hotelitaguacu.com.br/novo/" target="_blank">Hotel Itaguaçu</a>
                 </h4>
@@ -69,7 +69,7 @@
                     <li>Quadruplo: R$ 184,00</li>
                 </ul>
             </div>
-            <div class="span4 offset1">
+            <div class="col-md-4 offset1">
                 <h4>
                     <a href="http://www.slavierohoteis.com.br/br/palhoca/slaviero-executive-viacatarina_8_hoteis.aspx" target="_blank">Hotel Slaviero</a>
                 </h4>
@@ -86,7 +86,7 @@
             </div>
         </div>
         <div class="row" style="margin-top: 15px;">
-            <div class="span4">
+            <div class="col-md-4">
                 <h4>
                     <a href="http://www.ibis.com/pt-br/hotel-6667-ibis-sao-jose/index.shtml" target="_blank">Ibis Hotel São José</a>
                 </h4>
@@ -98,7 +98,7 @@
                     <li>Cama de casal ou duas camas de solteiro: R$ 119,00</li>
                 </ul>
             </div>
-            <div class="span4 offset1">
+            <div class="col-md-4 offset1">
                 <h4>
                     <a href="http://www.zionhotel.com.br/" target="_blank">Hotel Zion</a>
                 </h4>
@@ -114,7 +114,7 @@
             </div>
         </div>
         <div class="row" style="margin-top: 15px;">
-            <div class="span4">
+            <div class="col-md-4">
                 <h4>
                     <a href="http://www.hotellunes.com.br/port/index.html" target="_blank">Hotel Lunes</a>
                 </h4>
@@ -128,7 +128,7 @@
                     <li>Triplo: R$ 135,00</li>
                 </ul>
             </div>
-            <div class="span4 offset1">
+            <div class="col-md-4 offset1">
                 <h4>
                     <a href="http://www.hotelkennedy.com.br/site.html" target="_blank">Hotel Kennedy</a>
                 </h4>

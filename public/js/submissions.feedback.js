@@ -52,7 +52,6 @@ function submitFeedback(id, likes, elementToRemove)
 				
 				if (response.data.likesCount > 0) {
 					$('#shareFeedback').fadeIn('slow');
-					$('#shareConfirm').prop('disabled', false);
 				}
 			}
 		}

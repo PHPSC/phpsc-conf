@@ -13,11 +13,11 @@
     <?php } ?>
 </div>
 <div class="row">
-    <p class="span6 well" style="width: 540px;">
+    <p class="col-md-8 well">
         <?php echo nl2br($this->getItem()->getShortDescription()); ?>
     </p>
-    <div class="span2" style="width: 100px;">
-        <a href="#" id="like-<?php echo $this->getItem()->getId(); ?>" class="btn btn-info btn-lg" title="Gostei"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-        &nbsp;<a href="#" id="dislike-<?php echo $this->getItem()->getId(); ?>" class="btn btn-lg" title="Não gostei"><spab class="glyphicon glyphicon-thumbs-down"></span></a>
+    <div class="col-md-2">
+        <a href="#" id="like-<?php echo $this->getItem()->getId(); ?>" class="btn btn-info" title="Gostei"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+        &nbsp;<a href="#" id="dislike-<?php echo $this->getItem()->getId(); ?>" class="btn btn-default" title="Não gostei"><spab class="glyphicon glyphicon-thumbs-down"></span></a>
     </div>
 </div>

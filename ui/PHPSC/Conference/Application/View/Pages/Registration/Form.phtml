@@ -45,7 +45,7 @@
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Concordo com os termos e desejo participar &raquo;</button>&nbsp;&nbsp;
-                    <a href="<?php echo $this->getUrl('registration'); ?>" class="btn">Cancelar</a>
+                    <a href="<?php echo $this->getUrl('registration'); ?>" class="btn btn-default">Cancelar</a>
                 </div>
             </div>
             <?php } ?>
@@ -89,7 +89,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal">Fechar</button>
+        <button class="btn btn-default" data-dismiss="modal">Fechar</button>
     </div>
 </div>
 <?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
@@ -102,7 +102,7 @@
         <?php echo $this->getEvent()->getRegistrationInfo()->getStudentRules(); ?>
     </div>
     <div class="modal-footer">
-        <button class="btn" id="revertIsStudent" data-dismiss="modal">Não sou aluno</button>
+        <button class="btn btn-default" id="revertIsStudent" data-dismiss="modal">Não sou aluno</button>
         <button class="btn btn-primary" data-dismiss="modal">Sou aluno e levarei o comprovante de matrícula</button>
     </div>
 </div>
