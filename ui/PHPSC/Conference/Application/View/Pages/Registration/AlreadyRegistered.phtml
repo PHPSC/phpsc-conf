@@ -20,23 +20,27 @@
     <p><a class="btn btn-primary btn-lg" href="#pay" data-toggle="modal"><span class="glyphicon glyphicon-shopping-cart"></span> Efetuar pagamento</a></p>
     <?php } ?>
 </div>
-<div id="pay" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Reenviar pagamento</h3>
-    </div>
-    <div class="modal-body">
-        <div id="payMsg" class="alert alert-error hide">
-            <h4></h4>
+<div id="pay" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pay" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Reenviar pagamento</h3>
+            </div>
+            <div class="modal-body">
+                <div id="payMsg" class="alert alert-error hide">
+                    <h4></h4>
+                </div>
+                <h4 style="margin-bottom: 10px;">Você deseja realmente solicitar o pagamento da inscrição?</h4>
+                <p style="margin: 0px 10px;">
+                    Você será redirecionado para o PagSeguro, realize todos os passos atentamente!
+                    Caso ocorra algum problema você poderá solicitar um novo pagamento através desta página.
+                </p>
+            </div>
+            <div id="payButtons" class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Não</button>
+                <button id="payConfirm" class="btn btn-primary">Sim</button>
+            </div>
         </div>
-        <h4 style="margin-bottom: 10px;">Você deseja realmente solicitar o pagamento da inscrição?</h4>
-        <p style="margin: 0px 10px;">
-            Você será redirecionado para o PagSeguro, realize todos os passos atentamente!
-            Caso ocorra algum problema você poderá solicitar um novo pagamento através desta página.
-        </p>
-    </div>
-    <div id="payButtons" class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal">Não</button>
-        <button id="payConfirm" class="btn btn-primary">Sim</button>
     </div>
 </div>

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$('a.btn.btn-mini.btn-info[id|="action"]').click(function () {
+	$('a.btn.btn-xs.btn-info[id|="action"]').click(function () {
 		$('#gridMsg').removeClass('alert-error')
 					 .addClass('alert-info');
 			
