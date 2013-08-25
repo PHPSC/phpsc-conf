@@ -32,10 +32,9 @@
                     </div>
                 </div>
             </div>
+
+            <?php echo $this->renderFooter(); ?>
         </div>
-
-        <?php echo $this->renderFooter(); ?>
-
         <?php foreach ($this->getScripts() as $script) { ?>
             <script src="<?php echo $script; ?>" type="text/javascript"></script>
         <?php } ?>
