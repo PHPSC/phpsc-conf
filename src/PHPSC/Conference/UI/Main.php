@@ -1,5 +1,5 @@
 <?php
-namespace PHPSC\Conference\Application\View;
+namespace PHPSC\Conference\UI;
 
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \Lcobucci\ActionMapper2\Application;
@@ -29,7 +29,7 @@ class Main extends UIComponent
     /**
      * @param \Lcobucci\DisplayObjects\Core\UIComponent $content
      * @param \Lcobucci\ActionMapper2\Application $application
-     * @return \PHPSC\Conference\Application\View\Main
+     * @return \PHPSC\Conference\UI\Main
      */
     public static function create(
         UIComponent $content,
@@ -87,7 +87,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Application\View\NavigationBar
+     * @return \PHPSC\Conference\UI\NavigationBar
      */
     public function renderNavigation()
     {
@@ -95,7 +95,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Application\View\Sponsors
+     * @return \PHPSC\Conference\UI\Sponsors
      */
     public function renderSponsors()
     {
@@ -103,7 +103,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Application\View\Footer
+     * @return \PHPSC\Conference\UI\Footer
      */
     public function renderFooter()
     {

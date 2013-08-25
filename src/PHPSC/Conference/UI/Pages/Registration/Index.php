@@ -1,5 +1,5 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages\Registration;
+namespace PHPSC\Conference\UI\Pages\Registration;
 
 use \PHPSC\Conference\Domain\Entity\Event;
 use \Lcobucci\DisplayObjects\Core\UIComponent;

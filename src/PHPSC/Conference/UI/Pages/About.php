@@ -1,5 +1,5 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages;
+namespace PHPSC\Conference\UI\Pages;
 
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 

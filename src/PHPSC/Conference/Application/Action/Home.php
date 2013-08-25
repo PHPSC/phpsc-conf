@@ -3,10 +3,10 @@ namespace PHPSC\Conference\Application\Action;
 
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\Application\View\Pages\Index;
-use \PHPSC\Conference\Application\View\Pages\About;
-use \PHPSC\Conference\Application\View\Pages\Venue;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Pages\Index;
+use \PHPSC\Conference\UI\Pages\About;
+use \PHPSC\Conference\UI\Pages\Venue;
+use \PHPSC\Conference\UI\Main;
 
 class Home extends Controller
 {

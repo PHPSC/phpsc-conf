@@ -1,7 +1,7 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages\User;
+namespace PHPSC\Conference\UI\Pages\User;
 
-use PHPSC\Conference\Application\View\Main;
+use PHPSC\Conference\UI\Main;
 
 use \PHPSC\Conference\Domain\Entity\User;
 use \Lcobucci\DisplayObjects\Core\UIComponent;

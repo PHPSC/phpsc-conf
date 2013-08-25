@@ -1,7 +1,7 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\View\Pages\Status as StatusView;
+use \PHPSC\Conference\UI\Pages\Status as StatusView;
 
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;

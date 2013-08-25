@@ -1,5 +1,5 @@
 <?php
-namespace PHPSC\Conference\Application\View;
+namespace PHPSC\Conference\UI;
 
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \Lcobucci\ActionMapper2\Application;

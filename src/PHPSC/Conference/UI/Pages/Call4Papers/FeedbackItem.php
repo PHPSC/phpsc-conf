@@ -1,5 +1,5 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages\Call4Papers;
+namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
 use \Lcobucci\DisplayObjects\Core\ItemRenderer;
 

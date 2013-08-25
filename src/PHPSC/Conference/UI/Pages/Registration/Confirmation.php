@@ -1,8 +1,8 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages\Registration;
+namespace PHPSC\Conference\UI\Pages\Registration;
 
-use PHPSC\Conference\Application\View\Main;
-use PHPSC\Conference\Application\View\ShareButton;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\ShareButton;
 use \PHPSC\Conference\Domain\Entity\Event;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 

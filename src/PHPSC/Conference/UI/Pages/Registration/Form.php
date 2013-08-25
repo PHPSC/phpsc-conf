@@ -1,10 +1,10 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages\Registration;
+namespace PHPSC\Conference\UI\Pages\Registration;
 
 
 use \PHPSC\Conference\Domain\Service\TalkManagementService;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Main;
 use \PHPSC\Conference\Domain\Entity\Event;
 use \PHPSC\Conference\Domain\Entity\User;
 

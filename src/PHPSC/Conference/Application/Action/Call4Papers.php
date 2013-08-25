@@ -1,12 +1,12 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\FeedbackMessage;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\FeedbackList;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\Form;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\Index;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\Grid;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Pages\Call4Papers\FeedbackMessage;
+use \PHPSC\Conference\UI\Pages\Call4Papers\FeedbackList;
+use \PHPSC\Conference\UI\Pages\Call4Papers\Form;
+use \PHPSC\Conference\UI\Pages\Call4Papers\Index;
+use \PHPSC\Conference\UI\Pages\Call4Papers\Grid;
+use \PHPSC\Conference\UI\Main;
 use \PHPSC\Conference\Domain\Entity\Event;
 
 use \Lcobucci\ActionMapper2\Routing\Controller;

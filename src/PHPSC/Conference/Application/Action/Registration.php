@@ -1,15 +1,15 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use PHPSC\Conference\Application\View\Pages\Registration\AlreadyRegistered;
+use PHPSC\Conference\UI\Pages\Registration\AlreadyRegistered;
 
-use PHPSC\Conference\Application\View\Pages\Registration\Confirmation;
+use PHPSC\Conference\UI\Pages\Registration\Confirmation;
 
-use \PHPSC\Conference\Application\View\Pages\Registration\Index;
-use \PHPSC\Conference\Application\View\Pages\Registration\Form;
+use \PHPSC\Conference\UI\Pages\Registration\Index;
+use \PHPSC\Conference\UI\Pages\Registration\Form;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Main;
 
 class Registration extends Controller
 {

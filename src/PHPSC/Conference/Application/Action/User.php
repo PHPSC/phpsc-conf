@@ -1,8 +1,8 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\View\Pages\User\Form;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Pages\User\Form;
+use \PHPSC\Conference\UI\Main;
 use \PHPSC\Conference\Domain\Entity\User as UserEntity;
 
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
@@ -71,7 +71,7 @@ class User extends Controller
 
     /**
      * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return \PHPSC\Conference\Application\View\Main
+     * @return \PHPSC\Conference\UI\Main
      */
     protected function showForm(\PHPSC\Conference\Domain\Entity\User $user)
     {

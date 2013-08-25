@@ -1,10 +1,11 @@
 <?php
-namespace PHPSC\Conference\Application\View\Pages\Call4Papers;
+namespace PHPSC\Conference\UI\Pages;
 
 use \PHPSC\Conference\Domain\Entity\Event;
+use \PHPSC\Conference\UI\Main;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 
-class Index extends UIComponent
+class Venue extends UIComponent
 {
     /**
      * @var \PHPSC\Conference\Domain\Entity\Event
@@ -16,6 +17,10 @@ class Index extends UIComponent
      */
     public function __construct(Event $event)
     {
+        Main::appendScript('http://maps.googleapis.com/maps/api/js?sensor=false');
+        Main::appendScript($this->getUrl('js/gmaps.js'));
+        Main::appendScript($this->getUrl('js/venue.map.js'));
+
         $this->event = $event;
     }
 
@@ -25,5 +30,13 @@ class Index extends UIComponent
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function displayMap()
+    {
+        return $this->getEvent()->getLocation()->hasGeoPoint();
     }
 }
