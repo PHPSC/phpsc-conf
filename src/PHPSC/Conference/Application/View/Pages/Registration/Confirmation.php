@@ -36,7 +36,7 @@ class Confirmation extends UIComponent
             'Acabo de me inscrever no #phpscConf. Participe você também!',
             'http://conf.phpsc.com.br',
             'PHP_SC',
-            'btn-info btn-large',
+            'btn-info btn-lg',
             ''
         );
     }

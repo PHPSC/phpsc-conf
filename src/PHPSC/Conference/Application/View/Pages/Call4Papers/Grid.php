@@ -136,7 +136,7 @@ class Grid extends UIComponent
 
                         return '<a href="#"
                                     id="action-' . $id . '"
-                                    class="btn btn-mini btn-info"
+                                    class="btn btn-xs btn-info"
                                     title="' . $title . '">
                                     <span class="glyphicon glyphicon-' . $icon . '"></span>
                                 </a>';
