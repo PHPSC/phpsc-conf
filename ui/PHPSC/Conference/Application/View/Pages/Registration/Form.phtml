@@ -36,7 +36,7 @@
                     O custo da sua inscrição será de <strong>R$ <?php echo number_format($this->getCost(), 2, ',', '.'); ?></strong>, devendo ser pago
                     através do PagSeguro (de acordo com os <a href="#terms" data-toggle="modal">termos de participacão</a>).
                 </p>
-                <p id="studentAttendee" class="hidden">A sua inscrição será gratuita.</p>
+                <p id="studentAttendee" class="hide">A sua inscrição será gratuita.</p>
             </div>
             <?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
             <input id="isStudent" name="isStudent" type="checkbox" />
