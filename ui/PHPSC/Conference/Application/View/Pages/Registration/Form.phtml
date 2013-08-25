@@ -1,4 +1,4 @@
-<form id="attendeeForm" class="well" action="<?php echo $this->getUrl('registration'); ?>" method="post">
+<form role="form" id="attendeeForm" class="well" action="<?php echo $this->getUrl('registration'); ?>" method="post">
     <fieldset>
         <legend>Inscrição - <?php echo $this->getEvent()->getName(); ?></legend>
         <div class="formItems">
@@ -39,8 +39,10 @@
                 <p id="studentAttendee" class="hide">A sua inscrição será gratuita.</p>
             </div>
             <?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
-            <input id="isStudent" name="isStudent" type="checkbox" />
-            <label for="isStudent" style="display: inline;"><?php echo $this->getEvent()->getRegistrationInfo()->getStudentLabel(); ?></label>
+            <div class="form-group">
+                <input id="isStudent" name="isStudent" type="checkbox" />
+                <label for="isStudent" style="display: inline;"><?php echo $this->getEvent()->getRegistrationInfo()->getStudentLabel(); ?></label>
+            </div>
             <?php } ?>
             <div class="control-group">
                 <div class="controls">
