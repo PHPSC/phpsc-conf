@@ -47,15 +47,6 @@ class NavigationBar extends UIComponent
     }
 
     /**
-     * @param string $path
-     * @return boolean
-     */
-    public function isActive($path)
-    {
-        return $this->application->getRequest()->getRequestedPath() == $path;
-    }
-
-    /**
      * @return \stdClass
      */
     public function getTwitterUser()
