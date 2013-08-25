@@ -50,8 +50,8 @@ class Main extends UIComponent
     {
         $this->content = $content;
 
-        static::appendScript($this->getUrl('js/bootstrap.min.js'), true);
-        static::appendScript($this->getUrl('js/jquery-1.10.2.min.js'), true);
+        static::appendScript($this->getUrl('js/vendor/bootstrap.min.js'), true);
+        static::appendScript($this->getUrl('js/vendor/jquery-1.10.2.min.js'), true);
     }
 
     /**
