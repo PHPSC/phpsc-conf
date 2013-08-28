@@ -58,6 +58,10 @@ class UserJsonService
                 !empty($bio) ? $bio : null
             );
 
+            $message = $this->emailManager->getMessageFromTemplate('Welcome', array('name' => $name));
+            $message->setTo($email);
+            $this->emailManager->send($message);
+
             return json_encode(
                 array(
                     'data' => array(

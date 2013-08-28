@@ -18,6 +18,21 @@ class EmailManagementService
 	public function send(Swift_Message $message)
 	{
 		$message->setFrom('contato@phpsc.com.br', 'PHPSC Conference');
-		return (boolean) $this->mailer->send($message);
+		$result = (boolean) $this->mailer->send($message);
+
+		if (!$result) {
+			throw new \Exception('Não foi possível enviar o e-mail');
+		}
+	}
+
+	public function getMessageFromTemplate($template, $placeholders = array())
+	{
+		$className = '\\PHPSC\\Conference\\EmailTemplate\\' . $template;
+
+		if (!class_exists($className)) {
+			throw new \Exception('Template não existe');
+		}
+
+		return new $className($placeholders);
 	}
 }
