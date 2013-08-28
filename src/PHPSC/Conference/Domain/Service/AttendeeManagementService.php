@@ -6,6 +6,7 @@ use \PHPSC\Conference\Domain\Entity\Attendee;
 use \PHPSC\Conference\Domain\Entity\Event;
 use \PHPSC\Conference\Domain\Entity\User;
 use \InvalidArgumentException;
+use \PHPSC\Conference\Domain\Service\EmailManagementService;
 
 class AttendeeManagementService
 {
@@ -20,15 +21,23 @@ class AttendeeManagementService
     private $talkService;
 
     /**
+     * @var \PHPSC\Conference\Domain\Service\EmailManagementService
+     */
+    private $emailManager;
+
+    /**
      * @param \PHPSC\Conference\Domain\Repository\AttendeeRepository $repository
      * @param \PHPSC\Conference\Domain\Service\TalkManagementService $talkService
+     * @param \PHPSC\Conference\Domain\Service\EmailManagementService $emailManager
      */
     public function __construct(
         AttendeeRepository $repository,
-        TalkManagementService $talkService
+        TalkManagementService $talkService,
+        EmailManagementService $emailManager
     ) {
         $this->repository = $repository;
         $this->talkService = $talkService;
+        $this->emailManager =$emailManager;
     }
 
     /**
@@ -94,6 +103,13 @@ class AttendeeManagementService
 
         $this->repository->append($attendee);
 
+        $message = $this->emailManager->getMessageFromTemplate('Registration', array(
+            'user_name' => $user->getName(),
+            'event_name' => $event->getName()
+        ));
+        $message->setTo($user->getEmail());
+        $this->emailManager->send($message);
+
         return $attendee;
     }
 
@@ -130,6 +146,13 @@ class AttendeeManagementService
 
         $attendee->approve();
         $this->repository->update($attendee);
+
+        $message = $this->emailManager->getMessageFromTemplate('PaymentConfirmation', array(
+            'user_name' => $attendee->getUser()->getName(),
+            'event_name' => $attendee->getEvent()->getName()
+        ));
+        $message->setTo($attendee->getUser()->getEmail());
+        $this->emailManager->send($message);
 
         return $attendee;
     }

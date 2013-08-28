@@ -27,7 +27,6 @@
 			<argument type="service" id="event.management.service" />
 			<argument type="service" id="attendee.management.service" />
 			<argument type="service" id="payment.management.service" />
-			<argument type="service" id="email.management.service" />
 		</service>
 		<service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
 			<argument type="service" id="authentication.service" />
@@ -49,6 +48,7 @@
 		<service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
 			<argument type="service" id="attendee.repository" />
 			<argument type="service" id="talk.management.service" />
+			<argument type="service" id="email.management.service" />
 		</service>
 		<service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
 			<argument type="service" id="pagseguro.notificationService" />
