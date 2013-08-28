@@ -2,6 +2,7 @@
 namespace PHPSC\Conference\Application\Service;
 
 use \PHPSC\Conference\Domain\Service\UserManagementService;
+use \PHPSC\Conference\Domain\Service\EmailManagementService;
 
 class UserJsonService
 {
@@ -18,13 +19,16 @@ class UserJsonService
     /**
      * @param \PHPSC\Conference\Application\Service\AuthenticationService $authService
      * @param \PHPSC\Conference\Domain\Service\UserManagementService $userManager
+     * @param \PHPSC\Conference\Domain\Service\EmailManagementService $emailManager
      */
     public function __construct(
         AuthenticationService $authService,
-        UserManagementService $userManager
+        UserManagementService $userManager,
+        EmailManagementService $emailManager
     ) {
         $this->authService = $authService;
         $this->userManager = $userManager;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -53,6 +57,10 @@ class UserJsonService
                 !empty($githubUser) ? $githubUser : null,
                 !empty($bio) ? $bio : null
             );
+
+            $message = $this->emailManager->getMessageFromTemplate('Welcome', array('name' => $name));
+            $message->setTo($email);
+            $this->emailManager->send($message);
 
             return json_encode(
                 array(
