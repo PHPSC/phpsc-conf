@@ -4,6 +4,7 @@ namespace PHPSC\Conference\Application\Service;
 use \PHPSC\Conference\Domain\Service\AttendeeManagementService;
 use \PHPSC\Conference\Domain\Service\PaymentManagementService;
 use \PHPSC\Conference\Domain\Service\EventManagementService;
+use \PHPSC\Conference\Domain\Service\EmailManagementService;
 use \PHPSC\PagSeguro\Error\PagSeguroException;
 use \PHPSC\Conference\Domain\Entity\Attendee;
 
@@ -30,21 +31,29 @@ class AttendeeJsonService
     protected $paymentManager;
 
     /**
+     * @var \PHPSC\Conference\Domain\Service\EmailManagementService
+     */
+    protected $emailManager;
+
+    /**
      * @param \PHPSC\Conference\Application\Service\AuthenticationService $authService
      * @param \PHPSC\Conference\Domain\Service\EventManagementService $eventManager
      * @param \PHPSC\Conference\Domain\Service\AttendeeManagementService $talkManager
      * @param \PHPSC\Conference\Domain\Service\PaymentManagementService $paymentManager
+     * @param \PHPSC\Conference\Domain\Service\EmailManagementService $emailManager
      */
     public function __construct(
         AuthenticationService $authService,
         EventManagementService $eventManager,
         AttendeeManagementService $attendeeManager,
-        PaymentManagementService $paymentManager
+        PaymentManagementService $paymentManager,
+        EmailManagementService $emailManager
     ) {
         $this->authService = $authService;
         $this->eventManager = $eventManager;
         $this->attendeeManager = $attendeeManager;
         $this->paymentManager = $paymentManager;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -63,6 +72,15 @@ class AttendeeJsonService
                 $user,
                 $isStudent
             );
+
+            $message = $this->emailManager->getMessageFromTemplate('Registration', array(
+                'user_name' => $user->getName(),
+                'event_name' => $event->getName(),
+                'date_start' => $event->getStartDate()->format('d/m/Y'),
+                'date_end' => $event->getEndDate()->format('d/m/Y'),
+            ));
+            $message->setTo($user->getEmail());
+            $this->emailManager->send($message);
 
             if ($attendee->getCost() > 0) {
                 return $this->createPayment($attendee, $redirectTo);

@@ -27,6 +27,7 @@
 			<argument type="service" id="event.management.service" />
 			<argument type="service" id="attendee.management.service" />
 			<argument type="service" id="payment.management.service" />
+			<argument type="service" id="email.management.service" />
 		</service>
 		<service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
 			<argument type="service" id="authentication.service" />
