@@ -15,6 +15,7 @@
 		<service id="user.json.service" class="PHPSC\Conference\Application\Service\UserJsonService">
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="user.management.service" />
+			<argument type="service" id="email.management.service" />
 		</service>
 		<service id="talk.json.service" class="PHPSC\Conference\Application\Service\TalkJsonService">
 			<argument type="service" id="authentication.service" />
@@ -57,6 +58,9 @@
 		<service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
 			<argument type="service" id="opinion.repository" />
 		</service>
+		<service id="email.management.service" class="PHPSC\Conference\Domain\Service\EmailManagementService">
+			<argument type="service" id="swiftmailer.mailer" />
+		</service>
 		
 		<!-- Entity Repositories -->
 		<service id="user.repository" factory-service="entityManager" factory-method="getRepository">
@@ -79,6 +83,25 @@
 		</service>
 		<service id="opinion.repository" factory-service="entityManager" factory-method="getRepository">
 			<argument>PHPSC\Conference\Domain\Entity\Opinion</argument>
+		</service>
+
+		<!-- Swift Mailer -->
+		<service id="swiftmailer.transport.smtp" class="Swift_SmtpTransport" factory-class="Swift_SmtpTransport" factory-method="newInstance">
+			<argument>%smtp.host%</argument>
+			<argument>%smtp.port%></argument>
+			<argument>%smtp.encryption%</argument>
+			<call method="setUsername">
+				<argument>%smtp.username%</argument>
+			</call>
+			<call method="setPassword">
+				<argument>%smtp.password%</argument>
+			</call>
+			<call method="setAuthMode">
+				<argument>%smtp.auth_mode%</argument>
+			</call>
+		</service>
+		<service id="swiftmailer.mailer" class="Swift_Mailer" factory-class="Swift_Mailer" factory-method="newInstance">
+			<argument type="service" id="swiftmailer.transport.smtp" />
 		</service>
 	</services>
 </container>

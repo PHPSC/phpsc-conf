@@ -22,7 +22,8 @@
 		"lcobucci/display-objects" : "dev-develop",
 		"lcobucci/action-mapper" : "dev-develop",
 		"phpsc/pagseguro" : "dev-develop",
-		"doctrine/orm" : "*"
+		"doctrine/orm" : "*",
+		"swiftmailer/swiftmailer": "*"
 	},
 	"autoload" : {
 		"psr-0" : {

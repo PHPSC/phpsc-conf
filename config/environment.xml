@@ -23,6 +23,14 @@
 		<!-- Pagseguro -->
 		<parameter key="pagseguro.email"></parameter>
 		<parameter key="pagseguro.token"></parameter>
+
+		<!-- SMTP -->
+		<parameter key="smtp.host">email-smtp.us-east-1.amazonaws.com</parameter>
+		<parameter key="smtp.username"></parameter>
+		<parameter key="smtp.password"></parameter>
+		<parameter key="smtp.port">587</parameter>
+		<parameter key="smtp.encryption">tls</parameter>
+		<parameter key="smtp.auth_mode">login</parameter>
 	</parameters>
 	<services>
 		<!-- Twitter -->

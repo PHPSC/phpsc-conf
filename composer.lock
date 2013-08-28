@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c7b1322070a4224f05cec6bbe7d2a98c",
+    "hash": "08280b8bd645716ef2cc4d5c3a0815cb",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -487,12 +487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "c399c77dbeb9e7474324d0599ce7388f4ebd7f6c"
+                "reference": "78c3016f956d23f812cd5901df585d14aee9f7d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/c399c77dbeb9e7474324d0599ce7388f4ebd7f6c",
-                "reference": "c399c77dbeb9e7474324d0599ce7388f4ebd7f6c",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/78c3016f956d23f812cd5901df585d14aee9f7d7",
+                "reference": "78c3016f956d23f812cd5901df585d14aee9f7d7",
                 "shasum": ""
             },
             "require": {
@@ -554,7 +554,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-08-22 03:56:18"
+            "time": "2013-08-28 16:15:08"
         },
         {
             "name": "guzzle/guzzle",
@@ -562,12 +562,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "898c7c7831096d36a0701fe29e8c9952ceabd2c8"
+                "reference": "647cd469ce63efc8908a604e866ee322e82a693c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/898c7c7831096d36a0701fe29e8c9952ceabd2c8",
-                "reference": "898c7c7831096d36a0701fe29e8c9952ceabd2c8",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/647cd469ce63efc8908a604e866ee322e82a693c",
+                "reference": "647cd469ce63efc8908a604e866ee322e82a693c",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-08-23 17:19:06"
+            "time": "2013-08-28 04:14:17"
         },
         {
             "name": "lcobucci/action-mapper",
@@ -654,12 +654,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/action-mapper.git",
-                "reference": "13661a270cce46b9dd6041a567e68c5ee146c7ba"
+                "reference": "d1ff4baebc3e62f94885e6f3e4bf3ff6ccedc05f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/action-mapper/zipball/13661a270cce46b9dd6041a567e68c5ee146c7ba",
-                "reference": "13661a270cce46b9dd6041a567e68c5ee146c7ba",
+                "url": "https://api.github.com/repos/lcobucci/action-mapper/zipball/d1ff4baebc3e62f94885e6f3e4bf3ff6ccedc05f",
+                "reference": "d1ff4baebc3e62f94885e6f3e4bf3ff6ccedc05f",
                 "shasum": ""
             },
             "require": {
@@ -697,7 +697,7 @@
             "keywords": [
                 "front-controller"
             ],
-            "time": "2013-08-23 17:05:09"
+            "time": "2013-08-28 13:05:45"
         },
         {
             "name": "lcobucci/di-builder",
@@ -830,6 +830,55 @@
                 "api"
             ],
             "time": "2013-04-22 15:07:03"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "391268c7489fb0f771689c0085ca13db3f105042"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/391268c7489fb0f771689c0085ca13db3f105042",
+                "reference": "391268c7489fb0f771689c0085ca13db3f105042",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Chris Corbyn"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "mail",
+                "mailer"
+            ],
+            "time": "2013-07-25 16:57:42"
         },
         {
             "name": "symfony/config",
