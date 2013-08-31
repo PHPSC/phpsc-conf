@@ -58,7 +58,7 @@ class RegistrationInfo implements Entity
     private $studentLabel;
 
     /**
-     * @Column(type="string", name="student_rules", columnDefinition="TEXT")
+     * @Column(type="text", name="student_rules", nullable=true)
      * @var string
      */
     private $studentRules;

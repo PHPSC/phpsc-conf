@@ -13,7 +13,7 @@ class Location implements Entity
 {
     /**
      * @Id
-      * @Column(type="integer")
+     * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
      * @var int
      */
@@ -26,7 +26,7 @@ class Location implements Entity
     private $name;
 
     /**
-     * @Column(type="string", columnDefinition="TEXT NOT NULL")
+     * @Column(type="text")
      * @var string
      */
     private $description;

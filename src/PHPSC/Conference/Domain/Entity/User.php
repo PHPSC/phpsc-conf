@@ -45,7 +45,7 @@ class User implements Entity
     private $githubUser;
 
     /**
-     * @Column(type="string", columnDefinition="TEXT")
+     * @Column(type="text", nullable=true)
      * @var string
      */
     private $bio;
