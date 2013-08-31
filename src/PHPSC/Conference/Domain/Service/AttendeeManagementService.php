@@ -1,43 +1,43 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
-use \PHPSC\Conference\Domain\Repository\AttendeeRepository;
-use \PHPSC\Conference\Domain\Entity\Attendee;
-use \PHPSC\Conference\Domain\Entity\Event;
-use \PHPSC\Conference\Domain\Entity\User;
-use \InvalidArgumentException;
-use \PHPSC\Conference\Domain\Service\EmailManagementService;
+use PHPSC\Conference\Domain\Repository\AttendeeRepository;
+use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\User;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Email\DeliveryService;
 
 class AttendeeManagementService
 {
     /**
-     * @var \PHPSC\Conference\Domain\Repository\AttendeeRepository
+     * @var AttendeeRepository
      */
     private $repository;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\TalkManagementService
+     * @var TalkManagementService
      */
     private $talkService;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\EmailManagementService
+     * @var DeliveryService
      */
-    private $emailManager;
+    private $deliveryService;
 
     /**
-     * @param \PHPSC\Conference\Domain\Repository\AttendeeRepository $repository
-     * @param \PHPSC\Conference\Domain\Service\TalkManagementService $talkService
-     * @param \PHPSC\Conference\Domain\Service\EmailManagementService $emailManager
+     * @param AttendeeRepository $repository
+     * @param TalkManagementService $talkService
+     * @param DeliveryService $deliveryService
      */
     public function __construct(
         AttendeeRepository $repository,
         TalkManagementService $talkService,
-        EmailManagementService $emailManager
+        DeliveryService $deliveryService
     ) {
         $this->repository = $repository;
         $this->talkService = $talkService;
-        $this->emailManager =$emailManager;
+        $this->deliveryService = $deliveryService;
     }
 
     /**
@@ -100,15 +100,18 @@ class AttendeeManagementService
         }
 
         $attendee = $this->createAttendee($event, $user, $isStudent);
-
         $this->repository->append($attendee);
 
-        $message = $this->emailManager->getMessageFromTemplate('Registration', array(
-            'user_name' => $user->getName(),
-            'event_name' => $event->getName()
-        ));
+        $message = $this->deliveryService->getMessageFromTemplate(
+            'Registration',
+            array(
+                'user_name' => $user->getName(),
+                'event_name' => $event->getName()
+            )
+        );
+
         $message->setTo($user->getEmail());
-        $this->emailManager->send($message);
+        $this->deliveryService->send($message);
 
         return $attendee;
     }
@@ -147,12 +150,16 @@ class AttendeeManagementService
         $attendee->approve();
         $this->repository->update($attendee);
 
-        $message = $this->emailManager->getMessageFromTemplate('PaymentConfirmation', array(
-            'user_name' => $attendee->getUser()->getName(),
-            'event_name' => $attendee->getEvent()->getName()
-        ));
+        $message = $this->deliveryService->getMessageFromTemplate(
+            'PaymentConfirmation',
+            array(
+                'user_name' => $attendee->getUser()->getName(),
+                'event_name' => $attendee->getEvent()->getName()
+            )
+        );
+
         $message->setTo($attendee->getUser()->getEmail());
-        $this->emailManager->send($message);
+        $this->deliveryService->send($message);
 
         return $attendee;
     }

@@ -2,33 +2,38 @@
 namespace PHPSC\Conference\Application\Service;
 
 use \PHPSC\Conference\Domain\Service\UserManagementService;
-use \PHPSC\Conference\Domain\Service\EmailManagementService;
+use \PHPSC\Conference\Infra\Email\DeliveryService;
 
 class UserJsonService
 {
     /**
-     * @var \PHPSC\Conference\Application\Service\AuthenticationService
+     * @var AuthenticationService
      */
     protected $authService;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\UserManagementService
+     * @var UserManagementService
      */
     protected $userManager;
 
     /**
-     * @param \PHPSC\Conference\Application\Service\AuthenticationService $authService
-     * @param \PHPSC\Conference\Domain\Service\UserManagementService $userManager
-     * @param \PHPSC\Conference\Domain\Service\EmailManagementService $emailManager
+     * @var DeliveryService
+     */
+    protected $deliveryService;
+
+    /**
+     * @param AuthenticationService $authService
+     * @param UserManagementService $userManager
+     * @param DeliveryService $deliveryService
      */
     public function __construct(
         AuthenticationService $authService,
         UserManagementService $userManager,
-        EmailManagementService $emailManager
+        DeliveryService $deliveryService
     ) {
         $this->authService = $authService;
         $this->userManager = $userManager;
-        $this->emailManager = $emailManager;
+        $this->deliveryService = $deliveryService;
     }
 
     /**
@@ -58,9 +63,14 @@ class UserJsonService
                 !empty($bio) ? $bio : null
             );
 
-            $message = $this->emailManager->getMessageFromTemplate('Welcome', array('name' => $name));
+            $message = $this->deliveryService->getMessageFromTemplate(
+                'Welcome',
+                array('name' => $name)
+            );
+
             $message->setTo($email);
-            $this->emailManager->send($message);
+
+            $this->deliveryService->send($message);
 
             return json_encode(
                 array(

@@ -15,7 +15,7 @@
 		<service id="user.json.service" class="PHPSC\Conference\Application\Service\UserJsonService">
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="user.management.service" />
-			<argument type="service" id="email.management.service" />
+			<argument type="service" id="email.delivery.service" />
 		</service>
 		<service id="talk.json.service" class="PHPSC\Conference\Application\Service\TalkJsonService">
 			<argument type="service" id="authentication.service" />
@@ -48,7 +48,7 @@
 		<service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
 			<argument type="service" id="attendee.repository" />
 			<argument type="service" id="talk.management.service" />
-			<argument type="service" id="email.management.service" />
+			<argument type="service" id="email.delivery.service" />
 		</service>
 		<service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
 			<argument type="service" id="pagseguro.notificationService" />
@@ -59,8 +59,10 @@
 		<service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
 			<argument type="service" id="opinion.repository" />
 		</service>
-		<service id="email.management.service" class="PHPSC\Conference\Domain\Service\EmailManagementService">
+		<service id="email.delivery.service" class="PHPSC\Conference\Infra\Email\DeliveryService">
 			<argument type="service" id="swiftmailer.mailer" />
+			<argument>contato@phpsc.com.br</argument>
+			<argument>PHPSC Conference</argument>
 		</service>
 		
 		<!-- Entity Repositories -->
