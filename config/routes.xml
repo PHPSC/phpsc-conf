@@ -5,7 +5,7 @@
 	<routes>
 		<route pattern="/*" class="\PHPSC\Conference\Application\Action\Home" />
 		<route pattern="/contact/*" class="\PHPSC\Conference\Application\Action\Contact" />
-		<route pattern="/oauth/*" class="\PHPSC\Conference\Application\Action\OAuth" />
+		<route pattern="/oauth/(provider)/*" class="\PHPSC\Conference\Application\Action\OAuth" />
 		<route pattern="/user/*" class="\PHPSC\Conference\Application\Action\User" />
 		<route pattern="/call4papers/*" class="\PHPSC\Conference\Application\Action\Call4Papers" />
 		<route pattern="/payment/*" class="\PHPSC\Conference\Application\Action\Payment" />
