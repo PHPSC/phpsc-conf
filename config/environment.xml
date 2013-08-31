@@ -14,12 +14,19 @@
 		<parameter key="doctrine.proxy.dir">tmp/proxy</parameter>
 		<parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
 		<parameter key="doctrine.proxy.auto">true</parameter>
+        
+        <!-- OAuth config -->
+		<parameter key="github.id"></parameter>
+		<parameter key="github.secret"></parameter>
+		<parameter key="facebook.id"></parameter>
+		<parameter key="facebook.secret"></parameter>
+		<parameter key="linkedin.id"></parameter>
+		<parameter key="linkedin.secret"></parameter>
+		<parameter key="live.id" type="string"></parameter>
+		<parameter key="live.secret"></parameter>
+		<parameter key="google.id"></parameter>
+		<parameter key="google.secret"></parameter>
 	
-		<!-- Twitter -->
-		<parameter key="twitter.consumerKey"></parameter>
-		<parameter key="twitter.consumerSecret"></parameter>
-		<parameter key="twitter.callback">/oauth/callback</parameter>
-		
 		<!-- Pagseguro -->
 		<parameter key="pagseguro.email"></parameter>
 		<parameter key="pagseguro.token"></parameter>
@@ -33,32 +40,6 @@
 		<parameter key="smtp.auth_mode">login</parameter>
 	</parameters>
 	<services>
-		<!-- Twitter -->
-		<service id="twitter.provider"
-			class="PHPSC\Conference\Application\Service\TwitterAccessProvider">
-			<argument type="service" id="session" />
-			<argument>%twitter.consumerKey%</argument>
-			<argument>%twitter.consumerSecret%</argument>
-			<argument>%twitter.callback%</argument>
-		</service>
-			
-		<!-- PagSeguro -->
-		<service id="pagseguro.credentials"
-			class="PHPSC\PagSeguro\ValueObject\Credentials">
-			<argument>%pagseguro.email%</argument>
-			<argument>%pagseguro.token%</argument>
-		</service>
-		
-		<service id="pagseguro.paymentService"
-			class="PHPSC\PagSeguro\PaymentService">
-			<argument type="service" id="pagseguro.credentials" />
-		</service>
-		
-		<service id="pagseguro.notificationService"
-			class="PHPSC\PagSeguro\NotificationService">
-			<argument type="service" id="pagseguro.credentials" />
-		</service>
-        
         <service id="app.cache" class="Doctrine\Common\Cache\ArrayCache">
             <call method="setNamespace">
                 <argument>phpsc.conf-</argument>
