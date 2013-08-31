@@ -17,8 +17,8 @@
 		<?php } ?>
 		</ul>
 		<div class="nav navbar-nav navbar-right">
+        <?php if ($user = $this->getTwitterUser()) { ?>
             <div class="btn-group" style="margin-top: 4px; margin-right: 7px;">
-            <?php if ($user = $this->getTwitterUser()) { ?>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" style="padding: 1px">
                     <img alt="<?= $user->screen_name; ?>"
                         title="Logado como @<?= $user->screen_name; ?>"
@@ -31,7 +31,9 @@
                     <li class="divider"></li>
                     <li><a href="<?= $this->getUrl('oauth/logoff'); ?>">Sair</a></li>
                 </ul>
-            <?php } else { ?>
+    		</div>
+        <?php } else { ?>
+            <div class="btn-group" style="margin-top: 7px; margin-right: 7px;">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user"></span> Logar <span class="caret"></span>
                 </button>
@@ -42,8 +44,8 @@
                     <li><a href="<?= $this->getUrl('oauth/linkedin'); ?>">LinkedIn</a></li>
                     <li><a href="<?= $this->getUrl('oauth/live'); ?>">Microsoft Live</a></li>
                 </ul>
-			<?php } ?>
     		</div>
+		<?php } ?>
 		</div>
     </div>
 </nav>
