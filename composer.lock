@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "08280b8bd645716ef2cc4d5c3a0815cb",
+    "hash": "93457e5fe088cb10f94c18196cf08ab2",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -788,6 +788,55 @@
             "time": "2013-08-12 18:58:16"
         },
         {
+            "name": "lcobucci/social",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/social.git",
+                "reference": "9d4bc2bc2561c9706ab6b80f656385f5a8f888a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/social/zipball/9d4bc2bc2561c9706ab6b80f656385f5a8f888a3",
+                "reference": "9d4bc2bc2561c9706ab6b80f656385f5a8f888a3",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": ">=3.7",
+                "php": ">=5.3",
+                "symfony/http-foundation": ">=2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Lcobucci\\Social": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Luís Otávio Cobucci Oblonczyk",
+                    "email": "lcobucci@gmail.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "Social authentication library for PHP 5.3+",
+            "keywords": [
+                "Authentication",
+                "facebook",
+                "github",
+                "google",
+                "linkedin",
+                "live",
+                "oauth",
+                "twitter"
+            ],
+            "time": "2013-08-31 16:24:55"
+        },
+        {
             "name": "phpsc/pagseguro",
             "version": "dev-develop",
             "source": {
@@ -1199,6 +1248,7 @@
     "stability-flags": {
         "lcobucci/display-objects": 20,
         "lcobucci/action-mapper": 20,
+        "lcobucci/social": 20,
         "phpsc/pagseguro": 20
     },
     "platform": [

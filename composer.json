@@ -21,6 +21,7 @@
 	"require" : {
 		"lcobucci/display-objects" : "dev-develop",
 		"lcobucci/action-mapper" : "dev-develop",
+		"lcobucci/social" : "*@dev",
 		"phpsc/pagseguro" : "dev-develop",
 		"doctrine/orm" : "*",
 		"swiftmailer/swiftmailer": "*"
