@@ -4,6 +4,7 @@ namespace PHPSC\Conference\Domain\Entity;
 use PHPSC\Conference\Infra\Persistence\Entity;
 use InvalidArgumentException;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\UserRepository")
@@ -27,22 +28,16 @@ class User implements Entity
     private $name;
 
     /**
-     * @Column(type="string", length=160, nullable=false)
+     * @Column(type="string", length=160, nullable=false, unique=true)
      * @var string
      */
     private $email;
 
     /**
-     * @Column(type="string", length=60, nullable=true, name="twitter_user", unique=true)
-     * @var string
+     * @OneToMany(targetEntity="SocialProfile", mappedBy="user")
+     * @var ArrayCollection
      */
-    private $twitterUser;
-
-    /**
-     * @Column(type="string", name="github_user", length=60, nullable=true)
-     * @var string
-     */
-    private $githubUser;
+    private $profiles;
 
     /**
      * @Column(type="text", nullable=true)
@@ -55,6 +50,14 @@ class User implements Entity
      * @var \DateTime
      */
     private $creationTime;
+
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        $this->profiles = new ArrayCollection();
+    }
 
     /**
      * @return number
@@ -119,51 +122,19 @@ class User implements Entity
     }
 
     /**
-     * @return string
+     * @return ArrayCollection
      */
-    public function getTwitterUser()
+    public function getProfiles()
     {
-        return $this->twitterUser;
+        return $this->profiles;
     }
 
     /**
-     * @param string $twitterUser
+     * @param ArrayCollection $profiles
      */
-    public function setTwitterUser($twitterUser)
+    public function setProfiles(ArrayCollection $profiles)
     {
-        if (empty($twitterUser)) {
-            throw new InvalidArgumentException(
-                'O nome do usuário no twitter não pode ser vazio'
-            );
-        }
-
-        $this->twitterUser = (string) $twitterUser;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGithubUser()
-    {
-        return $this->githubUser;
-    }
-
-    /**
-     * @param string $githubUser
-     */
-    public function setGithubUser($githubUser)
-    {
-        if ($githubUser !== null) {
-            $githubUser = (string) $githubUser;
-
-            if (empty($githubUser)) {
-                throw new InvalidArgumentException(
-                    'O nome do usuário do github não pode ser vazio'
-                );
-            }
-        }
-
-        $this->githubUser = $githubUser;
+        $this->profiles = $profiles;
     }
 
     /**
@@ -218,15 +189,11 @@ class User implements Entity
      */
     public static function create(
         $name,
-        $twitterUser,
         $email = null,
-        $githubUser = null,
         $bio = null
     ) {
         $user = new static();
         $user->setName($name);
-        $user->setTwitterUser($twitterUser);
-        $user->setGithubUser($githubUser);
         $user->setBio($bio);
         $user->setCreationTime(new DateTime());
 
