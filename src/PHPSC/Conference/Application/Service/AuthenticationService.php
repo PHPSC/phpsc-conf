@@ -12,11 +12,6 @@ class AuthenticationService
     protected $session;
 
     /**
-     * @var \PHPSC\Conference\Application\Service\TwitterAccessProvider
-     */
-    protected $provider;
-
-    /**
      * @var \PHPSC\Conference\Domain\Service\UserManagementService
      */
     protected $userManager;
@@ -28,16 +23,13 @@ class AuthenticationService
 
     /**
      * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
-     * @param \PHPSC\Conference\Application\Service\TwitterAccessProvider $provider
      * @param \PHPSC\Conference\Domain\Service\UserManagementService $userManager
      */
     public function __construct(
         SessionInterface $session,
-        TwitterAccessProvider $provider,
         UserManagementService $userManager
     ) {
         $this->session = $session;
-        $this->provider = $provider;
         $this->userManager = $userManager;
     }
 
@@ -46,13 +38,13 @@ class AuthenticationService
      */
     public function getTwitterUser()
     {
-        if (!$this->session->has('twitterUser')) {
+        /*if (!$this->session->has('twitterUser')) {
             if ($data = $this->provider->getLoggedUser()) {
                 $this->session->set('twitterUser', $data);
             }
         }
 
-        return $this->session->get('twitterUser');
+        return $this->session->get('twitterUser');*/
     }
 
     /**
