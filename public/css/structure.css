@@ -22,13 +22,14 @@ html,body {
 #main {
 	padding-top: 80px;
 }
-
+/***** Removido por Domingos Teruel
 footer {
 	height: 80px;
 	background-color: #11445c;
 	border-top: #022738 dashed 3px;
 	color: #fefefe;
 }
+*/
 
 .sponsors {
 	padding: 10px;

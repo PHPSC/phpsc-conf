@@ -95,14 +95,6 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\UI\Sponsors
-     */
-    public function renderSponsors()
-    {
-        return new Sponsors();
-    }
-
-    /**
      * @return \PHPSC\Conference\UI\Footer
      */
     public function renderFooter()
