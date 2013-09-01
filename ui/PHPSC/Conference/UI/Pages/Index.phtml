@@ -11,46 +11,47 @@ function(d, s, id)
 
     js = d.createElement(s);
     js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 </script>
 <div class="jumbotron">
-    <h1>PHPSC Conf 2012</h1>
-    <p>
-        Sábado, 27 de outubro de 2012, Univali, São José, SC.<br />
-        Das 8h às 19h.
-    </p>
-    <p><a class="btn btn-primary btn-lg" href="<?php echo $this->getUrl('about'); ?>">Maiores Informações &raquo;</a></p>
+	<div class="container">
+		<h1>PHPSC Conf 2013</h1>
+		<p> 25 e 26 de outubro de 2013, Unochapecó, Chapecó, SC.</p>
+		<p>
+			<a class="btn btn-primary btn-lg" href="<?php echo $this->getUrl('about'); ?>">Maiores Informações &raquo;</a>
+		</p>
+  </div>
 </div>
 <div class="row">
-    <div class="col-md-5">
-        <h2>Chamada de Trabalhos</h2>
-        <p>Finalizamos a chamada de trabalhos e estamos em processo de avaliação, quer conferir o que foi submetido?</p>
-        <p><a class="btn btn-default" href="<?php echo $this->getUrl('call4papers/feedback'); ?>">Maiores Informações &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Inscrições</h2>
-        <p>
-           As inscrições já foram iniciadas, garanta agora sua participação no evento, aproveitando o preço
-           mais bacana para inscrições antecipadas!
-        </p>
-        <p><a class="btn btn-default" href="<?php echo $this->getUrl('registration'); ?>">Maiores Informações &raquo;</a></p>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-9 title">
-        <h3>PHPSC nas redes sociais</h3>
+	<div class="col-md-6">
+		<h2>Chamada de Trabalhos</h2>
+		<p>Está aberta a Chamada de Trabalhos</p>
+		<p><a class="btn btn-info" href="<?php echo $this->getUrl('call4papers/'); ?>">Enviar trabalho&raquo;</a></p>
+	</div>
+	<div class="col-md-6">
+		<h2>Inscrições</h2>
+		<p>Super promoção para inscrições antecipadas, aproveite!</p>
+        <p><a class="btn btn-info" href="<?php echo $this->getUrl('registration'); ?>">Maiores Informações &raquo;</a></p>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-5" id="twitterBox">
-        <a class="twitter-timeline" href="https://twitter.com/search?q=%23phpscconf+OR+%40PHP_SC" data-widget-id="371282499042701313">Tweets sobre "#phpscconf OR @PHP_SC"</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    </div>
-    <div class="col-md-4 fb-like-box"
-       data-href="https://www.facebook.com/pages/PHP-Santa-Catarina/478179522208583"
-       data-height="250" data-show-faces="true"
-       data-stream="false" data-header="false">
-    </div>
+	<div class="col-md-12">
+		<div class="page-header">
+			<h2>PHPSC nas redes sociais</h2>
+		</div>
+		<dir class="row text-left">
+			<div class="col-md-6">
+				<div id="twitterBox">
+					<a class="twitter-timeline" href="https://twitter.com/PHP_SC" data-widget-id="373940585448480768">Tweets de @PHP_SC</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="fb-like-box" data-href="https://www.facebook.com/pages/PHP-Santa-Catarina/478179522208583" data-width="440" data-height="300" data-show-faces="true" data-stream="false" data-header="false">
+				</div>
+			</div>
+		</dir>
+	</div>
 </div>
