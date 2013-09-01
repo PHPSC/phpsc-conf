@@ -487,12 +487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "6f025f78ec9408cc78b0169fda2c86f35c8fd3f4"
+                "reference": "340ae15ba73c317a64504b77723bdfadd3ab31f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/6f025f78ec9408cc78b0169fda2c86f35c8fd3f4",
-                "reference": "6f025f78ec9408cc78b0169fda2c86f35c8fd3f4",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/340ae15ba73c317a64504b77723bdfadd3ab31f3",
+                "reference": "340ae15ba73c317a64504b77723bdfadd3ab31f3",
                 "shasum": ""
             },
             "require": {
@@ -554,7 +554,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-08-29 14:27:35"
+            "time": "2013-09-01 17:04:22"
         },
         {
             "name": "guzzle/guzzle",
@@ -793,12 +793,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/social.git",
-                "reference": "9d4bc2bc2561c9706ab6b80f656385f5a8f888a3"
+                "reference": "eb56fbd3e2129a42bafc1f0ae136754777129deb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/social/zipball/9d4bc2bc2561c9706ab6b80f656385f5a8f888a3",
-                "reference": "9d4bc2bc2561c9706ab6b80f656385f5a8f888a3",
+                "url": "https://api.github.com/repos/lcobucci/social/zipball/eb56fbd3e2129a42bafc1f0ae136754777129deb",
+                "reference": "eb56fbd3e2129a42bafc1f0ae136754777129deb",
                 "shasum": ""
             },
             "require": {
@@ -831,10 +831,9 @@
                 "google",
                 "linkedin",
                 "live",
-                "oauth",
-                "twitter"
+                "oauth"
             ],
-            "time": "2013-08-31 16:24:55"
+            "time": "2013-09-01 23:24:15"
         },
         {
             "name": "phpsc/pagseguro",
