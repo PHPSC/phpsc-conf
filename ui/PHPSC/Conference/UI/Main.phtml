@@ -23,7 +23,20 @@
     	   <?php echo $this->renderNavigation(); ?>
 
         	<div id="main" class="container clear-top">
-        	    <div class="row">
+        	   <div class="row">
+                	<div class="col-md-2">
+                	   <a href="<?= $this->getBaseUrl(); ?>">
+                            <img alt="PHPSC Conference" src="<?= $this->getUrl('img/logo.png'); ?>" />
+                        </a>
+                    </div>
+                	<div class="col-md-10">
+                	   <h1 style="padding-top: 55px; text-align: right;">
+                	       PHPSC Conference<br />
+                	       <small>A maior conferencia de PHP de Santa Catarina</small>
+            	       </h1>
+                    </div>
+                </div>
+        	    <div class="row" style="margin-top: 20px">
                     <div class="col-md-12">
                         <?php echo $this->renderContent(); ?>
                     </div>
