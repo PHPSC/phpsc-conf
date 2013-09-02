@@ -52,10 +52,10 @@ class AuthenticationService
 
         $this->session->set(
             'oauth2.data',
-            [
+            array(
                 'provider' => $provider,
                 'user' => $oauthUser
-            ]
+            )
         );
     }
 
