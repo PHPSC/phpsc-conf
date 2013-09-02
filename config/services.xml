@@ -14,7 +14,6 @@
 		<service id="user.json.service" class="PHPSC\Conference\Application\Service\UserJsonService">
 			<argument type="service" id="authentication.service" />
 			<argument type="service" id="user.management.service" />
-			<argument type="service" id="email.delivery.service" />
 		</service>
 		<service id="talk.json.service" class="PHPSC\Conference\Application\Service\TalkJsonService">
 			<argument type="service" id="authentication.service" />
@@ -36,6 +35,8 @@
 		<!-- Domain Services -->
 		<service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
 			<argument type="service" id="user.repository" />
+			<argument type="service" id="profile.repository" />
+            <argument type="service" id="email.delivery.service" />
 		</service>
 		<service id="event.management.service" class="PHPSC\Conference\Domain\Service\EventManagementService">
 			<argument type="service" id="event.repository" />
@@ -86,6 +87,9 @@
 		<service id="opinion.repository" factory-service="entityManager" factory-method="getRepository">
 			<argument>PHPSC\Conference\Domain\Entity\Opinion</argument>
 		</service>
+        <service id="profile.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\SocialProfile</argument>
+        </service>
 
 		<!-- Swift Mailer -->
 		<service id="swiftmailer.transport.smtp" class="Swift_SmtpTransport" factory-class="Swift_SmtpTransport" factory-method="newInstance">
