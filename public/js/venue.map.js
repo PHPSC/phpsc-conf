@@ -4,7 +4,7 @@ $(document).ready(function () {
 			{
 				lat: lat,
 				lng: lng,
-				zoom: 18,
+				zoom: 15,
 				marker: {
 					image: baseUrl + 'img/pin.png',
 					width: 62,
