@@ -6,7 +6,7 @@ function atualizaLista()
 {
 	$.ajax(
 		{
-			url: baseUrl + '/status',
+			url: baseUrl + 'status',
 			type: 'get',
 			dataType: 'json',
 			data: {},

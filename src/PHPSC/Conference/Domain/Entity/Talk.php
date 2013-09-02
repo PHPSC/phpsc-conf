@@ -30,15 +30,15 @@ class Talk implements Entity
 
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+      * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
 
     /**
      * @ManyToOne(targetEntity="Event")
-	 * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
+     * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\Event
      */
     private $event;
@@ -54,50 +54,50 @@ class Talk implements Entity
     private $speakers;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=120, nullable=false)
      * @var string
      */
     private $title;
 
     /**
      * @ManyToOne(targetEntity="TalkType")
-	 * @JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
+     * @JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\TalkType
      */
     private $type;
 
     /**
-     * @Column(type="string", nullable=false, name="short_description")
+     * @Column(type="text", name="short_description")
      * @var string
      */
     private $shortDescription;
 
     /**
-     * @Column(type="string", nullable=false, name="long_description")
+     * @Column(type="text", name="long_description")
      * @var string
      */
     private $longDescription;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", columnDefinition="ENUM('L','M','H') NOT NULL DEFAULT 'L'")
      * @var string
      */
     private $complexity;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string", length=120, nullable=true)
      * @var string
      */
     private $tags;
 
     /**
-     * @Column(type="datetime", name="start_time")
+     * @Column(type="datetime", name="start_time", nullable=true)
      * @var \DateTime
      */
     private $startTime;
 
     /**
-     * @Column(type="boolean")
+     * @Column(type="boolean", nullable=true)
      * @var boolean
      */
     private $approved;
@@ -116,7 +116,7 @@ class Talk implements Entity
         $this->speakers = new ArrayCollection();
     }
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -124,7 +124,7 @@ class Talk implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -138,7 +138,7 @@ class Talk implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\Event
      */
     public function getEvent()
@@ -146,7 +146,7 @@ class Talk implements Entity
         return $this->event;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\Event $event
      */
     public function setEvent(Event $event)
@@ -154,7 +154,7 @@ class Talk implements Entity
         $this->event = $event;
     }
 
-	/**
+    /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getSpeakers()
@@ -162,7 +162,7 @@ class Talk implements Entity
         return $this->speakers;
     }
 
-	/**
+    /**
      * @param \Doctrine\Common\Collections\ArrayCollection $speakers
      */
     public function setSpeakers(ArrayCollection $speakers)
@@ -170,7 +170,7 @@ class Talk implements Entity
         $this->speakers = $speakers;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getTitle()
@@ -178,7 +178,7 @@ class Talk implements Entity
         return $this->title;
     }
 
-	/**
+    /**
      * @param string $title
      */
     public function setTitle($title)
@@ -190,7 +190,7 @@ class Talk implements Entity
         $this->title = (string) $title;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\TalkType
      */
     public function getType()
@@ -198,7 +198,7 @@ class Talk implements Entity
         return $this->type;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\TalkType $type
      */
     public function setType(TalkType $type)
@@ -206,7 +206,7 @@ class Talk implements Entity
         $this->type = $type;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getShortDescription()
@@ -214,7 +214,7 @@ class Talk implements Entity
         return $this->shortDescription;
     }
 
-	/**
+    /**
      * @param string $shortDescription
      */
     public function setShortDescription($shortDescription)
@@ -228,7 +228,7 @@ class Talk implements Entity
         $this->shortDescription = (string) $shortDescription;
     }
 
-	/**
+    /**
      * @return string$type
      */
     public function getLongDescription()
@@ -236,7 +236,7 @@ class Talk implements Entity
         return $this->longDescription;
     }
 
-	/**
+    /**
      * @param string $longDescription
      */
     public function setLongDescription($longDescription)
@@ -250,7 +250,7 @@ class Talk implements Entity
         $this->longDescription = (string) $longDescription;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getComplexity()
@@ -258,7 +258,7 @@ class Talk implements Entity
         return $this->complexity;
     }
 
-	/**
+    /**
      * @param string $complexity
      */
     public function setComplexity($complexity)
@@ -278,7 +278,7 @@ class Talk implements Entity
         $this->complexity = $complexity;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getTags()
@@ -286,7 +286,7 @@ class Talk implements Entity
         return $this->tags;
     }
 
-	/**
+    /**
      * @param string $tags
      */
     public function setTags($tags)
@@ -303,8 +303,7 @@ class Talk implements Entity
             $tags = explode(',', $tags);
             array_walk(
                 $tags,
-                function (&$value, $key)
-                {
+                function (&$value, $key) {
                     $value = trim($value);
                 }
             );
@@ -314,7 +313,7 @@ class Talk implements Entity
         $this->tags = $tags;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getStartTime()
@@ -322,7 +321,7 @@ class Talk implements Entity
         return $this->startTime;
     }
 
-	/**
+    /**
      * @param \DateTime $startTime
      */
     public function setStartTime(DateTime $startTime = null)
@@ -330,7 +329,7 @@ class Talk implements Entity
         $this->startTime = $startTime;
     }
 
-	/**
+    /**
      * @return boolean
      */
     public function getApproved()
@@ -338,7 +337,7 @@ class Talk implements Entity
         return $this->approved;
     }
 
-	/**
+    /**
      * @param boolean $approved
      */
     public function setApproved($approved)
@@ -352,7 +351,7 @@ class Talk implements Entity
         $this->approved = $approved;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getCreationTime()
@@ -360,7 +359,7 @@ class Talk implements Entity
         return $this->creationTime;
     }
 
-	/**
+    /**
      * @param \DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)

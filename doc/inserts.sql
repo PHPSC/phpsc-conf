@@ -1,0 +1,9 @@
+INSERT INTO `phpsc`.`location` (`id`, `name`, `description`, `longitude`, `latitude`) VALUES (NULL, 'UNIVALI São José', 'Campus São José da Universidade do Vale do Itajaí', NULL, NULL);
+INSERT INTO `phpsc`.`event` (`id`, `location_id`, `name`, `start`, `end`, `submissions_start`, `submissions_end`) VALUES (NULL, 1, 'PHPSC Conference 2012', '2012-10-27', '2012-10-27', '2012-08-06', '2012-09-16');
+
+INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Minicurso', '04:00');
+INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Palestra', '01:00');
+INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Palestra Curta', '0:20');
+INSERT INTO `phpsc`.`talk_type` (`id`, `description`, `length`) VALUES (NULL, 'Mesa Redonda', '01:00');
+
+INSERT INTO `phpsc`.`registration_info` (`id`, `event_id`, `start`, `end`, `regular_price`, `early_price`, `student_label`, `student_rules`) VALUES (NULL, 1, '2012-08-06 00:00:00', '2012-10-26 23:59:59', 15, 10, 'Sou estudante da UNIVALI', '<p>Estudantes da UNIVALI (Universidade do Vale do Itajaí) serão contemplados com <strong>100%</strong> de desconto <strong>no valor da inscrição do evento</strong>.</p>\n<p>Será <strong>obrigatória</strong> a apresentação do comprovante de matrícula no credenciamento, no início do evento.</p>\n<p><strong>Importante:</strong> as pessoas que se inscreverem como alunos da UNIVALI e não apresentarem o comprovante de matrícula deverão pagar, no credenciamento, o valor de <strong>R$ 20,00</strong> (correspondente à inscrições realizadas no dia do evento).</p>');

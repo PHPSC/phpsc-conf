@@ -1,0 +1,59 @@
+<div id="fb-root"></div>
+<script type="text/javascript">
+(
+function(d, s, id)
+{
+    var js, fjs = d.getElementsByTagName(s)[0];
+
+    if (d.getElementById(id)) {
+	    return;
+    }
+
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+<div class="jumbotron">
+    <div class="container">
+        <h1>
+            PHPSC Conference 2013<br />
+            <small>25 e 26 de outubro de 2013, Unochapecó, Chapecó, SC</small>
+        </h1>
+        <p>
+            <a class="btn btn-primary btn-lg" href="<?php echo $this->getUrl('about'); ?>">Maiores Informações &raquo;</a>
+        </p>
+    </div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<h2>Chamada de Trabalhos</h2>
+		<p>Está aberta a Chamada de Trabalhos</p>
+		<p><a class="btn btn-info" href="<?php echo $this->getUrl('call4papers/'); ?>">Enviar trabalho&raquo;</a></p>
+	</div>
+	<div class="col-md-6">
+		<h2>Inscrições</h2>
+		<p>Super promoção para inscrições antecipadas, aproveite!</p>
+        <p><a class="btn btn-info" href="<?php echo $this->getUrl('registration'); ?>">Maiores Informações &raquo;</a></p>
+    </div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h2>PHPSC nas redes sociais</h2>
+		</div>
+		<dir class="row text-left">
+			<div class="col-md-6">
+				<div id="twitterBox">
+					<a class="twitter-timeline" href="https://twitter.com/PHP_SC" data-widget-id="373940585448480768">Tweets de @PHP_SC</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="fb-like-box" data-href="https://www.facebook.com/pages/PHP-Santa-Catarina/478179522208583" data-width="440" data-height="300" data-show-faces="true" data-stream="false" data-header="false">
+				</div>
+			</div>
+		</dir>
+	</div>
+</div>

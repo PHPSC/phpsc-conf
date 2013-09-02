@@ -1,66 +1,43 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
-use \Abraham\TwitterOAuth\TwitterClient;
-use \PHPSC\Conference\Domain\Entity\User;
-use \PHPSC\Conference\Domain\Repository\UserRepository;
+use Lcobucci\Social\OAuth2\User as OAuth2User;
+use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Domain\Entity\SocialProfile;
+use PHPSC\Conference\Domain\Repository\SocialProfileRepository;
+use PHPSC\Conference\Domain\Repository\UserRepository;
+use PHPSC\Conference\Infra\Email\DeliveryService;
 
 class UserManagementService
 {
     /**
-     * @var \PHPSC\Conference\Domain\Repository\UserRepository
+     * @var UserRepository
      */
     private $repository;
 
     /**
-     * @var \Abraham\TwitterOAuth\TwitterClient
+     * @var SocialProfileRepository
      */
-    private $client;
+    private $profileRepository;
 
     /**
-     * @param \PHPSC\Conference\Domain\Repository\UserRepository $repository
-     * @param \Abraham\TwitterOAuth\TwitterClient $client
+     * @var DeliveryService
+     */
+    protected $deliveryService;
+
+    /**
+     * @param UserRepository $repository
+     * @param SocialProfileRepository $profileRepository
+     * @param DeliveryService $deliveryService
      */
     public function __construct(
         UserRepository $repository,
-        TwitterClient $client
+        SocialProfileRepository $profileRepository,
+        DeliveryService $deliveryService
     ) {
         $this->repository = $repository;
-        $this->client = $client;
-    }
-
-    /**
-     * @param string $name
-     * @param string $twitterUser
-     * @param string $email
-     * @param string $githubUser
-     * @param string $bio
-     * @param boolean $follow
-     * @return \PHPSC\Conference\Domain\Entity\User
-     */
-    public function create(
-        $name,
-        $twitterUser,
-        $email,
-        $githubUser,
-        $bio,
-        $follow
-    ) {
-        $user = User::create(
-            $name,
-            $twitterUser,
-            $email,
-            $githubUser,
-            $bio
-        );
-
-        $this->repository->append($user);
-
-        if ($follow) {
-            $this->client->createFriendship('PHP_SC');
-        }
-
-        return $user;
+        $this->profileRepository = $profileRepository;
+        $this->deliveryService = $deliveryService;
     }
 
     /**
@@ -69,19 +46,17 @@ class UserManagementService
      * @param string $email
      * @param string $githubUser
      * @param string $bio
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
     public function update(
         $id,
         $name,
         $email,
-        $githubUser,
         $bio
     ) {
         $user = $this->getById($id);
         $user->setName($name);
         $user->setEmail($email);
-        $user->setGithubUser($githubUser);
         $user->setBio($bio);
 
         $this->repository->update($user);
@@ -91,7 +66,7 @@ class UserManagementService
 
     /**
      * @param int $id
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
     public function getById($id)
     {
@@ -99,11 +74,73 @@ class UserManagementService
     }
 
     /**
-     * @param string $twitterUser
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @param string $provider
+     * @param OAuth2User $oauthUser
+     * @param string $name
+     * @param string $email
+     * @param string $bio
+     * @return User
      */
-    public function getByTwitterUser($twitterUser)
+    public function create(
+        $provider,
+        OAuth2User $oauthUser,
+        $name = null,
+        $email = null,
+        $bio = null
+    ) {
+        if ($email === null && $oauthUser->getEmail() == '') {
+            return ;
+        }
+
+        $user = User::create(
+            $name ?: $oauthUser->getName(),
+            $email ?: $oauthUser->getEmail(),
+            $bio
+        );
+
+        $user->addProfile(SocialProfile::create($provider, $oauthUser, true));
+        $this->repository->append($user);
+
+        $message = $this->deliveryService->getMessageFromTemplate(
+            'Welcome',
+            array('name' => $user->getName())
+        );
+
+        $message->setTo($user->getEmail());
+
+        $this->deliveryService->send($message);
+
+        return $user;
+    }
+
+    /**
+     * @param string $provider
+     * @param OAuth2User $user
+     * @return User
+     */
+    public function getByOAuthUser($provider, OAuth2User $oauthUser)
     {
-        return $this->repository->findOneByTwitterUser($twitterUser);
+        $profile = $this->profileRepository->findOneBySocialId(
+            $provider,
+            $oauthUser->getId()
+        );
+
+        if ($profile) {
+            $profile->setAvatar($oauthUser->getAvatar());
+            $this->profileRepository->update($profile);
+
+            return $profile->getUser();
+        }
+
+        if ($oauthUser->getEmail() == '') {
+            return null;
+        }
+
+        if ($user = $this->repository->findOneByEmail($oauthUser->getEmail())) {
+            $user->addProfile(SocialProfile::create($provider, $oauthUser));
+            $this->repository->update($user);
+
+            return $user;
+        }
     }
 }

@@ -3,8 +3,8 @@ namespace PHPSC\Conference\Application\Action;
 
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\Application\View\Pages\Contact as ContactForm;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Pages\Contact as ContactForm;
+use \PHPSC\Conference\UI\Main;
 
 class Contact extends Controller
 {

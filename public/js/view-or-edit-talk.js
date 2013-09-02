@@ -1,6 +1,6 @@
 $(document).ready(function () {
-	$('a.btn.btn-mini.btn-info[id|="action"]').click(function () {
-		$('#gridMsg').removeClass('alert-error')
+	$('a.btn.btn-xs.btn-info[id|="action"]').click(function () {
+		$('#gridMsg').removeClass('alert-danger')
 					 .addClass('alert-info');
 			
 		$('#gridMsg h4').html('Atenção');
@@ -10,13 +10,13 @@ $(document).ready(function () {
 		
 		$.ajax(
 			{
-				url: baseUrl + '/call4papers/submissions/' + id,
+				url: baseUrl + 'call4papers/submissions/' + id,
 				type: 'GET',
 				success: function (response)
 				{
 					if (response.error) {
 						$('#gridMsg').removeClass('alert-info')
-									 .addClass('alert-error');
+									 .addClass('alert-danger');
 						
 						$('#gridMsg h4').html('Ocorreu um problema durante sua solicitação!');
 						$('#gridMsg span').html(response.error);
@@ -37,7 +37,7 @@ $(document).ready(function () {
 						
 						$.ajax(
 							{
-								url: baseUrl + '/call4papers/submissions/' + id,
+								url: baseUrl + 'call4papers/submissions/' + id,
 								type: 'PUT',
 								data: {
 									title: $('#title').val(),
@@ -49,10 +49,10 @@ $(document).ready(function () {
 								},
 								success: function (response)
 								{
-									$('#editForm .alert').removeClass('alert-success alert-error');
+									$('#editForm .alert').removeClass('alert-success alert-danger');
 									
 									if (response.error) {
-										$('#editForm .alert').addClass('alert-error');
+										$('#editForm .alert').addClass('alert-danger');
 										$('#editForm .alert h4').html('Ocorreu um erro em sua solicitação');
 										$('#editForm .alert span').html(response.error);
 										$('#editForm .alert').fadeIn().delay(1000).fadeOut();

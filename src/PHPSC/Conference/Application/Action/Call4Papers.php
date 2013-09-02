@@ -1,12 +1,12 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\FeedbackMessage;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\FeedbackList;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\Form;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\Index;
-use \PHPSC\Conference\Application\View\Pages\Call4Papers\Grid;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Pages\Call4Papers\FeedbackMessage;
+use \PHPSC\Conference\UI\Pages\Call4Papers\FeedbackList;
+use \PHPSC\Conference\UI\Pages\Call4Papers\Form;
+use \PHPSC\Conference\UI\Pages\Call4Papers\Index;
+use \PHPSC\Conference\UI\Pages\Call4Papers\Grid;
+use \PHPSC\Conference\UI\Main;
 use \PHPSC\Conference\Domain\Entity\Event;
 
 use \Lcobucci\ActionMapper2\Routing\Controller;
@@ -29,11 +29,11 @@ class Call4Papers extends Controller
      */
     public function listTalks()
     {
-    	$user = $this->getAuthenticationService()->getLoggedUser();
-    	$event = $this->getEventManagement()->findCurrentEvent();
-    	$talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
+        $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
 
-    	return Main::create(new Grid($event, $talks), $this->application);
+        return Main::create(new Grid($event, $talks), $this->application);
     }
 
     /**
@@ -90,30 +90,16 @@ class Call4Papers extends Controller
     }
 
     /**
-     * @Route("/submissions/share", methods={"POST"})
-     */
-    public function share()
-    {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
-        $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
-
-        $this->response->setContentType('application/json', 'UTF-8');
-
-        return $this->getTalkJsonService()->share(count($talks));
-    }
-
-    /**
      * @Route("/feedback", methods={"GET"})
      */
     public function feedbackList()
     {
-    	$user = $this->getAuthenticationService()->getLoggedUser();
-    	$event = $this->getEventManagement()->findCurrentEvent();
+        $user = $this->getAuthenticationService()->getLoggedUser();
+        $event = $this->getEventManagement()->findCurrentEvent();
 
-    	return Main::create(
-	        $this->getFeedbackListFor($event, $user),
-	        $this->application
+        return Main::create(
+            $this->getFeedbackListFor($event, $user),
+            $this->application
         );
     }
 
@@ -151,22 +137,6 @@ class Call4Papers extends Controller
     }
 
     /**
-     * @Route("/feedback/share", methods={"POST"})
-     */
-    public function shareFeedback()
-    {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        $this->response->setContentType('application/json', 'UTF-8');
-
-        return $this->getOpinionJsonService()->share(
-            $this->getOpinionManagement()->getLikesCount($event, $user),
-            $this->request->getUriForPath('/call4papers/feedback')
-        );
-    }
-
-    /**
      * @return \PHPSC\Conference\Domain\Service\EventManagementService
      */
     protected function getEventManagement()
@@ -187,7 +157,7 @@ class Call4Papers extends Controller
      */
     protected function getTalkManagement()
     {
-    	return $this->get('talk.management.service');
+        return $this->get('talk.management.service');
     }
 
     /**
@@ -219,6 +189,6 @@ class Call4Papers extends Controller
      */
     protected function getAuthenticationService()
     {
-    	return $this->get('authentication.service');
+        return $this->get('authentication.service');
     }
 }

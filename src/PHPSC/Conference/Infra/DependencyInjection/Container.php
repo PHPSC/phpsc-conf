@@ -1,10 +1,12 @@
 <?php
 namespace PHPSC\Conference\Infra\DependencyInjection;
 
-use \Doctrine\Common\Cache\ArrayCache;
-use \Doctrine\Common\Cache\ApcCache;
-use \Doctrine\ORM\Configuration;
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Annotations\SimpleAnnotationReader;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
 {
@@ -15,7 +17,7 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
      */
     protected function getEntityManagerService()
     {
-        return $this->services['entitymanager'] = EntityManager::create(
+        $em = $this->services['entitymanager'] = EntityManager::create(
             array(
                 'host' => $this->getParameter('db.host'),
                 'dbname' => $this->getParameter('db.schema'),
@@ -26,6 +28,12 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
             ),
             $this->get('doctrine.config')
         );
+
+        $em->getConnection()
+           ->getDatabasePlatform()
+           ->registerDoctrineTypeMapping('enum', 'string');
+
+        return $em;
     }
 
     /**
@@ -36,10 +44,8 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
         $this->services['doctrine.config'] = $instance = new Configuration();
 
         $baseDir = realpath(__DIR__ . '/../../../../../') . '/';
-        $cache = $this->getParameter('doctrine.cache') == 'apc'
-                 ? new ApcCache()
-                 : new ArrayCache();
 
+        $cache = $this->get('app.cache');
         $instance->setMetadataCacheImpl($cache);
         $instance->setQueryCacheImpl($cache);
         $instance->setResultCacheImpl($cache);
@@ -56,9 +62,17 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
             $this->getParameter('doctrine.proxy.auto')
         );
 
+        AnnotationRegistry::registerFile(
+            $baseDir . 'vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php'
+        );
+
+        $reader = new SimpleAnnotationReader();
+        $reader->addNamespace('Doctrine\ORM\Mapping');
+
         $instance->setMetadataDriverImpl(
-            $instance->newDefaultAnnotationDriver(
-                $baseDir . $this->getParameter('doctrine.entity.dir')
+            new AnnotationDriver(
+                new CachedReader($reader, $cache),
+                array($baseDir . $this->getParameter('doctrine.entity.dir'))
             )
         );
 
@@ -70,10 +84,8 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
      */
     public function getParameter($name)
     {
-        if ($name == 'twitter.callback') {
-            return $this->application->getRequest()->getUriForPath(
-                parent::getParameter($name)
-            );
+        if ($name == 'app.baseuri') {
+            return $this->application->getRequest()->getUriForPath('/');
         }
 
         return parent::getParameter($name);

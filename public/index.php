@@ -7,16 +7,20 @@ require __DIR__ . '/../boot.php';
 
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 use \Lcobucci\ActionMapper2\Config\ApplicationBuilder;
+use Lcobucci\ActionMapper2\DependencyInjection\ContainerConfig;
 
 $app = ApplicationBuilder::build(
     __DIR__ . '/../config/routes.xml',
-    __DIR__ . '/../config/services.xml',
+    new ContainerConfig(
+        __DIR__ . '/../config/services.xml',
+        __DIR__ . '/../tmp',
+        '\PHPSC\Conference\Infra\DependencyInjection\Container'
+    ),
     null,
-    __DIR__ . '/../tmp',
-    '\PHPSC\Conference\Infra\DependencyInjection\Container'
+    'app.cache'
 );
 
-UIComponent::setDefaultBaseUrl($app->getRequest()->getBasePath());
+UIComponent::setBaseUrl($app->getRequest()->getBasePath());
 
 $app->startSession('PHPSC_SSID');
 $app->run();

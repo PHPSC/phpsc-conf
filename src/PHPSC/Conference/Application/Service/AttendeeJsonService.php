@@ -6,7 +6,6 @@ use \PHPSC\Conference\Domain\Service\PaymentManagementService;
 use \PHPSC\Conference\Domain\Service\EventManagementService;
 use \PHPSC\PagSeguro\Error\PagSeguroException;
 use \PHPSC\Conference\Domain\Entity\Attendee;
-use \Abraham\TwitterOAuth\TwitterClient;
 
 class AttendeeJsonService
 {
@@ -31,29 +30,21 @@ class AttendeeJsonService
     protected $paymentManager;
 
     /**
-     * @var \Abraham\TwitterOAuth\TwitterClient
-     */
-    protected $twitterClient;
-
-    /**
      * @param \PHPSC\Conference\Application\Service\AuthenticationService $authService
      * @param \PHPSC\Conference\Domain\Service\EventManagementService $eventManager
      * @param \PHPSC\Conference\Domain\Service\AttendeeManagementService $talkManager
      * @param \PHPSC\Conference\Domain\Service\PaymentManagementService $paymentManager
-     * @param \Abraham\TwitterOAuth\TwitterClient $twitterClient
      */
     public function __construct(
         AuthenticationService $authService,
         EventManagementService $eventManager,
         AttendeeManagementService $attendeeManager,
-        PaymentManagementService $paymentManager,
-        TwitterClient $twitterClient
+        PaymentManagementService $paymentManager
     ) {
         $this->authService = $authService;
         $this->eventManager = $eventManager;
         $this->attendeeManager = $attendeeManager;
         $this->paymentManager = $paymentManager;
-        $this->twitterClient = $twitterClient;
     }
 
     /**
@@ -162,31 +153,5 @@ class AttendeeJsonService
         }
 
         return $this->createPayment($attendee, $redirectTo);
-    }
-
-    /**
-     * @return string
-     */
-    public function share()
-    {
-        $response = $this->twitterClient->updateStatus(
-            'Acabo de me inscrever no #phpscConf. Participe você'
-            . ' também através do site http://cfp.phpsc.com.br! via @PHP_SC'
-        );
-
-        if (is_object($response) && isset($response->id)) {
-            $response = array(
-                'data' => array(
-                    'id' => $response->id,
-                    'text' => $response->text
-                )
-            );
-        } else {
-            $response = array(
-                'error' => 'Não foi possível enviar o tweet, tente novamente!'
-            );
-        }
-
-        return json_encode($response);
     }
 }

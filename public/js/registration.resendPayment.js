@@ -1,18 +1,18 @@
 $(document).ready(function () {
 	$('#payConfirm').click(function () {
 		$('#payButtons button').prop('disabled', true);
-		$('#payMsg').removeClass('alert-error')
+		$('#payMsg').removeClass('alert-danger')
 					.removeClass('alert-success');
 		
 		$.ajax(
 			{
-				url: baseUrl + '/registration/resendPayment',
+				url: baseUrl + 'registration/resendPayment',
 				type: 'post',
 				success: function (response)
 				{
 					if (response.error) {
 						$('#payMsg h4').html(response.error);
-						$('#payMsg').addClass('alert-error')
+						$('#payMsg').addClass('alert-danger')
 									.fadeIn()
 									.delay(1500)
 								  	.fadeOut(

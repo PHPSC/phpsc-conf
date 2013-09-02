@@ -1,19 +1,20 @@
 <?php
 namespace PHPSC\Conference\Domain\Repository;
 
-use \PHPSC\Conference\Infra\Persistence\EntityRepository;
+use PHPSC\Conference\Infra\Persistence\EntityRepository;
+use PHPSC\Conference\Domain\Entity\SocialProfile;
 
 class UserRepository extends EntityRepository
 {
     /**
-     * @param string $twitterUser
+     * @param string $email
      * @return \PHPSC\Conference\Domain\Entity\User
      */
-    public function findOneByTwitterUser($twitterUser)
+    public function findOneByEmail($email)
     {
         $query = $this->createQueryBuilder('user')
-                      ->andWhere('user.twitterUser = ?1')
-                      ->setParameter(1, $twitterUser)
+                      ->andWhere('user.email = ?1')
+                      ->setParameter(1, $email)
                       ->setMaxResults(1)
                       ->getQuery();
 

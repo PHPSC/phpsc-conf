@@ -1,0 +1,26 @@
+<section id="auth">
+    <header class="page-header">
+        <h1>
+            Autenticação<br />
+            <small>Selecione um mecanismo de autenticação</small>
+        </h1>
+    </header>
+    <div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3" style="text-align: center; padding-top: 15px;">
+				    <a class="btn btn-lg btn-info" href="<?= $this->getUrl('/oauth/github'); ?>"><span class="glyphicon glyphicon-user"></span> Github</a>
+				    &nbsp;&nbsp;
+				    <a class="btn btn-lg btn-info" href="<?= $this->getUrl('/oauth/facebook'); ?>"><span class="glyphicon glyphicon-user"></span> Facebook</a>
+				    &nbsp;&nbsp;
+				    <a class="btn btn-lg btn-info" href="<?= $this->getUrl('/oauth/google'); ?>"><span class="glyphicon glyphicon-user"></span> Google</a>
+				</div>
+				<div class="col-md-6 col-md-offset-3" style="text-align: center; padding-top: 15px;">
+				    <a class="btn btn-lg btn-info" href="<?= $this->getUrl('/oauth/linkedin'); ?>"><span class="glyphicon glyphicon-user"></span> LinkedIn</a>
+				    &nbsp;&nbsp;
+				    <a class="btn btn-lg btn-info" href="<?= $this->getUrl('/oauth/live'); ?>"><span class="glyphicon glyphicon-user"></span> Microsoft Live</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

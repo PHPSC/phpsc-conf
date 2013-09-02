@@ -13,37 +13,37 @@ class Location implements Entity
 {
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+     * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=60, nullable=false)
      * @var string
      */
     private $name;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="text")
      * @var string
      */
     private $description;
 
     /**
-     * @Column(type="decimal")
+     * @Column(type="decimal", precision=13, scale=7, nullable=true)
      * @var float
      */
     private $longitude;
 
     /**
-     * @Column(type="decimal")
+     * @Column(type="decimal", precision=13, scale=7, nullable=true)
      * @var float
      */
     private $latitude;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -51,7 +51,7 @@ class Location implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -65,7 +65,7 @@ class Location implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getName()
@@ -73,7 +73,7 @@ class Location implements Entity
         return $this->name;
     }
 
-	/**
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -85,7 +85,7 @@ class Location implements Entity
         $this->name = (string) $name;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getDescription()
@@ -93,7 +93,7 @@ class Location implements Entity
         return $this->description;
     }
 
-	/**
+    /**
      * @param string $description
      */
     public function setDescription($description)
@@ -107,7 +107,7 @@ class Location implements Entity
         $this->description = (string) $description;
     }
 
-	/**
+    /**
      * @return number
      */
     public function getLongitude()
@@ -115,7 +115,7 @@ class Location implements Entity
         return $this->longitude;
     }
 
-	/**
+    /**
      * @param number $longitude
      */
     public function setLongitude($longitude)
@@ -127,7 +127,7 @@ class Location implements Entity
         $this->longitude = $longitude;
     }
 
-	/**
+    /**
      * @return number
      */
     public function getLatitude()
@@ -135,7 +135,7 @@ class Location implements Entity
         return $this->latitude;
     }
 
-	/**
+    /**
      * @param number $latitude
      */
     public function setLatitude($latitude)

@@ -1,0 +1,29 @@
+<div>
+    <header class="page-header">
+    	<h1>O Local</h1>
+    </header>
+</div>
+<div class="row" style="padding-top: 10px;">
+    <div class="<?= $this->displayMap() ? 'col-md-5' : 'col-md-12'; ?>">
+        <p>Esse ano, o evento será realizado em Chapecó na Unochapecó.</p>
+        <p style="margin-top: 10px;">
+            <strong>Campus Chapecó</strong><br/>
+            Av. Senador Attílio Fontana, 591-E<br />
+            Efapi - Chapecó - Santa Catarina<br />
+        </p>
+    </div>
+    <?php if ($this->displayMap()) { ?>
+    <div class="col-md-7">
+        <div class="thumbnail">
+            <div id="mapEvento"></div>
+            <h6 id="address"></h6>
+        </div>
+    </div>
+    <?php } ?>
+</div>
+<?php if ($this->displayMap()) { ?>
+<script type="text/javascript">
+    var lat = <?php echo $this->getEvent()->getLocation()->getLatitude(); ?>;
+    var lng = <?php echo $this->getEvent()->getLocation()->getLongitude(); ?>;
+</script>
+<?php } ?>

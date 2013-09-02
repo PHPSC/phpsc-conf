@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\View\Pages\Talks\Index;
+use \PHPSC\Conference\UI\Pages\Talks\Index;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\Application\View\Main;
+use \PHPSC\Conference\UI\Main;
 
 class Talks extends Controller
 {
@@ -38,6 +38,6 @@ class Talks extends Controller
      */
     protected function getTalkManagement()
     {
-    	return $this->get('talk.management.service');
+        return $this->get('talk.management.service');
     }
 }

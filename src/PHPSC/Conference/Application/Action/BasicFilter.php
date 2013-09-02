@@ -5,18 +5,6 @@ use \Lcobucci\ActionMapper2\Routing\Filter;
 
 abstract class BasicFilter extends Filter
 {
-    protected function validateTwitterSession()
-    {
-        if ($this->getAuthenticationService()->getTwitterUser() === null) {
-            $this->request->getSession()->set(
-                'redirectTo',
-                $this->request->getRequestedPath()
-            );
-
-            $this->application->redirect('/oauth/redirect');
-        }
-    }
-
     protected function validateUserRegistration()
     {
         if ($this->getAuthenticationService()->getLoggedUser() === null) {
@@ -25,7 +13,7 @@ abstract class BasicFilter extends Filter
                 $this->request->getRequestedPath()
             );
 
-            $this->application->redirect('/user/new');
+            $this->application->redirect('/oauth');
         }
     }
 
@@ -37,5 +25,4 @@ abstract class BasicFilter extends Filter
         return $this->application->getDependencyContainer()
                                  ->get('authentication.service');
     }
-
 }

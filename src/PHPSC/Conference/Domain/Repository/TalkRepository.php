@@ -66,8 +66,11 @@ class TalkRepository extends EntityRepository
                         ->leftJoin('talk.type', 'type')
                         ->andWhere('talk.event = ?1')
                         ->andWhere('?2 NOT MEMBER OF talk.speakers')
-                        ->andWhere('NOT EXISTS (SELECT opinion.id FROM PHPSC\Conference\Domain\Entity\Opinion AS opinion WHERE opinion.talk = talk.id AND opinion.user = ?3)')
-                        ->setParameter(1, $event)
+                        ->andWhere(
+                            'NOT EXISTS (SELECT opinion.id
+                            FROM PHPSC\Conference\Domain\Entity\Opinion AS opinion
+                            WHERE opinion.talk = talk.id AND opinion.user = ?3)'
+                        )->setParameter(1, $event)
                         ->setParameter(2, $user)
                         ->setParameter(3, $user)
                         ->addOrderBy('type.description')

@@ -1,13 +1,10 @@
 <?php
 set_include_path(
-    __DIR__ . '/lib' . PATH_SEPARATOR
-    . __DIR__ . '/src' . PATH_SEPARATOR
+    get_include_path() . PATH_SEPARATOR
     . __DIR__ . '/ui'
 );
 
-require 'Lcobucci/ActionMapper2/ClassLoader/SplClassLoader.php';
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
-use Lcobucci\ActionMapper2\ClassLoader\SplClassLoader;
-
-$loader = new SplClassLoader();
-$loader->register();
+$autoloader = require __DIR__ . '/vendor/autoload.php';
+AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));

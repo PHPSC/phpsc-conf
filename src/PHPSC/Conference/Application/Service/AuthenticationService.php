@@ -1,58 +1,70 @@
 <?php
 namespace PHPSC\Conference\Application\Service;
 
-use \PHPSC\Conference\Domain\Service\UserManagementService;
-use \Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Lcobucci\Social\OAuth2\User as OAuth2User;
+use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Domain\Service\UserManagementService;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AuthenticationService
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
+     * @var SessionInterface
      */
     protected $session;
 
     /**
-     * @var \PHPSC\Conference\Application\Service\TwitterAccessProvider
-     */
-    protected $provider;
-
-    /**
-     * @var \PHPSC\Conference\Domain\Service\UserManagementService
+     * @var UserManagementService
      */
     protected $userManager;
 
     /**
-     * @var \PHPSC\Conference\Domain\Entity\User
+     * @var User
      */
     protected $loggedUser;
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
-     * @param \PHPSC\Conference\Application\Service\TwitterAccessProvider $provider
-     * @param \PHPSC\Conference\Domain\Service\UserManagementService $userManager
+     * @param SessionInterface $session
+     * @param UserManagementService $userManager
      */
     public function __construct(
         SessionInterface $session,
-        TwitterAccessProvider $provider,
         UserManagementService $userManager
     ) {
         $this->session = $session;
-        $this->provider = $provider;
         $this->userManager = $userManager;
     }
 
     /**
-     * @return \stdClass
+     * @param string $provider
+     * @param OAuth2User $oauthUser
+     * @return User
      */
-    public function getTwitterUser()
+    public function authenticate($provider, OAuth2User $oauthUser)
     {
-        if (!$this->session->has('twitterUser')) {
-            if ($data = $this->provider->getLoggedUser()) {
-                $this->session->set('twitterUser', $data);
-            }
+        if ($user = $this->userManager->getByOAuthUser($provider, $oauthUser)) {
+            return $this->saveLoggedUser($user);
         }
 
-        return $this->session->get('twitterUser');
+        if ($user = $this->userManager->create($provider, $oauthUser)) {
+            return $this->saveLoggedUser($user);
+        }
+
+        $this->session->set(
+            'oauth2.data',
+            [
+                'provider' => $provider,
+                'user' => $oauthUser
+            ]
+        );
+    }
+
+    public function saveLoggedUser(User $user)
+    {
+        $this->session->set('loggedUser', $user->getId());
+        $this->session->remove('oauth2.data');
+
+        return $this->loggedUser = $user;
     }
 
     /**
@@ -60,9 +72,9 @@ class AuthenticationService
      */
     public function getLoggedUser()
     {
-        if (!$this->isLogged() && $twitterUser = $this->getTwitterUser()) {
-            $this->loggedUser = $this->userManager->getByTwitterUser(
-                $twitterUser->screen_name
+        if (!$this->isLogged() && $this->session->has('loggedUser')) {
+            $this->loggedUser = $this->userManager->getById(
+                $this->session->get('loggedUser')
             );
         }
 

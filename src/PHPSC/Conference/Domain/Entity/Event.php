@@ -8,28 +8,34 @@ use \DateTime;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\EventRepository")
- * @Table("event")
+ * @Table(
+ *     "event",
+ *     indexes={
+ *         @Index(name="event_index0", columns={"start"}),
+ *         @Index(name="evento_index1", columns={"submissions_start", "submissions_end"})
+ *     }
+ * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class Event implements Entity
 {
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+     * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=80, nullable=false)
      * @var string
      */
     private $name;
 
     /**
      * @ManyToOne(targetEntity="Location", cascade={"all"})
-	 * @JoinColumn(name="location_id", referencedColumnName="id", nullable=false)
+     * @JoinColumn(name="location_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\Location
      */
     private $location;
@@ -53,18 +59,18 @@ class Event implements Entity
     private $endDate;
 
     /**
-     * @Column(type="datetime", name="submissions_start")
+     * @Column(type="datetime", name="submissions_start", nullable=true)
      * @var \DateTime
      */
     private $submissionStart;
 
     /**
-     * @Column(type="datetime", name="submissions_end")
+     * @Column(type="datetime", name="submissions_end", nullable=true)
      * @var \DateTime
      */
     private $submissionEnd;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -72,7 +78,7 @@ class Event implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -86,7 +92,7 @@ class Event implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getName()
@@ -94,7 +100,7 @@ class Event implements Entity
         return $this->name;
     }
 
-	/**
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -106,7 +112,7 @@ class Event implements Entity
         $this->name = (string) $name;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\Location
      */
     public function getLocation()
@@ -114,7 +120,7 @@ class Event implements Entity
         return $this->location;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\Location $location
      */
     public function setLocation(Location $location)
@@ -122,7 +128,7 @@ class Event implements Entity
         $this->location = $location;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\RegistrationInfo
      */
     public function getRegistrationInfo()
@@ -130,7 +136,7 @@ class Event implements Entity
         return $this->registrationInfo;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\RegistrationInfo $registrationInfo
      */
     public function setRegistrationInfo(RegistrationInfo $registrationInfo)
@@ -187,7 +193,7 @@ class Event implements Entity
                : $this->getRegistrationInfo()->getEarlyPrice();
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getStartDate()
@@ -195,7 +201,7 @@ class Event implements Entity
         return $this->startDate;
     }
 
-	/**
+    /**
      * @param \DateTime $startDate
      */
     public function setStartDate(DateTime $startDate)
@@ -203,7 +209,7 @@ class Event implements Entity
         $this->startDate = $startDate;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getEndDate()
@@ -211,7 +217,7 @@ class Event implements Entity
         return $this->endDate;
     }
 
-	/**
+    /**
      * @param \DateTime $endDate
      */
     public function setEndDate(DateTime $endDate)
@@ -219,7 +225,7 @@ class Event implements Entity
         $this->endDate = $endDate;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getSubmissionStart()
@@ -227,7 +233,7 @@ class Event implements Entity
         return $this->submissionStart;
     }
 
-	/**
+    /**
      * @param \DateTime $submissionStart
      */
     public function setSubmissionStart(DateTime $submissionStart = null)
@@ -235,7 +241,7 @@ class Event implements Entity
         $this->submissionStart = $submissionStart;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getSubmissionEnd()
@@ -243,7 +249,7 @@ class Event implements Entity
         return $this->submissionEnd;
     }
 
-	/**
+    /**
      * @param \DateTime $submissionEnd
      */
     public function setSubmissionEnd(DateTime $submissionEnd = null)

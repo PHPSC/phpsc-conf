@@ -12,19 +12,18 @@ $(document).ready(function() {
 				data: {
 					name: $('#name').val(),
 					email: $('#email').val(),
-					githubUser: $('#githubUser').val(),
 					bio: $('#bio').val()
 				},
 				success: function(response)
 				{
-					$('.alert').removeClass('alert-error')
+					$('.alert').removeClass('alert-danger')
 							   .removeClass('alert-success')
 							   .removeClass('alert-info');
 					
 					if (response.error) {
 						$('.alert h4').html('Erro ao realizar seu cadastro');
 						$('.alert span').html(response.error);
-						$('.alert').addClass('alert-error').fadeIn();
+						$('.alert').addClass('alert-danger').fadeIn();
 						
 						$('#userForm button').prop('disabled', false);
 						
@@ -32,7 +31,7 @@ $(document).ready(function() {
 					}
 					
 					$('.alert h4').html('Atualização realizada com sucesso');
-					$('.alert span').html('@' + response.data.twitterUser + ', seus dados foram atualizados!');
+					$('.alert span').html('@' + response.data.username + ', seus dados foram atualizados!');
 					$('.alert').addClass('alert-success').fadeIn().delay(2000).fadeOut(
 						'fast',
 						function ()

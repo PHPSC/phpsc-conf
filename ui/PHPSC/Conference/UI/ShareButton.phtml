@@ -1,0 +1,10 @@
+<div id="<?= $this->getContainerId(); ?>" class="btn-group <?= $this->getContainerClass(); ?>">
+    <a class="btn dropdown-toggle <?= $this->getButtonClass(); ?>" data-toggle="dropdown" href="#">
+        <span class="glyphicon glyphicon-share"></span> Compartilhar <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" style="min-width: 120px; text-align: left;">
+    <?php foreach ($this->getLinks() as $provider => $uri) { ?>
+        <li><a href="<?= $uri ?>" target="_blank"><?= $provider ?></a></li>
+        <?php } ?>
+    </ul>
+</div>

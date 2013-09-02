@@ -1,12 +1,11 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\View\Pages\User\Form;
-use \PHPSC\Conference\Application\View\Main;
-use \PHPSC\Conference\Domain\Entity\User as UserEntity;
-
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Domain\Entity\User as UserEntity;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\User\Form;
 
 class User extends Controller
 {
@@ -15,11 +14,12 @@ class User extends Controller
      */
     public function createUserForm()
     {
-        return $this->showForm(
-            UserEntity::createFromTwitterData(
-                $this->getTwitterProvider()->getLoggedUser()
-            )
-        );
+        $oauthData = $this->request->getSession()->get('oauth2.data');
+
+        $user = new UserEntity();
+        $user->setName($oauthData['user']->getName());
+
+        return $this->showForm($user);
     }
 
     /**
@@ -34,11 +34,10 @@ class User extends Controller
         $this->response->setContentType('application/json', 'UTF-8');
 
         return $this->getUserJsonService()->create(
+            $this->request->getSession()->get('oauth2.data'),
             $this->request->request->get('name'),
             $this->request->request->get('email'),
-            $this->request->request->get('githubUser'),
             $this->request->request->get('bio'),
-            $this->request->request->get('follow') == 'true',
             $redirectTo ?: '/'
         );
     }
@@ -65,26 +64,17 @@ class User extends Controller
             $id,
             $this->request->request->get('name'),
             $this->request->request->get('email'),
-            $this->request->request->get('githubUser'),
             $this->request->request->get('bio')
         );
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return \PHPSC\Conference\Application\View\Main
+     * @param UserEntity $user
+     * @return Main
      */
-    protected function showForm(\PHPSC\Conference\Domain\Entity\User $user)
+    protected function showForm(UserEntity $user)
     {
         return Main::create(new Form($user), $this->application);
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\TwitterAccessProvider
-     */
-    protected function getTwitterProvider()
-    {
-        return $this->get('twitter.provider');
     }
 
     /**
@@ -100,6 +90,6 @@ class User extends Controller
      */
     protected function getAuthenticationService()
     {
-    	return $this->application->getDependencyContainer()->get('authentication.service');
+        return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

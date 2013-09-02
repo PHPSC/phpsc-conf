@@ -13,24 +13,14 @@ html,body {
 }
 
 #wrap {
-	min-height: 83.5%; 
-	padding-top: 80px;
+    min-height: 100%;
+    height: 100%;
+    margin: 0 auto -80px;
+    padding: 0 0 80px;
 }
 
 #main {
-	padding-bottom: 40px;
-	overflow: auto;
-}
-
-footer {
-	margin-top: -25px;
-	height: 35px;
-	position: relative;
-	clear: both;
-	background-color: #11445c;
-	padding: 10px 0px;
-	border-top: #022738 dashed 3px;
-	color: #fefefe;
+	padding-top: 80px;
 }
 
 .sponsors {

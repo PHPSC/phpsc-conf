@@ -7,7 +7,6 @@ use \PHPSC\Conference\Domain\Entity\Event;
 use \PHPSC\Conference\Domain\Entity\Talk;
 use \PHPSC\Conference\Domain\Entity\User;
 use \InvalidArgumentException;
-use \RuntimeException;
 
 class TalkManagementService
 {
@@ -121,10 +120,10 @@ class TalkManagementService
         Event $event,
         $approvedOnly = false
     ) {
-    	return $this->talkRepository->findByUserAndEvent(
-	        $user,
-	        $event,
-	        $approvedOnly
+        return $this->talkRepository->findByUserAndEvent(
+            $user,
+            $event,
+            $approvedOnly
         );
     }
 
@@ -159,7 +158,7 @@ class TalkManagementService
      */
     public function findByEvent(Event $event, $approvedOnly = false)
     {
-    	return $this->talkRepository->findByEvent($event, $approvedOnly);
+        return $this->talkRepository->findByEvent($event, $approvedOnly);
     }
 
     /**
@@ -195,9 +194,9 @@ class TalkManagementService
         Event $event,
         User $user
     ) {
-    	return $this->talkRepository->findNonRated(
-	        $event,
-	        $user
+        return $this->talkRepository->findNonRated(
+            $event,
+            $user
         );
     }
 }

@@ -5,7 +5,11 @@ use \PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\OpinionRepository")
- * @Table("opinion")
+ * @Table(
+ *     "opinion",
+ *     uniqueConstraints={@UniqueConstraint(name="opinion_index0",columns={"user_id", "talk_id"})},
+ *     indexes={@Index(name="opinion_index1", columns={"likes"})}
+ * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class Opinion implements Entity
@@ -33,12 +37,12 @@ class Opinion implements Entity
     private $talk;
 
     /**
-     * @Column(type="boolean", nullable=false)
+     * @Column(type="boolean", options={"default" = 1}, nullable=false)
      * @var boolean
      */
     private $likes;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -46,7 +50,7 @@ class Opinion implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -54,7 +58,7 @@ class Opinion implements Entity
         $this->id = $id;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\User
      */
     public function getUser()
@@ -62,7 +66,7 @@ class Opinion implements Entity
         return $this->user;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\User $user
      */
     public function setUser(User $user)
@@ -70,7 +74,7 @@ class Opinion implements Entity
         $this->user = $user;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Entity\Talk
      */
     public function getTalk()
@@ -78,14 +82,14 @@ class Opinion implements Entity
         return $this->talk;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Entity\Talk $talk
      */
     public function setTalk(Talk $talk)
     {
         $this->talk = $talk;
     }
-	/**
+    /**
      * @return boolean
      */
     public function getLikes()
@@ -93,7 +97,7 @@ class Opinion implements Entity
         return $this->likes;
     }
 
-	/**
+    /**
      * @param boolean $likes
      */
     public function setLikes($likes)

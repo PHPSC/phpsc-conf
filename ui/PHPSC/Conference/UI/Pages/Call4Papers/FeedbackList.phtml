@@ -1,0 +1,14 @@
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-5">
+        <h2>Trabalhos submetidos</h2>
+    </div>
+    <div class="col-md-4">
+        <?= $this->getShareButton(); ?>
+    </div>
+</div>
+<div id="gridMsg" class="alert alert-info">
+    <h4 class="alert-heading">Sua opinião é muito importante!</h4>
+    <span>Nesta página você visualizará as submissões realizadas, e poderá dar seu parecer sobre cada uma.</span>
+</div>
+<?php echo $this->getList(); ?>
+<h2 id="thanks" style="text-align: center; padding-top: 20px;" class="hide">Obrigado =D</h2>

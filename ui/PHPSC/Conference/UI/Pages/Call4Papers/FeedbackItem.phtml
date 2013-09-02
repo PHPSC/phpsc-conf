@@ -1,0 +1,23 @@
+<div id="talk<?php echo $this->getItem()->getId(); ?>">
+    <h3>
+        <span class="<?php echo $this->getBadge(); ?>" style="vertical-align: 20%;">
+            <?php echo $this->getItem()->getType()->getDescription(); ?></span>
+        <?php echo $this->getItem()->getTitle(); ?>
+    </h3>
+    <?php if ($this->getItem()->getTags()) { ?>
+        <div style="margin-bottom: 10px">
+            <?php foreach (explode(',', $this->getItem()->getTags()) as $index => $tag) { ?>
+                <span class="<?php echo $this->getLabel($index); ?>"><?php echo ucfirst($tag); ?></span>
+            <?php } ?>
+        </div>
+    <?php } ?>
+</div>
+<div class="row">
+    <p class="col-md-8 well">
+        <?php echo nl2br($this->getItem()->getShortDescription()); ?>
+    </p>
+    <div class="col-md-2">
+        <a href="#" id="like-<?php echo $this->getItem()->getId(); ?>" class="btn btn-info" title="Gostei"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+        &nbsp;<a href="#" id="dislike-<?php echo $this->getItem()->getId(); ?>" class="btn btn-default" title="Não gostei"><spab class="glyphicon glyphicon-thumbs-down"></span></a>
+    </div>
+</div>

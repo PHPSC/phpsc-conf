@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \Doctrine\Common\Collections\ArrayCollection;
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\UserRepository")
@@ -15,38 +15,32 @@ class User implements Entity
 {
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+     * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=80, nullable=false)
      * @var string
      */
     private $name;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=160, nullable=false, unique=true)
      * @var string
      */
     private $email;
 
     /**
-     * @Column(type="string", nullable=false, name="twitter_user")
-     * @var string
+     * @OneToMany(targetEntity="SocialProfile", mappedBy="user", cascade={"all"})
+     * @var ArrayCollection
      */
-    private $twitterUser;
+    private $profiles;
 
     /**
-     * @Column(type="string", name="github_user")
-     * @var string
-     */
-    private $githubUser;
-
-    /**
-     * @Column(type="string")
+     * @Column(type="text", nullable=true)
      * @var string
      */
     private $bio;
@@ -58,24 +52,14 @@ class User implements Entity
     private $creationTime;
 
     /**
-     * @ManyToMany(targetEntity="Talk")
-     * @JoinTable(name="interest",
-     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")}
-     * )
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    private $interests;
-
-    /**
-     * Inicializador do objeto
+     * Class constructor
      */
     public function __construct()
     {
-        $this->interests = new ArrayCollection();
+        $this->profiles = new ArrayCollection();
     }
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -83,7 +67,7 @@ class User implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -97,7 +81,7 @@ class User implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getName()
@@ -105,7 +89,7 @@ class User implements Entity
         return $this->name;
     }
 
-	/**
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -117,7 +101,7 @@ class User implements Entity
         $this->name = (string) $name;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getEmail()
@@ -125,7 +109,7 @@ class User implements Entity
         return $this->email;
     }
 
-	/**
+    /**
      * @param string $email
      */
     public function setEmail($email)
@@ -137,55 +121,44 @@ class User implements Entity
         $this->email = (string) $email;
     }
 
-	/**
-     * @return string
+    /**
+     * @return ArrayCollection
      */
-    public function getTwitterUser()
+    public function getProfiles()
     {
-        return $this->twitterUser;
+        return $this->profiles;
     }
 
-	/**
-     * @param string $twitterUser
+    /**
+     * @param ArrayCollection $profiles
      */
-    public function setTwitterUser($twitterUser)
+    public function setProfiles(ArrayCollection $profiles)
     {
-        if (empty($twitterUser)) {
-            throw new InvalidArgumentException(
-                'O nome do usuário no twitter não pode ser vazio'
-            );
-        }
-
-        $this->twitterUser = (string) $twitterUser;
+        $this->profiles = $profiles;
     }
 
-	/**
-     * @return string
+    /**
+     * @param SocialProfile $profile
      */
-    public function getGithubUser()
+    public function addProfile(SocialProfile $profile)
     {
-        return $this->githubUser;
+        $this->profiles->add($profile);
+        $profile->setUser($this);
     }
 
-	/**
-     * @param string $githubUser
+    /**
+     * @return SocialProfile
      */
-    public function setGithubUser($githubUser)
+    public function getDefaultProfile()
     {
-        if ($githubUser !== null) {
-            $githubUser = (string) $githubUser;
-
-            if (empty($githubUser)) {
-                throw new InvalidArgumentException(
-                    'O nome do usuário do github não pode ser vazio'
-                );
+        foreach ($this->getProfiles() as $profile) {
+            if ($profile->isDefault()) {
+                return $profile;
             }
         }
-
-        $this->githubUser = $githubUser;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getBio()
@@ -193,7 +166,7 @@ class User implements Entity
         return $this->bio;
     }
 
-	/**
+    /**
      * @param string $bio
      */
     public function setBio($bio)
@@ -211,7 +184,7 @@ class User implements Entity
         $this->bio = $bio;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getCreationTime()
@@ -219,70 +192,28 @@ class User implements Entity
         return $this->creationTime;
     }
 
-	/**
+    /**
      * @param \DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)
     {
         $this->creationTime = $creationTime;
     }
-	/**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getInterests()
-    {
-        return $this->interests;
-    }
-
-	/**
-     * @param \Doctrine\Common\Collections\ArrayCollection $interests
-     */
-    public function setInterests(ArrayCollection $interests)
-    {
-        $this->interests = $interests;
-    }
 
     /**
      * @param string $name
-     * @param string $twitterUser
      * @param string $email
-     * @param string $githubUser
      * @param string $bio
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
-    public static function create(
-        $name,
-        $twitterUser,
-        $email = null,
-        $githubUser = null,
-        $bio = null
-    ) {
+    public static function create($name, $email, $bio = null)
+    {
         $user = new static();
         $user->setName($name);
-        $user->setTwitterUser($twitterUser);
-        $user->setGithubUser($githubUser);
+        $user->setEmail($email);
         $user->setBio($bio);
         $user->setCreationTime(new DateTime());
 
-        if ($email) {
-            $user->setEmail($email);
-        }
-
         return $user;
-    }
-
-    /**
-     * @param \stdClass $twitterData
-     * @return \PHPSC\Conference\Domain\Entity\User
-     */
-    public static function createFromTwitterData(\stdClass $twitterData)
-    {
-        return static::create(
-            $twitterData->name,
-            $twitterData->screen_name,
-            null,
-            null,
-            !empty($twitterData->description) ? $twitterData->description : null
-        );
     }
 }

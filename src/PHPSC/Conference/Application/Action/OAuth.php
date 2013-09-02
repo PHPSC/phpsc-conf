@@ -1,80 +1,61 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\Application\Service\TwitterConnectionException;
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\Auth;
 
 class OAuth extends Controller
 {
-    /**
-     * @Route("/redirect", methods={"GET"})
-     */
-    public function redirectToTwitter()
+    public function choose()
     {
-        try {
-            $provider = $this->getTwitterProvider();
-            $url = $provider->redirectToLogin();
+        return Main::create(new Auth(), $this->application);
+    }
 
-            $this->redirect($url);
-        } catch (TwitterConnectionException $error) {
-            $this->redirect('/');
-        }
+    /**
+     * @Route("/", methods={"GET"})
+     */
+    public function redirectToProvider($provider)
+    {
+        $client = $this->get('oauth2.manager');
+        $session = $this->request->getSession();
+
+        $session->set('oauth.state', uniqid());
+
+        $this->redirect(
+            $client->getAuthorizationUri(
+                $provider,
+                array(),
+                $session->get('oauth.state')
+            )
+        );
     }
 
     /**
      * @Route("/callback")
      */
-    public function receiveTwitterData()
+    public function receiveProviderData($provider)
     {
-        $provider = $this->getTwitterProvider();
+        $session = $this->request->getSession();
 
-        try {
-            $provider->callback(
-                $this->request->get('oauth_token'),
-                $this->request->get('oauth_verifier')
-            );
+        if ($session->get('oauth.state') != $this->request->get('state')) {
+            $this->redirect('/');
+        }
 
-            if (!$this->getAuthenticationService()->getLoggedUser()) {
-                $this->redirect('/user/new');
-            }
+        $client = $this->get('oauth2.manager');
+        $user = $client->getAuthenticatedUser($provider, $this->request->query);
 
-            $path = $this->request->getSession()->get('redirectTo', '/');
+        if (!$this->get('authentication.service')->authenticate($provider, $user)) {
+            $this->redirect('/user/new');
+        }
 
-            if ($path != '/') {
-                $this->request->getSession()->remove('redirectTo');
-            }
-        } catch (TwitterConnectionException $error) {
-            $path = '/';
+        $path = $session->get('redirectTo', '/');
+
+        if ($path != '/') {
+            $session->remove('redirectTo');
         }
 
         $this->redirect($path);
-    }
-
-    /**
-     * @Route("/logoff")
-     */
-    public function logoff()
-    {
-        $provider = $this->getTwitterProvider();
-        $provider->logoff();
-
-        $this->redirect('/');
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\TwitterAccessProvider
-     */
-    protected function getTwitterProvider()
-    {
-        return $this->get('twitter.provider');
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->get('authentication.service');
     }
 }

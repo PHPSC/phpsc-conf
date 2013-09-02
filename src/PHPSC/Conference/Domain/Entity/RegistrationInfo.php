@@ -22,7 +22,7 @@ class RegistrationInfo implements Entity
 
     /**
      * @OneToOne(targetEntity="Event", inversedBy="registrationInfo")
-     * @JoinColumn(name="event_id", referencedColumnName="id")
+     * @JoinColumn(name="event_id", referencedColumnName="id", unique=true, nullable=false)
      * @var \PHPSC\Conference\Domain\Event
      */
     private $event;
@@ -40,30 +40,30 @@ class RegistrationInfo implements Entity
     private $end;
 
     /**
-     * @Column(type="decimal", nullable=false, name="regular_price")
+     * @Column(type="decimal", precision=13, scale=2, nullable=false, name="regular_price")
      * @var float
      */
     private $regularPrice;
 
     /**
-     * @Column(type="decimal", name="early_price")
+     * @Column(type="decimal", precision=13, scale=2, name="early_price", nullable=true)
      * @var float
      */
     private $earlyPrice;
 
     /**
-     * @Column(type="string", name="student_label")
+     * @Column(type="string", length=45, name="student_label", nullable=true)
      * @var string
      */
     private $studentLabel;
 
     /**
-     * @Column(type="string", name="student_rules")
+     * @Column(type="text", name="student_rules", nullable=true)
      * @var string
      */
     private $studentRules;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -71,7 +71,7 @@ class RegistrationInfo implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -85,7 +85,7 @@ class RegistrationInfo implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return \PHPSC\Conference\Domain\Event
      */
     public function getEvent()
@@ -93,7 +93,7 @@ class RegistrationInfo implements Entity
         return $this->event;
     }
 
-	/**
+    /**
      * @param \PHPSC\Conference\Domain\Event $event
      */
     public function setEvent(Event $event)
@@ -101,7 +101,7 @@ class RegistrationInfo implements Entity
         $this->event = $event;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getStart()
@@ -109,7 +109,7 @@ class RegistrationInfo implements Entity
         return $this->start;
     }
 
-	/**
+    /**
      * @param \DateTime $start
      */
     public function setStart(DateTime $start)
@@ -117,7 +117,7 @@ class RegistrationInfo implements Entity
         $this->start = $start;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getEnd()
@@ -125,7 +125,7 @@ class RegistrationInfo implements Entity
         return $this->end;
     }
 
-	/**
+    /**
      * @param \DateTime $end
      */
     public function setEnd(DateTime $end)
@@ -133,7 +133,7 @@ class RegistrationInfo implements Entity
         $this->end = $end;
     }
 
-	/**
+    /**
      * @return number
      */
     public function getRegularPrice()
@@ -141,7 +141,7 @@ class RegistrationInfo implements Entity
         return $this->regularPrice;
     }
 
-	/**
+    /**
      * @param number $regularPrice
      */
     public function setRegularPrice($regularPrice)
@@ -149,7 +149,7 @@ class RegistrationInfo implements Entity
         $this->regularPrice = (float) $regularPrice;
     }
 
-	/**
+    /**
      * @return number
      */
     public function getEarlyPrice()
@@ -157,7 +157,7 @@ class RegistrationInfo implements Entity
         return $this->earlyPrice;
     }
 
-	/**
+    /**
      * @param number $earlyPrice
      */
     public function setEarlyPrice($earlyPrice)
@@ -175,7 +175,7 @@ class RegistrationInfo implements Entity
         return $this->getEarlyPrice() !== null;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getStudentLabel()
@@ -183,7 +183,7 @@ class RegistrationInfo implements Entity
         return $this->studentLabel;
     }
 
-	/**
+    /**
      * @param string $studentLabel
      */
     public function setStudentLabel($studentLabel)
@@ -191,7 +191,7 @@ class RegistrationInfo implements Entity
         $this->studentLabel = $studentLabel;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getStudentRules()
@@ -199,7 +199,7 @@ class RegistrationInfo implements Entity
         return $this->studentRules;
     }
 
-	/**
+    /**
      * @param string $studentRules
      */
     public function setStudentRules($studentRules)

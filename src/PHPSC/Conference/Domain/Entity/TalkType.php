@@ -14,14 +14,14 @@ class TalkType implements Entity
 {
     /**
      * @Id
- 	 * @Column(type="integer")
-	 * @generatedValue(strategy="IDENTITY")
+      * @Column(type="integer")
+     * @generatedValue(strategy="IDENTITY")
      * @var int
      */
     private $id;
 
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=45, nullable=false)
      * @var string
      */
     private $description;
@@ -32,7 +32,7 @@ class TalkType implements Entity
      */
     private $length;
 
-	/**
+    /**
      * @return number
      */
     public function getId()
@@ -40,7 +40,7 @@ class TalkType implements Entity
         return $this->id;
     }
 
-	/**
+    /**
      * @param number $id
      */
     public function setId($id)
@@ -54,7 +54,7 @@ class TalkType implements Entity
         $this->id = (int) $id;
     }
 
-	/**
+    /**
      * @return string
      */
     public function getDescription()
@@ -62,7 +62,7 @@ class TalkType implements Entity
         return $this->description;
     }
 
-	/**
+    /**
      * @param string $description
      */
     public function setDescription($description)
@@ -76,7 +76,7 @@ class TalkType implements Entity
         $this->description = (string) $description;
     }
 
-	/**
+    /**
      * @return \DateTime
      */
     public function getLength()
@@ -84,7 +84,7 @@ class TalkType implements Entity
         return $this->length;
     }
 
-	/**
+    /**
      * @param \DateTime $length
      */
     public function setLength(DateTime $length)
