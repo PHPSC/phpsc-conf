@@ -32,14 +32,14 @@ $(document).ready(function() {
 				},
 				success: function(response)
 				{
-					$('.alert').removeClass('alert-error')
+					$('.alert').removeClass('alert-danger')
 							   .removeClass('alert-success')
 							   .removeClass('alert-info');
 					
 					if (response.error) {
 						$('.alert h4').html('Erro ao realizar seu cadastro');
 						$('.alert span').html(response.error);
-						$('.alert').addClass('alert-error').fadeIn();
+						$('.alert').addClass('alert-danger').fadeIn();
 						
 						$('#attendeeForm button').prop('disabled', false);
 						
