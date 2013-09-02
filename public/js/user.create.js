@@ -10,7 +10,6 @@ $(document).ready(function() {
 				data: {
 					name: $('#name').val(),
 					email: $('#email').val(),
-					githubUser: $('#githubUser').val(),
 					bio: $('#bio').val()
 				},
 				success: function(response)
@@ -30,7 +29,7 @@ $(document).ready(function() {
 					}
 					
 					$('.alert h4').html('Cadastro realizado com sucesso');
-					$('.alert span').html('Seja bem vindo @' + response.data.twitterUser + '!');
+					$('.alert span').html('Seja bem vindo @' + response.data.username + '!');
 					$('.alert').addClass('alert-success').fadeIn();
 					
 					if (response.redirectTo) {

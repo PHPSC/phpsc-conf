@@ -1,9 +1,10 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use PHPSC\Conference\Infra\Persistence\Entity;
-use InvalidArgumentException;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\UserRepository")
@@ -27,22 +28,16 @@ class User implements Entity
     private $name;
 
     /**
-     * @Column(type="string", length=160, nullable=false)
+     * @Column(type="string", length=160, nullable=false, unique=true)
      * @var string
      */
     private $email;
 
     /**
-     * @Column(type="string", length=60, nullable=true, name="twitter_user", unique=true)
-     * @var string
+     * @OneToMany(targetEntity="SocialProfile", mappedBy="user", cascade={"all"})
+     * @var ArrayCollection
      */
-    private $twitterUser;
-
-    /**
-     * @Column(type="string", name="github_user", length=60, nullable=true)
-     * @var string
-     */
-    private $githubUser;
+    private $profiles;
 
     /**
      * @Column(type="text", nullable=true)
@@ -55,6 +50,14 @@ class User implements Entity
      * @var \DateTime
      */
     private $creationTime;
+
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        $this->profiles = new ArrayCollection();
+    }
 
     /**
      * @return number
@@ -119,51 +122,40 @@ class User implements Entity
     }
 
     /**
-     * @return string
+     * @return ArrayCollection
      */
-    public function getTwitterUser()
+    public function getProfiles()
     {
-        return $this->twitterUser;
+        return $this->profiles;
     }
 
     /**
-     * @param string $twitterUser
+     * @param ArrayCollection $profiles
      */
-    public function setTwitterUser($twitterUser)
+    public function setProfiles(ArrayCollection $profiles)
     {
-        if (empty($twitterUser)) {
-            throw new InvalidArgumentException(
-                'O nome do usuário no twitter não pode ser vazio'
-            );
-        }
-
-        $this->twitterUser = (string) $twitterUser;
+        $this->profiles = $profiles;
     }
 
     /**
-     * @return string
+     * @param SocialProfile $profile
      */
-    public function getGithubUser()
+    public function addProfile(SocialProfile $profile)
     {
-        return $this->githubUser;
+        $this->profiles->add($profile);
+        $profile->setUser($this);
     }
 
     /**
-     * @param string $githubUser
+     * @return SocialProfile
      */
-    public function setGithubUser($githubUser)
+    public function getDefaultProfile()
     {
-        if ($githubUser !== null) {
-            $githubUser = (string) $githubUser;
-
-            if (empty($githubUser)) {
-                throw new InvalidArgumentException(
-                    'O nome do usuário do github não pode ser vazio'
-                );
+        foreach ($this->getProfiles() as $profile) {
+            if ($profile->isDefault()) {
+                return $profile;
             }
         }
-
-        $this->githubUser = $githubUser;
     }
 
     /**
@@ -210,45 +202,18 @@ class User implements Entity
 
     /**
      * @param string $name
-     * @param string $twitterUser
      * @param string $email
-     * @param string $githubUser
      * @param string $bio
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
-    public static function create(
-        $name,
-        $twitterUser,
-        $email = null,
-        $githubUser = null,
-        $bio = null
-    ) {
+    public static function create($name, $email, $bio = null)
+    {
         $user = new static();
         $user->setName($name);
-        $user->setTwitterUser($twitterUser);
-        $user->setGithubUser($githubUser);
+        $user->setEmail($email);
         $user->setBio($bio);
         $user->setCreationTime(new DateTime());
 
-        if ($email) {
-            $user->setEmail($email);
-        }
-
         return $user;
-    }
-
-    /**
-     * @param \stdClass $twitterData
-     * @return \PHPSC\Conference\Domain\Entity\User
-     */
-    public static function createFromTwitterData(\stdClass $twitterData)
-    {
-        return static::create(
-            $twitterData->name,
-            $twitterData->screen_name,
-            null,
-            null,
-            !empty($twitterData->description) ? $twitterData->description : null
-        );
     }
 }

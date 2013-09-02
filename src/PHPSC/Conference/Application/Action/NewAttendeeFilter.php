@@ -8,7 +8,6 @@ class NewAttendeeFilter extends BasicFilter
      */
     public function process()
     {
-        $this->validateTwitterSession();
         $this->validateUserRegistration();
 
         $event = $this->getEventManagement()->findCurrentEvent();

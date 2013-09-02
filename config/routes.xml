@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routing xmlns="http://lcobucci.com/action-mapper/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://lcobucci.com/action-mapper/schema ../lib/Lcobucci/ActionMapper2/Config/schema/routing.xsd ">
+	xsi:schemaLocation="http://lcobucci.com/action-mapper/schema ../vendor/lcobucci/action-mapper/src/Lcobucci/ActionMapper2/Config/schema/routing.xsd ">
 	<routes>
 		<route pattern="/*" class="\PHPSC\Conference\Application\Action\Home" />
 		<route pattern="/contact/*" class="\PHPSC\Conference\Application\Action\Contact" />
-		<route pattern="/oauth/*" class="\PHPSC\Conference\Application\Action\OAuth" />
+		<route pattern="/oauth" class="\PHPSC\Conference\Application\Action\OAuth" method="choose" />
+		<route pattern="/oauth/(provider)/*" class="\PHPSC\Conference\Application\Action\OAuth" />
 		<route pattern="/user/*" class="\PHPSC\Conference\Application\Action\User" />
 		<route pattern="/call4papers/*" class="\PHPSC\Conference\Application\Action\Call4Papers" />
 		<route pattern="/payment/*" class="\PHPSC\Conference\Application\Action\Payment" />
 		<route pattern="/registration/*" class="\PHPSC\Conference\Application\Action\Registration" />
 		<route pattern="/talks/*" class="\PHPSC\Conference\Application\Action\Talks" />
 		<route pattern="/status" class="\PHPSC\Conference\Application\Action\Status" />
+		<route pattern="/logoff" class="\PHPSC\Conference\Application\Action\Logoff" />
 	</routes>
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Action\UserFilter" />

@@ -10,13 +10,14 @@ class UserFilter extends BasicFilter
     {
         $service = $this->getAuthenticationService();
 
-        if ($service->getTwitterUser() === null) {
+        if ($this->request->getRequestedPath() == '/user/new'
+            && $service->getLoggedUser()) {
             $this->application->redirect('/');
         }
 
         if ($this->request->getRequestedPath() == '/user/new'
-            && $service->getLoggedUser()) {
-            $this->application->redirect('/');
+            && !$this->request->getSession()->has('oauth2.data')) {
+            $this->application->redirect('/oauth');
         }
     }
 }

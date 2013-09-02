@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "08280b8bd645716ef2cc4d5c3a0815cb",
+    "hash": "93457e5fe088cb10f94c18196cf08ab2",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -487,12 +487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "6f025f78ec9408cc78b0169fda2c86f35c8fd3f4"
+                "reference": "340ae15ba73c317a64504b77723bdfadd3ab31f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/6f025f78ec9408cc78b0169fda2c86f35c8fd3f4",
-                "reference": "6f025f78ec9408cc78b0169fda2c86f35c8fd3f4",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/340ae15ba73c317a64504b77723bdfadd3ab31f3",
+                "reference": "340ae15ba73c317a64504b77723bdfadd3ab31f3",
                 "shasum": ""
             },
             "require": {
@@ -554,7 +554,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-08-29 14:27:35"
+            "time": "2013-09-01 17:04:22"
         },
         {
             "name": "guzzle/guzzle",
@@ -786,6 +786,54 @@
                 "ui"
             ],
             "time": "2013-08-12 18:58:16"
+        },
+        {
+            "name": "lcobucci/social",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/social.git",
+                "reference": "eb56fbd3e2129a42bafc1f0ae136754777129deb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/social/zipball/eb56fbd3e2129a42bafc1f0ae136754777129deb",
+                "reference": "eb56fbd3e2129a42bafc1f0ae136754777129deb",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": ">=3.7",
+                "php": ">=5.3",
+                "symfony/http-foundation": ">=2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Lcobucci\\Social": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Luís Otávio Cobucci Oblonczyk",
+                    "email": "lcobucci@gmail.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "Social authentication library for PHP 5.3+",
+            "keywords": [
+                "Authentication",
+                "facebook",
+                "github",
+                "google",
+                "linkedin",
+                "live",
+                "oauth"
+            ],
+            "time": "2013-09-01 23:24:15"
         },
         {
             "name": "phpsc/pagseguro",
@@ -1199,6 +1247,7 @@
     "stability-flags": {
         "lcobucci/display-objects": 20,
         "lcobucci/action-mapper": 20,
+        "lcobucci/social": 20,
         "phpsc/pagseguro": 20
     },
     "platform": [

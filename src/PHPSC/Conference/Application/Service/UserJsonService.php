@@ -1,8 +1,8 @@
 <?php
 namespace PHPSC\Conference\Application\Service;
 
-use \PHPSC\Conference\Domain\Service\UserManagementService;
-use \PHPSC\Conference\Infra\Email\DeliveryService;
+use PHPSC\Conference\Infra\Email\DeliveryService;
+use PHPSC\Conference\Domain\Service\UserManagementService;
 
 class UserJsonService
 {
@@ -17,66 +17,48 @@ class UserJsonService
     protected $userManager;
 
     /**
-     * @var DeliveryService
-     */
-    protected $deliveryService;
-
-    /**
      * @param AuthenticationService $authService
      * @param UserManagementService $userManager
-     * @param DeliveryService $deliveryService
      */
     public function __construct(
         AuthenticationService $authService,
-        UserManagementService $userManager,
-        DeliveryService $deliveryService
+        UserManagementService $userManager
     ) {
         $this->authService = $authService;
         $this->userManager = $userManager;
-        $this->deliveryService = $deliveryService;
     }
 
     /**
+     * @param array $oauthData
      * @param string $name
      * @param string $email
-     * @param string $githubUser
      * @param string $bio
-     * @param boolean $follow
      * @param string $redirectTo
      * @return string
      */
     public function create(
+        array $oauthData,
         $name,
         $email,
-        $githubUser,
         $bio,
         $redirectTo
     ) {
-        $user = $this->authService->getTwitterUser();
-
         try {
             $user = $this->userManager->create(
+                $oauthData['provider'],
+                $oauthData['user'],
                 $name,
-                $user->screen_name,
                 $email,
-                !empty($githubUser) ? $githubUser : null,
                 !empty($bio) ? $bio : null
             );
 
-            $message = $this->deliveryService->getMessageFromTemplate(
-                'Welcome',
-                array('name' => $name)
-            );
-
-            $message->setTo($email);
-
-            $this->deliveryService->send($message);
+            $this->authService->saveLoggedUser($user);
 
             return json_encode(
                 array(
                     'data' => array(
                         'id' => $user->getId(),
-                        'twitterUser' => $user->getTwitterUser()
+                        'username' => $user->getDefaultProfile()->getUsername()
                     ),
                     'redirectTo' => $redirectTo
                 )
@@ -106,7 +88,6 @@ class UserJsonService
      * @param int $id
      * @param string $name
      * @param string $email
-     * @param string $githubUser
      * @param string $bio
      * @return string
      */
@@ -114,7 +95,6 @@ class UserJsonService
         $id,
         $name,
         $email,
-        $githubUser,
         $bio
     ) {
         $user = $this->authService->getLoggedUser();
@@ -130,7 +110,6 @@ class UserJsonService
                 $id,
                 $name,
                 $email,
-                !empty($githubUser) ? $githubUser : null,
                 !empty($bio) ? $bio : null
             );
 
@@ -138,7 +117,7 @@ class UserJsonService
                 array(
                     'data' => array(
                         'id' => $user->getId(),
-                        'twitterUser' => $user->getTwitterUser()
+                        'username' => $user->getDefaultProfile()->getUsername()
                     )
                 )
             );

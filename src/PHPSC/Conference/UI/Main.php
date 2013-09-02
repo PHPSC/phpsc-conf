@@ -91,7 +91,12 @@ class Main extends UIComponent
      */
     public function renderNavigation()
     {
-        return new NavigationBar($this->application);
+        $container = $this->application->getDependencyContainer();
+
+        return new NavigationBar(
+            $container->get('event.management.service'),
+            $container->get('authentication.service')
+        );
     }
 
     /**
