@@ -137,7 +137,14 @@ class UserManagementService
         }
 
         if ($user = $this->repository->findOneByEmail($oauthUser->getEmail())) {
-            $user->addProfile(SocialProfile::create($provider, $oauthUser));
+            $user->addProfile(
+                SocialProfile::create(
+                    $provider,
+                    $oauthUser,
+                    !$user->hasAnyProfile()
+                )
+            );
+
             $this->repository->update($user);
 
             return $user;

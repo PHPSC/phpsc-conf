@@ -147,6 +147,14 @@ class User implements Entity
     }
 
     /**
+     * @return boolean
+     */
+    public function hasAnyProfile()
+    {
+        return $this->getProfiles()->count() > 0;
+    }
+
+    /**
      * @return SocialProfile
      */
     public function getDefaultProfile()
