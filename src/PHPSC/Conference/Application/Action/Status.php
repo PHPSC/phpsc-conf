@@ -1,22 +1,27 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\UI\Pages\Status as StatusView;
-
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\UI\Pages\Status as StatusView;
 
 class Status extends Controller
 {
+    /**
+     * @Route("/", contentType={"application/json"})
+     */
+    public function getStatus()
+    {
+        $this->response->setContentType('application/json');
+
+        return json_encode($this->getStatusInscricoes());
+    }
+
     /**
      * @Route("/")
      */
     public function createUserForm()
     {
-        if (in_array('application/json', $this->request->getAcceptableContentTypes())) {
-            return json_encode($this->getStatusInscricoes());
-        }
-
         return new StatusView();
     }
 
