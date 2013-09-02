@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use PHPSC\Conference\Infra\Persistence\Entity;
-use InvalidArgumentException;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\UserRepository")
@@ -34,7 +34,7 @@ class User implements Entity
     private $email;
 
     /**
-     * @OneToMany(targetEntity="SocialProfile", mappedBy="user")
+     * @OneToMany(targetEntity="SocialProfile", mappedBy="user", cascade={"all"})
      * @var ArrayCollection
      */
     private $profiles;
@@ -138,6 +138,27 @@ class User implements Entity
     }
 
     /**
+     * @param SocialProfile $profile
+     */
+    public function addProfile(SocialProfile $profile)
+    {
+        $this->profiles->add($profile);
+        $profile->setUser($this);
+    }
+
+    /**
+     * @return SocialProfile
+     */
+    public function getDefaultProfile()
+    {
+        foreach ($this->getProfiles() as $profile) {
+            if ($profile->isDefault()) {
+                return $profile;
+            }
+        }
+    }
+
+    /**
      * @return string
      */
     public function getBio()
@@ -181,41 +202,18 @@ class User implements Entity
 
     /**
      * @param string $name
-     * @param string $twitterUser
      * @param string $email
-     * @param string $githubUser
      * @param string $bio
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
-    public static function create(
-        $name,
-        $email = null,
-        $bio = null
-    ) {
+    public static function create($name, $email, $bio = null)
+    {
         $user = new static();
         $user->setName($name);
+        $user->setEmail($email);
         $user->setBio($bio);
         $user->setCreationTime(new DateTime());
 
-        if ($email) {
-            $user->setEmail($email);
-        }
-
         return $user;
-    }
-
-    /**
-     * @param \stdClass $twitterData
-     * @return \PHPSC\Conference\Domain\Entity\User
-     */
-    public static function createFromTwitterData(\stdClass $twitterData)
-    {
-        return static::create(
-            $twitterData->name,
-            $twitterData->screen_name,
-            null,
-            null,
-            !empty($twitterData->description) ? $twitterData->description : null
-        );
     }
 }

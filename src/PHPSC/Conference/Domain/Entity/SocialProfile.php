@@ -2,9 +2,11 @@
 namespace PHPSC\Conference\Domain\Entity;
 
 use InvalidArgumentException;
+use Lcobucci\Social\OAuth2\User as OAuth2User;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\SocialProfileRepository")
  * @Table(
  *     "social_profile",
  *     uniqueConstraints={
@@ -12,12 +14,12 @@ use InvalidArgumentException;
  *         @UniqueConstraint(name="social_profile_index1",columns={"provider", "social_id"}),
  *     },
  *     indexes={
- *         @Index(name="social_profile_index2", columns={"default"})
+ *         @Index(name="social_profile_index2", columns={"is_default"})
  *     }
  * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class SocialProfile
+class SocialProfile implements Entity
 {
     /**
      * @Id
@@ -71,7 +73,7 @@ class SocialProfile
     private $avatar;
 
     /**
-     * @Column(type="boolean")
+     * @Column(type="boolean", name="is_default")
      * @var boolean
      */
     private $default;
@@ -264,5 +266,25 @@ class SocialProfile
     public function setDefault($default)
     {
         $this->default = (bool) $default;
+    }
+
+    /**
+     * @param string $provider
+     * @param OAuth2User $user
+     * @param boolean $default
+     * @return SocialProfile
+     */
+    public static function create($provider, OAuth2User $user, $default = false)
+    {
+        $profile = new static();
+        $profile->setProvider($provider);
+        $profile->setSocialId($user->getId());
+        $profile->setName($user->getName());
+        $profile->setEmail($user->getEmail());
+        $profile->setUsername($user->getUsername());
+        $profile->setAvatar($user->getAvatar());
+        $profile->setDefault($default);
+
+        return $profile;
     }
 }
