@@ -12,7 +12,6 @@ $(document).ready(function() {
 				data: {
 					name: $('#name').val(),
 					email: $('#email').val(),
-					githubUser: $('#githubUser').val(),
 					bio: $('#bio').val()
 				},
 				success: function(response)
@@ -32,7 +31,7 @@ $(document).ready(function() {
 					}
 					
 					$('.alert h4').html('Atualização realizada com sucesso');
-					$('.alert span').html('@' + response.data.twitterUser + ', seus dados foram atualizados!');
+					$('.alert span').html('@' + response.data.username + ', seus dados foram atualizados!');
 					$('.alert').addClass('alert-success').fadeIn().delay(2000).fadeOut(
 						'fast',
 						function ()
