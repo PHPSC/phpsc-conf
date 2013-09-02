@@ -17,19 +17,19 @@
 		<?php } ?>
 		</ul>
 		<div class="nav navbar-nav navbar-right">
-        <?php if ($user = $this->getTwitterUser()) { ?>
+        <?php if ($profile = $this->getProfile()) { ?>
             <div class="btn-group" style="margin-top: 4px; margin-right: 7px;">
                 <a class="btn dropdown-toggle" data-toggle="dropdown" style="padding: 1px">
-                    <img alt="<?= $user->screen_name; ?>"
-                        title="Logado como @<?= $user->screen_name; ?>"
-                        src="<?= $user->profile_image_url; ?>"
+                    <img alt="<?= $profile->getUsername(); ?>"
+                        title="Logado como @<?= $profile->getUsername(); ?>"
+                        src="<?= $profile->getAvatar(); ?>"
                         height="36" width="36">
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="<?= $this->getUrl('user'); ?>">Meus dados</a></li>
                     <li><a href="<?= $this->getUrl('call4papers/submissions'); ?>">Trabalhos submetidos</a></li>
                     <li class="divider"></li>
-                    <li><a href="<?= $this->getUrl('oauth/logoff'); ?>">Sair</a></li>
+                    <li><a href="<?= $this->getUrl('logoff'); ?>">Sair</a></li>
                 </ul>
     		</div>
         <?php } else { ?>

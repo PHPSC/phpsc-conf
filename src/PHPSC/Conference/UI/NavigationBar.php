@@ -2,21 +2,32 @@
 namespace PHPSC\Conference\UI;
 
 use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \Lcobucci\ActionMapper2\Application;
+use PHPSC\Conference\Domain\Entity\SocialProfile;
+use PHPSC\Conference\Domain\Service\EventManagementService;
+use PHPSC\Conference\Application\Service\AuthenticationService;
 
 class NavigationBar extends UIComponent
 {
     /**
-     * @var \Lcobucci\ActionMapper2\Application
+     * @var EventManagementService
      */
-    protected $application;
+    protected $eventService;
 
     /**
-     * @param \Lcobucci\ActionMapper2\Application $application
+     * @var AuthenticationService
      */
-    public function __construct(Application $application)
-    {
-        $this->application = $application;
+    protected $authService;
+
+    /**
+     * @param EventManagementService $eventService
+     * @param AuthenticationService $authService
+     */
+    public function __construct(
+        EventManagementService $eventService,
+        AuthenticationService $authService
+    ) {
+        $this->eventService = $eventService;
+        $this->authService = $authService;
     }
 
     /**
@@ -24,7 +35,7 @@ class NavigationBar extends UIComponent
      */
     public function getOptions()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
+        $event = $this->eventService->findCurrentEvent();
 
         $items = array(
             array('Página Inicial', ''),
@@ -47,28 +58,12 @@ class NavigationBar extends UIComponent
     }
 
     /**
-     * @return \stdClass
+     * @return SocialProfile
      */
-    public function getTwitterUser()
+    public function getProfile()
     {
-        $provider = $this->getAuthenticationService();
-
-        return $provider->getTwitterUser();
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->application->getDependencyContainer()->get('authentication.service');
-    }
-
-    /**
-     * @return \PHPSC\Conference\Domain\Service\EventManagementService
-     */
-    protected function getEventManagement()
-    {
-        return $this->application->getDependencyContainer()->get('event.management.service');
+        if ($user = $this->authService->getLoggedUser()) {
+            return $user->getDefaultProfile();
+        }
     }
 }
