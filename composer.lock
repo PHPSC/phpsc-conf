@@ -793,12 +793,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/social.git",
-                "reference": "eb56fbd3e2129a42bafc1f0ae136754777129deb"
+                "reference": "5d90113b157ff9f25ecf0c06aa2c0a606e6e6440"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/social/zipball/eb56fbd3e2129a42bafc1f0ae136754777129deb",
-                "reference": "eb56fbd3e2129a42bafc1f0ae136754777129deb",
+                "url": "https://api.github.com/repos/lcobucci/social/zipball/5d90113b157ff9f25ecf0c06aa2c0a606e6e6440",
+                "reference": "5d90113b157ff9f25ecf0c06aa2c0a606e6e6440",
                 "shasum": ""
             },
             "require": {
@@ -833,7 +833,7 @@
                 "live",
                 "oauth"
             ],
-            "time": "2013-09-01 23:24:15"
+            "time": "2013-09-03 12:53:49"
         },
         {
             "name": "phpsc/pagseguro",

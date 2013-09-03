@@ -269,6 +269,29 @@ class SocialProfile implements Entity
     }
 
     /**
+     * @param OAuth2User $user
+     */
+    public function mergeFromOAuth(OAuth2User $user)
+    {
+        if ($user->getId() != $this->getSocialId()) {
+            $this->setSocialId($user->getId());
+        }
+
+        if ($user->getName() != $this->getName()) {
+            $this->setName($user->getName());
+        }
+
+        if ($user->getUsername() != $this->getUsername()) {
+            $this->setUsername($user->getUsername());
+        }
+
+        if ($user->getAvatar() != ''
+            && $user->getAvatar() != $this->getAvatar()) {
+            $this->setAvatar($user->getAvatar());
+        }
+    }
+
+    /**
      * @param string $provider
      * @param OAuth2User $user
      * @param boolean $default
@@ -276,13 +299,19 @@ class SocialProfile implements Entity
      */
     public static function create($provider, OAuth2User $user, $default = false)
     {
+        $avatar = $user->getAvatar();
+
+        if (empty($avatar) && $user->getEmail() !== null) {
+            $avatar = 'http://www.gravatar.com/avatar/' . md5($user->getEmail());
+        }
+
         $profile = new static();
         $profile->setProvider($provider);
         $profile->setSocialId($user->getId());
         $profile->setName($user->getName());
         $profile->setEmail($user->getEmail());
         $profile->setUsername($user->getUsername());
-        $profile->setAvatar($user->getAvatar());
+        $profile->setAvatar($avatar);
         $profile->setDefault($default);
 
         return $profile;
