@@ -269,6 +269,29 @@ class SocialProfile implements Entity
     }
 
     /**
+     * @param OAuth2User $user
+     */
+    public function mergeFromOAuth(OAuth2User $user)
+    {
+        if ($user->getId() != $this->getSocialId()) {
+            $this->setSocialId($user->getId());
+        }
+
+        if ($user->getName() != $this->getName()) {
+            $this->setName($user->getName());
+        }
+
+        if ($user->getUsername() != $this->getUsername()) {
+            $this->setUsername($user->getUsername());
+        }
+
+        if ($user->getAvatar() != ''
+            && $user->getAvatar() != $this->getAvatar()) {
+            $this->setAvatar($user->getAvatar());
+        }
+    }
+
+    /**
      * @param string $provider
      * @param OAuth2User $user
      * @param boolean $default

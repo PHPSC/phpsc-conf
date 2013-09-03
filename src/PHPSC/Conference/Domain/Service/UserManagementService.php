@@ -127,7 +127,7 @@ class UserManagementService
         );
 
         if ($profile) {
-            $profile->setAvatar($oauthUser->getAvatar());
+            $profile->mergeFromOAuth($oauthUser);
             $this->profileRepository->update($profile);
 
             return $profile->getUser();
