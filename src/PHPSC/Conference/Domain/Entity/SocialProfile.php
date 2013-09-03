@@ -276,13 +276,19 @@ class SocialProfile implements Entity
      */
     public static function create($provider, OAuth2User $user, $default = false)
     {
+        $avatar = $user->getAvatar();
+
+        if (empty($avatar) && $user->getEmail() !== null) {
+            $avatar = 'http://www.gravatar.com/avatar/' . md5($user->getEmail());
+        }
+
         $profile = new static();
         $profile->setProvider($provider);
         $profile->setSocialId($user->getId());
         $profile->setName($user->getName());
         $profile->setEmail($user->getEmail());
         $profile->setUsername($user->getUsername());
-        $profile->setAvatar($user->getAvatar());
+        $profile->setAvatar($avatar);
         $profile->setDefault($default);
 
         return $profile;
