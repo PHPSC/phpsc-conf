@@ -88,7 +88,8 @@ class UserManagementService
         $email = null,
         $bio = null
     ) {
-        if ($email === null && $oauthUser->getEmail() == '') {
+        if (($email === null && $oauthUser->getEmail() == '')
+            || ($name === null && $oauthUser->getName() == '')) {
             return ;
         }
 
