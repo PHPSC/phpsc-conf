@@ -23,20 +23,20 @@
             </div>
             <div>
                 <h3>Valores</h3>
-                <p>O valor da inscrição muda de acordo com o período que a inscrição é realizada.</p>
+                <p>O valor da inscrição para as palestras muda de acordo com o período em que a inscrição é realizada.</p>
                 <p>
-                    Inscrições antecipadas possuem desconto, e são aquelas que ocorreram antes da aprovação de ao menos uma
+                    _Inscrições antecipadas_ possuem desconto, e são aquelas que ocorreram antes da aprovação de ao menos uma
                     palestra no sistema (a data final de submissão de trabalhos é <?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i:s'); ?>).
                 </p>
-                <p>As inscrições realizadas após este período são as inscrições regulares.</p>
-                <p>No dia do evento também aceitaremos inscrições, porém custarão mais que as inscrições antecipadas ou regulares.</p>
+                <p>As inscrições realizadas após este período são as _inscrições regulares_.</p>
+                <p>No dia do evento também aceitaremos _inscrições tardias_, porém custarão mais que as _inscrições antecipadas_ ou _regulares_.</p>
             </div>
             <div>
                 <p id="regularAttendee">
-                    O custo da sua inscrição será de <strong>R$ <?php echo number_format($this->getCost(), 2, ',', '.'); ?></strong>, devendo ser pago
+                    O custo da sua inscrição para as palestras será de <strong>R$ <?php echo number_format($this->getCost(), 2, ',', '.'); ?></strong>, devendo ser pago
                     através do PagSeguro (de acordo com os <a href="#terms" data-toggle="modal">termos de participacão</a>).
                 </p>
-                <p id="studentAttendee" class="hide">A sua inscrição será gratuita.</p>
+                <p id="studentAttendee" class="hide">A sua inscrição para as palestras será gratuita.</p>
             </div>
             <?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
             <div class="form-group">
@@ -65,14 +65,12 @@
                 <h4 style="margin: 10px 0px;">Minicursos</h4>
                 <p style="text-align: justify; margin-left: 15px;">
                     No evento, poderão ser ofertados minicursos.
-                    A inscrição nos minicursos, bem como o pagamento dos mesmos,
-                    deverá ser realizada no dia do evento (durante o credenciamento).
+                    A inscrição e o pagamento dos minicursos deverá ser realizada pessoalmente, no dia do evento (durante o credenciamento).
                 </p>
-                <h4 style="margin-bottom: 10px;">Pagamento</h4>
+                <h4 style="margin-bottom: 10px;">Pagamento (palestras)</h4>
                 <p style="text-align: justify; margin-left: 15px;">
-                    O pagamento da inscrições deverá ser realizado através do PagSeguro,
-                    utilizando a conta de um dos coordenadores do PHPSC,
-                    isto se dá pelos seguintes motivos:
+                    O pagamento da inscrição para as palestras deverá ser realizado através do PagSeguro,
+                    utilizando a conta pessoal de um dos coordenadores do PHPSC. Isto se dá pelos seguintes motivos:
                 </p>
                 <div style="text-align: justify; margin-left: 15px;">
                     <ol>
@@ -82,7 +80,7 @@
             	</div>
             	<p style="text-align: justify; margin-left: 15px;">
             	    O pagamento da inscrição no evento <strong>apenas dá direito ao participante de assistir as palestras</strong>.
-            	    Caso o participante tenha interesse nos minicursos, ele deverá realizar a inscrição e pagamento deles
+            	    Caso o participante tenha interesse nos minicursos, ele deverá se inscrever e realizar o pagamento destes
             	    no dia do evento (durante o credenciamento).
         	    </p>
                 <h4 style="margin: 10px 0px;">Sigilo das informações</h4>
