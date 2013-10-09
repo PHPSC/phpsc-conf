@@ -1,23 +1,30 @@
 <div id="talk<?php echo $this->getItem()->getId(); ?>">
-    <h3>
-        <span class="<?php echo $this->getBadge(); ?>" style="vertical-align: 20%;">
-            <?php echo $this->getItem()->getType()->getDescription(); ?></span>
-        <?php echo $this->getItem()->getTitle(); ?>
-    </h3>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>
+                <span class="<?php echo $this->getBadge(); ?>" style="font-size: 60%;"><?php
+                    echo $this->getItem()->getType()->getDescription();
+                ?></span>
+                <?php echo $this->getItem()->getTitle(); ?>
+            </h3>
+        </div>
+    </div>
     <?php if ($this->getItem()->getTags()) { ?>
-        <div style="margin-bottom: 10px">
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="col-md-12">
             <?php foreach (explode(',', $this->getItem()->getTags()) as $index => $tag) { ?>
                 <span class="<?php echo $this->getLabel($index); ?>"><?php echo ucfirst($tag); ?></span>
             <?php } ?>
         </div>
+    </div>
     <?php } ?>
-</div>
-<div class="row">
-    <p class="col-md-8 well">
-        <?php echo nl2br($this->getItem()->getShortDescription()); ?>
-    </p>
-    <div class="col-md-2">
-        <a href="#" id="like-<?php echo $this->getItem()->getId(); ?>" class="btn btn-info" title="Gostei"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-        &nbsp;<a href="#" id="dislike-<?php echo $this->getItem()->getId(); ?>" class="btn btn-default" title="Não gostei"><spab class="glyphicon glyphicon-thumbs-down"></span></a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <a href="#" id="like-<?php echo $this->getItem()->getId(); ?>" class="btn btn-info" title="Gostei"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                &nbsp;<a href="#" id="dislike-<?php echo $this->getItem()->getId(); ?>" class="btn btn-default" title="Não gostei"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+            </div>
+            <p style="margin-right: 100px;" class="well"><?php echo nl2br($this->getItem()->getShortDescription()); ?></p>
+        </div>
     </div>
 </div>

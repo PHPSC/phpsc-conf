@@ -95,18 +95,16 @@ class PaymentManagementService
     {
         $transaction = $this->notificationService->getByCode($code);
 
-        if (!in_array($transaction->getStatus(), array(3, 6, 7))) {
-            return ;
-        }
-
-        if ($transaction->getStatus() == 3) {
+        if ($transaction->isPaid()) {
             return $this->attendeeService->confirmPayment(
                 $transaction->getReference()
             );
         }
 
-        return $this->attendeeService->cancelRegistration(
-            $transaction->getReference()
-        );
+        if ($transaction->isReturned() || $transaction->isCancelled()) {
+            return $this->attendeeService->cancelRegistration(
+                $transaction->getReference()
+            );
+        }
     }
 }
