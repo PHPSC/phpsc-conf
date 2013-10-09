@@ -845,12 +845,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSC/pagseguro.git",
-                "reference": "f8bafad1c880c008da427dfc231b23d2583b8d71"
+                "reference": "4d118858548bf570bbdf223345d08ef001d18c99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSC/pagseguro/zipball/f8bafad1c880c008da427dfc231b23d2583b8d71",
-                "reference": "f8bafad1c880c008da427dfc231b23d2583b8d71",
+                "url": "https://api.github.com/repos/PHPSC/pagseguro/zipball/4d118858548bf570bbdf223345d08ef001d18c99",
+                "reference": "4d118858548bf570bbdf223345d08ef001d18c99",
                 "shasum": ""
             },
             "require": {
@@ -884,7 +884,7 @@
                 "Pagseguro",
                 "api"
             ],
-            "time": "2013-10-08 16:43:38"
+            "time": "2013-10-09 02:44:39"
         },
         {
             "name": "swiftmailer/swiftmailer",
