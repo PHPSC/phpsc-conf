@@ -1,2 +1,4 @@
 RewriteEngine On
-RewriteRule !\.(js|ico|txt|gif|jpg|jpeg|png|css|pdf|swf|map)$ index.php
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule . index.php
