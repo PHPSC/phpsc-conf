@@ -1,6 +1,6 @@
 <?php
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/../phperrors.log');
+ini_set('error_log', __DIR__ . '/../tmp/phperrors.log');
 ini_set('session.save_path', __DIR__ . '/../tmp/session');
 
 require __DIR__ . '/../boot.php';
