@@ -303,7 +303,7 @@ class Talk implements Entity
             $tags = explode(',', $tags);
             array_walk(
                 $tags,
-                function (&$value, $key) {
+                function (&$value) {
                     $value = trim($value);
                 }
             );
