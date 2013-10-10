@@ -1,16 +1,18 @@
 <?php
 namespace PHPSC\Conference\Domain\Repository;
 
-use \PHPSC\Conference\Infra\Persistence\EntityRepository;
-use \PHPSC\Conference\Domain\Entity\User;
-use \PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\Persistence\EntityRepository;
+use PHPSC\Conference\Domain\Entity\Payment;
+use PHPSC\Conference\Domain\Entity\Attendee;
 
 class AttendeeRepository extends EntityRepository
 {
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return multitype:\PHPSC\Conference\Domain\Entity\Attendee
+     * @param Event $event
+     * @param User $user
+     * @return array
      */
     public function findByEventAndUser(Event $event, User $user)
     {
@@ -28,7 +30,24 @@ class AttendeeRepository extends EntityRepository
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param Payment $payment
+     * @return Attendee
+     */
+    public function findOneByPayment(Payment $payment)
+    {
+        $query = $this->createQueryBuilder('attendee')
+                      ->andWhere('?1 MEMBER OF attendee.payments')
+                      ->setParameter(1, $payment)
+                      ->setMaxResults(1)
+                      ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * @param Event $event
      * @return number
      */
     public function getCountOfActiveAttendee(Event $event)
@@ -48,7 +67,7 @@ class AttendeeRepository extends EntityRepository
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param Event $event
      * @return number
      */
     public function getCountOfArrivedAttendee(Event $event)

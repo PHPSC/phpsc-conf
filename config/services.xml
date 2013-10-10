@@ -26,6 +26,7 @@
 			<argument type="service" id="event.management.service" />
 			<argument type="service" id="attendee.management.service" />
 			<argument type="service" id="payment.management.service" />
+            <argument type="service" id="talk.management.service" />
 		</service>
 		<service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
 			<argument type="service" id="authentication.service" />
@@ -52,10 +53,10 @@
 			<argument type="service" id="email.delivery.service" />
 		</service>
 		<service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
+			<argument type="service" id="payment.repository" />
 			<argument type="service" id="pagseguro.notificationService" />
 			<argument type="service" id="pagseguro.paymentService" />
-			<argument type="service" id="talk.management.service" />
-			<argument type="service" id="attendee.management.service" />
+			<argument type="service" id="payment.event.manager" />
 		</service>
 		<service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
 			<argument type="service" id="opinion.repository" />
@@ -90,6 +91,19 @@
 		</service>
         <service id="profile.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\SocialProfile</argument>
+        </service>
+        <service id="payment.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Payment</argument>
+        </service>
+        
+        <!-- Payment Events -->
+        <service id="payment.event.manager" class="Doctrine\Common\EventManager">
+            <call method="addEventSubscriber">
+                <argument type="service" id="attend.payment.subscriber" />
+            </call>
+        </service>
+        <service id="attend.payment.subscriber" class="PHPSC\Conference\Domain\Service\AttendeePaymentSubscriber">
+            <argument type="service" id="attendee.management.service" />
         </service>
 
 		<!-- Swift Mailer -->

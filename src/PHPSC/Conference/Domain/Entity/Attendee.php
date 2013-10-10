@@ -1,13 +1,14 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\AttendeeRepository")
- * @Table("attendee")
+ * @Table("attendee", indexes={@Index(name="attendee_index0", columns={"status"})})
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class Attendee implements Entity
@@ -33,13 +34,14 @@ class Attendee implements Entity
     const APPROVED = '3';
 
     /**
+     * @deprecated
      * @var string
      */
     const CANCELLED = '4';
 
     /**
      * @Id
-      * @Column(type="integer")
+     * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
      * @var int
      */
@@ -48,22 +50,16 @@ class Attendee implements Entity
     /**
      * @ManyToOne(targetEntity="Event", cascade={"all"})
      * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\Event
+     * @var Event
      */
     private $event;
 
     /**
      * @ManyToOne(targetEntity="User", cascade={"all"})
      * @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\User
+     * @var User
      */
     private $user;
-
-    /**
-     * @Column(type="decimal", precision=13, scale=2, nullable=false)
-     * @var float
-     */
-    private $cost;
 
     /**
      * @Column(type="string", columnDefinition="ENUM('0', '1', '2', '3', '4') NOT NULL")
@@ -79,9 +75,28 @@ class Attendee implements Entity
 
     /**
      * @Column(type="datetime", name="creation_time", nullable=false)
-     * @var \DateTime
+     * @var DateTime
      */
     private $creationTime;
+
+    /**
+     * @ManyToMany(targetEntity="Payment")
+     * @JoinTable(
+     *      name="attendee_payment",
+     *      joinColumns={@JoinColumn(name="attendee_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="payment_id", referencedColumnName="id", unique=true)}
+     * )
+     * @var ArrayCollection
+     **/
+    private $payments;
+
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        $this->setPayments(new ArrayCollection());
+    }
 
     /**
      * @return number
@@ -106,7 +121,7 @@ class Attendee implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -114,7 +129,7 @@ class Attendee implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param Event $event
      */
     public function setEvent(Event $event)
     {
@@ -122,7 +137,7 @@ class Attendee implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -130,27 +145,11 @@ class Attendee implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param User $user
      */
     public function setUser(User $user)
     {
         $this->user = $user;
-    }
-
-    /**
-     * @return number
-     */
-    public function getCost()
-    {
-        return $this->cost;
-    }
-
-    /**
-     * @param number $cost
-     */
-    public function setCost($cost)
-    {
-        $this->cost = (float) $cost;
     }
 
     /**
@@ -224,14 +223,6 @@ class Attendee implements Entity
     /**
      * @return boolean
      */
-    public function isPaymentRequired()
-    {
-        return $this->isWaitingForPayment() && $this->getCost() > 0;
-    }
-
-    /**
-     * @return boolean
-     */
     public function isActive()
     {
         return !$this->isCancelled();
@@ -245,14 +236,6 @@ class Attendee implements Entity
         if ($this->isPaymentNotVerified() || $this->isWaitingForPayment()) {
             $this->setStatus(static::APPROVED);
         }
-    }
-
-    /**
-     * Cancels the attendee registration
-     */
-    public function cancel()
-    {
-        $this->setStatus(static::CANCELLED);
     }
 
     /**
@@ -272,7 +255,7 @@ class Attendee implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreationTime()
     {
@@ -280,7 +263,7 @@ class Attendee implements Entity
     }
 
     /**
-     * @param \DateTime $creationTime
+     * @param DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)
     {
@@ -288,19 +271,49 @@ class Attendee implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @param float $cost
-     * @param string $status
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @return ArrayCollection
      */
-    protected static function create(Event $event, User $user, $cost, $status)
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param ArrayCollection $payments
+     */
+    public function setPayments(ArrayCollection $payments)
+    {
+        $this->payments = $payments;
+    }
+
+    /**
+     * @param Payment $payment
+     */
+    public function addPayment(Payment $payment)
+    {
+        $this->getPayments()->add($payment);
+    }
+
+    /**
+     * @return Payment
+     */
+    public function getLastPayment()
+    {
+        return $this->getPayments()->last();
+    }
+
+    /**
+     * @param Event $event
+     * @param User $user
+     * @param string $status
+     * @return Attendee
+     */
+    protected static function create(Event $event, User $user, $status)
     {
         $attendee = new Attendee();
 
         $attendee->setEvent($event);
         $attendee->setUser($user);
-        $attendee->setCost($cost);
         $attendee->setStatus($status);
         $attendee->setArrived(false);
         $attendee->setCreationTime(new DateTime());
@@ -309,36 +322,32 @@ class Attendee implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @param float $cost
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @param Event $event
+     * @param User $user
+     * @return Attendee
      */
-    public static function createRegularAttendee(
-        Event $event,
-        User $user,
-        $cost
-    ) {
-        return static::create($event, $user, $cost, static::WAITING_PAYMENT);
+    public static function createRegularAttendee(Event $event, User $user)
+    {
+        return static::create($event, $user, static::WAITING_PAYMENT);
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @param Event $event
+     * @param User $user
+     * @return Attendee
      */
     public static function createSpeakerAttendee(Event $event, User $user)
     {
-        return static::create($event, $user, 0, static::PAYMENT_NOT_NECESSARY);
+        return static::create($event, $user, static::PAYMENT_NOT_NECESSARY);
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @param Event $event
+     * @param User $user
+     * @return Attendee
      */
     public static function createStudentAttendee(Event $event, User $user)
     {
-        return static::create($event, $user, 0, static::CHECK_PAYMENT);
+        return static::create($event, $user, static::CHECK_PAYMENT);
     }
 }
