@@ -1,13 +1,17 @@
 <?php
 namespace PHPSC\Conference\Infra\DependencyInjection;
 
-use Doctrine\ORM\Configuration;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 
+/**
+ * @codingStandardsIgnoreFile
+ * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
+ */
 class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
 {
     /**
