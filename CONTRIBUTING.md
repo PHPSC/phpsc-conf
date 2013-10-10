@@ -1,6 +1,6 @@
 # Contribuindo
 
-Ahhh o doce mundo dos softwares livres é algo simplesmente linda. Só de pensar em
+Ahhh o doce mundo dos softwares livres é algo simplesmente lindo. Só de pensar em
 pessoas de pontos diferentes do mundo se ajudando com o objetivo de melhorar
 o software em questão, cada um com seu ponto de vista e a plena liberdade para
 utilizar, sugerir mudanças e inclusive realizar modificações no código.
