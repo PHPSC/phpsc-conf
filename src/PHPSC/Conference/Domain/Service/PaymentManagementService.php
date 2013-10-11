@@ -1,109 +1,152 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
-use \PHPSC\PagSeguro\ValueObject\Payment\PaymentRequest;
-use \PHPSC\Conference\Domain\Entity\Attendee;
-use \PHPSC\PagSeguro\NotificationService;
-use \PHPSC\PagSeguro\ValueObject\Sender;
-use \PHPSC\PagSeguro\ValueObject\Item;
-use \PHPSC\PagSeguro\PaymentService;
-use \InvalidArgumentException;
+use InvalidArgumentException;
+use Doctrine\Common\EventManager;
+use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Entity\Payment;
+use PHPSC\Conference\Domain\Repository\PaymentRepository;
+use PHPSC\PagSeguro\NotificationService;
+use PHPSC\PagSeguro\PaymentService;
+use PHPSC\PagSeguro\ValueObject\Item;
+use PHPSC\PagSeguro\ValueObject\Payment\PaymentRequest;
+use PHPSC\PagSeguro\ValueObject\Payment\PaymentResponse;
+use PHPSC\PagSeguro\ValueObject\Sender;
+use PHPSC\Conference\Infra\Persistence\EntityDoesNotExistsException;
 
 class PaymentManagementService
 {
     /**
-     * @var \PHPSC\PagSeguro\NotificationService
+     * @var PaymentRepository
+     */
+    private $repository;
+
+    /**
+     * @var NotificationService
      */
     private $notificationService;
 
     /**
-     * @var \PHPSC\PagSeguro\PaymentService
+     * @var PaymentService
      */
     private $paymentService;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\TalkManagementService
+     * @var EventManager
      */
-    private $talkService;
+    private $eventManager;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\AttendeeManagementService
-     */
-    private $attendeeService;
-
-    /**
-     * @param \PHPSC\PagSeguro\NotificationService $notificationService
-     * @param \PHPSC\PagSeguro\PaymentService $paymentService
-     * @param \PHPSC\Conference\Domain\Service\TalkManagementService $talkService
-     * @param \PHPSC\Conference\Domain\Service\AttendeeManagementService $attendeeService
+     * @param PaymentRepository $repository
+     * @param NotificationService $notificationService
+     * @param PaymentService $paymentService
+     * @param EventManager $eventManager
      */
     public function __construct(
+        PaymentRepository $repository,
         NotificationService $notificationService,
         PaymentService $paymentService,
-        TalkManagementService $talkService,
-        AttendeeManagementService $attendeeService
+        EventManager $eventManager
     ) {
+        $this->repository = $repository;
         $this->notificationService = $notificationService;
         $this->paymentService = $paymentService;
-        $this->talkService = $talkService;
-        $this->attendeeService = $attendeeService;
+        $this->eventManager = $eventManager;
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Attendee $attendee
-     * @param string $redirectTo
-     * @return \PHPSC\PagSeguro\ValueObject\Payment\PaymentResponse
+     * @param float $cost
+     * @param string $description
+     * @return PaymentResponse
      */
-    public function create(Attendee $attendee, $redirectTo = null)
+    public function create($cost, $description)
     {
-        if (!$attendee->isPaymentRequired()) {
-            throw new InvalidArgumentException(
-                'O pagamento não é necessário para esta inscrição'
-            );
-        }
+        $payment = Payment::create($cost, $description);
+        $this->repository->append($payment);
 
-        $description = $this->talkService->eventHasAnyApprovedTalk($attendee->getEvent())
-                       ? 'Inscrição Regular - '
-                       : 'Inscrição Antecipada - ';
+        return $payment;
+    }
 
-        $description .= $attendee->getEvent()->getName();
-
-        return $this->paymentService->send(
+    /**
+     * @param Payment $payment
+     * @param string $email
+     * @param string $redirectTo
+     * @return PaymentResponse
+     */
+    public function requestPayment(Payment $payment, $email, $redirectTo)
+    {
+        $response = $this->paymentService->send(
             new PaymentRequest(
                 array(
                     new Item(
                         1,
-                        $description,
-                        $attendee->getCost()
+                        $payment->getDescription(),
+                        $payment->getCost()
                     )
                 ),
-                $attendee->getId(),
-                new Sender($attendee->getUser()->getEmail()),
+                $payment->getId(),
+                new Sender($email),
                 null,
                 null,
                 $redirectTo,
                 1
             )
         );
+
+        $payment->setCode($response->getCode());
+        $this->repository->update($payment);
+
+        return $response;
+    }
+
+    /**
+     * @param Payment $payment
+     */
+    protected function approvePayment(Payment $payment)
+    {
+        $payment->approve();
+
+        $this->repository->update($payment);
+    }
+
+    /**
+     * @param Payment $payment
+     */
+    protected function cancelPayment(Payment $payment)
+    {
+        $payment->cancel();
+
+        $this->repository->update($payment);
     }
 
     /**
      * @param string $code
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @return Attendee
      */
     public function updatePaymentStatus($code)
     {
         $transaction = $this->notificationService->getByCode($code);
+        $payment = $this->repository->findOneByCode($transaction->getCode());
+
+        if ($payment === null) {
+            throw new EntityDoesNotExistsException('Pagamento não encontrado');
+        }
 
         if ($transaction->isPaid()) {
-            return $this->attendeeService->confirmPayment(
-                $transaction->getReference()
+            $this->approvePayment($payment);
+
+            $this->eventManager->dispatchEvent(
+                PaymentConfirmationListener::CONFIRM_PAYMENT,
+                new PaymentEvent($payment)
             );
         }
 
         if ($transaction->isReturned() || $transaction->isCancelled()) {
-            return $this->attendeeService->cancelRegistration(
-                $transaction->getReference()
+            $this->cancelPayment($payment);
+
+            $this->eventManager->dispatchEvent(
+                PaymentCancellationListener::CANCEL_PAYMENT,
+                new PaymentEvent($payment)
             );
         }
     }

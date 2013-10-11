@@ -1,8 +1,9 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Domain\Service\PaymentManagementService;
 
 class Payment extends Controller
 {
@@ -17,7 +18,7 @@ class Payment extends Controller
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Service\PaymentManagementService
+     * @return PaymentManagementService
      */
     protected function getPaymentService()
     {
