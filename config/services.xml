@@ -99,10 +99,10 @@
         <!-- Payment Events -->
         <service id="payment.event.manager" class="Doctrine\Common\EventManager">
             <call method="addEventSubscriber">
-                <argument type="service" id="attend.payment.subscriber" />
+                <argument type="service" id="attendee.payment.subscriber" />
             </call>
         </service>
-        <service id="attend.payment.subscriber" class="PHPSC\Conference\Domain\Service\AttendeePaymentSubscriber">
+        <service id="attendee.payment.subscriber" class="PHPSC\Conference\Domain\Service\AttendeePaymentSubscriber">
             <argument type="service" id="attendee.management.service" />
         </service>
 
