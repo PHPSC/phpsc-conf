@@ -1,5 +1,5 @@
 <div class="jumbotron" style="padding: 30px;">
-    <?php if (!$this->getAttendee()->isPaymentRequired()) { ?>
+    <?php if (!$this->getAttendee()->isWaitingForPayment()) { ?>
     <h2>Você já está inscrito!</h2>
     <p style="margin-left: 10px; text-align: justify;">Sua inscrição no <?php echo $this->getEvent()->getName(); ?> está registrada com sucesso.</p>
     <div style="margin-top: 15px;">

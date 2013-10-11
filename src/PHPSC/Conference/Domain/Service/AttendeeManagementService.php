@@ -1,11 +1,12 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
-use PHPSC\Conference\Domain\Repository\AttendeeRepository;
+use InvalidArgumentException;
 use PHPSC\Conference\Domain\Entity\Attendee;
 use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\Payment;
 use PHPSC\Conference\Domain\Entity\User;
-use InvalidArgumentException;
+use PHPSC\Conference\Domain\Repository\AttendeeRepository;
 use PHPSC\Conference\Infra\Email\DeliveryService;
 
 class AttendeeManagementService
@@ -42,7 +43,7 @@ class AttendeeManagementService
 
     /**
      * @param int $id
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @return Attendee
      */
     public function findById($id)
     {
@@ -50,9 +51,9 @@ class AttendeeManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return multitype:\PHPSC\Conference\Domain\Entity\Attendee
+     * @param Event $event
+     * @param User $user
+     * @return multitype:Attendee
      */
     public function findByEventAndUser(Event $event, User $user)
     {
@@ -60,9 +61,9 @@ class AttendeeManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @param Event $event
+     * @param User $user
+     * @return Attendee
      */
     public function findActiveRegistration(Event $event, User $user)
     {
@@ -76,8 +77,8 @@ class AttendeeManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param Event $event
+     * @param User $user
      * @return boolean
      */
     public function hasAnActiveRegistration(Event $event, User $user)
@@ -86,10 +87,10 @@ class AttendeeManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param Event $event
+     * @param User $user
      * @param boolean $isStudent
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @return Attendee
      */
     public function create(Event $event, User $user, $isStudent = false)
     {
@@ -103,10 +104,11 @@ class AttendeeManagementService
         $this->repository->append($attendee);
 
         $message = $this->deliveryService->getMessageFromTemplate(
-            'Registration',
+            $isStudent ? 'StudentRegistration' : 'Registration',
             array(
                 'user_name' => $user->getName(),
-                'event_name' => $event->getName()
+                'event_name' => $event->getName(),
+                'event_location' => $event->getLocation()->getName()
             )
         );
 
@@ -117,10 +119,20 @@ class AttendeeManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param Attendee $attendee
+     */
+    public function appendPayment(Attendee $attendee, Payment $payment)
+    {
+        $attendee->addPayment($payment);
+
+        $this->repository->update($attendee);
+    }
+
+    /**
+     * @param Event $event
+     * @param User $user
      * @param boolean $isStudent
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @return Attendee
      */
     protected function createAttendee(Event $event, User $user, $isStudent)
     {
@@ -132,22 +144,23 @@ class AttendeeManagementService
             return Attendee::createStudentAttendee($event, $user);
         }
 
-        return Attendee::createRegularAttendee(
-            $event,
-            $user,
-            $event->getRegistrationCost($user, $this->talkService)
-        );
+        return Attendee::createRegularAttendee($event, $user);
     }
 
     /**
-     * @param int $attendeeId
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
+     * @param Payment $payment
+     * @return Attendee
      */
-    public function confirmPayment($attendeeId)
+    public function confirmPayment(Payment $payment)
     {
-        $attendee = $this->findById($attendeeId);
+        $attendee = $this->repository->findOneByPayment($payment);
+
+        if ($attendee === null) {
+            return ;
+        }
 
         $attendee->approve();
+
         $this->repository->update($attendee);
 
         $message = $this->deliveryService->getMessageFromTemplate(
@@ -165,22 +178,8 @@ class AttendeeManagementService
     }
 
     /**
-     * @param int $attendeeId
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
-     */
-    public function cancelRegistration($attendeeId)
-    {
-        $attendee = $this->findById($attendeeId);
-
-        $attendee->cancel();
-        $this->repository->update($attendee);
-
-        return $attendee;
-    }
-
-    /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @return multitype:number
+     * @param Event $event
+     * @return array
      */
     public function getSummary(Event $event)
     {
