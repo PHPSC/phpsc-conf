@@ -177,7 +177,7 @@ class AttendeeJsonService
 
         if (!$attendee->isWaitingForPayment()) {
             return json_encode(
-                array('error' => 'Sua inscrição nã necessita de pagamento!')
+                array('error' => 'Sua inscrição não necessita de pagamento!')
             );
         }
 
