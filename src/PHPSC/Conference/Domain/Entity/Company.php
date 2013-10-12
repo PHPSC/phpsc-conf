@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
- * @Entity(repositoryClass="PHPSC\Conference\Domain\CompanyRepository")
+ * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\CompanyRepository")
  * @Table("company")
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
