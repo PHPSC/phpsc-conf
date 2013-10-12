@@ -1,0 +1,9 @@
+<ul class="dropdown-menu" role="menu">
+<?php foreach ($this->getItems() as $label => $uri) { ?>
+    <?php if ($uri === null) { ?>
+    <li class="divider"></li>
+    <?php } else { ?>
+    <li><a href="<?= $uri ?>"><?= $label?></a></li>
+    <?php } ?>
+<?php } ?>
+</ul>

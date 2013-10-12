@@ -66,4 +66,12 @@ class NavigationBar extends UIComponent
             return $user->getDefaultProfile();
         }
     }
+
+    /**
+     * @return MainMenu
+     */
+    protected function getMenu()
+    {
+        return new MainMenu($this->authService->getLoggedUser());
+    }
 }
