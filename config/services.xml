@@ -61,11 +61,9 @@
 		<service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
 			<argument type="service" id="opinion.repository" />
 		</service>
-		<service id="email.delivery.service" class="PHPSC\Conference\Infra\Email\DeliveryService">
-			<argument type="service" id="swiftmailer.mailer" />
-			<argument>contato@phpsc.com.br</argument>
-			<argument>PHPSC Conference</argument>
-		</service>
+        <service id="supporter.management.service" class="PHPSC\Conference\Domain\Service\SupporterManagementService">
+            <argument type="service" id="supporter.repository" />
+        </service>
 		
 		<!-- Entity Repositories -->
 		<service id="user.repository" factory-service="entityManager" factory-method="getRepository">
@@ -100,6 +98,13 @@
         </service>
         <service id="supporter.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\Supporter</argument>
+        </service>
+        
+        <!-- Infra Services -->
+        <service id="email.delivery.service" class="PHPSC\Conference\Infra\Email\DeliveryService">
+            <argument type="service" id="swiftmailer.mailer" />
+            <argument>contato@phpsc.com.br</argument>
+            <argument>PHPSC Conference</argument>
         </service>
         
         <!-- Payment Events -->
@@ -164,7 +169,6 @@
                 <argument>user:email</argument>
             </argument>
         </service>
-        
         <service id="oauth2.facebook" factory-class="Lcobucci\Social\Providers\Facebook" factory-method="create">
             <argument>%facebook.id%</argument>
             <argument>%facebook.secret%</argument>
@@ -173,19 +177,16 @@
                 <argument>email</argument>
             </argument>
         </service>
-        
         <service id="oauth2.linkedin" factory-class="Lcobucci\Social\Providers\LinkedIn" factory-method="create">
             <argument>%linkedin.id%</argument>
             <argument>%linkedin.secret%</argument>
             <argument>%app.baseuri%oauth/linkedin/callback</argument>
         </service>
-        
         <service id="oauth2.google" factory-class="Lcobucci\Social\Providers\Google" factory-method="create">
             <argument>%google.id%</argument>
             <argument>%google.secret%</argument>
             <argument>%app.baseuri%oauth/google/callback</argument>
         </service>
-        
         <service id="oauth2.live" factory-class="Lcobucci\Social\Providers\Live" factory-method="create">
             <argument>%live.id%</argument>
             <argument>%live.secret%</argument>
@@ -198,12 +199,10 @@
             <argument>%pagseguro.email%</argument>
             <argument>%pagseguro.token%</argument>
         </service>
-        
         <service id="pagseguro.paymentService"
             class="PHPSC\PagSeguro\PaymentService">
             <argument type="service" id="pagseguro.credentials" />
         </service>
-        
         <service id="pagseguro.notificationService"
             class="PHPSC\PagSeguro\NotificationService">
             <argument type="service" id="pagseguro.credentials" />
