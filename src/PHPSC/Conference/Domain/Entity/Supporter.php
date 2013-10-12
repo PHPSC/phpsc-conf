@@ -3,14 +3,15 @@ namespace PHPSC\Conference\Domain\Entity;
 
 use DateTime;
 use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="PHPSC\Conference\Domain\SupporterRepository")
  * @Table("supporter")
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class Supporter
+class Supporter implements Entity
 {
     /**
      * @Id
@@ -21,7 +22,7 @@ class Supporter
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Company")
+     * @ManyToOne(targetEntity="Company", cascade={"all"})
      * @JoinColumn(name="company_id", referencedColumnName="id", nullable=false)
      * @var Company
      */
