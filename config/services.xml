@@ -102,6 +102,10 @@
         
         <!-- Factories -->
         <service id="supporter.factory" class="PHPSC\Conference\Domain\Factory\SupporterFactory" />
+        <service id="company.factory" class="PHPSC\Conference\Domain\Factory\CompanyFactory">
+            <argument type="service" id="image.factory" />
+            <argument type="service" id="image.validation.service" />
+        </service>
         
         <!-- Infra Services -->
         <service id="email.delivery.service" class="PHPSC\Conference\Infra\Email\DeliveryService">
@@ -109,6 +113,8 @@
             <argument>contato@phpsc.com.br</argument>
             <argument>PHPSC Conference</argument>
         </service>
+        <service id="image.factory" class="PHPSC\Conference\Infra\Image\ImageFactory" />
+        <service id="image.validation.service" class="PHPSC\Conference\Infra\Image\ImageValidator" />
         
         <!-- Payment Events -->
         <service id="payment.event.manager" class="Doctrine\Common\EventManager">
