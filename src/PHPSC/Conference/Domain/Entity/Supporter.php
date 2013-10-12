@@ -7,7 +7,10 @@ use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\SupporterRepository")
- * @Table("supporter")
+ * @Table(
+ *      "supporter",
+ *      uniqueConstraints={@UniqueConstraint(name="supporter_index0",columns={"company_id", "event_id"})}
+ * )
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
