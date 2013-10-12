@@ -9,7 +9,7 @@ abstract class BasicFilter extends Filter
     /**
      * Verify if the user is logged, if not redirect to login page
      */
-    protected function validateUserRegistration()
+    protected function validateUserAuthentication()
     {
         if ($this->getAuthenticationService()->getLoggedUser() === null) {
             $this->request->getSession()->set(

@@ -11,7 +11,7 @@ class NewAttendeeFilter extends BasicFilter
      */
     public function process()
     {
-        $this->validateUserRegistration();
+        $this->validateUserAuthentication();
 
         $event = $this->getEventManagement()->findCurrentEvent();
 

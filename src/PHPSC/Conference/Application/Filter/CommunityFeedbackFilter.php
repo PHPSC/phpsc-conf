@@ -8,6 +8,6 @@ class CommunityFeedbackFilter extends BasicFilter
      */
     public function process()
     {
-        $this->validateUserRegistration();
+        $this->validateUserAuthentication();
     }
 }
