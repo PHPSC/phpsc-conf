@@ -16,11 +16,11 @@
 		<route pattern="/logoff" class="\PHPSC\Conference\Application\Action\Logoff" />
 	</routes>
 	<filters>
-		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Action\UserFilter" />
-		<filter pattern="/call4papers/submissions/new" class="\PHPSC\Conference\Application\Action\NewTalkFilter" />
-		<filter pattern="/call4papers/submissions" class="\PHPSC\Conference\Application\Action\NewTalkFilter" />
-		<filter pattern="/call4papers/feedback" class="\PHPSC\Conference\Application\Action\CommunityFeedbackFilter" />
-		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Action\NewAttendeeFilter" />
-		<filter pattern="/registration/registered" class="\PHPSC\Conference\Application\Action\NewAttendeeFilter" />
+		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Filter\UserFilter" />
+		<filter pattern="/call4papers/submissions/new" class="\PHPSC\Conference\Application\Filter\NewTalkFilter" />
+		<filter pattern="/call4papers/submissions" class="\PHPSC\Conference\Application\Filter\NewTalkFilter" />
+		<filter pattern="/call4papers/feedback" class="\PHPSC\Conference\Application\Filter\CommunityFeedbackFilter" />
+		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
+		<filter pattern="/registration/registered" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
 	</filters>
 </routing>
