@@ -1,0 +1,58 @@
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3 id="title"></h3>
+            </div>
+            <form role="form" id="editForm" action="" style="margin: 0px;">
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="formItems" style="padding-top: 0px;">
+                            <div class="alert alert-block hide">
+                                <h4 class="alert-heading"></h4>
+                                <span></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="title">Título</label>
+                                <input type="text" required="required" id="title" name="title" class="form-control" placeholder="Digite o título da palestra..." maxlength="120">
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Tipo de trabalho</label>
+                                <select id="type" name="type" class="form-control">
+                                    <option value="2">Palestra (duração: 50 minutos)</option>
+                                    <option value="3">Palestra Curta (duração: 15 minutos)</option>
+                                    <option value="1">Minicurso (duração: 4 horas)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="complexity">Nível</label>
+                                <select id="complexity" name="complexity" class="form-control">
+                                    <option value="L">Básico</option>
+                                    <option value="M">Intermediário</option>
+                                    <option value="H">Avançado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="shortDescription">Resumo</label>
+                                <textarea rows="2" cols="1" class="form-control" id="shortDescription" name="shortDescription" placeholder="Esse resumo será usado para divulgação da palestra na grade. Venda seu peixe!"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="longDescription">Descrição</label>
+                                <textarea rows="2" cols="1" class="form-control" id="longDescription" name="longDescription" placeholder="Detalhe mais sua palestra, usaremos essas informações para avaliá-la."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="tags">Palavras-chave</label>
+                                <input type="text" id="tags" name="tags" class="form-control" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="120">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Salvar</button>
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Fechar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
