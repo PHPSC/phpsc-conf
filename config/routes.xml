@@ -22,5 +22,6 @@
 		<filter pattern="/call4papers/feedback" class="\PHPSC\Conference\Application\Filter\CommunityFeedbackFilter" />
 		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
 		<filter pattern="/registration/registered" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
+		<filter pattern="/adm/*" class="\PHPSC\Conference\Application\Filter\AdministratorFilter" />
 	</filters>
 </routing>
