@@ -3,14 +3,15 @@ namespace PHPSC\Conference\Domain\Entity;
 
 use DateTime;
 use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="PHPSC\Conference\Domain\CompanyRepository")
  * @Table("company")
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class Company
+class Company implements Entity
 {
     /**
      * @Id

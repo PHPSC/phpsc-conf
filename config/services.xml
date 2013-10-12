@@ -95,6 +95,9 @@
         <service id="payment.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\Payment</argument>
         </service>
+        <service id="company.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Company</argument>
+        </service>
         
         <!-- Payment Events -->
         <service id="payment.event.manager" class="Doctrine\Common\EventManager">
