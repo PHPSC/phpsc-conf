@@ -25,7 +25,7 @@ class Grid extends UIComponent
      */
     public function __construct(Event $event, array $supporters)
     {
-//         Main::appendScript($this->getUrl('js/view-or-edit-talk.js'));
+        //Main::appendScript($this->getUrl('js/view-or-edit-talk.js'));
 
         $this->event = $event;
         $this->supporters = $supporters;

@@ -40,8 +40,8 @@ class MainMenu extends UIComponent
     protected function getLoggedUserItems()
     {
         $items = array(
-        	'Meus dados' => $this->getUrl('user'),
-        	'Trabalhos submetidos' => $this->getUrl('call4papers/submissions')
+            'Meus dados' => $this->getUrl('user'),
+            'Trabalhos submetidos' => $this->getUrl('call4papers/submissions')
         );
 
         if ($this->user->isAdmin()) {
@@ -61,11 +61,11 @@ class MainMenu extends UIComponent
     protected function getUnloggedUserItems()
     {
         return array(
-        	'Github' => $this->getUrl('oauth/github'),
-        	'Facebook' => $this->getUrl('oauth/facebook'),
-        	'Google' => $this->getUrl('oauth/google'),
-        	'LinkedIn' => $this->getUrl('oauth/linkedin'),
-        	'Microsoft Live' => $this->getUrl('oauth/live'),
+            'Github' => $this->getUrl('oauth/github'),
+            'Facebook' => $this->getUrl('oauth/facebook'),
+            'Google' => $this->getUrl('oauth/google'),
+            'LinkedIn' => $this->getUrl('oauth/linkedin'),
+            'Microsoft Live' => $this->getUrl('oauth/live'),
         );
     }
 }
