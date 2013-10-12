@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://symfony.com/schema/dic/services ../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
-	<imports>
-		<import resource="environment.xml" />
-		<import resource="environment.local.xml" ignore-errors="true" />
-	</imports>
-	<services>
-		<!-- Application Services -->
-		<service id="authentication.service" class="PHPSC\Conference\Application\Service\AuthenticationService">
-			<argument type="service" id="session" />
-			<argument type="service" id="user.management.service" />
-		</service>
-		<service id="user.json.service" class="PHPSC\Conference\Application\Service\UserJsonService">
-			<argument type="service" id="authentication.service" />
-			<argument type="service" id="user.management.service" />
-		</service>
-		<service id="talk.json.service" class="PHPSC\Conference\Application\Service\TalkJsonService">
-			<argument type="service" id="authentication.service" />
-			<argument type="service" id="talk.management.service" />
-			<argument type="service" id="event.management.service" />
-		</service>
-		<service id="attendee.json.service" class="PHPSC\Conference\Application\Service\AttendeeJsonService">
-			<argument type="service" id="authentication.service" />
-			<argument type="service" id="event.management.service" />
-			<argument type="service" id="attendee.management.service" />
-			<argument type="service" id="payment.management.service" />
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="environment.xml" />
+        <import resource="environment.local.xml" ignore-errors="true" />
+    </imports>
+    <services>
+        <!-- Application Services -->
+        <service id="authentication.service" class="PHPSC\Conference\Application\Service\AuthenticationService">
+            <argument type="service" id="session" />
+            <argument type="service" id="user.management.service" />
+        </service>
+        <service id="user.json.service" class="PHPSC\Conference\Application\Service\UserJsonService">
+            <argument type="service" id="authentication.service" />
+            <argument type="service" id="user.management.service" />
+        </service>
+        <service id="talk.json.service" class="PHPSC\Conference\Application\Service\TalkJsonService">
+            <argument type="service" id="authentication.service" />
             <argument type="service" id="talk.management.service" />
-		</service>
-		<service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
-			<argument type="service" id="authentication.service" />
-			<argument type="service" id="talk.management.service" />
-			<argument type="service" id="opinion.management.service" />
-		</service>
+            <argument type="service" id="event.management.service" />
+        </service>
+        <service id="attendee.json.service" class="PHPSC\Conference\Application\Service\AttendeeJsonService">
+            <argument type="service" id="authentication.service" />
+            <argument type="service" id="event.management.service" />
+            <argument type="service" id="attendee.management.service" />
+            <argument type="service" id="payment.management.service" />
+            <argument type="service" id="talk.management.service" />
+        </service>
+        <service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
+            <argument type="service" id="authentication.service" />
+            <argument type="service" id="talk.management.service" />
+            <argument type="service" id="opinion.management.service" />
+        </service>
 
-		<!-- Domain Services -->
-		<service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
-			<argument type="service" id="user.repository" />
-			<argument type="service" id="profile.repository" />
+        <!-- Domain Services -->
+        <service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
+            <argument type="service" id="user.repository" />
+            <argument type="service" id="profile.repository" />
             <argument type="service" id="email.delivery.service" />
-		</service>
-		<service id="event.management.service" class="PHPSC\Conference\Domain\Service\EventManagementService">
-			<argument type="service" id="event.repository" />
-		</service>
-		<service id="talk.management.service" class="PHPSC\Conference\Domain\Service\TalkManagementService">
-			<argument type="service" id="talk.repository" />
-			<argument type="service" id="talkType.repository" />
-		</service>
-		<service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
-			<argument type="service" id="attendee.repository" />
-			<argument type="service" id="talk.management.service" />
-			<argument type="service" id="email.delivery.service" />
-		</service>
-		<service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
-			<argument type="service" id="payment.repository" />
-			<argument type="service" id="pagseguro.notificationService" />
-			<argument type="service" id="pagseguro.paymentService" />
-			<argument type="service" id="payment.event.manager" />
-		</service>
-		<service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
-			<argument type="service" id="opinion.repository" />
-		</service>
+        </service>
+        <service id="event.management.service" class="PHPSC\Conference\Domain\Service\EventManagementService">
+            <argument type="service" id="event.repository" />
+        </service>
+        <service id="talk.management.service" class="PHPSC\Conference\Domain\Service\TalkManagementService">
+            <argument type="service" id="talk.repository" />
+            <argument type="service" id="talkType.repository" />
+        </service>
+        <service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
+            <argument type="service" id="attendee.repository" />
+            <argument type="service" id="talk.management.service" />
+            <argument type="service" id="email.delivery.service" />
+        </service>
+        <service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
+            <argument type="service" id="payment.repository" />
+            <argument type="service" id="pagseguro.notificationService" />
+            <argument type="service" id="pagseguro.paymentService" />
+            <argument type="service" id="payment.event.manager" />
+        </service>
+        <service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
+            <argument type="service" id="opinion.repository" />
+        </service>
         <service id="supporter.management.service" class="PHPSC\Conference\Domain\Service\SupporterManagementService">
             <argument type="service" id="supporter.repository" />
         </service>
-		
-		<!-- Entity Repositories -->
-		<service id="user.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\User</argument>
-		</service>
-		<service id="location.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\Location</argument>
-		</service>
-		<service id="event.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\Event</argument>
-		</service>
-		<service id="talk.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\Talk</argument>
-		</service>
-		<service id="talkType.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\TalkType</argument>
-		</service>
-		<service id="attendee.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\Attendee</argument>
-		</service>
-		<service id="opinion.repository" factory-service="entityManager" factory-method="getRepository">
-			<argument>PHPSC\Conference\Domain\Entity\Opinion</argument>
-		</service>
+        
+        <!-- Entity Repositories -->
+        <service id="user.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\User</argument>
+        </service>
+        <service id="location.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Location</argument>
+        </service>
+        <service id="event.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Event</argument>
+        </service>
+        <service id="talk.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Talk</argument>
+        </service>
+        <service id="talkType.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\TalkType</argument>
+        </service>
+        <service id="attendee.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Attendee</argument>
+        </service>
+        <service id="opinion.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Opinion</argument>
+        </service>
         <service id="profile.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\SocialProfile</argument>
         </service>
@@ -99,6 +99,9 @@
         <service id="supporter.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\Supporter</argument>
         </service>
+        
+        <!-- Factories -->
+        <service id="supporter.factory" class="PHPSC\Conference\Domain\Factory\SupporterFactory" />
         
         <!-- Infra Services -->
         <service id="email.delivery.service" class="PHPSC\Conference\Infra\Email\DeliveryService">
@@ -117,24 +120,24 @@
             <argument type="service" id="attendee.management.service" />
         </service>
 
-		<!-- Swift Mailer -->
-		<service id="swiftmailer.transport.smtp" class="Swift_SmtpTransport" factory-class="Swift_SmtpTransport" factory-method="newInstance">
-			<argument>%smtp.host%</argument>
-			<argument>%smtp.port%></argument>
-			<argument>%smtp.encryption%</argument>
-			<call method="setUsername">
-				<argument>%smtp.username%</argument>
-			</call>
-			<call method="setPassword">
-				<argument>%smtp.password%</argument>
-			</call>
-			<call method="setAuthMode">
-				<argument>%smtp.auth_mode%</argument>
-			</call>
-		</service>
-		<service id="swiftmailer.mailer" class="Swift_Mailer" factory-class="Swift_Mailer" factory-method="newInstance">
-			<argument type="service" id="swiftmailer.transport.smtp" />
-		</service>
+        <!-- Swift Mailer -->
+        <service id="swiftmailer.transport.smtp" class="Swift_SmtpTransport" factory-class="Swift_SmtpTransport" factory-method="newInstance">
+            <argument>%smtp.host%</argument>
+            <argument>%smtp.port%></argument>
+            <argument>%smtp.encryption%</argument>
+            <call method="setUsername">
+                <argument>%smtp.username%</argument>
+            </call>
+            <call method="setPassword">
+                <argument>%smtp.password%</argument>
+            </call>
+            <call method="setAuthMode">
+                <argument>%smtp.auth_mode%</argument>
+            </call>
+        </service>
+        <service id="swiftmailer.mailer" class="Swift_Mailer" factory-class="Swift_Mailer" factory-method="newInstance">
+            <argument type="service" id="swiftmailer.transport.smtp" />
+        </service>
         
         <!-- OAuth2 Manager -->
         <service id="oauth2.manager" class="Lcobucci\Social\AuthClient">
@@ -207,5 +210,5 @@
             class="PHPSC\PagSeguro\NotificationService">
             <argument type="service" id="pagseguro.credentials" />
         </service>
-	</services>
+    </services>
 </container>
