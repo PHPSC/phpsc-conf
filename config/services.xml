@@ -33,6 +33,9 @@
             <argument type="service" id="talk.management.service" />
             <argument type="service" id="opinion.management.service" />
         </service>
+        <service id="company.json.service" class="PHPSC\Conference\Application\Service\CompanyJsonService">
+            <argument type="service" id="company.management.service" />
+        </service>
 
         <!-- Domain Services -->
         <service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
@@ -63,6 +66,10 @@
         </service>
         <service id="supporter.management.service" class="PHPSC\Conference\Domain\Service\SupporterManagementService">
             <argument type="service" id="supporter.repository" />
+        </service>
+        <service id="company.management.service" class="PHPSC\Conference\Domain\Service\CompanyManagementService">
+            <argument type="service" id="company.repository" />
+            <argument type="service" id="company.factory" />
         </service>
         
         <!-- Entity Repositories -->
@@ -113,8 +120,8 @@
             <argument>contato@phpsc.com.br</argument>
             <argument>PHPSC Conference</argument>
         </service>
-        <service id="image.factory" class="PHPSC\Conference\Infra\Image\ImageFactory" />
-        <service id="image.validation.service" class="PHPSC\Conference\Infra\Image\ImageValidator" />
+        <service id="image.factory" class="PHPSC\Conference\Infra\Images\ImageFactory" />
+        <service id="image.validation.service" class="PHPSC\Conference\Infra\Images\ImageValidator" />
         
         <!-- Payment Events -->
         <service id="payment.event.manager" class="Doctrine\Common\EventManager">
