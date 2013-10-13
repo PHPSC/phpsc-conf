@@ -658,12 +658,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/action-mapper.git",
-                "reference": "eed96d171449bcff4cc753ab4fb835f5ec784558"
+                "reference": "0af66882e8a6b9c95eaba982b30370b35c8b2a6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/action-mapper/zipball/eed96d171449bcff4cc753ab4fb835f5ec784558",
-                "reference": "eed96d171449bcff4cc753ab4fb835f5ec784558",
+                "url": "https://api.github.com/repos/lcobucci/action-mapper/zipball/0af66882e8a6b9c95eaba982b30370b35c8b2a6f",
+                "reference": "0af66882e8a6b9c95eaba982b30370b35c8b2a6f",
                 "shasum": ""
             },
             "require": {
@@ -701,7 +701,7 @@
             "keywords": [
                 "front-controller"
             ],
-            "time": "2013-09-04 12:49:33"
+            "time": "2013-10-13 17:04:25"
         },
         {
             "name": "lcobucci/di-builder",
