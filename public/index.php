@@ -5,9 +5,10 @@ ini_set('session.save_path', __DIR__ . '/../tmp/session');
 
 require __DIR__ . '/../boot.php';
 
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \Lcobucci\ActionMapper2\Config\ApplicationBuilder;
+use Lcobucci\ActionMapper2\Config\ApplicationBuilder;
 use Lcobucci\ActionMapper2\DependencyInjection\ContainerConfig;
+use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\Errors\ErrorHandler;
 
 $app = ApplicationBuilder::build(
     __DIR__ . '/../config/routes.xml',
@@ -16,7 +17,7 @@ $app = ApplicationBuilder::build(
         __DIR__ . '/../tmp',
         '\PHPSC\Conference\Infra\DependencyInjection\Container'
     ),
-    null,
+    new ErrorHandler(),
     'app.cache'
 );
 
