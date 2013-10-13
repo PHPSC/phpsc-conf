@@ -45,7 +45,7 @@ class CompanyJsonService
     protected function toJson(Company $company)
     {
         return array(
-        	'id' => $company->getId(),
+            'id' => $company->getId(),
             'socialId' => $company->getSocialId(),
             'name' => $company->getName(),
             'email' => $company->getEmail(),
