@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "6880e0fe43d1d1b2074b14abc05e41d56e11aa4a"
+                "reference": "52f9772cd37788dcea18122e38616db047b6e394"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/6880e0fe43d1d1b2074b14abc05e41d56e11aa4a",
-                "reference": "6880e0fe43d1d1b2074b14abc05e41d56e11aa4a",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/52f9772cd37788dcea18122e38616db047b6e394",
+                "reference": "52f9772cd37788dcea18122e38616db047b6e394",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2013-09-16 16:48:19"
+            "time": "2013-10-11 13:35:03"
         },
         {
             "name": "doctrine/cache",
@@ -296,12 +296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "3c811d7d8192a76f2eec96747741669c9298f60e"
+                "reference": "a619261b6b96341951f93d228493818ba334d0f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/3c811d7d8192a76f2eec96747741669c9298f60e",
-                "reference": "3c811d7d8192a76f2eec96747741669c9298f60e",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/a619261b6b96341951f93d228493818ba334d0f6",
+                "reference": "a619261b6b96341951f93d228493818ba334d0f6",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-10-07 18:23:26"
+            "time": "2013-10-09 16:42:00"
         },
         {
             "name": "doctrine/inflector",
@@ -491,12 +491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "ded3d20630f2f1b535d5f7c76f0e14876b6286b7"
+                "reference": "0d58e82b76d8e04b1176e40aec3685ed2d87fe5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/ded3d20630f2f1b535d5f7c76f0e14876b6286b7",
-                "reference": "ded3d20630f2f1b535d5f7c76f0e14876b6286b7",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/0d58e82b76d8e04b1176e40aec3685ed2d87fe5d",
+                "reference": "0d58e82b76d8e04b1176e40aec3685ed2d87fe5d",
                 "shasum": ""
             },
             "require": {
@@ -558,7 +558,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-10-07 18:22:14"
+            "time": "2013-10-12 02:34:57"
         },
         {
             "name": "guzzle/guzzle",
@@ -990,12 +990,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "622a8a6606bfafefcfaa9871adeec298700f92a0"
+                "reference": "f44cc6fabdaa853335d7f54f1b86c99622db518a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/622a8a6606bfafefcfaa9871adeec298700f92a0",
-                "reference": "622a8a6606bfafefcfaa9871adeec298700f92a0",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/f44cc6fabdaa853335d7f54f1b86c99622db518a",
+                "reference": "f44cc6fabdaa853335d7f54f1b86c99622db518a",
                 "shasum": ""
             },
             "require": {
@@ -1034,7 +1034,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-10-08 06:39:58"
+            "time": "2013-10-10 06:05:49"
         },
         {
             "name": "symfony/dependency-injection",
