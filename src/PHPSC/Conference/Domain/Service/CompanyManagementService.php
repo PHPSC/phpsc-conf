@@ -1,6 +1,7 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
+use PHPSC\Conference\Domain\Entity\Company;
 use PHPSC\Conference\Domain\Factory\CompanyFactory;
 use PHPSC\Conference\Domain\Repository\CompanyRepository;
 
@@ -48,5 +49,52 @@ class CompanyManagementService
         }
 
         return $this->repository->search($name, $socialId);
+    }
+
+    /**
+     * @param string $socialId
+     * @return Company
+     */
+    public function findBySocialId($socialId)
+    {
+        $socialId = preg_replace('/[^0-9]/', '', $socialId);
+
+        return $this->repository->findOneBySocialId($socialId);
+    }
+
+    /**
+     * @param string $socialId
+     * @param string $name
+     * @param string $logo
+     * @param string $email
+     * @param string $phone
+     * @param string $website
+     * @param string $twitterId
+     * @param string $fanpage
+     */
+    public function create(
+        $socialId,
+        $name,
+        $logo,
+        $email,
+        $phone,
+        $website,
+        $twitterId,
+        $fanpage
+    ) {
+        $company = $this->factory->create(
+            $socialId,
+            $name,
+            $logo,
+            $email,
+            $phone,
+            $website,
+            $twitterId,
+            $fanpage
+        );
+
+        $this->repository->append($company);
+
+        return $company;
     }
 }

@@ -16,6 +16,7 @@
 		<route pattern="/logoff" class="\PHPSC\Conference\Application\Action\Logoff" />
 		<route pattern="/companies/*" class="\PHPSC\Conference\Application\Action\Companies" />
 		<route pattern="/adm/supporters" class="\PHPSC\Conference\Application\Action\Admin\Supporters" />
+		<route pattern="/supporters/*" class="\PHPSC\Conference\Application\Action\Supporters" />
 	</routes>
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Filter\UserFilter" />
@@ -25,5 +26,6 @@
 		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
 		<filter pattern="/registration/registered" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
 		<filter pattern="/adm/*" class="\PHPSC\Conference\Application\Filter\AdministratorFilter" />
+		<filter pattern="/supporters" class="\PHPSC\Conference\Application\Filter\ApiManagementFilter" httpMethods="POST" />
 	</filters>
 </routing>

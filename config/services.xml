@@ -36,6 +36,10 @@
         <service id="company.json.service" class="PHPSC\Conference\Application\Service\CompanyJsonService">
             <argument type="service" id="company.management.service" />
         </service>
+        <service id="supporter.json.service" class="PHPSC\Conference\Application\Service\SupporterJsonService">
+            <argument type="service" id="supporter.management.service" />
+            <argument type="service" id="company.management.service" />
+        </service>
 
         <!-- Domain Services -->
         <service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
@@ -66,6 +70,7 @@
         </service>
         <service id="supporter.management.service" class="PHPSC\Conference\Domain\Service\SupporterManagementService">
             <argument type="service" id="supporter.repository" />
+            <argument type="service" id="supporter.factory" />
         </service>
         <service id="company.management.service" class="PHPSC\Conference\Domain\Service\CompanyManagementService">
             <argument type="service" id="company.repository" />

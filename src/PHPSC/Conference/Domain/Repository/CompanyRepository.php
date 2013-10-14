@@ -9,7 +9,7 @@ class CompanyRepository extends EntityRepository
     /**
      * @param string $name
      * @param string $socialId
-     * @return Company
+     * @return array
      */
     public function search($name, $socialId)
     {
@@ -29,5 +29,22 @@ class CompanyRepository extends EntityRepository
         $query->useQueryCache(true);
 
         return $query->getResult();
+    }
+
+    /**
+     * @param string $socialId
+     * @return Company
+     */
+    public function findOneBySocialId($socialId)
+    {
+        $query = $this->createQueryBuilder('company')
+                      ->andWhere('company.socialId = ?1')
+                      ->setParameter(1, $socialId)
+                      ->setMaxResults(1)
+                      ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getOneOrNullResult();
     }
 }

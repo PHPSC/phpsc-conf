@@ -59,7 +59,7 @@ class CompanyFactory
         $company = new Company();
         $company->setSocialId($socialId);
         $company->setName($name);
-        $company->setLogo($this->createResoure($logo));
+        $company->setLogo($this->createResource($logo));
         $company->setEmail($email);
         $company->setPhone($phone);
         $company->setWebsite($website);

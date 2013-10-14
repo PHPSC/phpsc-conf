@@ -25,7 +25,8 @@ class Grid extends UIComponent
      */
     public function __construct(Event $event, array $supporters)
     {
-        //Main::appendScript($this->getUrl('js/view-or-edit-talk.js'));
+        Main::appendScript($this->getUrl('js/vendor/jquery.form.min.js'));
+        Main::appendScript($this->getUrl('js/adm/supporter/window.js'));
 
         $this->event = $event;
         $this->supporters = $supporters;
@@ -48,7 +49,22 @@ class Grid extends UIComponent
             'supporters',
             $this->supporters,
             array(
-                new DatagridColumn('Nome', 'company.name', 'col-md-5'),
+                new DatagridColumn('Nome', 'company.name', 'col-md-3'),
+                new DatagridColumn(
+                    'CNPJ',
+                    'company.socialId',
+                    'col-md-2',
+                    function ($socialId) {
+                        return sprintf(
+                            '%s.%s.%s/%s-%s',
+                            substr($socialId, 0, 2),
+                            substr($socialId, 2, 3),
+                            substr($socialId, 5, 3),
+                            substr($socialId, 8, 4),
+                            substr($socialId, 12)
+                        );
+                    }
+                ),
                 new DatagridColumn('Email', 'company.email', 'col-md-3'),
                 new DatagridColumn('Site', 'company.website', 'col-md-2'),
                 new DatagridColumn(
@@ -60,13 +76,13 @@ class Grid extends UIComponent
                                     <a href="#"
                                         id="edit-' . $id . '"
                                         class="btn btn-xs btn-info"
-                                        title="Editar">
+                                        title="Editar" disabled="disabled">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                     <a href="#"
                                         id="remove-' . $id . '"
                                         class="btn btn-xs btn-danger"
-                                        title="Remover">
+                                        title="Remover" disabled="disabled">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </a>
                                 </div>';

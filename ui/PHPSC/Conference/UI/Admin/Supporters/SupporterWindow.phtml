@@ -1,11 +1,11 @@
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+<div class="modal fade" id="addOrEdit" tabindex="-1" role="dialog" aria-labelledby="addOrEdit" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h3 id="title"></h3>
             </div>
-            <form role="form" id="editForm" action="" style="margin: 0px;">
+            <form role="form" action="" style="margin: 0px;">
                 <div class="modal-body">
                     <fieldset>
                         <div class="formItems" style="padding-top: 0px;">
@@ -14,42 +14,59 @@
                                 <span></span>
                             </div>
                             <div class="form-group">
-                                <label for="title">Título</label>
-                                <input type="text" required="required" id="title" name="title" class="form-control" placeholder="Digite o título da palestra..." maxlength="120">
+                                <label for="socialId">CNPJ</label>
+                                <input type="text" pattern="[0-9]{14,16}" required="required" id="socialId"
+                                    name="socialId" class="form-control" placeholder="Digite o CNPJ da empresa (somente números)"
+                                    maxlength="16">
                             </div>
-                            <div class="form-group">
-                                <label for="type">Tipo de trabalho</label>
-                                <select id="type" name="type" class="form-control">
-                                    <option value="2">Palestra (duração: 50 minutos)</option>
-                                    <option value="3">Palestra Curta (duração: 15 minutos)</option>
-                                    <option value="1">Minicurso (duração: 4 horas)</option>
-                                </select>
+                            <div class="form-group companyData hide">
+                                <label for="name">Nome da empresa</label>
+                                <input type="text" id="name" name="name"
+                                    class="form-control" placeholder="Digite o nome da empresa..." maxlength="120">
                             </div>
-                            <div class="form-group">
-                                <label for="complexity">Nível</label>
-                                <select id="complexity" name="complexity" class="form-control">
-                                    <option value="L">Básico</option>
-                                    <option value="M">Intermediário</option>
-                                    <option value="H">Avançado</option>
-                                </select>
+                            <div class="form-group companyData companyLogo hide">
+                                <label for="logo">Logotipo</label>
+                                <input type="file" accept="image/png" id="logo" name="logo" class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label for="shortDescription">Resumo</label>
-                                <textarea rows="2" cols="1" class="form-control" id="shortDescription" name="shortDescription" placeholder="Esse resumo será usado para divulgação da palestra na grade. Venda seu peixe!"></textarea>
+                            <div class="form-group companyData hide">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email"
+                                    class="form-control" placeholder="Digite o email da empresa...">
                             </div>
-                            <div class="form-group">
-                                <label for="longDescription">Descrição</label>
-                                <textarea rows="2" cols="1" class="form-control" id="longDescription" name="longDescription" placeholder="Detalhe mais sua palestra, usaremos essas informações para avaliá-la."></textarea>
+                            <div class="form-group companyData hide">
+                                <label for="phone">Telefone</label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="form-control" placeholder="Digite o telefone da empresa...">
                             </div>
-                            <div class="form-group">
-                                <label for="tags">Palavras-chave</label>
-                                <input type="text" id="tags" name="tags" class="form-control" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="120">
+                            <div class="form-group companyData hide">
+                                <label for="website">Site</label>
+                                <input type="url" id="website" name="website"
+                                    class="form-control" placeholder="Digite o site da empresa...">
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="twitterId">Twitter</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">@</span>
+                                    <input type="text" id="twitterId" name="twitterId"
+                                        class="form-control" placeholder="Digite o usuário do twitter da empresa...">
+                                </div>
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="fanpage">Facebook page</label>
+                                <input type="url" id="fanpage" name="fanpage"
+                                    class="form-control" placeholder="Digite a página da empresa no facebook...">
+                            </div>
+                            <div class="form-group supporterData hide">
+                                <label for="details">Detalhes do apoio</label>
+                                <textarea rows="3" cols="1" class="form-control"
+                                    id="details" name="details"
+                                    placeholder="Digite aqui o que foi acordado com o apoiador..."></textarea>
                             </div>
                         </div>
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary">Salvar</button>
+                    <button class="btn btn-primary" id="mainButton"><span class="glyphicon glyphicon-search"></span> Buscar</button>
                     <a href="#" class="btn btn-default" data-dismiss="modal">Fechar</a>
                 </div>
             </form>
