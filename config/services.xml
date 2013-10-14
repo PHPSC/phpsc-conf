@@ -40,6 +40,11 @@
             <argument type="service" id="supporter.management.service" />
             <argument type="service" id="company.management.service" />
         </service>
+        <service id="image.rendering.service" class="PHPSC\Conference\Application\Service\ImageRenderingService">
+            <argument type="service" id="image.factory" />
+            <argument type="service" id="image.resizing.service" />
+            <argument>%app.baseDir%</argument>
+        </service>
 
         <!-- Domain Services -->
         <service id="user.management.service" class="PHPSC\Conference\Domain\Service\UserManagementService">
@@ -127,6 +132,7 @@
         </service>
         <service id="image.factory" class="PHPSC\Conference\Infra\Images\ImageFactory" />
         <service id="image.validation.service" class="PHPSC\Conference\Infra\Images\ImageValidator" />
+        <service id="image.resizing.service" class="PHPSC\Conference\Infra\Images\ImageResizer" />
         
         <!-- Payment Events -->
         <service id="payment.event.manager" class="Doctrine\Common\EventManager">
