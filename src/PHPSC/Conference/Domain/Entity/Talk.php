@@ -30,7 +30,7 @@ class Talk implements Entity
 
     /**
      * @Id
-      * @Column(type="integer")
+     * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
      * @var int
      */
@@ -303,7 +303,7 @@ class Talk implements Entity
             $tags = explode(',', $tags);
             array_walk(
                 $tags,
-                function (&$value, $key) {
+                function (&$value) {
                     $value = trim($value);
                 }
             );

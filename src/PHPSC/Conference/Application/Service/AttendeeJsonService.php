@@ -1,50 +1,59 @@
 <?php
 namespace PHPSC\Conference\Application\Service;
 
-use \PHPSC\Conference\Domain\Service\AttendeeManagementService;
-use \PHPSC\Conference\Domain\Service\PaymentManagementService;
-use \PHPSC\Conference\Domain\Service\EventManagementService;
-use \PHPSC\PagSeguro\Error\PagSeguroException;
-use \PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Service\AttendeeManagementService;
+use PHPSC\Conference\Domain\Service\EventManagementService;
+use PHPSC\Conference\Domain\Service\PaymentManagementService;
+use PHPSC\Conference\Domain\Service\TalkManagementService;
+use PHPSC\PagSeguro\Error\PagSeguroException;
 
 class AttendeeJsonService
 {
     /**
-     * @var \PHPSC\Conference\Application\Service\AuthenticationService
+     * @var AuthenticationService
      */
     protected $authService;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\AttendeeManagementService
+     * @var AttendeeManagementService
      */
     protected $attendeeManager;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\EventManagementService
+     * @var EventManagementService
      */
     protected $eventManager;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\PaymentManagementService
+     * @var PaymentManagementService
      */
     protected $paymentManager;
 
     /**
-     * @param \PHPSC\Conference\Application\Service\AuthenticationService $authService
-     * @param \PHPSC\Conference\Domain\Service\EventManagementService $eventManager
-     * @param \PHPSC\Conference\Domain\Service\AttendeeManagementService $talkManager
-     * @param \PHPSC\Conference\Domain\Service\PaymentManagementService $paymentManager
+     * @var TalkManagementService
+     */
+    private $talkService;
+
+    /**
+     * @param AuthenticationService $authService
+     * @param EventManagementService $eventManager
+     * @param AttendeeManagementService $talkManager
+     * @param PaymentManagementService $paymentManager
+     * @param TalkManagementService $talkService
      */
     public function __construct(
         AuthenticationService $authService,
         EventManagementService $eventManager,
         AttendeeManagementService $attendeeManager,
-        PaymentManagementService $paymentManager
+        PaymentManagementService $paymentManager,
+        TalkManagementService $talkService
     ) {
         $this->authService = $authService;
         $this->eventManager = $eventManager;
         $this->attendeeManager = $attendeeManager;
         $this->paymentManager = $paymentManager;
+        $this->talkService = $talkService;
     }
 
     /**
@@ -64,8 +73,12 @@ class AttendeeJsonService
                 $isStudent
             );
 
-            if ($attendee->getCost() > 0) {
-                return $this->createPayment($attendee, $redirectTo);
+            if ($attendee->isWaitingForPayment()) {
+                return $this->createPayment(
+                    $attendee,
+                    $event->getRegistrationCost($user, $this->talkService),
+                    $redirectTo
+                );
             }
 
             return json_encode(
@@ -98,15 +111,24 @@ class AttendeeJsonService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Attendee $attendee
+     * @param Attendee $attendee
+     * @param float $cost
      * @param string $redirectTo
      * @return string
      */
-    protected function createPayment(Attendee $attendee, $redirectTo)
+    protected function createPayment(Attendee $attendee, $cost, $redirectTo)
     {
         try {
-            $paymentResponse = $this->paymentManager->create(
-                $attendee,
+            $payment = $this->paymentManager->create(
+                $cost,
+                $this->getItemDescription($attendee)
+            );
+
+            $this->attendeeManager->appendPayment($attendee, $payment);
+
+            $paymentResponse = $this->paymentManager->requestPayment(
+                $payment,
+                $attendee->getUser()->getEmail(),
                 $redirectTo
             );
 
@@ -139,19 +161,45 @@ class AttendeeJsonService
      */
     public function resendPayment($redirectTo)
     {
+        $event = $this->eventManager->findCurrentEvent();
+        $user = $this->authService->getLoggedUser();
+
         $attendee = $this->attendeeManager->findActiveRegistration(
-            $this->eventManager->findCurrentEvent(),
-            $this->authService->getLoggedUser()
+            $event,
+            $user
         );
 
         if ($attendee === null) {
             return json_encode(
-                array(
-                    'error' => 'Você não possui inscrição ativa neste evento!'
-                )
+                array('error' => 'Você não possui inscrição ativa neste evento!')
             );
         }
 
-        return $this->createPayment($attendee, $redirectTo);
+        if (!$attendee->isWaitingForPayment()) {
+            return json_encode(
+                array('error' => 'Sua inscrição não necessita de pagamento!')
+            );
+        }
+
+        return $this->createPayment(
+            $attendee,
+            $event->getRegistrationCost($user, $this->talkService),
+            $redirectTo
+        );
+    }
+
+    /**
+     * @param Attendee $attendee
+     * @return string
+     */
+    protected function getItemDescription(Attendee $attendee)
+    {
+        $description = $this->talkService->eventHasAnyApprovedTalk($attendee->getEvent())
+                       ? 'Inscrição Regular - '
+                       : 'Inscrição Antecipada - ';
+
+        $description .= $attendee->getEvent()->getName();
+
+        return $description;
     }
 }
