@@ -1,30 +1,32 @@
 <?php
-namespace PHPSC\Conference\Application\Action;
+namespace PHPSC\Conference\Application\Filter;
+
+use DateTime;
+use PHPSC\Conference\Domain\Service\EventManagementService;
 
 class NewTalkFilter extends BasicFilter
 {
     /**
-     * @see \Lcobucci\ActionMapper2\Routing\Filter::process()
+     * {@inheritdoc}
      */
     public function process()
     {
-        $this->validateUserRegistration();
+        $this->validateUserAuthentication();
 
         $event = $this->getEventManagement()->findCurrentEvent();
 
         if ($this->request->getRequestedPath() == '/call4papers/submissions/new'
             && $this->request->isMethod('get')
-            && !$event->isSubmissionsInterval(new \DateTime())) {
+            && !$event->isSubmissionsInterval(new DateTime())) {
             $this->application->redirect('/call4papers');
         }
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Service\EventManagementService
+     * @return EventManagementService
      */
     protected function getEventManagement()
     {
-        return $this->application->getDependencyContainer()
-                                 ->get('event.management.service');
+        return $this->get('event.management.service');
     }
 }

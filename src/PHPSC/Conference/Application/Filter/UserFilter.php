@@ -1,10 +1,10 @@
 <?php
-namespace PHPSC\Conference\Application\Action;
+namespace PHPSC\Conference\Application\Filter;
 
 class UserFilter extends BasicFilter
 {
     /**
-     * @see \Lcobucci\ActionMapper2\Routing\Filter::process()
+     * {@inheritdoc}
      */
     public function process()
     {

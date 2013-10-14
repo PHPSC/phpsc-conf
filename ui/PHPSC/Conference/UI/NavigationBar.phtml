@@ -25,25 +25,14 @@
                         src="<?= $profile->getAvatar(); ?>"
                         height="36" width="36">
                 </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?= $this->getUrl('user'); ?>">Meus dados</a></li>
-                    <li><a href="<?= $this->getUrl('call4papers/submissions'); ?>">Trabalhos submetidos</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?= $this->getUrl('logoff'); ?>">Sair</a></li>
-                </ul>
+                <?= $this->getMenu(); ?>
     		</div>
         <?php } else { ?>
             <div class="btn-group" style="margin-top: 7px; margin-right: 7px;">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user"></span> Logar <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?= $this->getUrl('oauth/github'); ?>">Github</a></li>
-                    <li><a href="<?= $this->getUrl('oauth/facebook'); ?>">Facebook</a></li>
-                    <li><a href="<?= $this->getUrl('oauth/google'); ?>">Google</a></li>
-                    <li><a href="<?= $this->getUrl('oauth/linkedin'); ?>">LinkedIn</a></li>
-                    <li><a href="<?= $this->getUrl('oauth/live'); ?>">Microsoft Live</a></li>
-                </ul>
+                <?= $this->getMenu(); ?>
     		</div>
 		<?php } ?>
 		</div>
