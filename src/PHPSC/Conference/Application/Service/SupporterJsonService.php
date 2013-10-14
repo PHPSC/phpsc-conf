@@ -41,6 +41,21 @@ class SupporterJsonService
 
     /**
      * @param Event $event
+     * @return array
+     */
+    public function findByEvent(Event $event)
+    {
+        $supporters = array();
+
+        foreach ($this->supporterManager->findByEvent($event) as $supporter) {
+            $supporters[] = $this->toArray($supporter);
+        }
+
+        return $supporters;
+    }
+
+    /**
+     * @param Event $event
      * @param string $socialId
      * @param string $name
      * @param string $email
@@ -142,7 +157,7 @@ class SupporterJsonService
             'name' => $supporter->getCompany()->getName(),
             'email' => $supporter->getCompany()->getEmail(),
             'phone' => $supporter->getCompany()->getPhone(),
-            'site' => $supporter->getCompany()->getWebsite(),
+            'website' => $supporter->getCompany()->getWebsite(),
             'twitterId' => $supporter->getCompany()->getTwitterId(),
             'fanpage' => $supporter->getCompany()->getFanpage()
         );

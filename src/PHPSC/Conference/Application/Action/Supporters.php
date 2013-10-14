@@ -38,6 +38,17 @@ class Supporters extends Controller
     }
 
     /**
+     * @Route("/", methods={"GET"}, contentType={"application/json"})
+     */
+    public function showSupporters()
+    {
+        $event = $this->getEventManager()->findCurrentEvent();
+        $supporters = $this->getSupporterService()->findByEvent($event);
+
+        return json_encode($supporters);
+    }
+
+    /**
      * @return SupporterJsonService
      */
     protected function getSupporterService()
