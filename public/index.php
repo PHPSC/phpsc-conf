@@ -15,7 +15,10 @@ $app = ApplicationBuilder::build(
     new ContainerConfig(
         __DIR__ . '/../config/services.xml',
         __DIR__ . '/../tmp',
-        '\PHPSC\Conference\Infra\DependencyInjection\Container'
+        '\PHPSC\Conference\Infra\DependencyInjection\Container',
+        array(
+            'app.baseDir' => realpath(__DIR__ . '/../') . '/'
+        )
     ),
     new ErrorHandler(),
     'app.cache'
