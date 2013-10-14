@@ -12,7 +12,7 @@ use \DateTime;
  *     "event",
  *     indexes={
  *         @Index(name="event_index0", columns={"start"}),
- *         @Index(name="evento_index1", columns={"submissions_start", "submissions_end"})
+ *         @Index(name="event_index1", columns={"submissions_start", "submissions_end"})
  *     }
  * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>

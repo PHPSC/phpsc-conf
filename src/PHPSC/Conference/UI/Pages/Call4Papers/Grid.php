@@ -92,12 +92,12 @@ class Grid extends UIComponent
             'talks',
             $this->getTalks(),
             array(
-                new DatagridColumn('Nome', 'title', 'span5'),
-                new DatagridColumn('Tipo', 'type.description', 'span2'),
+                new DatagridColumn('Nome', 'title', 'col-md-5'),
+                new DatagridColumn('Tipo', 'type.description', 'col-md-2'),
                 new DatagridColumn(
                     'Nível',
                     'complexity',
-                    'span2',
+                    'col-md-2',
                     function ($complexity) {
                         switch ($complexity) {
                             case Talk::HIGH_COMPLEXITY:
@@ -112,7 +112,7 @@ class Grid extends UIComponent
                 new DatagridColumn(
                     'Aprovada',
                     'approved',
-                    'span2',
+                    'col-md-2',
                     function ($approved) {
                         if ($approved === null) {
                             return 'Não avaliada';
@@ -124,7 +124,7 @@ class Grid extends UIComponent
                 new DatagridColumn(
                     '',
                     'id',
-                    '',
+                    'col-md-1',
                     function ($id) use ($readOnly) {
                         $title = 'Editar';
                         $icon = 'pencil';
@@ -134,12 +134,14 @@ class Grid extends UIComponent
                             $icon = 'eye-open';
                         }
 
-                        return '<a href="#"
-                                    id="action-' . $id . '"
-                                    class="btn btn-xs btn-info"
-                                    title="' . $title . '">
-                                    <span class="glyphicon glyphicon-' . $icon . '"></span>
-                                </a>';
+                        return '<div class="pull-right">
+                                    <a href="#"
+                                        id="action-' . $id . '"
+                                        class="btn btn-xs btn-info"
+                                        title="' . $title . '">
+                                        <span class="glyphicon glyphicon-' . $icon . '"></span>
+                                    </a>
+                                </div>';
                     }
                 )
             )

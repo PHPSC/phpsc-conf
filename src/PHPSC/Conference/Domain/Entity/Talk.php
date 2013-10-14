@@ -30,7 +30,7 @@ class Talk implements Entity
 
     /**
      * @Id
-      * @Column(type="integer")
+     * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
      * @var int
      */

@@ -1,11 +1,15 @@
 <?php
-namespace PHPSC\Conference\Application\Action;
+namespace PHPSC\Conference\Application\Filter;
 
-use \Lcobucci\ActionMapper2\Routing\Filter;
+use Lcobucci\ActionMapper2\Routing\Filter;
+use PHPSC\Conference\Application\Service\AuthenticationService;
 
 abstract class BasicFilter extends Filter
 {
-    protected function validateUserRegistration()
+    /**
+     * Verify if the user is logged, if not redirect to login page
+     */
+    protected function validateUserAuthentication()
     {
         if ($this->getAuthenticationService()->getLoggedUser() === null) {
             $this->request->getSession()->set(
@@ -18,11 +22,10 @@ abstract class BasicFilter extends Filter
     }
 
     /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
+     * @return AuthenticationService
      */
     protected function getAuthenticationService()
     {
-        return $this->application->getDependencyContainer()
-                                 ->get('authentication.service');
+        return $this->get('authentication.service');
     }
 }

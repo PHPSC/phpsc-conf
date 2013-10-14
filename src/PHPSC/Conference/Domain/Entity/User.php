@@ -52,6 +52,12 @@ class User implements Entity
     private $creationTime;
 
     /**
+     * @Column(type="boolean", options={"default" = 0}, nullable=false)
+     * @var boolean
+     */
+    private $admin;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -209,6 +215,22 @@ class User implements Entity
     }
 
     /**
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param boolean $admin
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = (boolean) $admin;
+    }
+
+    /**
      * @param string $name
      * @param string $email
      * @param string $bio
@@ -221,6 +243,7 @@ class User implements Entity
         $user->setEmail($email);
         $user->setBio($bio);
         $user->setCreationTime(new DateTime());
+        $user->setAdmin(false);
 
         return $user;
     }

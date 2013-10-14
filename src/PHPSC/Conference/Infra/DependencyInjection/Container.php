@@ -47,7 +47,7 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
     {
         $this->services['doctrine.config'] = $instance = new Configuration();
 
-        $baseDir = realpath(__DIR__ . '/../../../../../') . '/';
+        $baseDir = $this->getParameter('app.baseDir');
 
         $cache = $this->get('app.cache');
         $instance->setMetadataCacheImpl($cache);
