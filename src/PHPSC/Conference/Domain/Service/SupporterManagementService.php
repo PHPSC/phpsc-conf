@@ -40,6 +40,17 @@ class SupporterManagementService
     }
 
     /**
+     * @param int $id
+     * @return array
+     */
+    public function findById($id)
+    {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
+        return $this->repository->findOneById($id);
+    }
+
+    /**
      * @param Event $event
      * @param Company $company
      * @param string $details

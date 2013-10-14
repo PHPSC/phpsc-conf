@@ -17,6 +17,7 @@
 		<route pattern="/companies/*" class="\PHPSC\Conference\Application\Action\Companies" />
 		<route pattern="/adm/supporters" class="\PHPSC\Conference\Application\Action\Admin\Supporters" />
 		<route pattern="/supporters/*" class="\PHPSC\Conference\Application\Action\Supporters" />
+		<route pattern="/supporter/(id)" class="\PHPSC\Conference\Application\Action\Supporter" />
 	</routes>
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Filter\UserFilter" />
