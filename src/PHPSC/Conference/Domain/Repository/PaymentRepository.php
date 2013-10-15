@@ -22,4 +22,21 @@ class PaymentRepository extends EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    /**
+     * @param int $id
+     * @return Payment
+     */
+    public function findOneById($id)
+    {
+        $query = $this->createQueryBuilder('payment')
+                      ->andWhere('payment.id = ?1')
+                      ->setParameter(1, $id)
+                      ->setMaxResults(1)
+                      ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getOneOrNullResult();
+    }
 }
