@@ -75,7 +75,7 @@ class PaymentManagementService
      */
     public function requestPayment(Payment $payment, $email, $redirectTo)
     {
-        $response = $this->paymentService->send(
+        return $this->paymentService->send(
             new PaymentRequest(
                 array(
                     new Item(
@@ -92,11 +92,6 @@ class PaymentManagementService
                 1
             )
         );
-
-        $payment->setCode($response->getCode());
-        $this->repository->update($payment);
-
-        return $response;
     }
 
     /**
@@ -105,8 +100,12 @@ class PaymentManagementService
     protected function approvePayment(Payment $payment)
     {
         $payment->approve();
-
         $this->repository->update($payment);
+
+        $this->eventManager->dispatchEvent(
+            PaymentConfirmationListener::CONFIRM_PAYMENT,
+            new PaymentEvent($payment)
+        );
     }
 
     /**
@@ -115,8 +114,12 @@ class PaymentManagementService
     protected function cancelPayment(Payment $payment)
     {
         $payment->cancel();
-
         $this->repository->update($payment);
+
+        $this->eventManager->dispatchEvent(
+            PaymentCancellationListener::CANCEL_PAYMENT,
+            new PaymentEvent($payment)
+        );
     }
 
     /**
@@ -126,28 +129,26 @@ class PaymentManagementService
     public function updatePaymentStatus($code)
     {
         $transaction = $this->notificationService->getByCode($code);
-        $payment = $this->repository->findOneByCode($transaction->getCode());
+        $payment = $this->repository->findOneById($transaction->getReference());
 
         if ($payment === null) {
             throw new EntityDoesNotExistsException('Pagamento não encontrado');
         }
 
+        if ($payment->getCode() === null) {
+            $payment->setCode($transaction->getCode());
+            $this->repository->update($payment);
+        }
+
         if ($transaction->isPaid()) {
             $this->approvePayment($payment);
-
-            $this->eventManager->dispatchEvent(
-                PaymentConfirmationListener::CONFIRM_PAYMENT,
-                new PaymentEvent($payment)
-            );
+            return ;
         }
 
         if ($transaction->isReturned() || $transaction->isCancelled()) {
             $this->cancelPayment($payment);
 
-            $this->eventManager->dispatchEvent(
-                PaymentCancellationListener::CANCEL_PAYMENT,
-                new PaymentEvent($payment)
-            );
+            return ;
         }
     }
 }
