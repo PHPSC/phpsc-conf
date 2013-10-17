@@ -20,7 +20,7 @@ class Status extends Controller
     /**
      * @Route("/")
      */
-    public function createUserForm()
+    public function showStatus()
     {
         return new StatusView();
     }
