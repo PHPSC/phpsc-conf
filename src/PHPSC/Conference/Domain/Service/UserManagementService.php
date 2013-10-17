@@ -44,7 +44,6 @@ class UserManagementService
      * @param int $id
      * @param string $name
      * @param string $email
-     * @param string $githubUser
      * @param string $bio
      * @return User
      */
