@@ -30,7 +30,7 @@ class Opinion implements Entity
     private $user;
 
     /**
-     * @ManyToOne(targetEntity="Talk", cascade={"all"}, inversedBy="opinions")
+     * @ManyToOne(targetEntity="Talk", cascade={"all"})
      * @JoinColumn(name="talk_id", referencedColumnName="id", nullable=false)
      * @var \PHPSC\Conference\Domain\Entity\Talk
      */
