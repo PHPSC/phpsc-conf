@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \Doctrine\Common\Collections\ArrayCollection;
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\TalkRepository")
@@ -39,7 +39,7 @@ class Talk implements Entity
     /**
      * @ManyToOne(targetEntity="Event")
      * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\Event
+     * @var Event
      */
     private $event;
 
@@ -49,7 +49,7 @@ class Talk implements Entity
      *      joinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="user_id", referencedColumnName="id")}
      * )
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      */
     private $speakers;
 
@@ -62,7 +62,7 @@ class Talk implements Entity
     /**
      * @ManyToOne(targetEntity="TalkType")
      * @JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\TalkType
+     * @var TalkType
      */
     private $type;
 
@@ -92,7 +92,7 @@ class Talk implements Entity
 
     /**
      * @Column(type="datetime", name="start_time", nullable=true)
-     * @var \DateTime
+     * @var DateTime
      */
     private $startTime;
 
@@ -104,7 +104,7 @@ class Talk implements Entity
 
     /**
      * @Column(type="datetime", nullable=false, name="creation_time")
-     * @var \DateTime
+     * @var DateTime
      */
     private $creationTime;
 
@@ -139,7 +139,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -147,7 +147,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param Event $event
      */
     public function setEvent(Event $event)
     {
@@ -155,7 +155,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getSpeakers()
     {
@@ -163,7 +163,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $speakers
+     * @param ArrayCollection $speakers
      */
     public function setSpeakers(ArrayCollection $speakers)
     {
@@ -191,7 +191,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\TalkType
+     * @return TalkType
      */
     public function getType()
     {
@@ -199,7 +199,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\TalkType $type
+     * @param TalkType $type
      */
     public function setType(TalkType $type)
     {
@@ -229,7 +229,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return string$type
+     * @return string $type
      */
     public function getLongDescription()
     {
@@ -314,7 +314,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStartTime()
     {
@@ -322,7 +322,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \DateTime $startTime
+     * @param DateTime $startTime
      */
     public function setStartTime(DateTime $startTime = null)
     {
@@ -352,7 +352,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreationTime()
     {
@@ -360,7 +360,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \DateTime $creationTime
+     * @param DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)
     {
@@ -368,15 +368,15 @@ class Talk implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $speaker
-     * @param \PHPSC\Conference\Domain\Entity\TalkType $type
+     * @param Event $event
+     * @param User $speaker
+     * @param TalkType $type
      * @param string $title
      * @param string $shortDescription
      * @param string $longDescription
      * @param string $complexity
      * @param string $tags
-     * @return \PHPSC\Conference\Domain\Entity\Talk
+     * @return Talk
      */
     public static function create(
         Event $event,
