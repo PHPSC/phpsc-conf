@@ -33,7 +33,7 @@ O [composer](http://getcomposer.org) é uma ferramenta de gerenciamento de
 dependências de projetos PHP. Com ele é possível realizar a instalação de
 todas as bibliotecas que o software necessita utilizando um único comando.
 
-Recomendamos também a leitura dos slides [desta palestra](www.slideshare.net/rdohms/composer-for-busy-developers-dpc13)
+Recomendamos também a leitura dos slides [desta palestra](http://www.slideshare.net/rdohms/composer-for-busy-developers-dpc13)
 do nosso amigo [Rafael Dohms](https://github.com/rdohms).
 
 ### Doctrine Console
@@ -62,7 +62,8 @@ Todas as alterações DEVEM seguir a [PSR-2](https://github.com/php-fig/fig-stan
 Você quer realizar alterações no código então? Muito bem, para
 começar a brincadeira você deve seguir os passos abaixo:
 
-1. Crie um fork e clone o projeto;
+1. Crie um [fork](https://help.github.com/articles/fork-a-repo) e clone o projeto;
+1. Instale as dependências utilizando o composer (```composer install```).
 1. Aponte o branch local master para origin/master (```git
 branch master origin/master```);
 1. Inicialize o git-flow (```git flow init -d```);
@@ -74,7 +75,6 @@ branch master origin/master```);
       um hotfix branch ```git flow hotfix start $hotfix```, onde
       $hotfix deverá ser a versão atual, incrementando o número
       da última posição (PATCH).
-1. Instale as dependências utilizando o composer (```composer install```).
 
 Se tiver dúvidas a respeito do versionamento, leia [esta especificação](http://semver.org/spec/v2.0.0.html).
 
