@@ -1,6 +1,9 @@
 <?php
 namespace PHPSC\Conference\Application\Service;
 
+use InvalidArgumentException;
+use PDOException;
+use Exception;
 use PHPSC\Conference\Infra\Email\DeliveryService;
 use PHPSC\Conference\Domain\Service\UserManagementService;
 
@@ -63,19 +66,19 @@ class UserJsonService
                     'redirectTo' => $redirectTo
                 )
             );
-        } catch (\InvalidArgumentException $error) {
+        } catch (InvalidArgumentException $error) {
             return json_encode(
                 array(
                     'error' => $error->getMessage()
                 )
             );
-        } catch (\PDOException $error) {
+        } catch (PDOException $error) {
             return json_encode(
                 array(
                     'error' => 'Não foi possível salvar os dados na camada de persistência'
                 )
             );
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return json_encode(
                 array(
                     'error' => 'Erro interno no processamento da requisição'
@@ -101,7 +104,7 @@ class UserJsonService
 
         try {
             if ($user->getId() != $id) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     'Você não pode alterar os dados de outro usuário'
                 );
             }
@@ -121,19 +124,19 @@ class UserJsonService
                     )
                 )
             );
-        } catch (\InvalidArgumentException $error) {
+        } catch (InvalidArgumentException $error) {
             return json_encode(
                 array(
                     'error' => $error->getMessage()
                 )
             );
-        } catch (\PDOException $error) {
+        } catch (PDOException $error) {
             return json_encode(
                 array(
                     'error' => 'Não foi possível salvar os dados na camada de persistência'
                 )
             );
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return json_encode(
                 array(
                     'error' => 'Erro interno no processamento da requisição'
