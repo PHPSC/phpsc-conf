@@ -89,7 +89,7 @@ o qual também recomendamos a leitura.
 
 Para realizar a configuração, você deve copiar o arquivo **environment.xml**
 para o arquivo **environment.local.xml**. No arquivo recém criado você realizará
-as suas alterações, mas antes você deve remover dele a tag <services> e seu conteúdo.
+as suas alterações, mas antes você deve remover dele a tag ```<services>``` e seu conteúdo.
 
 O arquivo **environment.local.xml** conterá todas as suas configurações locais, e 
 ele está registrado para ser ignorado pelo GIT, portanto nunca será enviado ao
