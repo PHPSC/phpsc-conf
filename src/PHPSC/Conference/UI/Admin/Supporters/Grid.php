@@ -75,14 +75,14 @@ class Grid extends UIComponent
                         return '<div class="pull-right">
                                     <a href="#"
                                         id="edit-' . $id . '"
-                                        class="btn btn-xs btn-info"
-                                        title="Editar" disabled="disabled">
+                                        class="btn btn-xs btn-info disabled"
+                                        title="Editar">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                     <a href="#"
                                         id="remove-' . $id . '"
-                                        class="btn btn-xs btn-danger"
-                                        title="Remover" disabled="disabled">
+                                        class="btn btn-xs btn-danger disabled"
+                                        title="Remover">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </a>
                                 </div>';
