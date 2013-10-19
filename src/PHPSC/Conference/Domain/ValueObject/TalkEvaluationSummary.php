@@ -139,4 +139,17 @@ class TalkEvaluationSummary
 
         return $points / $totalEvaluations;
     }
+
+    /**
+     * @return array<TalkEvaluation>
+     */
+    public function getNottedEvaluations()
+    {
+        return array_filter(
+    	   $this->evaluations,
+            function (TalkEvaluation $evaluation) {
+                return $evaluation->hasNotes();
+            }
+        );
+    }
 }
