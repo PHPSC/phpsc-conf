@@ -231,6 +231,19 @@ class User implements Entity
     }
 
     /**
+     * @param Event $event
+     * @return boolean
+     */
+    public function hasManagementPrivilegesOn(Event $event)
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $event->isEvaluator($this);
+    }
+
+    /**
      * @param string $name
      * @param string $email
      * @param string $bio
