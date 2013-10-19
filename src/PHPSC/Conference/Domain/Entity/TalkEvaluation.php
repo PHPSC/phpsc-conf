@@ -3,13 +3,14 @@ namespace PHPSC\Conference\Domain\Entity;
 
 use DateTime;
 use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\TalkEvaluationRepository")
  * @Table("talk_evaluation")
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class TalkEvaluation
+class TalkEvaluation implements Entity
 {
     /**
      * @Id
@@ -29,7 +30,7 @@ class TalkEvaluation
     /**
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="evaluator_id", referencedColumnName="id")
-     * @var Talk
+     * @var User
      */
     private $evaluator;
 
@@ -52,13 +53,13 @@ class TalkEvaluation
     private $technicalQualityPoint;
 
     /**
-     * @Column(type="text")
+     * @Column(type="text", nullable=true)
      * @var string
      */
     private $notes;
 
     /**
-     * @Column(type="datetime", name="creation_time", nullable=false)
+     * @Column(type="datetime", name="creation_time")
      * @var DateTime
      */
     private $creationTime;
@@ -94,13 +95,13 @@ class TalkEvaluation
     /**
      * @param Talk $talk
      */
-    public function setTalk($talk)
+    public function setTalk(Talk $talk)
     {
         $this->talk = $talk;
     }
 
     /**
-     * @return Talk
+     * @return User
      */
     public function getEvaluator()
     {
@@ -108,9 +109,9 @@ class TalkEvaluation
     }
 
     /**
-     * @param Talk $evaluator
+     * @param User $evaluator
      */
-    public function setEvaluator($evaluator)
+    public function setEvaluator(User $evaluator)
     {
         $this->evaluator = $evaluator;
     }
@@ -195,6 +196,14 @@ class TalkEvaluation
     public function setNotes($notes)
     {
         $this->notes = $notes;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasNotes()
+    {
+        return $this->getNotes() !== null;
     }
 
     /**
