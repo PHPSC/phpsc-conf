@@ -21,7 +21,7 @@ as ferramentas fundamentais que utilizamos para organizar o desenvolvimento.
 A partir [deste post](http://nvie.com/posts/a-successful-git-branching-model)
 surgiu uma extensão para o git, o [git-flow](https://github.com/nvie/gitflow).
 
-Esta ferramenta é extremamente útil para agilizar o desenvolvimento o usando
+Esta ferramenta é extremamente útil para agilizar o desenvolvimento usando
 branchs.
 
 Leia o [post](http://nvie.com/posts/a-successful-git-branching-model) e instale
