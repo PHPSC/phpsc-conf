@@ -33,7 +33,7 @@ O [composer](http://getcomposer.org) é uma ferramenta de gerenciamento de
 dependências de projetos PHP. Com ele é possível realizar a instalação de
 todas as bibliotecas que o software necessita utilizando um único comando.
 
-Recomendamos também a leitura dos slides [desta palestra](www.slideshare.net/rdohms/composer-for-busy-developers-dpc13)
+Recomendamos também a leitura dos slides [desta palestra](http://www.slideshare.net/rdohms/composer-for-busy-developers-dpc13)
 do nosso amigo [Rafael Dohms](https://github.com/rdohms).
 
 ### Doctrine Console
