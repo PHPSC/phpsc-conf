@@ -1,61 +1,3 @@
-function displayBlankForm()
-{
-    $('#addOrEdit #mainButton').text('Salvar');
-    $('.companyData').removeClass('hide');
-    $('.supporterData').removeClass('hide');
-    
-    $('#addOrEdit form').prop('enctype', 'multipart/form-data');
-    $('#addOrEdit form').unbind('submit');
-    $('#addOrEdit form input, #addOrEdit form textarea').prop('required', true);
-    $('#phone, #twitterId, #fanpage').prop('required', false);
-    
-    $('#addOrEdit form').submit(function () {
-        $(this).ajaxSubmit(
-            {
-                url: baseUrl + 'supporters',
-                type: 'POST',
-                dataType: 'json',
-                success: function (supporter) {
-                    displayMsg(
-                        'Apoiador cadastrado com sucesso', 
-                        'Obrigado ' + supporter.name + '!', 
-                        false
-                    );
-                    
-                    $('#addOrEdit').modal('hide');
-                    
-                    setTimeout(
-                        function()
-                        {
-                            window.location.reload();
-                        },
-                        1500
-                    );
-                },
-                error: function (xhr, status, error) {
-                    displayMsg(
-                        'Erro ao cadastrar apoiador!', 
-                        xhr.responseJSON.message, 
-                        true
-                    );
-                    
-                    $('#addOrEdit').modal('hide');
-                    
-                    setTimeout(
-                        function()
-                        {
-                            resetMsg();
-                        },
-                        2000
-                    );
-                }
-            }
-        );
-        
-        return false
-    });
-}
-
 function openEvaluation(talk)
 {
     $('#evaluation .modal-header h3 span').text(talk.type.toLowerCase());
@@ -63,6 +5,7 @@ function openEvaluation(talk)
     $('#evaluation #speakers label').text(talk.speakers.length == 1 ? 'Palestrante' : 'Palestrantes');
     $('#evaluation #shortDescription').html(talk.shortDescription.replace(/\n/g, '<br />'));
     $('#evaluation #longDescription').html(talk.longDescription.replace(/\n/g, '<br />'));
+    $('#evaluation #talkId').val(talk.id);
     
     for (var i = 0; i < talk.speakers.length; ++i) {
         $('#evaluation #speakers').append(
@@ -75,6 +18,7 @@ function openEvaluation(talk)
     }
     
     showTalkSummary(talk);
+    getEvaluation(talk);
     
     $('#evaluation').modal('show');
 }
@@ -108,6 +52,43 @@ function showTalkSummary(talk)
     );
 }
 
+function getEvaluation(talk)
+{
+    $.ajax(
+        {
+            url: baseUrl + 'evaluations',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'talkId': talk.id,
+                'evaluator': 0
+            },
+            success: function (evaluations) {
+                if (evaluations.length == 0) {
+                    return ;
+                }
+                
+                $('#evaluation #evaluationId').val(evaluations[0].id);
+                
+                fillForm(
+                    evaluations[0].quality,
+                    evaluations[0].relevance,
+                    evaluations[0].quality,
+                    evaluations[0].notes
+                );
+            }
+        }
+    );
+}
+
+function fillForm(originality, relevance, quality, notes)
+{
+    $('#evaluation #originality').val(originality);
+    $('#evaluation #relevance').val(relevance);
+    $('#evaluation #quality').val(quality);
+    $('#evaluation #notes').val(notes);
+}
+
 $(document).ready(function () {
     $('a.btn.btn-xs.btn-info[id|="evaluate"]').click(function () {
         var id = this.id.split('-')[1];
@@ -131,5 +112,33 @@ $(document).ready(function () {
         $('#evaluation .modal-header h3 small').text('');
         $('#evaluation #speakers').html('<label></label>');
         $('#evaluation #community-evaluation').html('').css('display', 'none');
+        $('#evaluation #talkId').val('');
+        $('#evaluation #evaluationId').val('');
+        
+        fillForm('', '', '', '');
+    });
+    
+    $('#evaluation form').submit(function () {
+        var id = $('#evaluation #evaluationId').val();
+        var isRegistered = id != '';
+        var type = isRegistered ? 'PUT' : 'POST';
+        var uri = isRegistered ? baseUrl + 'evaluation/' + id : baseUrl + 'evaluations';
+        
+        $(this).ajaxSubmit(
+            {
+                url: uri,
+                type: type,
+                dataType: 'json',
+                success: function (evaluation) {
+                    console.log(evaluation);
+                    $('#evaluation').modal('hide');
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseJSON.message);
+                }
+            }
+        );
+        
+        return false
     });
 });

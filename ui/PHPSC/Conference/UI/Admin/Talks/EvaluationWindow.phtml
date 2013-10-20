@@ -54,13 +54,15 @@
                             <div class="form-group">
                                 <label for="notes">Observações</label>
                                 <textarea rows="3" cols="1" class="form-control"
-                                    id="details" name="details"
+                                    id="notes" name="notes"
                                     placeholder="Se quiser, digite aqui suas observações e ajude o palestrante a se aprimorar..."></textarea>
                             </div>
                         </div>
                     </fieldset>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" id="talkId" name="talkId" />
+                    <input type="hidden" id="evaluationId" name="evaluationId" disabled="disabled" />
                     <button class="btn btn-primary">Salvar</button>
                     <a href="#" class="btn btn-default" data-dismiss="modal">Fechar</a>
                 </div>

@@ -37,6 +37,7 @@ class Grid extends UIComponent
         $this->talks = $talks;
         $this->user = $user;
 
+        Main::appendScript($this->getUrl('js/vendor/jquery.form.min.js'));
         Main::appendScript($this->getUrl('js/adm/talk/window.js'));
     }
 
