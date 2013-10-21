@@ -2,8 +2,9 @@
 namespace PHPSC\Conference\Domain\Service\TalkEvaluation;
 
 use PHPSC\Conference\Domain\Entity\Talk;
-use PHPSC\Conference\Domain\Repository\TalkEvaluationRepository;
+use PHPSC\Conference\Domain\Entity\TalkEvaluation;
 use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Domain\Repository\TalkEvaluationRepository;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -30,6 +31,15 @@ class Locator
     public function getByTalk(Talk $talk)
     {
         return $this->repository->findByTalk($talk);
+    }
+
+    /**
+     * @param int $id
+     * @return TalkEvaluation
+     */
+    public function getById($id)
+    {
+        return $this->repository->findOneById($id);
     }
 
     /**

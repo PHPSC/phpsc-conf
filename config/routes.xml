@@ -17,7 +17,7 @@
 		<route pattern="/logoff" class="\PHPSC\Conference\Application\Action\Logoff" />
 		<route pattern="/companies/*" class="\PHPSC\Conference\Application\Action\Companies" />
 		
-<!-- 		<route pattern="/evaluation/(id)/*" class="\PHPSC\Conference\Application\Action\Evaluations\Evaluation" /> -->
+		<route pattern="/evaluation/(id)/*" class="\PHPSC\Conference\Application\Action\Evaluations\Evaluation" />
 		<route pattern="/evaluations/*" class="\PHPSC\Conference\Application\Action\Evaluations\Evaluations" />
 		
 		<route pattern="/talk/(id)/*" class="\PHPSC\Conference\Application\Action\Talk" />

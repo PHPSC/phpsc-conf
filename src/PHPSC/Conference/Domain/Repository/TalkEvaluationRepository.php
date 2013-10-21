@@ -2,14 +2,31 @@
 namespace PHPSC\Conference\Domain\Repository;
 
 use PHPSC\Conference\Domain\Entity\Talk;
-use PHPSC\Conference\Infra\Persistence\EntityRepository;
+use PHPSC\Conference\Domain\Entity\TalkEvaluation;
 use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\Persistence\EntityRepository;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class TalkEvaluationRepository extends EntityRepository
 {
+    /**
+     * @param int $id
+     * @return TalkEvaluation
+     */
+    public function findOneById($id)
+    {
+        $query = $this->createQueryBuilder('evaluation')
+                      ->andWhere('evaluation.id = ?1')
+                      ->setParameter(1, $id)
+                      ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getOneOrNullResult();
+    }
+
     /**
      * @param Talk $talk
      * @return array<\PHPSC\Conference\Domain\Entity\TalkEvaluation>
