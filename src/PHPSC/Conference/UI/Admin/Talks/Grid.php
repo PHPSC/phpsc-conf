@@ -68,12 +68,12 @@ class Grid extends UIComponent
                     'col-md-2',
                     function ($complexity) {
                         switch ($complexity) {
-                        	case Talk::HIGH_COMPLEXITY:
-                        	    return 'Avançado';
-                        	case Talk::MEDIUM_COMPLEXITY:
-                        	    return 'Intermediário';
-                        	case Talk::LOW_COMPLEXITY:
-                        	    return 'Básico';
+                            case Talk::HIGH_COMPLEXITY:
+                                return 'Avançado';
+                            case Talk::MEDIUM_COMPLEXITY:
+                                return 'Intermediário';
+                            case Talk::LOW_COMPLEXITY:
+                                return 'Básico';
                         }
                     }
                 ),

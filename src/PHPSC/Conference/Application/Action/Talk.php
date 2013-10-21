@@ -7,7 +7,6 @@ use PHPSC\Conference\Domain\Service\TalkManagementService;
 use PHPSC\Conference\Domain\Service\OpinionManagementService;
 use PHPSC\Conference\Domain\Service\TalkEvaluation\Locator;
 use PHPSC\Conference\Domain\ValueObject\TalkEvaluationSummary;
-use PHPSC\Conference\Domain\Entity\TalkEvaluation;
 
 class Talk extends Controller
 {
@@ -20,7 +19,7 @@ class Talk extends Controller
         $talk = $this->getTalkManagement()->findById($id);
 
         $data = array(
-        	'id' => $talk->getId(),
+            'id' => $talk->getId(),
             'speakers' => array(),
             'title' => $talk->getTitle(),
             'type' => $talk->getType()->getDescription(),
@@ -31,8 +30,8 @@ class Talk extends Controller
 
         foreach ($talk->getSpeakers() as $speaker) {
             $data['speakers'][] = array(
-            	'id' => $speaker->getId(),
-            	'name' => $speaker->getName(),
+                'id' => $speaker->getId(),
+                'name' => $speaker->getName(),
                 'avatar' => $speaker->getDefaultProfile()->getAvatar()
             );
         }
@@ -51,13 +50,13 @@ class Talk extends Controller
         $talk = $this->getTalkManagement()->findById($id);
 
         $summary = new TalkEvaluationSummary(
-        	$talk,
+            $talk,
             $this->getEvaluationLocator()->getByTalk($talk),
             $this->getOpinionManagement()->getByTalk($talk)
         );
 
         $data = array(
-        	'likes' => $summary->getNumberOfLikes(),
+            'likes' => $summary->getNumberOfLikes(),
             'dislikes' => $summary->getNumberOfDislikes(),
             'originality' => $summary->getOriginalityEvaluation(),
             'relevance' => $summary->getRelevanceEvaluation(),
@@ -67,10 +66,10 @@ class Talk extends Controller
 
         foreach ($summary->getNottedEvaluations() as $evaluation) {
             $data['notes'][] = array(
-            	'evaluator' => array(
-                	'id' => $evaluation->getEvaluator()->getId(),
-                	'name' => $evaluation->getEvaluator()->getName(),
-                	'avatar' => $evaluation->getEvaluator()->getDefaultProfile()->getAvatar()
+                'evaluator' => array(
+                    'id' => $evaluation->getEvaluator()->getId(),
+                    'name' => $evaluation->getEvaluator()->getName(),
+                    'avatar' => $evaluation->getEvaluator()->getDefaultProfile()->getAvatar()
                 ),
                 'note' => $evaluation->getNotes()
             );

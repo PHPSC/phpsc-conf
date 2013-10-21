@@ -232,11 +232,11 @@ class TalkEvaluation implements Entity
     public function jsonSerialize()
     {
         return array(
-        	'id' => $this->getId(),
-        	'originality' => $this->getOriginalityPoint(),
-        	'relevance' => $this->getRelevancePoint(),
-        	'quality' => $this->getTechnicalQualityPoint(),
-        	'notes' => $this->getNotes()
+            'id' => $this->getId(),
+            'originality' => $this->getOriginalityPoint(),
+            'relevance' => $this->getRelevancePoint(),
+            'quality' => $this->getTechnicalQualityPoint(),
+            'notes' => $this->getNotes()
         );
     }
 }
