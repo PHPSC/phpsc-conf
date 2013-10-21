@@ -195,6 +195,10 @@ class TalkEvaluation implements Entity
      */
     public function setNotes($notes)
     {
+        if ($notes == '') {
+            $notes = null;
+        }
+
         $this->notes = $notes;
     }
 
@@ -220,5 +224,19 @@ class TalkEvaluation implements Entity
     public function setCreationTime(DateTime $creationTime)
     {
         $this->creationTime = $creationTime;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+        	'id' => $this->getId(),
+        	'originality' => $this->getOriginalityPoint(),
+        	'relevance' => $this->getRelevancePoint(),
+        	'quality' => $this->getTechnicalQualityPoint(),
+        	'notes' => $this->getNotes()
+        );
     }
 }

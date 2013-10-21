@@ -1,6 +1,8 @@
 <?php
 namespace PHPSC\Conference\Domain\Service\TalkEvaluation;
 
+use PHPSC\Conference\Domain\Entity\Talk;
+use PHPSC\Conference\Domain\Entity\User;
 use PHPSC\Conference\Domain\Factory\TalkEvaluationFactory;
 use PHPSC\Conference\Domain\Repository\TalkEvaluationRepository;
 
@@ -29,5 +31,36 @@ class Manager
     ) {
         $this->repository = $repository;
         $this->factory = $factory;
+    }
+
+    /**
+     * @param Talk $talk
+     * @param User $evaluator
+     * @param int $originalityPoint
+     * @param int $relevancePoint
+     * @param int $technicalQualityPoint
+     * @param string $notes
+     * @return TalkEvaluation
+     */
+    public function create(
+        Talk $talk,
+        User $evaluator,
+        $originalityPoint,
+        $relevancePoint,
+        $technicalQualityPoint,
+        $notes
+    ) {
+        $evaluation = $this->factory->create(
+            $talk,
+            $evaluator,
+            $originalityPoint,
+            $relevancePoint,
+            $technicalQualityPoint,
+            $notes
+        );
+
+        $this->repository->append($evaluation);
+
+        return $evaluation;
     }
 }

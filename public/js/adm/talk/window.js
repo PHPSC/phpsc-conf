@@ -5,7 +5,7 @@ function openEvaluation(talk)
     $('#evaluation #speakers label').text(talk.speakers.length == 1 ? 'Palestrante' : 'Palestrantes');
     $('#evaluation #shortDescription').html(talk.shortDescription.replace(/\n/g, '<br />'));
     $('#evaluation #longDescription').html(talk.longDescription.replace(/\n/g, '<br />'));
-    $('#evaluation #talkId').val(talk.id);
+    $('#evaluation #talk').val(talk.id);
     
     for (var i = 0; i < talk.speakers.length; ++i) {
         $('#evaluation #speakers').append(
@@ -60,7 +60,7 @@ function getEvaluation(talk)
             type: 'GET',
             dataType: 'json',
             data: {
-                'talkId': talk.id,
+                'talk': talk.id,
                 'evaluator': 0
             },
             success: function (evaluations) {
@@ -71,7 +71,7 @@ function getEvaluation(talk)
                 $('#evaluation #evaluationId').val(evaluations[0].id);
                 
                 fillForm(
-                    evaluations[0].quality,
+                    evaluations[0].originality,
                     evaluations[0].relevance,
                     evaluations[0].quality,
                     evaluations[0].notes
@@ -87,6 +87,28 @@ function fillForm(originality, relevance, quality, notes)
     $('#evaluation #relevance').val(relevance);
     $('#evaluation #quality').val(quality);
     $('#evaluation #notes').val(notes);
+}
+
+function displayMsg(title, description, isError)
+{
+    $('#confirmationMsg .alert h4').html(title);
+    $('#confirmationMsg .alert span').html(description);
+    $('#confirmationMsg .alert').addClass(isError ? 'alert-danger' : 'alert-success');
+    $('#confirmationMsg').css('display', 'none').removeClass('hide').fadeIn();
+}
+
+function resetMsg()
+{
+    $('#confirmationMsg').fadeOut(
+        'slow', 
+        function() {
+            $('#confirmationMsg .alert').removeClass('alert-danger')
+                                        .removeClass('alert-success')
+                                        .removeClass('alert-info');
+            
+            $(this).addClass('hide');
+        }
+    );
 }
 
 $(document).ready(function () {
@@ -112,7 +134,7 @@ $(document).ready(function () {
         $('#evaluation .modal-header h3 small').text('');
         $('#evaluation #speakers').html('<label></label>');
         $('#evaluation #community-evaluation').html('').css('display', 'none');
-        $('#evaluation #talkId').val('');
+        $('#evaluation #talk').val('');
         $('#evaluation #evaluationId').val('');
         
         fillForm('', '', '', '');
@@ -130,11 +152,26 @@ $(document).ready(function () {
                 type: type,
                 dataType: 'json',
                 success: function (evaluation) {
-                    console.log(evaluation);
                     $('#evaluation').modal('hide');
+                    
+                    displayMsg(
+                        'Avaliação ' + (isRegistered ? 'atualizada' : 'cadastrada') + ' com sucesso!', 
+                        'Obrigado pela contribuição!',
+                        false
+                    );
+                    
+                    setTimeout(function () { resetMsg(); }, 2000);
                 },
                 error: function (xhr, status, error) {
-                    console.log(xhr.responseJSON.message);
+                    $('#evaluation').modal('hide');
+                    
+                    displayMsg(
+                        'Ocorreu um erro durante o processamento',
+                        xhr.responseJSON.message,
+                        true
+                    );
+                    
+                    setTimeout(function () { resetMsg(); }, 2000);
                 }
             }
         );
