@@ -94,8 +94,8 @@ class Main extends UIComponent
         $container = $this->application->getDependencyContainer();
 
         return new NavigationBar(
-            $container->get('event.management.service'),
-            $container->get('authentication.service')
+            $container->get('event.management.service')->findCurrentEvent(),
+            $container->get('authentication.service')->getLoggedUser()
         );
     }
 
