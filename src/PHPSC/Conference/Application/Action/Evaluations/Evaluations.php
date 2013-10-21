@@ -1,6 +1,7 @@
 <?php
 namespace PHPSC\Conference\Application\Action\Evaluations;
 
+use Lcobucci\ActionMapper2\Errors\ForbiddenException;
 use Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use Lcobucci\ActionMapper2\Routing\Controller;
 use PHPSC\Conference\Application\Service\AuthenticationService;
@@ -90,7 +91,13 @@ class Evaluations extends Controller
         }
 
         if ($evaluator == 0) {
-            return $this->getAuthenticationService()->getLoggedUser();
+            $user = $this->getAuthenticationService()->getLoggedUser();
+
+            if ($user === null) {
+                throw new ForbiddenException('Você deve ser um avaliador');
+            }
+
+            return $user;
         }
 
         return $this->getUserManagement()->getById($evaluator);
