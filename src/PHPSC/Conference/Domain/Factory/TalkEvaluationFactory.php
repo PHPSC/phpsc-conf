@@ -35,6 +35,7 @@ class TalkEvaluationFactory
         $evaluation->setRelevancePoint($relevancePoint);
         $evaluation->setTechnicalQualityPoint($technicalQualityPoint);
         $evaluation->setNotes($notes);
+        $evaluation->setAdminOnly(false);
         $evaluation->setCreationTime(new DateTime());
 
         return $evaluation;

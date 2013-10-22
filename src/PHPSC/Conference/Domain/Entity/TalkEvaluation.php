@@ -70,6 +70,12 @@ class TalkEvaluation implements Entity
     private $creationTime;
 
     /**
+     * @Column(type="boolean", name="admin_only", options={"default" = 0})
+     * @var boolean
+     */
+    private $adminOnly;
+
+    /**
      * @return int
      */
     public function getId()
@@ -229,6 +235,30 @@ class TalkEvaluation implements Entity
     public function setCreationTime(DateTime $creationTime)
     {
         $this->creationTime = $creationTime;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAdminOnly()
+    {
+        return $this->adminOnly;
+    }
+
+    /**
+     * @param boolean $adminOnly
+     */
+    public function setAdminOnly($adminOnly)
+    {
+        $this->adminOnly = $adminOnly;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function shouldShowNotes()
+    {
+        return $this->hasNotes() && !$this->isAdminOnly();
     }
 
     /**

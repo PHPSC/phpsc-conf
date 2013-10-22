@@ -148,7 +148,7 @@ class TalkEvaluationSummary
         return array_filter(
             $this->evaluations,
             function (TalkEvaluation $evaluation) {
-                return $evaluation->hasNotes();
+                return $evaluation->shouldShowNotes();
             }
         );
     }
