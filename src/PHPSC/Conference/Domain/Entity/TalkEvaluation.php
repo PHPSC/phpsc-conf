@@ -7,7 +7,12 @@ use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\TalkEvaluationRepository")
- * @Table("talk_evaluation")
+ * @Table(
+ *      "talk_evaluation",
+ *      uniqueConstraints={
+ *          @UniqueConstraint(name="talk_evaluation_index0",columns={"evaluator_id", "talk_id"})
+ *      }
+ * )
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class TalkEvaluation implements Entity
