@@ -91,12 +91,6 @@ class Talk implements Entity
     private $tags;
 
     /**
-     * @Column(type="datetime", name="start_time", nullable=true)
-     * @var DateTime
-     */
-    private $startTime;
-
-    /**
      * @Column(type="boolean", nullable=true)
      * @var boolean
      */
@@ -311,22 +305,6 @@ class Talk implements Entity
         }
 
         $this->tags = $tags;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param DateTime $startTime
-     */
-    public function setStartTime(DateTime $startTime = null)
-    {
-        $this->startTime = $startTime;
     }
 
     /**
