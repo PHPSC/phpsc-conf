@@ -1,12 +1,14 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\UI\Pages\Index;
-use \PHPSC\Conference\UI\Pages\About;
-use \PHPSC\Conference\UI\Pages\Venue;
-use \PHPSC\Conference\UI\Main;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Domain\Service\EventManagementService;
+use PHPSC\Conference\Domain\Service\TalkManagementService;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\About;
+use PHPSC\Conference\UI\Pages\Index;
+use PHPSC\Conference\UI\Pages\Venue;
 
 class Home extends Controller
 {
@@ -15,7 +17,15 @@ class Home extends Controller
      */
     public function displayHome()
     {
-        return Main::create(new Index(), $this->application);
+        $event = $this->getEventManagement()->findCurrentEvent();
+
+        return Main::create(
+            new Index(
+                $event,
+                $this->getTalkManagement()->eventHasAnyApprovedTalk($event)
+            ),
+            $this->application
+        );
     }
 
     /**
@@ -38,10 +48,18 @@ class Home extends Controller
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Service\EventManagementService
+     * @return EventManagementService
      */
     protected function getEventManagement()
     {
         return $this->get('event.management.service');
+    }
+
+    /**
+     * @return TalkManagementService
+     */
+    protected function getTalkManagement()
+    {
+        return $this->get('talk.management.service');
     }
 }
