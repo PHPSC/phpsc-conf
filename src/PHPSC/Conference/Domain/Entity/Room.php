@@ -19,17 +19,23 @@ class Room
     private $id;
 
     /**
+     * @ManyToOne(targetEntity="Location")
+     * @JoinColumn(name="location_id", referencedColumnName="id")
+     * @var Location
+     */
+    private $location;
+
+    /**
      * @Column(type="string", length=80)
      * @var string
      */
     private $name;
 
     /**
-     * @ManyToOne(targetEntity="Location")
-     * @JoinColumn(name="location_id", referencedColumnName="id")
-     * @var Location
+     * @Column(type="text", nullable=true)
+     * @var string
      */
-    private $location;
+    private $details;
 
     /**
      * @return number
@@ -54,6 +60,22 @@ class Room
     }
 
     /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation(Location $location)
+    {
+        $this->location = $location;
+    }
+
+    /**
      * @return string
      */
     public function getName()
@@ -74,18 +96,18 @@ class Room
     }
 
     /**
-     * @return Location
+     * @return string
      */
-    public function getLocation()
+    public function getDetails()
     {
-        return $this->location;
+        return $this->details;
     }
 
     /**
-     * @param Location $location
+     * @param string $details
      */
-    public function setLocation(Location $location)
+    public function setDetails($details)
     {
-        $this->location = $location;
+        $this->details = $details;
     }
 }
