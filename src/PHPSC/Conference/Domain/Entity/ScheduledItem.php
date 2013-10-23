@@ -4,7 +4,7 @@ namespace PHPSC\Conference\Domain\Entity;
 use DateTime;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\ScheduledItemRepository")
  * @Table(
  *      "scheduled_item",
  *      uniqueConstraints={
