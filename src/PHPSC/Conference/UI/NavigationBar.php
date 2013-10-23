@@ -44,7 +44,7 @@ class NavigationBar extends UIComponent
         if ($this->event->isSubmissionsInterval(new DateTime())) {
             $items[] = array('Chamada de Trabalhos', 'call4papers');
         } else {
-            $items[] = array('Grade de Palestras', 'talks');
+            $items[] = array('Programação', 'talks');
         }
 
         $items[] = array('Contato', 'contact');

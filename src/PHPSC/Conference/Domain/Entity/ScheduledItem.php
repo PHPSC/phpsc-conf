@@ -39,7 +39,7 @@ class ScheduledItem
 
     /**
      * @ManyToOne(targetEntity="Talk")
-     * @JoinColumn(name="talk_id", referencedColumnName="id", nullable=true)
+     * @JoinColumn(name="talk_id", referencedColumnName="id", nullable=true, unique=true)
      * @var Talk
      */
     private $talk;
@@ -203,7 +203,8 @@ class ScheduledItem
                 $data['talk']['speakers'][] = array(
                 	'id' => $speaker->getId(),
                     'name' => $speaker->getName(),
-                    'avatar' => $speaker->getDefaultProfile()->getAvatar()
+                    'avatar' => $speaker->getDefaultProfile()->getAvatar(),
+                    'bio' => $speaker->getBio()
                 );
             }
         }

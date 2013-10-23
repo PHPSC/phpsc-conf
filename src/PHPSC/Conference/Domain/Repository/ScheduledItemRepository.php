@@ -26,6 +26,7 @@ class ScheduledItemRepository extends EntityRepository
                       ->setParameter(2, $date->format('Y-m-d') . ' 00:00:00')
                       ->setParameter(3, $date->format('Y-m-d') . ' 23:59:59')
                       ->addOrderBy('item.startTime', 'ASC')
+                      ->addOrderBy('item.room', 'ASC')
                       ->getQuery();
 
         $query->useQueryCache(true);
