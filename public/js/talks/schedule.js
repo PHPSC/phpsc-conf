@@ -197,7 +197,7 @@ function getItemsColumns(current, items)
     var columns = '';
     
     while (current.startTime == items.data[items.i].startTime) {
-        columns += renderColumn(items.data[items.i]);
+        columns += renderColumn(items.data[items.i], items.data[items.i + 1], items.rooms.length);
         ++items.i;
         
         if (!items.data[items.i]) {
@@ -210,9 +210,15 @@ function getItemsColumns(current, items)
     return columns;
 }
 
-function renderColumn(item)
+function renderColumn(item, next, colspan)
 {
-    var column = '<td>';
+    var column = '<td';
+    
+    if (!next || item.startTime != next.startTime) {
+        column += ' colspan="' + colspan + '"';
+    }
+    
+    column += '>';
     
     if (item.talk) {
         column += '<a href="#" id="talk-' + item.talk.id + '">' + item.label + '</a>';
