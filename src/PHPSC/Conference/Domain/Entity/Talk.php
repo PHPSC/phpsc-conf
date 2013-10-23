@@ -85,6 +85,12 @@ class Talk implements Entity
     private $complexity;
 
     /**
+     * @Column(type="decimal", precision=13, scale=2, nullable=true)
+     * @var float
+     */
+    private $cost;
+
+    /**
      * @Column(type="string", length=120, nullable=true)
      * @var string
      */
@@ -273,6 +279,28 @@ class Talk implements Entity
     }
 
     /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     */
+    public function setCost($cost)
+    {
+        if ($cost !== null && (float) $cost <= 0) {
+            throw new InvalidArgumentException(
+                'O custo da palestra deve ser maior que ZERO'
+            );
+        }
+
+        $this->cost = $cost;
+    }
+
+    /**
      * @return string
      */
     public function getTags()
@@ -354,6 +382,7 @@ class Talk implements Entity
      * @param string $longDescription
      * @param string $complexity
      * @param string $tags
+     * @param float $cost
      * @return Talk
      */
     public static function create(
@@ -364,7 +393,8 @@ class Talk implements Entity
         $shortDescription,
         $longDescription,
         $complexity,
-        $tags = null
+        $tags = null,
+        $cost = null
     ) {
         $talk = new static();
 
@@ -372,6 +402,7 @@ class Talk implements Entity
         $talk->setType($type);
         $talk->setTitle($title);
         $talk->setComplexity($complexity);
+        $talk->setCost($cost);
         $talk->setTags($tags);
         $talk->setShortDescription($shortDescription);
         $talk->setLongDescription($longDescription);
