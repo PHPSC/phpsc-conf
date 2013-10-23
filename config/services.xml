@@ -88,6 +88,9 @@
             <argument type="service" id="talkEvaluation.repository" />
             <argument type="service" id="talkEvaluation.factory" />
         </service>
+        <service id="scheduledItem.locator" class="PHPSC\Conference\Domain\Service\ScheduledItem\Locator">
+            <argument type="service" id="scheduledItem.repository" />
+        </service>
         
         <!-- Entity Repositories -->
         <service id="user.repository" factory-service="entityManager" factory-method="getRepository">
@@ -125,6 +128,9 @@
         </service>
         <service id="talkEvaluation.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\TalkEvaluation</argument>
+        </service>
+        <service id="scheduledItem.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\ScheduledItem</argument>
         </service>
         
         <!-- Factories -->
