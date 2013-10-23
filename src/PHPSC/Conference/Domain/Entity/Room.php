@@ -110,4 +110,16 @@ class Room
     {
         $this->details = $details;
     }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'details' => $this->getDetails()
+        );
+    }
 }
