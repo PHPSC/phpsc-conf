@@ -95,7 +95,7 @@ function openTalk(talk)
     
     for (var i = 0; i < talk.tags.length; ++i) {
         $('#talkWindow #talkTags').append(
-            '<span class="' + getLabel(i) + '" style="text-transform: capitalize; margin: 4px;">' + talk.tags[i] + '</span>'
+            '<span class="' + getLabel(i) + '" style="text-transform: capitalize;">' + talk.tags[i] + '</span> '
         );
     }
     
