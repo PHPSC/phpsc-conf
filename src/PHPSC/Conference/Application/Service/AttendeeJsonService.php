@@ -1,11 +1,14 @@
 <?php
 namespace PHPSC\Conference\Application\Service;
 
-use PHPSC\Conference\Domain\Entity\Attendee;
-use PHPSC\Conference\Domain\Service\AttendeeManagementService;
+use Closure;
+use Exception;
+use InvalidArgumentException;
+use PDOException;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\User;
 use PHPSC\Conference\Domain\Service\EventManagementService;
-use PHPSC\Conference\Domain\Service\PaymentManagementService;
-use PHPSC\Conference\Domain\Service\TalkManagementService;
+use PHPSC\Conference\Domain\Service\AttendeeRegistrationService;
 use PHPSC\PagSeguro\Error\PagSeguroException;
 
 class AttendeeJsonService
@@ -16,44 +19,28 @@ class AttendeeJsonService
     protected $authService;
 
     /**
-     * @var AttendeeManagementService
-     */
-    protected $attendeeManager;
-
-    /**
      * @var EventManagementService
      */
     protected $eventManager;
 
     /**
-     * @var PaymentManagementService
+     * @var AttendeeRegistrationService
      */
-    protected $paymentManager;
-
-    /**
-     * @var TalkManagementService
-     */
-    private $talkService;
+    protected $attendeeRegistrator;
 
     /**
      * @param AuthenticationService $authService
      * @param EventManagementService $eventManager
-     * @param AttendeeManagementService $talkManager
-     * @param PaymentManagementService $paymentManager
-     * @param TalkManagementService $talkService
+     * @param AttendeeRegistrationService $attendeeRegistrator
      */
     public function __construct(
         AuthenticationService $authService,
         EventManagementService $eventManager,
-        AttendeeManagementService $attendeeManager,
-        PaymentManagementService $paymentManager,
-        TalkManagementService $talkService
+        AttendeeRegistrationService $attendeeRegistrator
     ) {
         $this->authService = $authService;
         $this->eventManager = $eventManager;
-        $this->attendeeManager = $attendeeManager;
-        $this->paymentManager = $paymentManager;
-        $this->talkService = $talkService;
+        $this->attendeeRegistrator = $attendeeRegistrator;
     }
 
     /**
@@ -61,98 +48,30 @@ class AttendeeJsonService
      * @param string $redirectTo
      * @return string
      */
-    public function create($isStudent, $redirectTo)
+    public function create($isStudent, $discountCode, $redirectTo)
     {
-        $event = $this->eventManager->findCurrentEvent();
-        $user = $this->authService->getLoggedUser();
-
-        try {
-            $attendee = $this->attendeeManager->create(
-                $event,
-                $user,
-                $isStudent
-            );
-
-            if ($attendee->isWaitingForPayment()) {
-                return $this->createPayment(
-                    $attendee,
-                    $event->getRegistrationCost($user, $this->talkService),
+        return $this->handleExceptions(
+            function (
+                AttendeeRegistrationService $attendeeRegistrator,
+                Event $event,
+                User $user
+            ) use (
+                $isStudent,
+                $redirectTo
+            ) {
+                return $attendeeRegistrator->create(
+                    $event,
+                    $user,
+                    $isStudent,
                     $redirectTo
                 );
-            }
-
-            return json_encode(
-                array(
-                    'data' => array(
-                        'id' => $attendee->getId(),
-                        'redirectTo' => $redirectTo
-                    )
-                )
-            );
-        } catch (\InvalidArgumentException $error) {
-            return json_encode(
-                array(
-                    'error' => $error->getMessage()
-                )
-            );
-        } catch (\PDOException $error) {
-            return json_encode(
-                array(
-                    'error' => 'Não foi possível salvar os dados na camada de persistência'
-                )
-            );
-        } catch (\Exception $error) {
-            return json_encode(
-                array(
-                    'error' => 'Erro interno no processamento da requisição'
-                )
-            );
-        }
-    }
-
-    /**
-     * @param Attendee $attendee
-     * @param float $cost
-     * @param string $redirectTo
-     * @return string
-     */
-    protected function createPayment(Attendee $attendee, $cost, $redirectTo)
-    {
-        try {
-            $payment = $this->paymentManager->create(
-                $cost,
-                $this->getItemDescription($attendee)
-            );
-
-            $this->attendeeManager->appendPayment($attendee, $payment);
-
-            $paymentResponse = $this->paymentManager->requestPayment(
-                $payment,
-                $attendee->getUser()->getEmail(),
-                $redirectTo
-            );
-
-            return json_encode(
-                array(
-                    'data' => array(
-                        'id' => $attendee->getId(),
-                        'redirectTo' => $paymentResponse->getRedirectionUrl()
-                    )
-                )
-            );
-        } catch (\InvalidArgumentException $error) {
-            return json_encode(
-                array(
-                    'error' => $error->getMessage()
-                )
-            );
-        } catch (PagSeguroException $error) {
-            return json_encode(
-                array(
-                    'error' => 'Erro de comunicação com o pagseguro'
-                )
-            );
-        }
+            },
+            array(
+                $this->attendeeRegistrator,
+                $this->eventManager->findCurrentEvent(),
+                $this->authService->getLoggedUser()
+            )
+        );
     }
 
     /**
@@ -161,45 +80,55 @@ class AttendeeJsonService
      */
     public function resendPayment($redirectTo)
     {
-        $event = $this->eventManager->findCurrentEvent();
-        $user = $this->authService->getLoggedUser();
-
-        $attendee = $this->attendeeManager->findActiveRegistration(
-            $event,
-            $user
-        );
-
-        if ($attendee === null) {
-            return json_encode(
-                array('error' => 'Você não possui inscrição ativa neste evento!')
-            );
-        }
-
-        if (!$attendee->isWaitingForPayment()) {
-            return json_encode(
-                array('error' => 'Sua inscrição não necessita de pagamento!')
-            );
-        }
-
-        return $this->createPayment(
-            $attendee,
-            $event->getRegistrationCost($user, $this->talkService),
-            $redirectTo
+        return $this->handleExceptions(
+            function (AttendeeRegistrationService $attendeeRegistrator, Event $event, User $user) use ($redirectTo) {
+                return $attendeeRegistrator->resendPayment(
+                    $event,
+                    $user,
+                    $redirectTo
+                );
+            },
+            array(
+                $this->attendeeRegistrator,
+                $this->eventManager->findCurrentEvent(),
+                $this->authService->getLoggedUser()
+            )
         );
     }
 
     /**
-     * @param Attendee $attendee
+     * @param Closure $function
+     * @param array $params
      * @return string
      */
-    protected function getItemDescription(Attendee $attendee)
+    protected function handleExceptions(Closure $function, array $params)
     {
-        $description = $this->talkService->eventHasAnyApprovedTalk($attendee->getEvent())
-                       ? 'Inscrição Regular - '
-                       : 'Inscrição Antecipada - ';
-
-        $description .= $attendee->getEvent()->getName();
-
-        return $description;
+        try {
+            return json_encode(call_user_func_array($function, $params));
+        } catch (InvalidArgumentException $error) {
+            return json_encode(
+                array(
+                    'error' => $error->getMessage()
+                )
+            );
+        } catch (PDOException $error) {
+            return json_encode(
+                array(
+                    'error' => 'Não foi possível salvar os dados na camada de persistência'
+                )
+            );
+        } catch (PagSeguroException $error) {
+            return json_encode(
+                array(
+                    'error' => 'Erro de comunicação com o pagseguro'
+                )
+            );
+        } catch (Exception $error) {
+            return json_encode(
+                array(
+                    'error' => 'Erro interno no processamento da requisição'
+                )
+            );
+        }
     }
 }
