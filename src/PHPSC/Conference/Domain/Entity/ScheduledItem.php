@@ -193,15 +193,15 @@ class ScheduledItem
 
         if ($this->getTalk()) {
             $data['talk'] = array(
-            	'id' => $this->getTalk()->getId(),
-            	'title' => $this->getTalk()->getTitle(),
-            	'speakers' => array(),
-            	'cost' => $this->getTalk()->getCost()
+                'id' => $this->getTalk()->getId(),
+                'title' => $this->getTalk()->getTitle(),
+                'speakers' => array(),
+                'cost' => $this->getTalk()->getCost()
             );
 
             foreach ($this->getTalk()->getSpeakers() as $speaker) {
                 $data['talk']['speakers'][] = array(
-                	'id' => $speaker->getId(),
+                    'id' => $speaker->getId(),
                     'name' => $speaker->getName(),
                     'avatar' => $speaker->getDefaultProfile()->getAvatar(),
                     'bio' => $speaker->getBio()
