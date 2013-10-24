@@ -1,34 +1,34 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Registration;
 
-
-use \PHPSC\Conference\Domain\Service\TalkManagementService;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \PHPSC\Conference\UI\Main;
-use \PHPSC\Conference\Domain\Entity\Event;
-use \PHPSC\Conference\Domain\Entity\User;
+use DateTime;
+use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Domain\Service\TalkManagementService;
+use PHPSC\Conference\UI\Main;
 
 class Form extends UIComponent
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\User
+     * @var User
      */
     protected $user;
 
     /**
-     * @var \PHPSC\Conference\Domain\Entity\Event
+     * @var Event
      */
     protected $event;
 
     /**
-     * @var \PHPSC\Conference\Domain\Service\TalkManagementService
+     * @var TalkManagementService
      */
     protected $talkService;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Service\TalkManagementService $talkService
+     * @param User $user
+     * @param Event $event
+     * @param TalkManagementService $talkService
      */
     public function __construct(
         User $user,
@@ -43,7 +43,7 @@ class Form extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -51,7 +51,7 @@ class Form extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -63,7 +63,7 @@ class Form extends UIComponent
      */
     public function getCost()
     {
-        return $this->event->getRegistrationCost(
+        return $this->event->getRegistrationBaseCost(
             $this->user,
             $this->talkService
         );
@@ -75,7 +75,7 @@ class Form extends UIComponent
     public function isSpeakerAndApprovalIntervalIsNotFinished()
     {
         return $this->talkService->userHasAnyTalk($this->user, $this->event)
-               && new \DateTime() <= $this->event->getTalkApprovalEnd();
+               && new DateTime() <= $this->event->getTalkApprovalEnd();
     }
 
     /**

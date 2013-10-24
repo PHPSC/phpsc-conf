@@ -25,6 +25,7 @@
             <argument type="service" id="authentication.service" />
             <argument type="service" id="event.management.service" />
             <argument type="service" id="attendee.registration.service" />
+            <argument type="service" id="discountCoupon.validator" />
         </service>
         <service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
             <argument type="service" id="authentication.service" />
@@ -94,6 +95,9 @@
         <service id="scheduledItem.locator" class="PHPSC\Conference\Domain\Service\ScheduledItem\Locator">
             <argument type="service" id="scheduledItem.repository" />
         </service>
+        <service id="discountCoupon.validator" class="PHPSC\Conference\Domain\Service\DiscountCouponValidator">
+            <argument type="service" id="discountCoupon.repository" />
+        </service>
         
         <!-- Entity Repositories -->
         <service id="user.repository" factory-service="entityManager" factory-method="getRepository">
@@ -134,6 +138,9 @@
         </service>
         <service id="scheduledItem.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\ScheduledItem</argument>
+        </service>
+        <service id="discountCoupon.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\DiscountCoupon</argument>
         </service>
         
         <!-- Factories -->

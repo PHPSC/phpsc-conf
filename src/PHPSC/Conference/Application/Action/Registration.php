@@ -32,6 +32,7 @@ class Registration extends Controller
 
         return $this->getAttendeeJsonService()->create(
             $this->request->request->get('isStudent') == 'true',
+            $this->request->request->get('discountCoupon'),
             $this->request->getUriForPath('/registration/confirmation')
         );
     }

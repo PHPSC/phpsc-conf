@@ -7,8 +7,9 @@ use InvalidArgumentException;
 use PDOException;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\User;
-use PHPSC\Conference\Domain\Service\EventManagementService;
 use PHPSC\Conference\Domain\Service\AttendeeRegistrationService;
+use PHPSC\Conference\Domain\Service\DiscountCouponValidator;
+use PHPSC\Conference\Domain\Service\EventManagementService;
 use PHPSC\PagSeguro\Error\PagSeguroException;
 
 class AttendeeJsonService
@@ -29,18 +30,26 @@ class AttendeeJsonService
     protected $attendeeRegistrator;
 
     /**
+     * @var DiscountCouponValidator
+     */
+    protected $couponValidator;
+
+    /**
      * @param AuthenticationService $authService
      * @param EventManagementService $eventManager
      * @param AttendeeRegistrationService $attendeeRegistrator
+     * @param DiscountCouponValidator $couponValidator
      */
     public function __construct(
         AuthenticationService $authService,
         EventManagementService $eventManager,
-        AttendeeRegistrationService $attendeeRegistrator
+        AttendeeRegistrationService $attendeeRegistrator,
+        DiscountCouponValidator $couponValidator
     ) {
         $this->authService = $authService;
         $this->eventManager = $eventManager;
         $this->attendeeRegistrator = $attendeeRegistrator;
+        $this->couponValidator = $couponValidator;
     }
 
     /**
@@ -53,21 +62,25 @@ class AttendeeJsonService
         return $this->handleExceptions(
             function (
                 AttendeeRegistrationService $attendeeRegistrator,
+                DiscountCouponValidator $couponValidator,
                 Event $event,
                 User $user
             ) use (
                 $isStudent,
+                $discountCode,
                 $redirectTo
             ) {
                 return $attendeeRegistrator->create(
                     $event,
                     $user,
                     $isStudent,
-                    $redirectTo
+                    $redirectTo,
+                    !empty($discountCode) ? $couponValidator->validate($discountCode) : null
                 );
             },
             array(
                 $this->attendeeRegistrator,
+                $this->couponValidator,
                 $this->eventManager->findCurrentEvent(),
                 $this->authService->getLoggedUser()
             )

@@ -1,4 +1,4 @@
-<form role="form" id="attendeeForm" class="well" action="<?php echo $this->getUrl('registration'); ?>" method="post">
+<form role="form" id="attendeeForm" class="well form-horizontal" action="<?php echo $this->getUrl('registration'); ?>" method="post">
     <fieldset>
         <legend>Inscrição - <?php echo $this->getEvent()->getName(); ?></legend>
         <div class="formItems">
@@ -40,10 +40,20 @@
             </div>
             <?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
             <div class="form-group">
-                <input id="isStudent" name="isStudent" type="checkbox" />
-                <label for="isStudent" style="display: inline;"><?php echo $this->getEvent()->getRegistrationInfo()->getStudentLabel(); ?></label>
+                <label for="isStudent" class="control-label" style="margin-left: 27px">
+                    <input id="isStudent" name="isStudent" type="checkbox"  />
+                    <?php echo $this->getEvent()->getRegistrationInfo()->getStudentLabel(); ?>
+                </label>
             </div>
             <?php } ?>
+            <div class="form-group">
+                <label for="discountCoupon" class="control-label col-md-2">Cupom de desconto:</label>
+                <div class="col-md-3">
+                    <input id="discountCoupon" name="discountCoupon" value=""
+                        type="text" class="form-control" placeholder="Digite seu cupom promocional..."
+                        maxlength="13" />
+                </div>
+            </div>
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Concordo com os termos e desejo participar &raquo;</button>&nbsp;&nbsp;

@@ -5,6 +5,7 @@ namespace PHPSC\Conference\Domain\Service;
 use PHPSC\Conference\Domain\Entity\Attendee;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Domain\Entity\DiscountCoupon;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -45,14 +46,21 @@ class AttendeeRegistrationService
     /**
      * @param boolean $isStudent
      * @param string $redirectTo
+     * @param DiscountCoupon $coupon
      * @return string
      */
-    public function create(Event $event, User $user, $isStudent, $redirectTo)
-    {
+    public function create(
+        Event $event,
+        User $user,
+        $isStudent,
+        $redirectTo,
+        DiscountCoupon $coupon = null
+    ) {
         $attendee = $this->attendeeManager->create(
             $event,
             $user,
-            $isStudent
+            $isStudent,
+            $coupon
         );
 
         if ($attendee->isWaitingForPayment()) {
@@ -105,7 +113,7 @@ class AttendeeRegistrationService
     protected function createPayment(Attendee $attendee, $redirectTo)
     {
         $payment = $this->paymentManager->create(
-            $attendee->getEvent()->getRegistrationCost($attendee->getUser(), $this->talkService),
+            $attendee->getEvent()->getRegistrationCost($attendee, $this->talkService),
             $this->getItemDescription($attendee->getEvent())
         );
 

@@ -74,6 +74,13 @@ class Attendee implements Entity
     private $arrived;
 
     /**
+     * @ManyToOne(targetEntity="DiscountCoupon")
+     * @JoinColumn(name="coupon_id", referencedColumnName="id")
+     * @var DiscountCoupon
+     */
+    private $discount;
+
+    /**
      * @Column(type="datetime", name="creation_time", nullable=false)
      * @var DateTime
      */
@@ -252,6 +259,34 @@ class Attendee implements Entity
     public function setArrived($arrived)
     {
         $this->arrived = $arrived;
+    }
+
+    /**
+     * @return DiscountCoupon
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param DiscountCoupon $discount
+     */
+    public function setDiscount(DiscountCoupon $discount = null)
+    {
+        $this->discount = $discount;
+    }
+
+    /**
+     * @param DiscountCoupon $discount
+     */
+    public function applyDiscount(DiscountCoupon $discount)
+    {
+        $this->setDiscount($discount);
+
+        if ($this->isWaitingForPayment() && !$discount->isParcialDiscount()) {
+            $this->setStatus(static::APPROVED);
+        }
     }
 
     /**

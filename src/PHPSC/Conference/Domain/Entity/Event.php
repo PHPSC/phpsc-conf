@@ -211,18 +211,36 @@ class Event implements Entity
     }
 
     /**
-     * @param User $user
+     * @param Attendee $attendee
      * @param TalkManagementService $talkService
      * @return float
      */
     public function getRegistrationCost(
-        User $user,
+        Attendee $attendee,
         TalkManagementService $talkService
     ) {
         if (!$this->hasAttendeeRegistration()) {
             return 0;
         }
 
+        $cost = $this->getRegistrationBaseCost($attendee->getUser(), $talkService);
+
+        if ($discount = $attendee->getDiscount()) {
+            $cost = $discount->applyDiscountTo($cost);
+        }
+
+        return $cost;
+    }
+
+    /**
+     * @param User $user
+     * @param TalkManagementService $talkService
+     * @return number
+     */
+    public function getRegistrationBaseCost(
+        User $user,
+        TalkManagementService $talkService
+    ) {
         if (!$this->getRegistrationInfo()->hasEarlyPrice()) {
             return $this->getRegistrationInfo()->getRegularPrice();
         }
