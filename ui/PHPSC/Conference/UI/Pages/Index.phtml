@@ -46,11 +46,19 @@ function(d, s, id)
         <h2>Inscrições</h2>
     <?php if ($this->isApprovalPeriod()) { ?>
         <p>Super promoção para inscrições antecipadas, aproveite!</p>
-    <?php } else { ?>
+    <?php } elseif ($this->isRegularRegistrationPeriod()) { ?>
         <p>
             O período de inscrições promocionais foi finalizado, mas ainda dá
             tempo de você participar do evento pagando um valor mais em conta
             que as inscrições no dia do evento!
+        </p>
+    <?php } elseif ($this->isLateRegistrationPeriod()) { ?>
+        <p>
+            Você ainda pode realizar sua inscrição, porém deverá pagar o preço de inscrições tardias!
+        </p>
+    <?php } else { ?>
+        <p>
+            O período de inscrições foi finalizado, não será mais possível você se inscrever para este evento.
         </p>
     <?php } ?>
         <p><a class="btn btn-info" href="<?php echo $this->getUrl('registration'); ?>">Maiores Informações &raquo;</a></p>

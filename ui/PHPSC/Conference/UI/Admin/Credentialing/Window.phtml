@@ -1,0 +1,71 @@
+<div class="modal fade" id="addOrEdit" tabindex="-1" role="dialog" aria-labelledby="addOrEdit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3 id="title"></h3>
+            </div>
+            <form role="form" action="" style="margin: 0px;">
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="formItems" style="padding-top: 0px;">
+                            <div class="form-group">
+                                <label for="socialId">CNPJxxx</label>
+                                <input type="text" pattern="[0-9]{14,16}" required="required" id="socialId"
+                                    name="socialId" class="form-control" placeholder="Digite o CNPJ da empresa (somente números)"
+                                    maxlength="16">
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="name">Nome da empresa</label>
+                                <input type="text" id="name" name="name"
+                                    class="form-control" placeholder="Digite o nome da empresa..." maxlength="120">
+                            </div>
+                            <div class="form-group companyData companyLogo hide">
+                                <label for="logo">Logotipo</label>
+                                <input type="file" accept="image/png" id="logo" name="logo" class="form-control">
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email"
+                                    class="form-control" placeholder="Digite o email da empresa...">
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="phone">Telefone</label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="form-control" placeholder="Digite o telefone da empresa...">
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="website">Site</label>
+                                <input type="url" id="website" name="website"
+                                    class="form-control" placeholder="Digite o site da empresa...">
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="twitterId">Twitter</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">@</span>
+                                    <input type="text" id="twitterId" name="twitterId"
+                                        class="form-control" placeholder="Digite o usuário do twitter da empresa...">
+                                </div>
+                            </div>
+                            <div class="form-group companyData hide">
+                                <label for="fanpage">Facebook page</label>
+                                <input type="url" id="fanpage" name="fanpage"
+                                    class="form-control" placeholder="Digite a página da empresa no facebook...">
+                            </div>
+                            <div class="form-group supporterData hide">
+                                <label for="details">Detalhes do apoio</label>
+                                <textarea rows="3" cols="1" class="form-control"
+                                    id="details" name="details"
+                                    placeholder="Digite aqui o que foi acordado com o apoiador..."></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="mainButton"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Fechar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

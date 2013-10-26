@@ -52,6 +52,12 @@ class RegistrationInfo implements Entity
     private $earlyPrice;
 
     /**
+     * @Column(type="decimal", precision=13, scale=2, name="late_price", nullable=true)
+     * @var float
+     */
+    private $latePrice;
+
+    /**
      * @Column(type="string", length=45, name="student_label", nullable=true)
      * @var string
      */
@@ -174,6 +180,33 @@ class RegistrationInfo implements Entity
     {
         return $this->getEarlyPrice() !== null;
     }
+
+    /**
+     * @return number
+     */
+    public function getLatePrice()
+    {
+        return $this->latePrice;
+    }
+
+    /**
+     * @param number $latePrice
+     */
+    public function setLatePrice($latePrice)
+    {
+        if ($latePrice !== null) {
+            $this->latePrice = (float) $latePrice;
+        }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasLatePrice()
+    {
+        return $this->getLatePrice() !== null;
+    }
+
 
     /**
      * @return string

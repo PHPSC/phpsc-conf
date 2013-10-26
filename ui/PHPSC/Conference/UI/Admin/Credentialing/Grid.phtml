@@ -1,0 +1,17 @@
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-12">
+        <h2>
+            Gerenciando inscritos<br />
+            <small><?= $this->getEvent()->getName(); ?></small>
+        </h2>
+    </div>
+</div>
+<div id="confirmationMsg" class="row hide">
+    <div class="col-md-12">
+        <div class="alert alert-block alert-info">
+            <h4 class="alert-heading"></h4>
+            <span></span>
+        </div>
+    </div>
+</div>
+<?= $this->getDatagrid(); ?>

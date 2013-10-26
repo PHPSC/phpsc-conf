@@ -63,6 +63,12 @@
             <argument type="service" id="talk.management.service" />
             <argument type="service" id="email.delivery.service" />
         </service>
+        <service id="attendee.credentialing.service" class="PHPSC\Conference\Domain\Service\AttendeeCredentialingService">
+            <argument type="service" id="attendee.repository" />
+            <argument type="service" id="attendee.registration.service" />
+            <argument type="service" id="payment.management.service" />
+            <argument type="service" id="email.delivery.service" />
+        </service>
         <service id="attendee.registration.service" class="PHPSC\Conference\Domain\Service\AttendeeRegistrationService">
             <argument type="service" id="attendee.management.service" />
             <argument type="service" id="payment.management.service" />
