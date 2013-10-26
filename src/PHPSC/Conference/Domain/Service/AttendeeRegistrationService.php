@@ -110,7 +110,7 @@ class AttendeeRegistrationService
      * @param string $redirectTo
      * @return array
      */
-    protected function createPayment(Attendee $attendee, $redirectTo)
+    public function createPayment(Attendee $attendee, $redirectTo)
     {
         $payment = $this->paymentManager->create(
             $attendee->getEvent()->getRegistrationCost($attendee, $this->talkService),

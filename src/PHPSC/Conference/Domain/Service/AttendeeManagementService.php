@@ -67,7 +67,7 @@ class AttendeeManagementService
      */
     public function findByEvent(Event $event)
     {
-    	return $this->repository->findByEvent($event);
+        return $this->repository->findByEvent($event);
     }
 
     /**

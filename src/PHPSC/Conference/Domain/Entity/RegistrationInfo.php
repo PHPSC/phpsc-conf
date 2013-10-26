@@ -186,7 +186,7 @@ class RegistrationInfo implements Entity
      */
     public function getLatePrice()
     {
-    	return $this->latePrice;
+        return $this->latePrice;
     }
 
     /**
@@ -194,9 +194,9 @@ class RegistrationInfo implements Entity
      */
     public function setLatePrice($latePrice)
     {
-    	if ($latePrice !== null) {
-    		$this->latePrice = (float) $latePrice;
-    	}
+        if ($latePrice !== null) {
+            $this->latePrice = (float) $latePrice;
+        }
     }
 
     /**
@@ -204,7 +204,7 @@ class RegistrationInfo implements Entity
      */
     public function hasLatePrice()
     {
-    	return $this->getLatePrice() !== null;
+        return $this->getLatePrice() !== null;
     }
 
 

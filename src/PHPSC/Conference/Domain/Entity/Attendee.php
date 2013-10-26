@@ -387,35 +387,34 @@ class Attendee implements Entity
     }
 
     /**
-     *
+     * @return string
      */
     public function getStatusDescription()
     {
-        if ($this->isPaymentNotNecessary())
-        {
-            return 'Pagamento dispensado';
+        switch (true) {
+            case $this->isPaymentNotNecessary():
+                return 'Pagamento dispensado';
+            case $this->isPaymentNotVerified():
+                return 'Verificar pagamento';
+            case $this->isWaitingForPayment():
+                return 'Aguardando pagamento';
+                return 'Verificar pagamento';
+            case $this->isApproved():
+                return 'Pagamento confirmado';
+            case $this->isCancelled():
+                return 'Inscrição cancelada';
         }
+    }
 
-        if ($this->isPaymentNotVerified())
-        {
-            return 'Verificar pagamento';
-        }
-
-        if ($this->isWaitingForPayment())
-        {
-            return 'Aguardando pagamento';
-        }
-
-        if ($this->isApproved())
-        {
-            return 'Pagamento confirmado';
-        }
-
-        if ($this->isCancelled())
-        {
-            return 'Cancelado';
-        }
-
-        return 'Erro';
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getUser()->getName(),
+            'status' => $this->getStatus()
+        );
     }
 }

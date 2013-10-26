@@ -27,7 +27,7 @@ class Grid extends UIComponent
     public function __construct(Event $event, array $attendees)
     {
         Main::appendScript($this->getUrl('js/vendor/jquery.form.min.js'));
-        Main::appendScript($this->getUrl('js/adm/credentialing/window.js'));
+        Main::appendScript($this->getUrl('js/adm/credentialing/grid.js'));
 
         $this->event = $event;
         $this->attendees = $attendees;
@@ -52,52 +52,49 @@ class Grid extends UIComponent
             array(
                 new DatagridColumn('Nome', 'user.name', 'col-md-3'),
                 new DatagridColumn('Email', 'user.email', 'col-md-3'),
-                new DatagridColumn('Status', 'getStatusDescription()', 'col-md-2'),
+                new DatagridColumn(
+                    'Status',
+                    'getStatusDescription()',
+                    'col-md-2',
+                    function ($description, Attendee $attendee) {
+                        return '<span id="desc-' . $attendee->getId() . '">'
+                                    . $description
+                                . '</span>';
+                    }
+                ),
                 new DatagridColumn(
                     '',
                     'id',
                     'col-md-2',
                     function ($id, Attendee $attendee) {
-
-                        if ($attendee->isPaymentNotVerified())
-                        {
+                        if ($attendee->hasArrived()) {
                             return '';
-
-//                             return '<div class="pull-right">
-//                                     <a href="#"
-//                                         id="edit-' . $id . '"
-//                                         class="btn btn-xs btn-info disabled"
-//                                         title="Editar">
-//                                         <span class="glyphicon glyphicon-pencil"></span>
-//                                     </a>
-//                                     <a href="#"
-//                                         id="removex-' . $id . '"
-//                                         class="btn btn-xs btn-danger disabled"
-//                                         title="Removersssss">
-//                                         <span class="glyphicon glyphicon-trash"></span>
-//                                     </a>
-//                                     <a href="#"
-//                                         id="remove-' . $id . '"
-//                                         class="btn btn-xs btn-danger disabled"
-//                                         title="Remover">
-//                                         <span class="glyphicon glyphicon-trash"></span>
-//                                     </a>
-//                                 </div>';
                         }
 
-                        return '<div class="pull-right">
+                        if ($attendee->isPaymentNotVerified() || $attendee->isWaitingForPayment()) {
+                             return '<div class="pull-right" id="buttons-' . $id . '">
+                                         <a href="#"
+                                             id="approve-' . $id . '"
+                                             class="btn btn-xs btn-info"
+                                             title="Confirmar presença">
+                                             <span class="glyphicon glyphicon-check"></span>
+                                         </a>
+                                         <a href="#"
+                                             id="pay-' . $id . '"
+                                             class="btn btn-xs btn-warning"
+                                             title="Realizar pagamento">
+                                             <span class="glyphicon glyphicon-shopping-cart"></span>
+                                         </a>
+                                     </div>';
+                        }
+
+                        return '<div class="pull-right" id="buttons-' . $id . '">
                                     <a href="#"
-                                        id="edit-' . $id . '"
-                                        class="btn btn-xs btn-info disabled"
-                                        title="Editar">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                    <a href="#"
-                                        id="remove-' . $id . '"
-                                        class="btn btn-xs btn-danger disabled"
-                                        title="Remover">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </a>
+                                         id="approve-' . $id . '"
+                                         class="btn btn-xs btn-info"
+                                         title="Confirmar presença">
+                                         <span class="glyphicon glyphicon-check"></span>
+                                     </a>
                                 </div>';
                     }
                 )

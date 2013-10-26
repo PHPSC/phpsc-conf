@@ -1,12 +1,11 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
+use Lcobucci\ActionMapper2\Errors\PageNotFoundException;
 use Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use Lcobucci\ActionMapper2\Routing\Controller;
-use PHPSC\Conference\Domain\Entity\Attendee as AttendeeEntity;
-use PHPSC\Conference\UI\Main;
-use PHPSC\Conference\UI\Pages\User\Form;
 use PHPSC\Conference\Domain\Service\AttendeeManagementService;
+use PHPSC\Conference\Domain\Service\AttendeeCredentialingService;
 
 class Attendee extends Controller
 {
@@ -21,22 +20,32 @@ class Attendee extends Controller
             throw new PageNotFoundException('Inscrição não encontrada');
         }
 
-
-        /**
-         * @TODO fazer o update
-         */
+        if ($this->request->request->get('status') == '3') {
+            $this->getCredentialingService()->confirm($attendee);
+        } elseif ($this->request->request->get('status') == '2') {
+            $this->getCredentialingService()->registerPayment($attendee);
+        }
 
         $this->response->setContentType('application/json');
 
-        return json_encode($evaluation->jsonSerialize());
+        return json_encode($attendee->jsonSerialize());
     }
 
-
     /**
+     *
      * @return AttendeeManagementService
      */
     protected function getAttendeeManagement()
     {
         return $this->get('attendee.management.service');
+    }
+
+    /**
+     *
+     * @return AttendeeCredentialingService
+     */
+    protected function getCredentialingService()
+    {
+        return $this->get('attendee.credentialing.service');
     }
 }
