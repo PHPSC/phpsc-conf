@@ -206,8 +206,7 @@ class Event implements Entity
             return false;
         }
 
-        return $date >= $this->getRegistrationInfo()->getStart()
-               && $date <= $this->getRegistrationInfo()->getEnd();
+        return $this->isEventPeriod($date);
     }
 
     /**
@@ -241,18 +240,88 @@ class Event implements Entity
         User $user,
         TalkManagementService $talkService
     ) {
+        $now = new DateTime();
+
+        if ($cost = $this->getEarlyRegistrationPrice($user, $talkService, $now)) {
+            return $cost;
+        }
+
+        if ($cost = $this->getLateRegistrationPrice($now)) {
+            return $cost;
+        }
+
+        return $this->getRegistrationInfo()->getRegularPrice();
+    }
+
+    /**
+     * @param User $user
+     * @param TalkManagementService $talkService
+     * @param DateTime $now
+     * @return float
+     */
+    protected function getEarlyRegistrationPrice(
+        User $user,
+        TalkManagementService $talkService,
+        DateTime $now
+    ) {
         if (!$this->getRegistrationInfo()->hasEarlyPrice()) {
-            return $this->getRegistrationInfo()->getRegularPrice();
+            return null;
         }
 
         if ($talkService->userHasAnyTalk($user, $this)
-            && $this->isSpeakerPromotionalInterval(new DateTime())) {
+            && $this->isSpeakerPromotionalInterval($now)) {
             return $this->getRegistrationInfo()->getEarlyPrice();
         }
 
-        return $talkService->eventHasAnyApprovedTalk($this)
-               ? $this->getRegistrationInfo()->getRegularPrice()
-               : $this->getRegistrationInfo()->getEarlyPrice();
+        if (!$talkService->eventHasAnyApprovedTalk($this)) {
+            return $this->getRegistrationInfo()->getEarlyPrice();
+        }
+    }
+
+    /**
+     * @param DateTime $now
+     * @return float
+     */
+    protected function getLateRegistrationPrice(DateTime $now)
+    {
+        if (!$this->isLateRegistrationPeriod($now)) {
+            return null;
+        }
+
+        return $this->getRegistrationInfo()->getLatePrice();
+    }
+
+    /**
+     * @param DateTime $now
+     * @return boolean
+     */
+    public function isRegularRegistrationPeriod(DateTime $now)
+    {
+        return $now <= $this->getRegistrationInfo()->getEnd();
+    }
+
+    /**
+     * @param DateTime $now
+     * @return boolean
+     */
+    public function isLateRegistrationPeriod(DateTime $now)
+    {
+        if (!$this->getRegistrationInfo()->hasLatePrice() || $this->isRegularRegistrationPeriod($now)) {
+            return false;
+        }
+
+        return $this->isEventPeriod($now);
+    }
+
+    /**
+     * @param DateTime $now
+     * @return boolean
+     */
+    public function isEventPeriod(DateTime $now)
+    {
+        $end = new DateTime($this->getEndDate()->format('Y/m/d') . ' 23:59:59');
+
+        return $now >= $this->getStartDate() && $now <= $end;
     }
 
     /**

@@ -74,6 +74,7 @@ class Form extends UIComponent
      */
     public function isSpeakerAndApprovalIntervalIsNotFinished()
     {
+        //TODO this method is duplicate from another place
         return $this->talkService->userHasAnyTalk($this->user, $this->event)
                && new DateTime() <= $this->event->getTalkApprovalEnd();
     }

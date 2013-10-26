@@ -119,6 +119,15 @@ class AttendeeRegistrationService
 
         $this->attendeeManager->appendPayment($attendee, $payment);
 
+        if ($attendee->getEvent()->isLateRegistrationPeriod($payment->getCreationTime())) {
+            return array(
+                'data' => array(
+                    'id' => $attendee->getId(),
+                    'redirectTo' => $redirectTo
+                )
+            );
+        }
+
         $paymentResponse = $this->paymentManager->requestPayment(
             $payment,
             $attendee->getUser()->getEmail(),
@@ -140,10 +149,14 @@ class AttendeeRegistrationService
      */
     protected function getItemDescription(Event $event)
     {
-        $description = $this->talkService->eventHasAnyApprovedTalk($event)
-                       ? 'Inscrição Regular - '
-                       : 'Inscrição Antecipada - ';
+        if (!$this->talkService->eventHasAnyApprovedTalk($event)) {
+            return 'Inscrição Antecipada - ' . $event->getName();
+        }
 
-        return $description . $event->getName();
+        if ($event->isLateRegistrationPeriod(new \DateTime())) {
+            return 'Inscrição Tardia - ' . $event->getName();
+        }
+
+        return 'Inscrição Regular - ' . $event->getName();
     }
 }

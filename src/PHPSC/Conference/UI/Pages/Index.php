@@ -38,6 +38,22 @@ class Index extends UIComponent
     /**
      * @return boolean
      */
+    protected function isRegularRegistrationPeriod()
+    {
+        return $this->event->isRegularRegistrationPeriod(new DateTime());
+    }
+
+    /**
+     * @return boolean
+     */
+    protected function isLateRegistrationPeriod()
+    {
+        return $this->event->isLateRegistrationPeriod(new DateTime());
+    }
+
+    /**
+     * @return boolean
+     */
     protected function isApprovalPeriod()
     {
         return !$this->hasApprovedTalks;

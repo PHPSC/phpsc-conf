@@ -1,11 +1,11 @@
-<div class="jumbotron" style="padding: 30px;">
+<div class="jumbotron">
     <h2>Inscrições de participantes</h2>
     <h3><?php echo $this->getEvent()->getName(); ?></h3>
     <div style="margin-top: 15px;">
         <?php if (!$this->getEvent()->hasAttendeeRegistration()) { ?>
             <p>Ainda não foram registrados as datas de inscrição de participantes, aguarde!</p>
         <?php } elseif (!$this->getEvent()->isRegistrationInterval(new \DateTime())) { ?>
-            <p>Atenção as inscrições ainda não iniciaram.</p>
+            <p>Não está no período de inscrições!</p>
             <p>Data Início: <strong><?php echo $this->getEvent()->getRegistrationInfo()->getStart()->format('d/m/Y H:i'); ?></strong>
             <br />Data Fim: <strong><?php echo $this->getEvent()->getRegistrationInfo()->getEnd()->format('d/m/Y H:i'); ?></strong></p>
         <?php } else { ?>
