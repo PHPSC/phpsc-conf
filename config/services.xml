@@ -192,7 +192,9 @@
         
         <!-- OAuth2 Manager -->
         <service id="oauth2.manager" class="Lcobucci\Social\AuthClient">
-            <call method="appendProvider">
+		<argument type="service" id="guzzleclient" />            
+		
+<call method="appendProvider">
                 <argument>github</argument>
                 <argument type="service" id="oauth2.github" />
             </call>
@@ -213,6 +215,15 @@
                 <argument type="service" id="oauth2.live" />
             </call>
         </service>
+
+<service id="guzzleclient" class="Guzzle\Http\Client">
+	<argument />
+	<argument type="collection">
+		<argument key="curl.options" type="collection">
+				<argument key="10004">http://labjur:labjur@200.135.240.29:3128</argument>
+		</argument>
+	</argument>
+</service>
         
         <!-- OAuth2 Providers -->
         <service id="oauth2.github" factory-class="Lcobucci\Social\Providers\Github" factory-method="create">
