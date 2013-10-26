@@ -71,6 +71,7 @@ class MainMenu extends UIComponent
 
         if ($this->user->isAdmin()) {
             $items['Gerenciar apoiadores'] = $this->getUrl('adm/supporters');
+            $items['Gerenciar inscritos'] = $this->getUrl('adm/credentialing');
         }
 
         $items['Ver palestras'] = $this->getUrl('adm/talks');

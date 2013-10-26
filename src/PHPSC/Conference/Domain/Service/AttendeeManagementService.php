@@ -63,6 +63,15 @@ class AttendeeManagementService
 
     /**
      * @param Event $event
+     * @return multitype:Attendee
+     */
+    public function findByEvent(Event $event)
+    {
+    	return $this->repository->findByEvent($event);
+    }
+
+    /**
+     * @param Event $event
      * @param User $user
      * @return Attendee
      */

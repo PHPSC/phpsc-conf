@@ -385,4 +385,37 @@ class Attendee implements Entity
     {
         return static::create($event, $user, static::CHECK_PAYMENT);
     }
+
+    /**
+     *
+     */
+    public function getStatusDescription()
+    {
+        if ($this->isPaymentNotNecessary())
+        {
+            return 'Pagamento dispensado';
+        }
+
+        if ($this->isPaymentNotVerified())
+        {
+            return 'Verificar pagamento';
+        }
+
+        if ($this->isWaitingForPayment())
+        {
+            return 'Aguardando pagamento';
+        }
+
+        if ($this->isApproved())
+        {
+            return 'Pagamento confirmado';
+        }
+
+        if ($this->isCancelled())
+        {
+            return 'Cancelado';
+        }
+
+        return 'Erro';
+    }
 }
