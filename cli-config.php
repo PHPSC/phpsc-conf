@@ -10,6 +10,7 @@ $builder = new XmlContainerBuilder(
 );
 
 $container = $builder->getContainer(__DIR__ . '/config/services.xml');
+$container->getParameterBag()->set('app.baseDir', __DIR__ . '/');
 $em = $container->get('entitymanager');
 
 return new HelperSet(
