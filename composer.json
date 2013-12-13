@@ -24,7 +24,9 @@
 		"lcobucci/social" : "*@dev",
 		"phpsc/pagseguro" : "dev-develop",
 		"doctrine/orm" : "*",
-		"swiftmailer/swiftmailer": "*"
+		"swiftmailer/swiftmailer": "*",
+		"doctrine/data-fixtures": "1.*",
+        "useallfive/doctrine-data-fixtures-command": "dev-master"
 	},
 	"autoload" : {
 		"psr-0" : {
