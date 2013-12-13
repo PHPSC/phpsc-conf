@@ -111,5 +111,4 @@ de dados:
    de dependências (ele deve ser criado com o charset **UTF-8**);
 1. Execute o seguinte comando a partir da raiz do projeto: ```./vendor/bin/doctrine orm:schema-tool:create```,
    isto irá criar todas as tabelas no banco de dados;
-1. Realize a importação das fixtures padrões (presentes no arquivo /doc/inserts.sql),
-   também utilizando **UTF-8** como charset.
+1. Realize a importação das fixtures padrões utilizando o comando ```./bin/doctrine fixtures:load src/PHPSC/Conference/Domain/DataFixtures/```
