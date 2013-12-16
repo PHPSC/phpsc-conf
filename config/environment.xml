@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://symfony.com/schema/dic/services ../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
-	<parameters>
-		<!-- Database -->
-		<parameter key="db.host">127.0.0.1</parameter>
-		<parameter key="db.schema">phpsc</parameter>
-		<parameter key="db.user">root</parameter>
-		<parameter key="db.password">admin</parameter>
-		<parameter key="db.driver">pdo_mysql</parameter>
-		<parameter key="db.charset">utf8</parameter>
-		<parameter key="doctrine.entity.dir">src/PHPSC/Conference/Domain/Entity</parameter>
-		<parameter key="doctrine.proxy.dir">tmp/proxy</parameter>
-		<parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
-		<parameter key="doctrine.proxy.auto">true</parameter>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <!-- Database -->
+        <parameter key="db.host">127.0.0.1</parameter>
+        <parameter key="db.schema">phpsc</parameter>
+        <parameter key="db.user">root</parameter>
+        <parameter key="db.password">admin</parameter>
+        <parameter key="db.driver">pdo_mysql</parameter>
+        <parameter key="db.charset">utf8</parameter>
+        <parameter key="doctrine.entity.dir">src/PHPSC/Conference/Domain/Entity</parameter>
+        <parameter key="doctrine.proxy.dir">tmp/proxy</parameter>
+        <parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
+        <parameter key="doctrine.proxy.auto">true</parameter>
         
         <!-- OAuth config -->
-		<parameter key="github.id"></parameter>
-		<parameter key="github.secret"></parameter>
-		<parameter key="facebook.id"></parameter>
-		<parameter key="facebook.secret"></parameter>
-		<parameter key="linkedin.id"></parameter>
-		<parameter key="linkedin.secret"></parameter>
-		<parameter key="live.id" type="string"></parameter>
-		<parameter key="live.secret"></parameter>
-		<parameter key="google.id"></parameter>
-		<parameter key="google.secret"></parameter>
-	
-		<!-- Pagseguro -->
-		<parameter key="pagseguro.email"></parameter>
-		<parameter key="pagseguro.token"></parameter>
+        <parameter key="github.id"></parameter>
+        <parameter key="github.secret"></parameter>
+        <parameter key="facebook.id"></parameter>
+        <parameter key="facebook.secret"></parameter>
+        <parameter key="linkedin.id"></parameter>
+        <parameter key="linkedin.secret"></parameter>
+        <parameter key="live.id" type="string"></parameter>
+        <parameter key="live.secret"></parameter>
+        <parameter key="google.id"></parameter>
+        <parameter key="google.secret"></parameter>
+    
+        <!-- Pagseguro -->
+        <parameter key="pagseguro.email"></parameter>
+        <parameter key="pagseguro.token"></parameter>
 
-		<!-- SMTP -->
-		<parameter key="smtp.host">email-smtp.us-east-1.amazonaws.com</parameter>
-		<parameter key="smtp.username"></parameter>
-		<parameter key="smtp.password"></parameter>
-		<parameter key="smtp.port">587</parameter>
-		<parameter key="smtp.encryption">tls</parameter>
-		<parameter key="smtp.auth_mode">login</parameter>
-	</parameters>
-	<services>
+        <!-- SMTP -->
+        <parameter key="smtp.host">email-smtp.us-east-1.amazonaws.com</parameter>
+        <parameter key="smtp.username"></parameter>
+        <parameter key="smtp.password"></parameter>
+        <parameter key="smtp.port">587</parameter>
+        <parameter key="smtp.encryption">tls</parameter>
+        <parameter key="smtp.auth_mode">login</parameter>
+    </parameters>
+    <services>
         <service id="app.cache" class="Doctrine\Common\Cache\ArrayCache">
             <call method="setNamespace">
                 <argument>phpsc.conf-</argument>
             </call>
         </service>
-	</services>
+    </services>
 </container>
