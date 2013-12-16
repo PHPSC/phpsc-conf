@@ -5,7 +5,7 @@ use Lcobucci\ActionMapper2\DependencyInjection\ContainerConfig;
 use Lcobucci\DependencyInjection\XmlContainerBuilder;
 use Symfony\Component\Console\Helper\HelperSet;
 
-$config = require __DIR__ . '/config/di-container.php';
+$config = require __DIR__ . '/di-container.php';
 
 $builder = new XmlContainerBuilder(
     ContainerConfig::getClass($config),
