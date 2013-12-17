@@ -46,7 +46,7 @@ class TalkTypeFixture extends BaseFixture
      */
     public function purge()
     {
-        foreach ([1, 2, 3, 4] as $id) {
+        foreach (array(1, 2, 3, 4) as $id) {
             if ($type = $this->findById($id)) {
                 $this->manager->remove($type);
             }
