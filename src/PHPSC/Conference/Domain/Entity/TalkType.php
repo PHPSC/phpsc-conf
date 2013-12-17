@@ -1,9 +1,9 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use PHPSC\Conference\Infra\Persistence\Entity;
+use InvalidArgumentException;
+use DateTime;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\TalkTypeRepository")
@@ -14,7 +14,7 @@ class TalkType implements Entity
 {
     /**
      * @Id
-      * @Column(type="integer")
+     * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
      * @var int
      */
@@ -28,7 +28,7 @@ class TalkType implements Entity
 
     /**
      * @Column(type="time", nullable=false)
-     * @var \DateTime
+     * @var DateTime
      */
     private $length;
 
@@ -77,7 +77,7 @@ class TalkType implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getLength()
     {
@@ -85,7 +85,7 @@ class TalkType implements Entity
     }
 
     /**
-     * @param \DateTime $length
+     * @param DateTime $length
      */
     public function setLength(DateTime $length)
     {
