@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "04f88abc2efd83e1a07131ae5ff63f83",
+    "hash": "0423337559c5e757d421c42a8b0b7e56",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -294,26 +294,30 @@
         },
         {
             "name": "doctrine/data-fixtures",
-            "version": "dev-master",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "4a81be009d8437326acfcdd68888d1c5b8e2fb40"
+                "reference": "23b9cb4601bd1670f4adef333c8ac7765d8aeace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/4a81be009d8437326acfcdd68888d1c5b8e2fb40",
-                "reference": "4a81be009d8437326acfcdd68888d1c5b8e2fb40",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/23b9cb4601bd1670f4adef333c8ac7765d8aeace",
+                "reference": "23b9cb4601bd1670f4adef333c8ac7765d8aeace",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": ">=2.2,<2.5-dev",
+                "doctrine/common": "~2.4",
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "doctrine/orm": ">=2.2,<2.5-dev"
+                "doctrine/dbal": "~2.4",
+                "doctrine/orm": "~2.4",
+                "phpunit/phpunit": "3.7.*"
             },
             "suggest": {
+                "doctrine/dbal": "For loading DBAL fixtures",
+                "doctrine/mongodb": "For loading MongoDB fixtures",
                 "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
                 "doctrine/orm": "For loading ORM fixtures",
                 "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
@@ -321,12 +325,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
-                    "Doctrine\\Common\\DataFixtures": "lib/"
+                    "Doctrine\\Fixture": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -339,14 +343,20 @@
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@hotmail.com"
                 }
             ],
-            "description": "Data Fixtures for all Doctrine Object Managers",
+            "description": "Data Fixtures for all Doctrine tools",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
-                "database"
+                "Fixture",
+                "database",
+                "persistence"
             ],
-            "time": "2013-12-02 21:23:23"
+            "time": "2013-11-28 22:29:48"
         },
         {
             "name": "doctrine/dbal",
@@ -550,12 +560,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "86ae6f18ab676aa3d16937221b3ca48ea62e6d11"
+                "reference": "ad9366a1fc1c9f77691a8997568861c02ca73872"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/86ae6f18ab676aa3d16937221b3ca48ea62e6d11",
-                "reference": "86ae6f18ab676aa3d16937221b3ca48ea62e6d11",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/ad9366a1fc1c9f77691a8997568861c02ca73872",
+                "reference": "ad9366a1fc1c9f77691a8997568861c02ca73872",
                 "shasum": ""
             },
             "require": {
@@ -618,7 +628,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-12-15 22:31:49"
+            "time": "2013-12-16 23:47:09"
         },
         {
             "name": "guzzle/guzzle",
@@ -850,6 +860,52 @@
                 "ui"
             ],
             "time": "2013-08-12 18:58:16"
+        },
+        {
+            "name": "lcobucci/em-data-fixtures",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/em-data-fixtures.git",
+                "reference": "eafd65d75dfdac7c0a8d89a7e0d203b0259a13b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/em-data-fixtures/zipball/eafd65d75dfdac7c0a8d89a7e0d203b0259a13b0",
+                "reference": "eafd65d75dfdac7c0a8d89a7e0d203b0259a13b0",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/data-fixtures": "2.0.*@dev",
+                "doctrine/orm": "~2.4",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Lcobucci\\Fixture": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luís Otávio Cobucci Oblonczyk",
+                    "email": "lcobucci@gmail.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "Data Fixtures for all Doctrine Object Managers",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database"
+            ],
+            "time": "2013-12-17 00:26:10"
         },
         {
             "name": "lcobucci/social",
@@ -1303,56 +1359,6 @@
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
             "time": "2013-11-28 10:27:35"
-        },
-        {
-            "name": "useallfive/doctrine-data-fixtures-command",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/UseAllFive/doctrine-data-fixtures-command.git",
-                "reference": "279afebe7beaef38cd5f54b02c7d0389cf49bbf2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/UseAllFive/doctrine-data-fixtures-command/zipball/279afebe7beaef38cd5f54b02c7d0389cf49bbf2",
-                "reference": "279afebe7beaef38cd5f54b02c7d0389cf49bbf2",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/data-fixtures": "~1.0",
-                "symfony/console": "~2.3"
-            },
-            "suggest": {
-                "dflydev/doctrine-orm-service-provider": "1.0.*@dev"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "UseAllFive\\Command": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Zach Brown",
-                    "email": "zeebz91@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Doctrine DataFixtures CLI command",
-            "keywords": [
-                "console",
-                "datafixtures",
-                "doctrine",
-                "orm",
-                "pimple",
-                "silex",
-                "web"
-            ],
-            "time": "2013-10-30 02:08:37"
         }
     ],
     "packages-dev": [
@@ -1367,7 +1373,7 @@
         "lcobucci/action-mapper": 20,
         "lcobucci/social": 20,
         "phpsc/pagseguro": 20,
-        "useallfive/doctrine-data-fixtures-command": 20
+        "lcobucci/em-data-fixtures": 0
     },
     "platform": [
 

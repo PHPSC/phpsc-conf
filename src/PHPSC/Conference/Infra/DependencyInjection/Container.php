@@ -4,9 +4,12 @@ namespace PHPSC\Conference\Infra\DependencyInjection;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
+use Doctrine\Fixture\Loader\DirectoryLoader;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Lcobucci\Fixture\Persistence\EntityManagerEventSubscriber;
+use Doctrine\Fixture\Executor\BulkExecutorEventSubscriber;
 
 /**
  * @codingStandardsIgnoreFile
@@ -81,6 +84,27 @@ class Container extends \Lcobucci\ActionMapper2\DependencyInjection\Container
         );
 
         return $instance;
+    }
+
+    /**
+     * @return \Doctrine\Fixture\Configuration
+     */
+    protected function getFixtures_ConfigService()
+    {
+        $config = new \Doctrine\Fixture\Configuration();
+        $config->getEventManager()->addEventSubscriber(
+            new EntityManagerEventSubscriber($this->get('entityManager'))
+        );
+
+        return $config;
+    }
+
+    /**
+     * @return DirectoryLoader
+     */
+    protected function getFixtures_LoaderService()
+    {
+        return new DirectoryLoader(__DIR__ . '/../Fixtures');
     }
 
     /**
