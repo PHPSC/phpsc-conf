@@ -108,7 +108,16 @@ do schema do banco dados. Siga os passos abaixo para criar todas as tabelas do b
 de dados:
 
 1. Crie um schema vazio com o mesmo nome que foi configurado no container de injeção
-   de dependências (ele deve ser criado com o charset **UTF-8**);
-1. Execute o seguinte comando a partir da raiz do projeto: ```./vendor/bin/doctrine orm:schema-tool:create```,
-   isto irá criar todas as tabelas no banco de dados;
-1. Realize a importação das fixtures padrões utilizando o comando ```./vendor/bin/doctrine doctrine:fixtures:execute --import```
+   de dependências (ele deve ser criado com o charset **UTF-8**), conforme demonstrado abaixo:
+
+    ```sql
+    mysql -uroot -e "CREATE SCHEMA phpsc DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;"
+    ```
+    
+1. Execute o seguinte comando a partir da raiz do projeto. Isto irá criar todas as tabelas no banco de dados:
+
+    ```./vendor/bin/doctrine orm:schema-tool:create```
+
+1. Realize a importação das fixtures padrões utilizando o comando 
+
+    ```./vendor/bin/doctrine doctrine:fixtures:execute --import```
