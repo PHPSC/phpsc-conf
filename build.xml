@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="phpsc-conf" basedir="." default="">
+
+    <target name="clean">
+        <echo msg="Cleaning ..." />
+        <exec command="find tmp/ -iname project*container.php -delete" />
+    </target>
+
+    <target name="permissions">
+        <echo msg="Setting permissions ..." />
+        <chmod file="tmp/" mode="0777" />
+        <chmod file="tmp/session" mode="0777" />
+        <chmod file="tmp/proxy" mode="0777" />
+    </target>
+
+</project>

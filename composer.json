@@ -28,6 +28,10 @@
         "lcobucci/em-data-fixtures": "~1.0@stable",
         "doctrine/migrations": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "phing/phing": "*"
+    },
     "autoload" : {
         "psr-0" : {
             "PHPSC\\Conference" : "src"
