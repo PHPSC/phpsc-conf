@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="phpsc-conf" basedir="." default="">
 
+    <target name="post-install">
+        <phingcall target="clean"></phingcall>
+        <phingcall target="permissions"></phingcall>
+    </target>
+
     <target name="clean">
         <echo msg="Cleaning ..." />
         <exec command="find tmp/ -iname project*container.php -delete" />
