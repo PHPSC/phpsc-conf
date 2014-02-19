@@ -52,7 +52,7 @@ Ainda estamos estruturando muitas coisas :)
 
 ## Licença de uso
 
-Copyright (c) 2013, Grupo de usuários de PHP de Santa Catarina (PHPSC)
+Copyright (c) 2013-2014, Grupo de usuários de PHP de Santa Catarina (PHPSC)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
