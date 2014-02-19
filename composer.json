@@ -25,7 +25,8 @@
         "phpsc/pagseguro" : "dev-develop",
         "doctrine/orm" : "~2.4",
         "swiftmailer/swiftmailer": "*",
-        "lcobucci/em-data-fixtures": "~1.0@stable"
+        "lcobucci/em-data-fixtures": "~1.0@stable",
+        "doctrine/migrations": "*"
     },
     "autoload" : {
         "psr-0" : {

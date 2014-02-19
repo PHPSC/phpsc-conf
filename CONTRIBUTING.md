@@ -116,8 +116,22 @@ de dados:
     
 1. Execute o seguinte comando a partir da raiz do projeto. Isto irá criar todas as tabelas no banco de dados:
 
-    ```./vendor/bin/doctrine orm:schema-tool:create```
+    ```./vendor/bin/doctrine migrations:migrate```
 
 1. Realize a importação das fixtures padrões utilizando o comando 
 
     ```./vendor/bin/doctrine doctrine:fixtures:execute --import```
+
+    
+## Alterações no banco de dados
+
+Utilizamos a extensão de migrations do doctrine para controlarmos as alterações do banco de dados, para
+criar uma nova versão deve-se executar o seguinte comando a partir da raiz do projeto: 
+
+    ```./vendor/bin/doctrine migrations:diff```
+    
+Ele irá criar um arquivo dentro da pasta ```db-versions``` com as queries de modificação do schema, **confira muito bem** as
+queries geradas (tanto os comandos que adicionam as modificações quanto os que revertem elas).
+
+O comando ```./vendor/bin/doctrine migrations:migrate``` é responsável por executar as migrações que ainda não foram aplicadas,
+garantindo assim que o banco de dados esteja sempre sincronizado com as modificações do código fonte.

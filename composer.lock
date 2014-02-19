@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0423337559c5e757d421c42a8b0b7e56",
+    "hash": "6bd2c244a395f1644974b86aef89515a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -558,17 +558,77 @@
             "time": "2013-12-20 21:39:00"
         },
         {
+            "name": "doctrine/migrations",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/migrations.git",
+                "reference": "0742fc7167a4deedaabc8639849a3e71082999f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/0742fc7167a4deedaabc8639849a3e71082999f1",
+                "reference": "0742fc7167a4deedaabc8639849a3e71082999f1",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "~2.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "symfony/console": "2.*",
+                "symfony/yaml": "2.*"
+            },
+            "suggest": {
+                "symfony/console": "to run the migration from the console"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\DBAL\\Migrations": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan H. Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                }
+            ],
+            "description": "Database Schema migrations using Doctrine DBAL",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "migrations"
+            ],
+            "time": "2014-01-20 11:29:43"
+        },
+        {
             "name": "doctrine/orm",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "0dbd7425888cc810907dda0537a5a7846dd7ae95"
+                "reference": "0797feeb0f6aa1fdbdd88088df70539cb15b54cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/0dbd7425888cc810907dda0537a5a7846dd7ae95",
-                "reference": "0dbd7425888cc810907dda0537a5a7846dd7ae95",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/0797feeb0f6aa1fdbdd88088df70539cb15b54cb",
+                "reference": "0797feeb0f6aa1fdbdd88088df70539cb15b54cb",
                 "shasum": ""
             },
             "require": {
@@ -606,7 +666,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -631,7 +691,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-02-17 17:12:05"
+            "time": "2014-02-18 09:28:13"
         },
         {
             "name": "guzzle/guzzle",
@@ -639,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "c03449e8830d9bd32bef544de1b1de7d1d876982"
+                "reference": "256ffce458c5b1a44b2f0ba98b5766fe9e21e3e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c03449e8830d9bd32bef544de1b1de7d1d876982",
-                "reference": "c03449e8830d9bd32bef544de1b1de7d1d876982",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/256ffce458c5b1a44b2f0ba98b5766fe9e21e3e5",
+                "reference": "256ffce458c5b1a44b2f0ba98b5766fe9e21e3e5",
                 "shasum": ""
             },
             "require": {
@@ -723,7 +783,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-02-14 01:12:10"
+            "time": "2014-02-18 07:26:30"
         },
         {
             "name": "lcobucci/action-mapper",
@@ -1378,12 +1438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "ddc6db30611ebea269434dfb1a53f365bfcbdd1a"
+                "reference": "0fa4996401cf4e97e621357b6f6a9efa8eee678e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/ddc6db30611ebea269434dfb1a53f365bfcbdd1a",
-                "reference": "ddc6db30611ebea269434dfb1a53f365bfcbdd1a",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/0fa4996401cf4e97e621357b6f6a9efa8eee678e",
+                "reference": "0fa4996401cf4e97e621357b6f6a9efa8eee678e",
                 "shasum": ""
             },
             "require": {
@@ -1421,7 +1481,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:21"
+            "time": "2014-02-18 15:41:30"
         }
     ],
     "packages-dev": [
