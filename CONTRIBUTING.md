@@ -135,3 +135,8 @@ queries geradas (tanto os comandos que adicionam as modificações quanto os que
 
 O comando ```./vendor/bin/doctrine migrations:migrate``` é responsável por executar as migrações que ainda não foram aplicadas,
 garantindo assim que o banco de dados esteja sempre sincronizado com as modificações do código fonte.
+
+
+## FAQ - Perguntas Frequentes
+
+Se estiver enfrentando problemas com o ambiente de desenvolvimento, ou se tiver alguma dúvida, dê uma olhadinha em nosso [FAQ](https://github.com/PHPSC/phpsc-conf/wiki/FAQ). Talvez você consiga uma resposta lá.
