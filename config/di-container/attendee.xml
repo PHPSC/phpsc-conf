@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="attendee.json.service" class="PHPSC\Conference\Application\Service\AttendeeJsonService">
+            <argument type="service" id="authentication.service" />
+            <argument type="service" id="event.management.service" />
+            <argument type="service" id="attendee.registration.service" />
+            <argument type="service" id="discountCoupon.validator" />
+        </service>
+        
+        <service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
+            <argument type="service" id="attendee.repository" />
+            <argument type="service" id="talk.management.service" />
+            <argument type="service" id="email.delivery.service" />
+        </service>
+        <service id="attendee.credentialing.service" class="PHPSC\Conference\Domain\Service\AttendeeCredentialingService">
+            <argument type="service" id="attendee.repository" />
+            <argument type="service" id="attendee.registration.service" />
+            <argument type="service" id="payment.management.service" />
+            <argument type="service" id="email.delivery.service" />
+        </service>
+        <service id="attendee.registration.service" class="PHPSC\Conference\Domain\Service\AttendeeRegistrationService">
+            <argument type="service" id="attendee.management.service" />
+            <argument type="service" id="payment.management.service" />
+            <argument type="service" id="talk.management.service" />
+        </service>
+        
+        <service id="attendee.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Attendee</argument>
+        </service>
+    </services>
+</container>

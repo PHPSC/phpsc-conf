@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="payment.management.service" class="PHPSC\Conference\Domain\Service\PaymentManagementService">
+            <argument type="service" id="payment.repository" />
+            <argument type="service" id="pagseguro.notificationService" />
+            <argument type="service" id="pagseguro.paymentService" />
+            <argument type="service" id="payment.event.manager" />
+        </service>
+        
+        <service id="discountCoupon.validator" class="PHPSC\Conference\Domain\Service\DiscountCouponValidator">
+            <argument type="service" id="discountCoupon.repository" />
+        </service>
+        
+        <service id="payment.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Payment</argument>
+        </service>
+        <service id="discountCoupon.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\DiscountCoupon</argument>
+        </service>
+        
+        <!-- Payment Events -->
+        <service id="payment.event.manager" class="Doctrine\Common\EventManager">
+            <call method="addEventSubscriber">
+                <argument type="service" id="attendee.payment.subscriber" />
+            </call>
+        </service>
+        <service id="attendee.payment.subscriber" class="PHPSC\Conference\Domain\Service\AttendeePaymentSubscriber">
+            <argument type="service" id="attendee.management.service" />
+        </service>
+    </services>
+</container>

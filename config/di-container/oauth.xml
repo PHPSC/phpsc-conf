@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <services>
+        <!-- OAuth2 Manager -->
+        <service id="oauth2.manager" class="Lcobucci\Social\AuthClient">
+            <call method="appendProvider">
+                <argument>github</argument>
+                <argument type="service" id="oauth2.github" />
+            </call>
+            <call method="appendProvider">
+                <argument>facebook</argument>
+                <argument type="service" id="oauth2.facebook" />
+            </call>
+            <call method="appendProvider">
+                <argument>linkedin</argument>
+                <argument type="service" id="oauth2.linkedin" />
+            </call>
+            <call method="appendProvider">
+                <argument>google</argument>
+                <argument type="service" id="oauth2.google" />
+            </call>
+            <call method="appendProvider">
+                <argument>live</argument>
+                <argument type="service" id="oauth2.live" />
+            </call>
+        </service>
+        
+        <!-- OAuth2 Providers -->
+        <service id="oauth2.github" factory-class="Lcobucci\Social\Providers\Github" factory-method="create">
+            <argument>%github.id%</argument>
+            <argument>%github.secret%</argument>
+            <argument>%app.baseuri%oauth/github/callback</argument>
+            <argument type="collection">
+                <argument>user:email</argument>
+            </argument>
+        </service>
+        <service id="oauth2.facebook" factory-class="Lcobucci\Social\Providers\Facebook" factory-method="create">
+            <argument>%facebook.id%</argument>
+            <argument>%facebook.secret%</argument>
+            <argument>%app.baseuri%oauth/facebook/callback</argument>
+            <argument type="collection">
+                <argument>email</argument>
+            </argument>
+        </service>
+        <service id="oauth2.linkedin" factory-class="Lcobucci\Social\Providers\LinkedIn" factory-method="create">
+            <argument>%linkedin.id%</argument>
+            <argument>%linkedin.secret%</argument>
+            <argument>%app.baseuri%oauth/linkedin/callback</argument>
+        </service>
+        <service id="oauth2.google" factory-class="Lcobucci\Social\Providers\Google" factory-method="create">
+            <argument>%google.id%</argument>
+            <argument>%google.secret%</argument>
+            <argument>%app.baseuri%oauth/google/callback</argument>
+        </service>
+        <service id="oauth2.live" factory-class="Lcobucci\Social\Providers\Live" factory-method="create">
+            <argument>%live.id%</argument>
+            <argument>%live.secret%</argument>
+            <argument>%app.baseuri%oauth/live/callback</argument>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="company.json.service" class="PHPSC\Conference\Application\Service\CompanyJsonService">
+            <argument type="service" id="company.management.service" />
+        </service>
+        <service id="supporter.json.service" class="PHPSC\Conference\Application\Service\SupporterJsonService">
+            <argument type="service" id="supporter.management.service" />
+            <argument type="service" id="company.management.service" />
+        </service>
+
+        <service id="supporter.management.service" class="PHPSC\Conference\Domain\Service\SupporterManagementService">
+            <argument type="service" id="supporter.repository" />
+            <argument type="service" id="supporter.factory" />
+        </service>
+        <service id="company.management.service" class="PHPSC\Conference\Domain\Service\CompanyManagementService">
+            <argument type="service" id="company.repository" />
+            <argument type="service" id="company.factory" />
+        </service>
+        
+        <service id="company.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Company</argument>
+        </service>
+        <service id="supporter.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Supporter</argument>
+        </service>
+        
+        <service id="supporter.factory" class="PHPSC\Conference\Domain\Factory\SupporterFactory" />
+        <service id="company.factory" class="PHPSC\Conference\Domain\Factory\CompanyFactory">
+            <argument type="service" id="image.factory" />
+            <argument type="service" id="image.validation.service" />
+        </service>
+    </services>
+</container>
