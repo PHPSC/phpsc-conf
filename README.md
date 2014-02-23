@@ -1,14 +1,18 @@
 # PHPSC Conference
 
 Sistema criado pelo PHPSC com o objetivo de gerenciar os eventos realizados pelo grupo.
-Ainda estamos estruturando muitas coisas :)
 
 ## Funcionalidades implementadas
 
-* Login (através do twitter)
-* Submissão de palestras
-* Inscrições
-* Pagamento (através do pagseguro)
+* Login via OAuth (através do Facebook, GitHub, Google, LinkedIn e Microsoft Live);
+* Submissão de palestras;
+* Inscrições;
+* Pagamento (através do PagSeguro);
+
+## Contribuindo
+
+Se tem interesse em nos ajudar, dê uma olhada (neste conteúdo)[https://github.com/PHPSC/phpsc-conf/blob/develop/CONTRIBUTING.md].
+
 
 ## Roadmap
 
