@@ -25,7 +25,7 @@ Esta ferramenta é extremamente útil para agilizar o desenvolvimento usando
 branchs.
 
 Leia o [post](http://nvie.com/posts/a-successful-git-branching-model) e instale
-a ferramenta para poder acompanhar as explicações que virão mais abaixo.
+a ferramenta para poder acompanhar as explicações que virão mais abaixo. Utilize também o [cheatsheet do git-flow](http://danielkummer.github.io/git-flow-cheatsheet/index.pt_BR.html) como material de auxílio.
 
 ### Composer
 
