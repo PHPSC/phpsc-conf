@@ -11,7 +11,7 @@ Sistema criado pelo PHPSC com o objetivo de gerenciar os eventos realizados pelo
 
 ## Contribuindo
 
-Se tem interesse em nos ajudar, dê uma olhada (neste conteúdo)[https://github.com/PHPSC/phpsc-conf/blob/develop/CONTRIBUTING.md].
+Se tem interesse em nos ajudar, dê uma olhada [neste conteúdo](https://github.com/PHPSC/phpsc-conf/blob/develop/CONTRIBUTING.md).
 
 
 ## Roadmap
