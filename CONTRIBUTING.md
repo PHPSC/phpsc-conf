@@ -65,6 +65,7 @@ começar a brincadeira você deve seguir os passos abaixo:
 1. Crie um [fork](https://help.github.com/articles/fork-a-repo) e clone o projeto;
 1. Instale as dependências utilizando o composer (```composer install```);
 1. Defina as permissões de diretórios com o phing (```vendor/bin/phing post-install```);
+1. Configure o nome do virtual host do seu webserver para **phpsc-conf**. [Veja aqui o vhost para Apache](https://github.com/PHPSC/phpsc-conf/wiki/Configura%C3%A7%C3%A3o-do-vhost-para-Apache).
 1. Aponte o branch local master para origin/master (```git
 branch master origin/master```);
 1. Inicialize o git-flow (```git flow init -d```);
