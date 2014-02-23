@@ -3,6 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services ../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
     <parameters>
+        <parameter key="app.devmode">true</parameter>
+        <parameter key="cache.prefix">phpsc.conf</parameter>
+    
         <!-- Database -->
         <parameter key="db.host">127.0.0.1</parameter>
         <parameter key="db.schema">phpsc</parameter>
@@ -13,11 +16,10 @@
         <parameter key="doctrine.entity.dir">src/PHPSC/Conference/Domain/Entity</parameter>
         <parameter key="doctrine.proxy.dir">tmp/proxy</parameter>
         <parameter key="doctrine.proxy.namespace">PHPSC\Conference\Domain\Entity\Proxy</parameter>
-        <parameter key="doctrine.proxy.auto">true</parameter>
         
         <!-- OAuth config -->
-        <parameter key="github.id"></parameter>
-        <parameter key="github.secret"></parameter>
+        <parameter key="github.id">0d668000f0436047aa04</parameter>
+        <parameter key="github.secret">c9630e18daa3935c46afaf2b03d3869196b4fa5b</parameter>
         <parameter key="facebook.id"></parameter>
         <parameter key="facebook.secret"></parameter>
         <parameter key="linkedin.id"></parameter>
@@ -39,11 +41,4 @@
         <parameter key="smtp.encryption">tls</parameter>
         <parameter key="smtp.auth_mode">login</parameter>
     </parameters>
-    <services>
-        <service id="app.cache" class="Doctrine\Common\Cache\ArrayCache">
-            <call method="setNamespace">
-                <argument>phpsc.conf-</argument>
-            </call>
-        </service>
-    </services>
 </container>
