@@ -39,7 +39,7 @@ class TalkManagementService
      * @param string $shortDescription
      * @param string $longDescription
      * @param string $complexity
-     * @param string $tags
+     * @param array $tags
      * @return \PHPSC\Conference\Domain\Entity\Talk
      */
     public function create(
@@ -50,7 +50,7 @@ class TalkManagementService
         $shortDescription,
         $longDescription,
         $complexity,
-        $tags
+        array $tags
     ) {
         $talk = Talk::create(
             $event,
@@ -76,7 +76,7 @@ class TalkManagementService
      * @param string $shortDescription
      * @param string $longDescription
      * @param string $complexity
-     * @param string $tags
+     * @param array $tags
      * @return \PHPSC\Conference\Domain\Entity\Talk
      */
     public function update(
@@ -87,7 +87,7 @@ class TalkManagementService
         $shortDescription,
         $longDescription,
         $complexity,
-        $tags
+        array $tags
     ) {
         $talk = $this->findById($id, $speaker);
 

@@ -301,7 +301,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getTags()
     {
@@ -311,7 +311,7 @@ class Talk implements Entity
     /**
      * @param array $tags
      */
-    public function setTags($tags)
+    public function setTags(array $tags)
     {
         if (empty($tags)) {
             throw new InvalidArgumentException(
@@ -368,7 +368,7 @@ class Talk implements Entity
      * @param string $shortDescription
      * @param string $longDescription
      * @param string $complexity
-     * @param string $tags
+     * @param array $tags
      * @param float $cost
      * @return Talk
      */
@@ -380,7 +380,7 @@ class Talk implements Entity
         $shortDescription,
         $longDescription,
         $complexity,
-        $tags,
+        array $tags,
         $cost = null
     ) {
         $talk = new static();
