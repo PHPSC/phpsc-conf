@@ -309,7 +309,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param string $tags
+     * @param array $tags
      */
     public function setTags($tags)
     {
@@ -319,16 +319,7 @@ class Talk implements Entity
             );
         }
 
-        $tagList = explode(',', $tags);
-
-        array_walk(
-            $tagList,
-            function (&$value) {
-                $value = strtolower(trim($value));
-            }
-        );
-
-        $this->tags = $tagList;
+        $this->tags = $tags;
     }
 
     /**
@@ -389,7 +380,7 @@ class Talk implements Entity
         $shortDescription,
         $longDescription,
         $complexity,
-        $tags = null,
+        $tags,
         $cost = null
     ) {
         $talk = new static();
