@@ -91,8 +91,8 @@ class Talk implements Entity
     private $cost;
 
     /**
-     * @Column(type="string", length=120, nullable=true)
-     * @var string
+     * @Column(type="json_array", length=120, nullable=true)
+     * @var array
      */
     private $tags;
 
@@ -313,26 +313,22 @@ class Talk implements Entity
      */
     public function setTags($tags)
     {
-        if ($tags !== null) {
-            $tags = strtolower((string) $tags);
-
-            if (empty($tags)) {
-                throw new InvalidArgumentException(
-                    'As tags não podem ser vazias'
-                );
-            }
-
-            $tags = explode(',', $tags);
-            array_walk(
-                $tags,
-                function (&$value) {
-                    $value = trim($value);
-                }
+        if (empty($tags)) {
+            throw new InvalidArgumentException(
+                'As tags não podem ser vazias'
             );
-            $tags = implode(',', $tags);
         }
 
-        $this->tags = $tags;
+        $tagList = explode(',', $tags);
+
+        array_walk(
+            $tagList,
+            function (&$value) {
+                $value = strtolower(trim($value));
+            }
+        );
+
+        $this->tags = $tagList;
     }
 
     /**

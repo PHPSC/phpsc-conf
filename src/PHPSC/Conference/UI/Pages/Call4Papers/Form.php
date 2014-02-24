@@ -2,7 +2,6 @@
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
 use PHPSC\Conference\UI\Main;
-
 use \PHPSC\Conference\Domain\Entity\Talk;
 use \Lcobucci\DisplayObjects\Core\UIComponent;
 
@@ -21,6 +20,7 @@ class Form extends UIComponent
         $this->talk = $talk ?: new Talk();
 
         Main::appendScript($this->getUrl('js/talk.create.js'));
+        Main::appendScript($this->getUrl('js/vendor/selectize.min.js'));
     }
 
     /**

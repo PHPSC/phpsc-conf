@@ -29,7 +29,17 @@ $(document).ready(function () {
 					$('#complexity').val(response.complexity);
 					$('#shortDescription').val(response.shortDescription);
 					$('#longDescription').val(response.longDescription);
-					$('#tags').val(response.tags.join(', '));
+					$('#tags').val(response.tags.join(', '))
+						.selectize({ 
+							delimiter: ',',
+							addPrecedence: false,
+							create: function(input) {
+						        return {
+						            value: input,
+						            text: input
+						        };
+							}
+						});					
 					
 					$('#editForm').unbind('submit');
 					$('#editForm').submit(function() {
