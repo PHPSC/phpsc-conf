@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="talk.json.service" class="PHPSC\Conference\Application\Service\TalkJsonService">
+            <argument type="service" id="authentication.service" />
+            <argument type="service" id="talk.management.service" />
+            <argument type="service" id="event.management.service" />
+        </service>
+        <service id="opinion.json.service" class="PHPSC\Conference\Application\Service\OpinionJsonService">
+            <argument type="service" id="authentication.service" />
+            <argument type="service" id="talk.management.service" />
+            <argument type="service" id="opinion.management.service" />
+        </service>
+        <service id="talk.management.service" class="PHPSC\Conference\Domain\Service\TalkManagementService">
+            <argument type="service" id="talk.repository" />
+            <argument type="service" id="talkType.repository" />
+        </service>
+        <service id="opinion.management.service" class="PHPSC\Conference\Domain\Service\OpinionManagementService">
+            <argument type="service" id="opinion.repository" />
+        </service>
+        <service id="talkEvaluation.locator" class="PHPSC\Conference\Domain\Service\TalkEvaluation\Locator">
+            <argument type="service" id="talkEvaluation.repository" />
+        </service>
+        <service id="talkEvaluation.manager" class="PHPSC\Conference\Domain\Service\TalkEvaluation\Manager">
+            <argument type="service" id="talkEvaluation.repository" />
+            <argument type="service" id="talkEvaluation.factory" />
+        </service>
+        <service id="scheduledItem.locator" class="PHPSC\Conference\Domain\Service\ScheduledItem\Locator">
+            <argument type="service" id="scheduledItem.repository" />
+        </service>
+        
+        <service id="talk.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Talk</argument>
+        </service>
+        <service id="talkType.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\TalkType</argument>
+        </service>
+        <service id="opinion.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Opinion</argument>
+        </service>
+        <service id="talkEvaluation.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\TalkEvaluation</argument>
+        </service>
+        <service id="scheduledItem.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\ScheduledItem</argument>
+        </service>
+        
+        <service id="talkEvaluation.factory" class="PHPSC\Conference\Domain\Factory\TalkEvaluationFactory" />
+    </services>
+</container>
