@@ -25,7 +25,7 @@ class Talk extends Controller
             'type' => $talk->getType()->getDescription(),
             'shortDescription' => $talk->getShortDescription(),
             'longDescription' => $talk->getLongDescription(),
-            'tags' => explode(',', $talk->getTags())
+            'tags' => $talk->getTags()
         );
 
         foreach ($talk->getSpeakers() as $speaker) {
