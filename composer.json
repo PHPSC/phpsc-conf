@@ -19,23 +19,23 @@
         "BSD-3-Clause"
     ],
     "require" : {
-        "lcobucci/display-objects" : "dev-develop",
-        "lcobucci/action-mapper" : "dev-develop",
+        "lcobucci/display-objects" : "dev-develop@dev",
+        "lcobucci/action-mapper" : "dev-develop@dev",
         "lcobucci/social" : "*@dev",
-        "phpsc/pagseguro" : "dev-develop",
+        "phpsc/pagseguro" : "dev-develop@dev",
         "doctrine/orm" : "~2.4",
         "swiftmailer/swiftmailer": "*",
-        "lcobucci/em-data-fixtures": "~1.0@stable",
-        "doctrine/migrations": "*"
+        "lcobucci/em-data-fixtures": "~1.0",
+        "doctrine/migrations": "*@dev",
+        "doctrine/data-fixtures": "~2.0@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "~4.0",
         "phing/phing": "*"
     },
     "autoload" : {
         "psr-0" : {
             "PHPSC\\Conference" : "src"
         }
-    },
-    "minimum-stability" : "dev"
+    }
 }
