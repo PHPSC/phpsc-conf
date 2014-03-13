@@ -946,7 +946,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                    "role": "Developer"
+                    "role": "developer"
                 }
             ],
             "description": "Data Fixtures for all Doctrine Object Managers",
@@ -989,7 +989,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                    "role": "Developer"
+                    "role": "developer"
                 }
             ],
             "description": "Social authentication library for PHP 5.3+",
@@ -1759,16 +1759,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.0.5",
+            "version": "4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "854dd47a4ac9cfe12dff54f4a765aaade510d9dc"
+                "reference": "726abb62e9ed37125cd5a75b01f3c0ed36050726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/854dd47a4ac9cfe12dff54f4a765aaade510d9dc",
-                "reference": "854dd47a4ac9cfe12dff54f4a765aaade510d9dc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/726abb62e9ed37125cd5a75b01f3c0ed36050726",
+                "reference": "726abb62e9ed37125cd5a75b01f3c0ed36050726",
                 "shasum": ""
             },
             "require": {
@@ -1830,20 +1830,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-03-10 17:36:24"
+            "time": "2014-03-12 15:09:38"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "cd2b9cc24b9b35c37c013558bb1b21b5d84061ce"
+                "reference": "5888b2501d41c34f9132c959b073b23de83235aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/cd2b9cc24b9b35c37c013558bb1b21b5d84061ce",
-                "reference": "cd2b9cc24b9b35c37c013558bb1b21b5d84061ce",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/5888b2501d41c34f9132c959b073b23de83235aa",
+                "reference": "5888b2501d41c34f9132c959b073b23de83235aa",
                 "shasum": ""
             },
             "require": {
@@ -1887,7 +1887,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-03-10 17:08:05"
+            "time": "2014-03-11 09:46:18"
         },
         {
             "name": "sebastian/diff",
