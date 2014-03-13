@@ -5,11 +5,12 @@
     backupStaticAttributes="false" 
     bootstrap="vendor/autoload.php"
     strict="true">
-	<testsuites>
-		<testsuite name="PHPSC-Conf Test Suite">
-			<directory>test</directory>
-		</testsuite>
-	</testsuites>
+
+    <testsuites>
+        <testsuite name="PHPSC-Conf Test Suite">
+            <directory>test</directory>
+        </testsuite>
+    </testsuites>
     
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
@@ -20,4 +21,8 @@
             <directory suffix=".php">vendor</directory>
         </blacklist>
     </filter>
+
+    <logging>
+        <log type="coverage-html" target="test/coverage" title="PHPSC-Conf" highlight="true"/>
+    </logging>
 </phpunit>

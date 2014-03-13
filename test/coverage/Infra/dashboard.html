@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/william/dev/www/phpsc-conf/src/PHPSC/Conference/Infra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/nv.d3.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="../js/html5shiv.js"></script>
+  <script src="../js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="../index.html">/home/william/dev/www/phpsc-conf/src/PHPSC/Conference</a></li>
+        <li><a href="Infra.html">Infra</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th><div align="left">Class</div></th>
+         <th><div align="right">Coverage</div></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#10">TalkTypeFixture</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#11">RegistrationInfoFixture</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#9">LocationFixture</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#9">ImageFactory</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageResizer.php.html#9">ImageResizer</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Persistence/EntityRepository.php.html#4">EntityRepository</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageValidator.php.html#6">ImageValidator</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#11">EventFixture</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/BaseFixture.php.html#10">BaseFixture</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/PaymentConfirmation.php.html#10">PaymentConfirmation</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#11">DeliveryService</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Registration.php.html#10">Registration</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/StudentRegistration.php.html#9">StudentRegistration</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Errors/ErrorHandler.php.html#9">ErrorHandler</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Welcome.php.html#10">Welcome</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#17">Container</a></td><td><div align="right">0%</div></td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th><div align="left">Class</div></th>
+         <th><div align="right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></div></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#17">Container</a></td><td><div align="right">156</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#11">RegistrationInfoFixture</a></td><td><div align="right">56</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#10">TalkTypeFixture</a></td><td><div align="right">56</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#11">EventFixture</a></td><td><div align="right">56</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#11">DeliveryService</a></td><td><div align="right">30</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#9">ImageFactory</a></td><td><div align="right">30</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#9">LocationFixture</a></td><td><div align="right">30</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageResizer.php.html#9">ImageResizer</a></td><td><div align="right">20</div></td></tr>
+       <tr><td><a href="Infra/Persistence/EntityRepository.php.html#4">EntityRepository</a></td><td><div align="right">20</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageValidator.php.html#6">ImageValidator</a></td><td><div align="right">12</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/BaseFixture.php.html#10">BaseFixture</a></td><td><div align="right">12</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/PaymentConfirmation.php.html#10">PaymentConfirmation</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Registration.php.html#10">Registration</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/StudentRegistration.php.html#9">StudentRegistration</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Welcome.php.html#10">Welcome</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Errors/ErrorHandler.php.html#9">ErrorHandler</a></td><td><div align="right">6</div></td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th><div align="left">Method</div></th>
+         <th><div align="right">Coverage</div></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#62">RegistrationInfoFixture::findById</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#70">RegistrationInfoFixture::getDependencyList</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#15">TalkTypeFixture::import</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#30">TalkTypeFixture::createType</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#53">RegistrationInfoFixture::findEvent</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#42">RegistrationInfoFixture::purge</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#14">LocationFixture::import</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#35">LocationFixture::purge</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#47">LocationFixture::findById</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#16">RegistrationInfoFixture::import</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#47">TalkTypeFixture::purge</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#62">TalkTypeFixture::findById</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageResizer.php.html#34">ImageResizer::createPath</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageValidator.php.html#12">ImageValidator::isTransparentPng</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Persistence/EntityRepository.php.html#9">EntityRepository::append</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Persistence/EntityRepository.php.html#24">EntityRepository::update</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageResizer.php.html#18">ImageResizer::scale</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#54">ImageFactory::isImagick2Dot3</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#15">ImageFactory::createFromFile</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#24">ImageFactory::createFromResource</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#40">ImageFactory::createFromBlob</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#70">EventFixture::getDependencyList</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#62">EventFixture::findById</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#142">Container::getSwiftmailer_TransportService</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#164">Container::getParameter</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#33">DeliveryService::__construct</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#44">DeliveryService::send</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#117">Container::getCacheDriver</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#105">Container::getApp_CacheService</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#48">Container::getDoctrine_ConfigService</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#83">Container::getFixtures_ConfigService</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#97">Container::getFixtures_LoaderService</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#62">DeliveryService::getMessageFromTemplate</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/PaymentConfirmation.php.html#15">PaymentConfirmation::__construct</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/BaseFixture.php.html#28">BaseFixture::forceAssignedIds</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#16">EventFixture::import</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#42">EventFixture::purge</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#53">EventFixture::findLocation</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/BaseFixture.php.html#20">BaseFixture::setEntityManager</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Errors/ErrorHandler.php.html#14">ErrorHandler::shouldSkipError</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Registration.php.html#12">Registration::__construct</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/StudentRegistration.php.html#11">StudentRegistration::__construct</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Welcome.php.html#12">Welcome::__construct</a></td><td><div align="right">0%</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#24">Container::getEntityManagerService</a></td><td><div align="right">0%</div></td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th><div align="left">Method</div></th>
+         <th><div align="right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></div></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#47">TalkTypeFixture::purge</a></td><td><div align="right">12</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageValidator.php.html#12">ImageValidator::isTransparentPng</a></td><td><div align="right">12</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#117">Container::getCacheDriver</a></td><td><div align="right">12</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/TalkTypeFixture.php.html#30">TalkTypeFixture::createType</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#42">RegistrationInfoFixture::purge</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/RegistrationInfoFixture.php.html#16">RegistrationInfoFixture::import</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#35">LocationFixture::purge</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageFactory.php.html#24">ImageFactory::createFromResource</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Persistence/EntityRepository.php.html#24">EntityRepository::update</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Persistence/EntityRepository.php.html#9">EntityRepository::append</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageResizer.php.html#34">ImageResizer::createPath</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Images/ImageResizer.php.html#18">ImageResizer::scale</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/LocationFixture.php.html#14">LocationFixture::import</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#42">EventFixture::purge</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#62">DeliveryService::getMessageFromTemplate</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/DeliveryService.php.html#44">DeliveryService::send</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#164">Container::getParameter</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/DependencyInjection/Container.php.html#142">Container::getSwiftmailer_TransportService</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/PaymentConfirmation.php.html#15">PaymentConfirmation::__construct</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Registration.php.html#12">Registration::__construct</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/BaseFixture.php.html#28">BaseFixture::forceAssignedIds</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Errors/ErrorHandler.php.html#14">ErrorHandler::shouldSkipError</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/Welcome.php.html#12">Welcome::__construct</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Email/Templates/StudentRegistration.php.html#11">StudentRegistration::__construct</a></td><td><div align="right">6</div></td></tr>
+       <tr><td><a href="Infra/Fixtures/EventFixture.php.html#16">EventFixture::import</a></td><td><div align="right">6</div></td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 2.0.0</a> using <a href="http://php.net/" target="_top">PHP 5.5.3-1ubuntu2.1</a> and <a href="http://phpunit.de/">PHPUnit 4.0.7</a> at Thu Mar 13 0:22:42 BRT 2014.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../js/jquery.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../js/holder.js" type="text/javascript"></script>
+  <script src="../js/d3.min.js" type="text/javascript"></script>
+  <script src="../js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([16,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([44,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.scatter.onlyCircles(false);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,12,"<a href=\"Infra\/DependencyInjection\/Container.php.html#17\">Container<\/a>"],[0,5,"<a href=\"Infra\/Email\/DeliveryService.php.html#11\">DeliveryService<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/PaymentConfirmation.php.html#10\">PaymentConfirmation<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/Registration.php.html#10\">Registration<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/StudentRegistration.php.html#9\">StudentRegistration<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/Welcome.php.html#10\">Welcome<\/a>"],[0,2,"<a href=\"Infra\/Errors\/ErrorHandler.php.html#9\">ErrorHandler<\/a>"],[0,3,"<a href=\"Infra\/Fixtures\/BaseFixture.php.html#10\">BaseFixture<\/a>"],[0,7,"<a href=\"Infra\/Fixtures\/EventFixture.php.html#11\">EventFixture<\/a>"],[0,5,"<a href=\"Infra\/Fixtures\/LocationFixture.php.html#9\">LocationFixture<\/a>"],[0,7,"<a href=\"Infra\/Fixtures\/RegistrationInfoFixture.php.html#11\">RegistrationInfoFixture<\/a>"],[0,7,"<a href=\"Infra\/Fixtures\/TalkTypeFixture.php.html#10\">TalkTypeFixture<\/a>"],[0,5,"<a href=\"Infra\/Images\/ImageFactory.php.html#9\">ImageFactory<\/a>"],[0,4,"<a href=\"Infra\/Images\/ImageResizer.php.html#9\">ImageResizer<\/a>"],[0,3,"<a href=\"Infra\/Images\/ImageValidator.php.html#6\">ImageValidator<\/a>"],[0,4,"<a href=\"Infra\/Persistence\/EntityRepository.php.html#4\">EntityRepository<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.scatter.onlyCircles(false);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"Infra\/DependencyInjection\/Container.php.html#24\">Container::getEntityManagerService<\/a>"],[0,1,"<a href=\"Infra\/DependencyInjection\/Container.php.html#48\">Container::getDoctrine_ConfigService<\/a>"],[0,1,"<a href=\"Infra\/DependencyInjection\/Container.php.html#83\">Container::getFixtures_ConfigService<\/a>"],[0,1,"<a href=\"Infra\/DependencyInjection\/Container.php.html#97\">Container::getFixtures_LoaderService<\/a>"],[0,1,"<a href=\"Infra\/DependencyInjection\/Container.php.html#105\">Container::getApp_CacheService<\/a>"],[0,3,"<a href=\"Infra\/DependencyInjection\/Container.php.html#117\">Container::getCacheDriver<\/a>"],[0,2,"<a href=\"Infra\/DependencyInjection\/Container.php.html#142\">Container::getSwiftmailer_TransportService<\/a>"],[0,2,"<a href=\"Infra\/DependencyInjection\/Container.php.html#164\">Container::getParameter<\/a>"],[0,1,"<a href=\"Infra\/Email\/DeliveryService.php.html#33\">DeliveryService::__construct<\/a>"],[0,2,"<a href=\"Infra\/Email\/DeliveryService.php.html#44\">DeliveryService::send<\/a>"],[0,2,"<a href=\"Infra\/Email\/DeliveryService.php.html#62\">DeliveryService::getMessageFromTemplate<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/PaymentConfirmation.php.html#15\">PaymentConfirmation::__construct<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/Registration.php.html#12\">Registration::__construct<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/StudentRegistration.php.html#11\">StudentRegistration::__construct<\/a>"],[0,2,"<a href=\"Infra\/Email\/Templates\/Welcome.php.html#12\">Welcome::__construct<\/a>"],[0,2,"<a href=\"Infra\/Errors\/ErrorHandler.php.html#14\">ErrorHandler::shouldSkipError<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/BaseFixture.php.html#20\">BaseFixture::setEntityManager<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/BaseFixture.php.html#28\">BaseFixture::forceAssignedIds<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/EventFixture.php.html#16\">EventFixture::import<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/EventFixture.php.html#42\">EventFixture::purge<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/EventFixture.php.html#53\">EventFixture::findLocation<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/EventFixture.php.html#62\">EventFixture::findById<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/EventFixture.php.html#70\">EventFixture::getDependencyList<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/LocationFixture.php.html#14\">LocationFixture::import<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/LocationFixture.php.html#35\">LocationFixture::purge<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/LocationFixture.php.html#47\">LocationFixture::findById<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/RegistrationInfoFixture.php.html#16\">RegistrationInfoFixture::import<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/RegistrationInfoFixture.php.html#42\">RegistrationInfoFixture::purge<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/RegistrationInfoFixture.php.html#53\">RegistrationInfoFixture::findEvent<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/RegistrationInfoFixture.php.html#62\">RegistrationInfoFixture::findById<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/RegistrationInfoFixture.php.html#70\">RegistrationInfoFixture::getDependencyList<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/TalkTypeFixture.php.html#15\">TalkTypeFixture::import<\/a>"],[0,2,"<a href=\"Infra\/Fixtures\/TalkTypeFixture.php.html#30\">TalkTypeFixture::createType<\/a>"],[0,3,"<a href=\"Infra\/Fixtures\/TalkTypeFixture.php.html#47\">TalkTypeFixture::purge<\/a>"],[0,1,"<a href=\"Infra\/Fixtures\/TalkTypeFixture.php.html#62\">TalkTypeFixture::findById<\/a>"],[0,1,"<a href=\"Infra\/Images\/ImageFactory.php.html#15\">ImageFactory::createFromFile<\/a>"],[0,2,"<a href=\"Infra\/Images\/ImageFactory.php.html#24\">ImageFactory::createFromResource<\/a>"],[0,1,"<a href=\"Infra\/Images\/ImageFactory.php.html#40\">ImageFactory::createFromBlob<\/a>"],[0,1,"<a href=\"Infra\/Images\/ImageFactory.php.html#54\">ImageFactory::isImagick2Dot3<\/a>"],[0,2,"<a href=\"Infra\/Images\/ImageResizer.php.html#18\">ImageResizer::scale<\/a>"],[0,2,"<a href=\"Infra\/Images\/ImageResizer.php.html#34\">ImageResizer::createPath<\/a>"],[0,3,"<a href=\"Infra\/Images\/ImageValidator.php.html#12\">ImageValidator::isTransparentPng<\/a>"],[0,2,"<a href=\"Infra\/Persistence\/EntityRepository.php.html#9\">EntityRepository::append<\/a>"],[0,2,"<a href=\"Infra\/Persistence\/EntityRepository.php.html#24\">EntityRepository::update<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
