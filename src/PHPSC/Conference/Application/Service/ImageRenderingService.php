@@ -6,6 +6,7 @@ use Lcobucci\ActionMapper2\Http\Request;
 use Lcobucci\ActionMapper2\Http\Response;
 use PHPSC\Conference\Infra\Images\ImageFactory;
 use PHPSC\Conference\Infra\Images\ImageResizer;
+use PHPSC\Conference\Domain\Entity\Logo;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -40,7 +41,7 @@ class ImageRenderingService
     }
 
     /**
-     * @param resource $handler
+     * @param resource $logo
      * @param string $id
      * @param int $width
      * @param int $height
@@ -48,16 +49,17 @@ class ImageRenderingService
      * @param Response $response
      */
     public function resize(
-        $handler,
-        $filename,
+        Logo $logo,
         $width,
         $height,
         Request $request,
         Response $response
     ) {
-        $path = $this->getPath($filename, $width, $height);
+        $path = $this->getPath('logo_' . $logo->getId(), $width, $height);
 
         $response->setPublic();
+        $response->setContentType($logo->getMimeType());
+        $response->setLastModified($logo->getCreatedAt());
 
         if ($response->isNotModified($request)) {
             return ;
@@ -67,7 +69,7 @@ class ImageRenderingService
             return file_get_contents($path);
         }
 
-        $image = $this->factory->createFromResource($handler);
+        $image = $this->factory->createFromResource($logo->getImage());
 
         return $this->getImageContent(
             $image,
@@ -113,7 +115,7 @@ class ImageRenderingService
             $this->appDir,
             (int) $width,
             (int) $height,
-            $filename
+            md5($filename)
         );
     }
 }
