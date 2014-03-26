@@ -82,6 +82,14 @@ class Event implements Entity
     private $submissionEnd;
 
     /**
+     * @ManyToOne(targetEntity="Logo", cascade={"all"})
+     * @JoinColumn(name="logo_id", referencedColumnName="id", nullable=true)
+     *
+     * @var Logo
+     */
+    private $logo;
+
+    /**
      * Inicializa o objeto
      */
     public function __construct()
@@ -438,5 +446,29 @@ class Event implements Entity
 
         return $date >= $this->getSubmissionStart()
                && $date <= $this->getSubmissionEnd();
+    }
+
+    /**
+     * @return Logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param Logo $logo
+     */
+    public function setLogo(Logo $logo = null)
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasLogo()
+    {
+        return $this->getLogo() !== null;
     }
 }
