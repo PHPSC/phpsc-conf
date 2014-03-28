@@ -10,8 +10,8 @@ use PHPSC\Conference\Domain\Entity\Event;
  */
 class EventFixture extends BaseFixture implements DependentFixture
 {
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function import()
     {
@@ -36,8 +36,8 @@ class EventFixture extends BaseFixture implements DependentFixture
         $this->manager->flush();
     }
 
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function purge()
     {
@@ -64,8 +64,8 @@ class EventFixture extends BaseFixture implements DependentFixture
         return $this->manager->getRepository('PHPSC\Conference\Domain\Entity\Event')->findOneById($id);
     }
 
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function getDependencyList()
     {

@@ -8,8 +8,8 @@ use PHPSC\Conference\Domain\Entity\Location;
  */
 class LocationFixture extends BaseFixture
 {
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function import()
     {
@@ -29,8 +29,8 @@ class LocationFixture extends BaseFixture
         $this->manager->flush();
     }
 
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function purge()
     {

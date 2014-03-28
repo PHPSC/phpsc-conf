@@ -9,8 +9,8 @@ use PHPSC\Conference\Domain\Entity\TalkType;
  */
 class TalkTypeFixture extends BaseFixture
 {
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function import()
     {
@@ -41,8 +41,8 @@ class TalkTypeFixture extends BaseFixture
         $this->manager->persist($type);
     }
 
-	/**
-	 * {@inheritdoc}
+    /**
+     * {@inheritdoc}
      */
     public function purge()
     {
