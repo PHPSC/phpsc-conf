@@ -24,12 +24,17 @@
 
         	<div id="main" class="container clear-top">
         	   <div class="row">
-                	<div class="col-md-2">
+        	       <?php if ($this->getCurrentEvent()->hasLogo()) { ?>
+        	       <div class="col-md-2">
                 	   <a href="<?= $this->getBaseUrl(); ?>">
-                            <img alt="PHPSC Conference" src="<?= $this->getUrl('img/logo.png'); ?>" />
+                            <img alt="PHPSC Conference"
+                                src="<?= $this->getUrl('event/' . $this->getCurrentEvent()->getId()); ?>?w=180&h=170" />
                         </a>
                     </div>
                 	<div class="col-md-10">
+                    <?php } else { ?>
+                	<div class="col-md-12">
+                    <?php } ?>
                 	   <h1 style="padding-top: 55px; text-align: right;">
                 	       PHPSC Conference<br />
                 	       <small>A maior conferência de PHP de Santa Catarina</small>

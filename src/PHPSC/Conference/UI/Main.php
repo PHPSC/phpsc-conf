@@ -1,8 +1,9 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \Lcobucci\ActionMapper2\Application;
+use Lcobucci\DisplayObjects\Core\UIComponent;
+use Lcobucci\ActionMapper2\Application;
+use PHPSC\Conference\Domain\Entity\Event;
 
 class Main extends UIComponent
 {
@@ -12,14 +13,19 @@ class Main extends UIComponent
     protected $description;
 
     /**
-     * @var \Lcobucci\ActionMapper2\Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @var \Lcobucci\DisplayObjects\Core\UIComponent
+     * @var UIComponent
      */
     protected $content;
+
+    /**
+     * @var Event
+     */
+    protected $event;
 
     /**
      * @var array
@@ -27,9 +33,9 @@ class Main extends UIComponent
     protected static $scripts;
 
     /**
-     * @param \Lcobucci\DisplayObjects\Core\UIComponent $content
-     * @param \Lcobucci\ActionMapper2\Application $application
-     * @return \PHPSC\Conference\UI\Main
+     * @param UIComponent $content
+     * @param Application $application
+     * @return Main
      */
     public static function create(
         UIComponent $content,
@@ -44,7 +50,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @param \Lcobucci\DisplayObjects\Core\UIComponent $content
+     * @param UIComponent $content
      */
     public function __construct(UIComponent $content)
     {
@@ -55,7 +61,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @param \Lcobucci\ActionMapper2\Application $application
+     * @param Application $application
      */
     public function setApplication(Application $application)
     {
@@ -79,7 +85,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \Lcobucci\DisplayObjects\Core\UIComponent
+     * @return UIComponent
      */
     public function renderContent()
     {
@@ -87,20 +93,34 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\UI\NavigationBar
+     * @return NavigationBar
      */
     public function renderNavigation()
     {
-        $container = $this->application->getDependencyContainer();
-
         return new NavigationBar(
-            $container->get('event.management.service')->findCurrentEvent(),
-            $container->get('authentication.service')->getLoggedUser()
+            $this->getCurrentEvent(),
+            $this->application->getDependencyContainer()
+                              ->get('authentication.service')
+                              ->getLoggedUser()
         );
     }
 
     /**
-     * @return \PHPSC\Conference\UI\Footer
+     * @return Event
+     */
+    public function getCurrentEvent()
+    {
+        if ($this->event === null) {
+            $this->event = $this->application->getDependencyContainer()
+                                             ->get('event.management.service')
+                                             ->findCurrentEvent();
+        }
+
+        return $this->event;
+    }
+
+    /**
+     * @return Footer
      */
     public function renderFooter()
     {
