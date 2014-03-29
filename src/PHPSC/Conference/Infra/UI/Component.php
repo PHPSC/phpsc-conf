@@ -3,6 +3,10 @@ namespace PHPSC\Conference\Infra\UI;
 
 use Lcobucci\DisplayObjects\Core\UIComponent;
 
+/**
+ * @property-read PHPSC\Conference\Domain\Entity\Event $event The current event
+ * @property-read PHPSC\Conference\Domain\Entity\User $user The logged user
+ */
 abstract class Component extends UIComponent
 {
     /**
@@ -15,7 +19,7 @@ abstract class Component extends UIComponent
      */
     public static function setSharedData(array $sharedData)
     {
-        static::$sharedData = $sharedData;
+        Component::$sharedData = $sharedData;
     }
 
     /**
@@ -24,8 +28,8 @@ abstract class Component extends UIComponent
      */
     public function __get($name)
     {
-        if (static::$sharedData !== null && isset(static::$sharedData[$name])) {
-            return static::$sharedData[$name];
+        if (Component::$sharedData !== null && isset(Component::$sharedData[$name])) {
+            return Component::$sharedData[$name];
         }
     }
 }
