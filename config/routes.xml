@@ -46,5 +46,6 @@
 		<filter pattern="/adm/talks" class="\PHPSC\Conference\Application\Filter\ManagerFilter" />
 		<filter pattern="/supporters" class="\PHPSC\Conference\Application\Filter\ApiManagementFilter" httpMethods="POST" />
 		<filter pattern="/evaluations" class="\PHPSC\Conference\Application\Filter\ApiEvaluatorFilter" httpMethods="POST,PUT" />
+		<filter pattern="/*" class="\PHPSC\Conference\Application\Filter\UIFilter" httpMethods="GET" />
 	</filters>
 </routing>
