@@ -18,7 +18,7 @@ class Credentialing extends Controller
         $event = $this->getEventManagement()->findCurrentEvent();
         $attendees = $this->getAttendeeManagement()->findByEvent($event);
 
-        return Main::create(new Grid($event, $attendees), $this->application);
+        return new Main(new Grid($event, $attendees));
     }
 
     /**

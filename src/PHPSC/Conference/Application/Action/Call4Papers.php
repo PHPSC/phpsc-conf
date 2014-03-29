@@ -21,7 +21,7 @@ class Call4Papers extends Controller
     {
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(new Index($event), $this->application);
+        return new Main(new Index($event));
     }
 
     /**
@@ -33,7 +33,7 @@ class Call4Papers extends Controller
         $event = $this->getEventManagement()->findCurrentEvent();
         $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
 
-        return Main::create(new Grid($event, $talks), $this->application);
+        return new Main(new Grid($event, $talks));
     }
 
     /**
@@ -58,7 +58,7 @@ class Call4Papers extends Controller
      */
     public function talkForm()
     {
-        return Main::create(new Form(), $this->application);
+        return new Main(new Form());
     }
 
     /**
@@ -97,10 +97,7 @@ class Call4Papers extends Controller
         $user = $this->getAuthenticationService()->getLoggedUser();
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(
-            $this->getFeedbackListFor($event, $user),
-            $this->application
-        );
+        return new Main($this->getFeedbackListFor($event, $user));
     }
 
 

@@ -20,7 +20,7 @@ class Registration extends Controller
     {
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(new Index($event), $this->application);
+        return new Main(new Index($event));
     }
 
     /**
@@ -53,9 +53,8 @@ class Registration extends Controller
             $this->redirect('/registration/registered');
         }
 
-        return Main::create(
-            new Form($user, $event, $this->getTalkManagement()),
-            $this->application
+        return new Main(
+            new Form($user, $event, $this->getTalkManagement())
         );
     }
 
@@ -75,10 +74,7 @@ class Registration extends Controller
             $this->redirect('/registration/new');
         }
 
-        return Main::create(
-            new AlreadyRegistered($attendee),
-            $this->application
-        );
+        return new Main(new AlreadyRegistered($attendee));
     }
 
     /**
@@ -88,10 +84,7 @@ class Registration extends Controller
     {
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(
-            new Confirmation($event),
-            $this->application
-        );
+        return new Main(new Confirmation($event));
     }
 
     /**

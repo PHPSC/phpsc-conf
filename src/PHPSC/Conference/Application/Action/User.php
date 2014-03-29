@@ -74,7 +74,7 @@ class User extends Controller
      */
     protected function showForm(UserEntity $user)
     {
-        return Main::create(new Form($user), $this->application);
+        return new Main(new Form($user));
     }
 
     /**

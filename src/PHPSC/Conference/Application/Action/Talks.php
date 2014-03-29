@@ -15,13 +15,11 @@ class Talks extends Controller
     {
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(
+        return new Main(
             new Index(
                 $event,
                 $this->getTalkManagement()->eventHasAnyApprovedTalk($event)
-            ),
-            $this->application,
-            'Confira aqui a grade de palestras aprovadas para o evento!'
+            )
         );
     }
 

@@ -18,7 +18,7 @@ class Supporters extends Controller
         $event = $this->getEventManagement()->findCurrentEvent();
         $supporters = $this->getSupporterManagement()->findByEvent($event);
 
-        return Main::create(new Grid($event, $supporters), $this->application);
+        return new Main(new Grid($event, $supporters));
     }
 
     /**

@@ -19,13 +19,12 @@ class Talks extends Controller
         $event = $this->getEventManagement()->findCurrentEvent();
         $talks = $this->getTalkManagement()->findByEvent($event);
 
-        return Main::create(
+        return new Main(
             new Grid(
                 $event,
                 $talks,
                 $this->getAuthenticationService()->getLoggedUser()
-            ),
-            $this->application
+            )
         );
     }
 

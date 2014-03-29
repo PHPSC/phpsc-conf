@@ -19,12 +19,11 @@ class Home extends Controller
     {
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        return Main::create(
+        return new Main(
             new Index(
                 $event,
                 $this->getTalkManagement()->eventHasAnyApprovedTalk($event)
-            ),
-            $this->application
+            )
         );
     }
 
@@ -33,7 +32,7 @@ class Home extends Controller
      */
     public function displayAbout()
     {
-        return Main::create(new About(), $this->application);
+        return new Main(new About());
     }
 
     /**
@@ -41,10 +40,7 @@ class Home extends Controller
      */
     public function displayVenue()
     {
-        return Main::create(
-            new Venue($this->getEventManagement()->findCurrentEvent()),
-            $this->application
-        );
+        return new Main(new Venue($this->getEventManagement()->findCurrentEvent()));
     }
 
     /**
