@@ -1,12 +1,12 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Registration;
 
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \PHPSC\Conference\UI\Main;
-use \PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\UI\Main;
 use PHPSC\Conference\UI\ShareButton;
 
-class AlreadyRegistered extends UIComponent
+class AlreadyRegistered extends Component
 {
     /**
      * @var \PHPSC\Conference\Domain\Entity\Attendee

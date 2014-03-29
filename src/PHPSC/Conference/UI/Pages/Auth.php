@@ -1,8 +1,8 @@
 <?php
 namespace PHPSC\Conference\UI\Pages;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Auth extends UIComponent
+class Auth extends Component
 {
 }

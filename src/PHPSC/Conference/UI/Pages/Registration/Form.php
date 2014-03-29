@@ -2,13 +2,13 @@
 namespace PHPSC\Conference\UI\Pages\Registration;
 
 use DateTime;
-use Lcobucci\DisplayObjects\Core\UIComponent;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\User;
 use PHPSC\Conference\Domain\Service\TalkManagementService;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
 
-class Form extends UIComponent
+class Form extends Component
 {
     /**
      * @var User

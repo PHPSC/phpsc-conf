@@ -3,13 +3,13 @@ namespace PHPSC\Conference\UI\Admin\Talks;
 
 use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
 use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
-use Lcobucci\DisplayObjects\Core\UIComponent;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\Talk;
 use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
 
-class Grid extends UIComponent
+class Grid extends Component
 {
     /**
      * @var Event

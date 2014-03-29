@@ -2,12 +2,12 @@
 namespace PHPSC\Conference\UI;
 
 use DateTime;
-use Lcobucci\DisplayObjects\Core\UIComponent;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\SocialProfile;
 use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 
-class NavigationBar extends UIComponent
+class NavigationBar extends Component
 {
     /**
      * @var Event

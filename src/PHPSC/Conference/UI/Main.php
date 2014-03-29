@@ -4,8 +4,9 @@ namespace PHPSC\Conference\UI;
 use Lcobucci\DisplayObjects\Core\UIComponent;
 use Lcobucci\ActionMapper2\Application;
 use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Main extends UIComponent
+class Main extends Component
 {
     /**
      * @var string

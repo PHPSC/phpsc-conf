@@ -1,12 +1,12 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
+use Lcobucci\DisplayObjects\Components\SimpleList;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
 use PHPSC\Conference\UI\ShareButton;
-use \Lcobucci\DisplayObjects\Components\SimpleList;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
 
-class FeedbackList extends UIComponent
+class FeedbackList extends Component
 {
     /**
      * @var array

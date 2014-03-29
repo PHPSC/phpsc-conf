@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
 
-class TalkWindow extends UIComponent
+class TalkWindow extends Component
 {
     /**
      * @var boolean
@@ -17,6 +17,7 @@ class TalkWindow extends UIComponent
     public function __construct($readOnly)
     {
         $this->readOnly = $readOnly;
+
         Main::appendScript($this->getUrl('js/vendor/selectize.min.js'));
     }
 

@@ -1,15 +1,15 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
-use \Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
-use \Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \PHPSC\Conference\UI\Main;
-use \PHPSC\Conference\Domain\Entity\Event;
-use \PHPSC\Conference\Domain\Entity\Talk;
+use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
+use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\Talk;
+use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\UI\Main;
 use PHPSC\Conference\UI\ShareButton;
 
-class Grid extends UIComponent
+class Grid extends Component
 {
     /**
      * @var \PHPSC\Conference\Domain\Entity\Event

@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
-use \PHPSC\Conference\Domain\Entity\Event;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Index extends UIComponent
+class Index extends Component
 {
     /**
      * @var \PHPSC\Conference\Domain\Entity\Event

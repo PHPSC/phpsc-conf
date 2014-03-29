@@ -2,11 +2,10 @@
 namespace PHPSC\Conference\UI\Pages\User;
 
 use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 
-use \PHPSC\Conference\Domain\Entity\User;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-
-class Form extends UIComponent
+class Form extends Component
 {
     /**
      * @var \PHPSC\Conference\Domain\Entity\User

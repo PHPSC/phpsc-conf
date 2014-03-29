@@ -1,8 +1,8 @@
 <?php
 namespace PHPSC\Conference\UI\Admin\Credentialing;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Window extends UIComponent
+class Window extends Component
 {
 }

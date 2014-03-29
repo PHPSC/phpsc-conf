@@ -2,10 +2,10 @@
 namespace PHPSC\Conference\UI\Pages;
 
 use DateTime;
-use Lcobucci\DisplayObjects\Core\UIComponent;
 use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Index extends UIComponent
+class Index extends Component
 {
     /**
      * @var Event

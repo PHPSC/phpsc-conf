@@ -1,8 +1,8 @@
 <?php
 namespace PHPSC\Conference\UI\Admin\Talks;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
-class EvaluationWindow extends UIComponent
+class EvaluationWindow extends Component
 {
 }
