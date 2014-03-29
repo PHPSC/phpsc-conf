@@ -178,7 +178,7 @@ class Location implements Entity
     }
 
     /**
-     * @param Logo $logo
+     * @param Logo $website
      */
     public function setLogo(Logo $logo = null)
     {
@@ -191,5 +191,21 @@ class Location implements Entity
     public function hasLogo()
     {
         return $this->getLogo() !== null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param string $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
     }
 }
