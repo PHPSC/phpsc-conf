@@ -10,6 +10,7 @@ use \PHPSC\Conference\UI\Pages\Registration\Form;
 use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
 use \PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Infra\UI\Component;
 
 class Registration extends Controller
 {
@@ -18,9 +19,7 @@ class Registration extends Controller
      */
     public function renderIndex()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        return new Main(new Index($event));
+        return new Main(new Index());
     }
 
     /**
@@ -42,20 +41,16 @@ class Registration extends Controller
      */
     public function renderForm()
     {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
         $attendee = $this->getAttendeeManagement()->findActiveRegistration(
-            $event,
-            $user
+            Component::get('event'),
+            Component::get('user')
         );
 
         if ($attendee !== null) {
             $this->redirect('/registration/registered');
         }
 
-        return new Main(
-            new Form($user, $event, $this->getTalkManagement())
-        );
+        return new Main(new Form($this->getTalkManagement()));
     }
 
     /**
@@ -63,11 +58,9 @@ class Registration extends Controller
      */
     public function registered()
     {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
         $attendee = $this->getAttendeeManagement()->findActiveRegistration(
-            $event,
-            $user
+            Component::get('event'),
+            Component::get('user')
         );
 
         if ($attendee === null) {
@@ -82,9 +75,7 @@ class Registration extends Controller
      */
     public function confirm()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        return new Main(new Confirmation($event));
+        return new Main(new Confirmation());
     }
 
     /**
@@ -97,14 +88,6 @@ class Registration extends Controller
         return $this->getAttendeeJsonService()->resendPayment(
             $this->request->getUriForPath('/registration/new')
         );
-    }
-
-    /**
-     * @return \PHPSC\Conference\Domain\Service\EventManagementService
-     */
-    protected function getEventManagement()
-    {
-        return $this->get('event.management.service');
     }
 
     /**
@@ -129,13 +112,5 @@ class Registration extends Controller
     protected function getAttendeeJsonService()
     {
         return $this->get('attendee.json.service');
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

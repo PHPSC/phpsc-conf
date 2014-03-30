@@ -3,10 +3,9 @@ namespace PHPSC\Conference\Application\Action\Admin;
 
 use Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use Lcobucci\ActionMapper2\Routing\Controller;
-use PHPSC\Conference\Domain\Service\EventManagementService;
-use PHPSC\Conference\Domain\Service\SupporterManagementService;
-use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Admin\Supporters\Grid;
+use PHPSC\Conference\UI\Main;
 
 class Supporters extends Controller
 {
@@ -15,25 +14,11 @@ class Supporters extends Controller
      */
     public function showList()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-        $supporters = $this->getSupporterManagement()->findByEvent($event);
-
-        return new Main(new Grid($event, $supporters));
-    }
-
-    /**
-     * @return EventManagementService
-     */
-    protected function getEventManagement()
-    {
-        return $this->get('event.management.service');
-    }
-
-    /**
-     * @return SupporterManagementService
-     */
-    protected function getSupporterManagement()
-    {
-        return $this->get('supporter.management.service');
+        return new Main(
+            new Grid(
+                $this->get('supporter.management.service')
+                     ->findByEvent(Component::get('event'))
+            )
+        );
     }
 }

@@ -8,12 +8,12 @@ use PHPSC\Conference\Infra\UI\Component;
 class Form extends Component
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\User
+     * @var User
      */
     protected $user;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -27,19 +27,11 @@ class Form extends Component
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * @return string
      */
     public function getFirstName()
     {
-        $name = $this->getUser()->getName();
+        $name = $this->user->getName();
         $name = substr($name, 0, strpos($name, ' '));
 
         return $name;

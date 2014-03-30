@@ -3,11 +3,10 @@ namespace PHPSC\Conference\Application\Action\Admin;
 
 use Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use Lcobucci\ActionMapper2\Routing\Controller;
-use PHPSC\Conference\Application\Service\AuthenticationService;
-use PHPSC\Conference\Domain\Service\EventManagementService;
 use PHPSC\Conference\Domain\Service\TalkManagementService;
 use PHPSC\Conference\UI\Admin\Talks\Grid;
 use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Infra\UI\Component;
 
 class Talks extends Controller
 {
@@ -16,32 +15,12 @@ class Talks extends Controller
      */
     public function showList()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-        $talks = $this->getTalkManagement()->findByEvent($event);
-
         return new Main(
             new Grid(
-                $event,
-                $talks,
-                $this->getAuthenticationService()->getLoggedUser()
+                $this->getTalkManagement()
+                     ->findByEvent(Component::get('event'))
             )
         );
-    }
-
-    /**
-     * @return AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->get('authentication.service');
-    }
-
-    /**
-     * @return EventManagementService
-     */
-    protected function getEventManagement()
-    {
-        return $this->get('event.management.service');
     }
 
     /**

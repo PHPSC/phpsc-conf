@@ -8,12 +8,12 @@ use PHPSC\Conference\UI\Main;
 class Form extends Component
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\Talk
+     * @var Talk
      */
     protected $talk;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Talk $talk
+     * @param Talk $talk
      */
     public function __construct(Talk $talk = null)
     {
@@ -24,7 +24,7 @@ class Form extends Component
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Talk
+     * @return Talk
      */
     public function getTalk()
     {

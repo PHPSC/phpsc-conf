@@ -1,40 +1,24 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Talks;
 
-use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
 
 class Index extends Component
 {
     /**
-     * @var Event
-     */
-    protected $event;
-
-    /**
      * @var boolean
      */
     protected $hasApprovedTalks;
 
     /**
-     * @param Event $event
      * @param boolean $hasApprovedTalks
      */
-    public function __construct(Event $event, $hasApprovedTalks = false)
+    public function __construct($hasApprovedTalks = false)
     {
-        $this->event = $event;
         $this->hasApprovedTalks = $hasApprovedTalks;
 
         Main::appendScript($this->getUrl('js/talks/schedule.js'));
-    }
-
-    /**
-     * @return Event
-     */
-    public function getEvent()
-    {
-        return $this->event;
     }
 
     /**

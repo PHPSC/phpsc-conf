@@ -2,8 +2,6 @@
 namespace PHPSC\Conference\UI\Pages\Registration;
 
 use DateTime;
-use PHPSC\Conference\Domain\Entity\Event;
-use PHPSC\Conference\Domain\Entity\User;
 use PHPSC\Conference\Domain\Service\TalkManagementService;
 use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
@@ -11,51 +9,18 @@ use PHPSC\Conference\UI\Main;
 class Form extends Component
 {
     /**
-     * @var User
-     */
-    protected $user;
-
-    /**
-     * @var Event
-     */
-    protected $event;
-
-    /**
      * @var TalkManagementService
      */
     protected $talkService;
 
     /**
-     * @param User $user
-     * @param Event $event
      * @param TalkManagementService $talkService
      */
-    public function __construct(
-        User $user,
-        Event $event,
-        TalkManagementService $talkService
-    ) {
-        $this->user = $user;
-        $this->event = $event;
+    public function __construct(TalkManagementService $talkService)
+    {
         $this->talkService = $talkService;
 
         Main::appendScript($this->getUrl('js/attendee.create.js'));
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return Event
-     */
-    public function getEvent()
-    {
-        return $this->event;
     }
 
     /**

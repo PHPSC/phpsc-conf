@@ -3,8 +3,7 @@ namespace PHPSC\Conference\Application\Action\Admin;
 
 use Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use Lcobucci\ActionMapper2\Routing\Controller;
-use PHPSC\Conference\Domain\Service\EventManagementService;
-use PHPSC\Conference\Domain\Service\AttendeeManagementService;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
 use PHPSC\Conference\UI\Admin\Credentialing\Grid;
 
@@ -15,25 +14,11 @@ class Credentialing extends Controller
      */
     public function showList()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-        $attendees = $this->getAttendeeManagement()->findByEvent($event);
-
-        return new Main(new Grid($event, $attendees));
-    }
-
-    /**
-     * @return EventManagementService
-     */
-    protected function getEventManagement()
-    {
-        return $this->get('event.management.service');
-    }
-
-    /**
-     * @return AttendeeManagementService
-     */
-    protected function getAttendeeManagement()
-    {
-        return $this->get('attendee.management.service');
+        return new Main(
+            new Grid(
+                $this->get('attendee.management.service')
+                     ->findByEvent(Component::get('event'))
+            )
+        );
     }
 }

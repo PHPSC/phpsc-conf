@@ -9,12 +9,12 @@ use PHPSC\Conference\UI\ShareButton;
 class AlreadyRegistered extends Component
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\Attendee
+     * @var Attendee
      */
     protected $attendee;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Attendee $attendee
+     * @param Attendee $attendee
      */
     public function __construct(Attendee $attendee)
     {
@@ -24,25 +24,12 @@ class AlreadyRegistered extends Component
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
+     * @return ShareButton
      */
-    public function getEvent()
-    {
-        return $this->attendee->getEvent();
-    }
-
-    /**
-     * @return \PHPSC\Conference\Domain\Entity\Attendee
-     */
-    public function getAttendee()
-    {
-        return $this->attendee;
-    }
-
     protected function getShareButton()
     {
         return new ShareButton(
-            'Acabo de me inscrever no ' . $this->attendee->getEvent()->getName(),
+            'Acabo de me inscrever no ' . $this->event->getName(),
             'Acabo de me inscrever no #phpscConf. Participe você também!',
             'http://conf.phpsc.com.br',
             'PHP_SC',

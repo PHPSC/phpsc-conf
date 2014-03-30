@@ -1,10 +1,11 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\UI\Pages\Talks\Index;
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\UI\Main;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\Talks\Index;
 
 class Talks extends Controller
 {
@@ -13,29 +14,15 @@ class Talks extends Controller
      */
     public function renderIndex()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        return new Main(
-            new Index(
-                $event,
-                $this->getTalkManagement()->eventHasAnyApprovedTalk($event)
-            )
-        );
+        return new Main(new Index($this->hasApprovedTalks()));
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Service\EventManagementService
+     * @return boolean
      */
-    protected function getEventManagement()
+    protected function hasApprovedTalks()
     {
-        return $this->get('event.management.service');
-    }
-
-    /**
-     * @return \PHPSC\Conference\Domain\Service\TalkManagementService
-     */
-    protected function getTalkManagement()
-    {
-        return $this->get('talk.management.service');
+        return $this->get('talk.management.service')
+                    ->eventHasAnyApprovedTalk(Component::get('event'));
     }
 }
