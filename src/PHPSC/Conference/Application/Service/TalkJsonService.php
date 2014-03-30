@@ -65,7 +65,7 @@ class TalkJsonService
                 $shortDescription,
                 $longDescription,
                 $complexity,
-                !empty($tags) ? $tags : null
+                !empty($tags) ? explode(',', $tags) : null
             );
 
             return json_encode(
@@ -127,7 +127,7 @@ class TalkJsonService
                 $shortDescription,
                 $longDescription,
                 $complexity,
-                !empty($tags) ? $tags : null
+                !empty($tags) ? explode(',', $tags) : null
             );
 
             return json_encode(
