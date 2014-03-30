@@ -214,6 +214,11 @@ class Event implements Entity
             return false;
         }
 
+        if ($date >= $this->getRegistrationInfo()->getStart()
+            && $date <= $this->getRegistrationInfo()->getEnd()) {
+            return true;
+        }
+
         return $this->isEventPeriod($date);
     }
 
