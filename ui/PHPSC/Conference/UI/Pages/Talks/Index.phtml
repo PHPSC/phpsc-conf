@@ -1,7 +1,8 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Talks\Index */ ?>
 <?php if (!$this->hasApprovedTalks()) { ?>
 <div class="jumbotron" style="padding: 30px;">
     <h2>Programação</h2>
-    <h3><?php echo $this->getEvent()->getName(); ?></h3>
+    <h3><?php echo $this->event->getName(); ?></h3>
     <div style="margin-top: 15px;">
         <p>As submissões estão em avaliação, aguarde!</p>
     </div>
@@ -19,10 +20,10 @@
 <div class="row title">
     <div class="col-md-12">
         <h1>Programação</h1>
-        <h3><?php echo $this->getEvent()->getName(); ?></h3>
+        <h3><?php echo $this->event->getName(); ?></h3>
     </div>
 </div>
-<?php for ($date = $this->getEvent()->getStartDate(); $date <= $this->getEvent()->getEndDate(); $date->modify('+1 day')) { ?>
+<?php for ($date = $this->event->getStartDate(); $date <= $this->event->getEndDate(); $date->modify('+1 day')) { ?>
     <div class="row">
         <div class="col-md-12">
             <table class="table table-striped" id="talks-<?= $date->format('Y-m-d'); ?>">

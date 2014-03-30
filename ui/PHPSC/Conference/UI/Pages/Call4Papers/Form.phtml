@@ -1,3 +1,4 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Call4Papers\Form */ ?>
 <link href="<?php echo $this->getUrl('css/selectize.bootstrap3.css'); ?>" rel="stylesheet">
 <form id="talkForm" role="form" class="well" action="<?php echo $this->getUrl('call4papers/submissions'); ?>" method="post">
     <fieldset>
@@ -9,7 +10,8 @@
             </div>
             <div class="form-group">
                 <label for="title">Título</label>
-                <input type="text" required="required" id="title" name="title" value="<?php echo $this->getTalk()->getTitle(); ?>" class="form-control" placeholder="Digite o título da palestra..." maxlength="120">
+                <input type="text" required="required" id="title" name="title" value="<?php echo $this->talk->getTitle(); ?>"
+                    class="form-control" placeholder="Digite o título da palestra..." maxlength="120">
             </div>
             <div class="form-group">
                 <label for="type">Tipo de trabalho</label>
@@ -37,7 +39,8 @@
             </div>
             <div class="form-group">
                 <label for="tags">Palavras-chave</label>
-                <input type="text" id="tags" name="tags" value="<?php echo $this->getTalk()->getTags(); ?>" class="form-control" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="120">
+                <input type="text" id="tags" name="tags" value="<?php echo $this->talk->getTags(); ?>"
+                    class="form-control" placeholder="Digite as palavras-chave da palestra (separadas por vírgula)..." maxlength="120">
             </div>
             <div class="control-group">
                 <div class="controls">

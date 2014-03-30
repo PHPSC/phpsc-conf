@@ -1,12 +1,12 @@
 <?php
 namespace PHPSC\Conference\UI\Admin\Talks;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk
  */
-class EvaluatorButtons extends UIComponent
+class EvaluatorButtons extends Component
 {
     /**
      * @var int

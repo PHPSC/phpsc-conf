@@ -3,41 +3,25 @@ namespace PHPSC\Conference\UI\Admin\Supporters;
 
 use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
 use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
-use PHPSC\Conference\Domain\Entity\Event;
 
-class Grid extends UIComponent
+class Grid extends Component
 {
-    /**
-     * @var Event
-     */
-    protected $event;
-
     /**
      * @var array
      */
     protected $supporters;
 
     /**
-     * @param Event $event
      * @param array $supporters
      */
-    public function __construct(Event $event, array $supporters)
+    public function __construct(array $supporters)
     {
         Main::appendScript($this->getUrl('js/vendor/jquery.form.min.js'));
         Main::appendScript($this->getUrl('js/adm/supporter/window.js'));
 
-        $this->event = $event;
         $this->supporters = $supporters;
-    }
-
-    /**
-     * @return Event
-     */
-    protected function getEvent()
-    {
-        return $this->event;
     }
 
     /**

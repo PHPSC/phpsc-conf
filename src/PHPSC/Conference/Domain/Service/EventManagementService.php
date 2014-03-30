@@ -30,4 +30,16 @@ class EventManagementService
 
         throw new RuntimeException('Nenhum evento cadastrado');
     }
+
+    /**
+     * @return \PHPSC\Conference\Domain\Entity\Event
+     */
+    public function findById($id)
+    {
+        if ($event = $this->repository->findOneById($id)) {
+            return $event;
+        }
+
+        throw new RuntimeException('Nenhum evento cadastrado');
+    }
 }

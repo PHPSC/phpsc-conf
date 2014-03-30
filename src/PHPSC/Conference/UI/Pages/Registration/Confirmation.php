@@ -1,34 +1,14 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Registration;
 
-use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\ShareButton;
-use \PHPSC\Conference\Domain\Entity\Event;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
 
-class Confirmation extends UIComponent
+class Confirmation extends Component
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\Event
+     * @return ShareButton
      */
-    protected $event;
-
-    /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     */
-    public function __construct(Event $event)
-    {
-        $this->event = $event;
-    }
-
-    /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
-
     protected function getShareButton()
     {
         return new ShareButton(

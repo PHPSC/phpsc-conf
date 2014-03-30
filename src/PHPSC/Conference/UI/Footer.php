@@ -1,9 +1,9 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Footer extends UIComponent
+class Footer extends Component
 {
     /**
      * @return \PHPSC\Conference\UI\Sponsors

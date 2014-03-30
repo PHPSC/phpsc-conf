@@ -6,6 +6,10 @@
         <service id="event.management.service" class="PHPSC\Conference\Domain\Service\EventManagementService">
             <argument type="service" id="event.repository" />
         </service>
+        <service id="location.locator" class="PHPSC\Conference\Domain\Service\LocationLocator">
+            <argument type="service" id="location.repository" />
+        </service>
+        
         <service id="location.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\Location</argument>
         </service>

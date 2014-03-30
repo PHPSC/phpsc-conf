@@ -6,6 +6,7 @@ use Lcobucci\ActionMapper2\Routing\Controller;
 use PHPSC\Conference\Domain\Entity\User as UserEntity;
 use PHPSC\Conference\UI\Main;
 use PHPSC\Conference\UI\Pages\User\Form;
+use PHPSC\Conference\Infra\UI\Component;
 
 class User extends Controller
 {
@@ -47,9 +48,7 @@ class User extends Controller
      */
     public function editForm()
     {
-        return $this->showForm(
-            $this->getAuthenticationService()->getLoggedUser()
-        );
+        return $this->showForm(Component::get('user'));
     }
 
     /**
@@ -74,7 +73,7 @@ class User extends Controller
      */
     protected function showForm(UserEntity $user)
     {
-        return Main::create(new Form($user), $this->application);
+        return new Main(new Form($user));
     }
 
     /**
@@ -83,13 +82,5 @@ class User extends Controller
     protected function getUserJsonService()
     {
         return $this->get('user.json.service');
-    }
-
-    /**
-     * @return \PHPSC\Conference\Application\Service\AuthenticationService
-     */
-    protected function getAuthenticationService()
-    {
-        return $this->application->getDependencyContainer()->get('authentication.service');
     }
 }

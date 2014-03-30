@@ -2,33 +2,11 @@
 namespace PHPSC\Conference\UI;
 
 use DateTime;
-use Lcobucci\DisplayObjects\Core\UIComponent;
-use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\SocialProfile;
-use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 
-class NavigationBar extends UIComponent
+class NavigationBar extends Component
 {
-    /**
-     * @var Event
-     */
-    protected $event;
-
-    /**
-     * @var User
-     */
-    protected $loggedUser;
-
-    /**
-     * @param Event $event
-     * @param User $loggedUser
-     */
-    public function __construct(Event $event, User $loggedUser = null)
-    {
-        $this->event = $event;
-        $this->loggedUser = $loggedUser;
-    }
-
     /**
      * @return array
      */
@@ -59,8 +37,8 @@ class NavigationBar extends UIComponent
      */
     public function getProfile()
     {
-        if ($this->loggedUser) {
-            return $this->loggedUser->getDefaultProfile();
+        if ($this->user) {
+            return $this->user->getDefaultProfile();
         }
     }
 
@@ -69,6 +47,6 @@ class NavigationBar extends UIComponent
      */
     protected function getMenu()
     {
-        return new MainMenu($this->event, $this->loggedUser);
+        return new MainMenu();
     }
 }

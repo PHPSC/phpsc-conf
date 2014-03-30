@@ -3,50 +3,26 @@ namespace PHPSC\Conference\UI\Admin\Talks;
 
 use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
 use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
-use Lcobucci\DisplayObjects\Core\UIComponent;
-use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\Talk;
-use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
 
-class Grid extends UIComponent
+class Grid extends Component
 {
-    /**
-     * @var Event
-     */
-    protected $event;
-
     /**
      * @var array
      */
     protected $talks;
 
     /**
-     * @var User
-     */
-    protected $user;
-
-    /**
-     * @param Event $event
      * @param array $talks
-     * @param User $user
      */
-    public function __construct(Event $event, array $talks, User $user)
+    public function __construct(array $talks)
     {
-        $this->event = $event;
         $this->talks = $talks;
-        $this->user = $user;
 
         Main::appendScript($this->getUrl('js/vendor/jquery.form.min.js'));
         Main::appendScript($this->getUrl('js/adm/talk/window.js'));
-    }
-
-    /**
-     * @return Event
-     */
-    protected function getEvent()
-    {
-        return $this->event;
     }
 
     /**

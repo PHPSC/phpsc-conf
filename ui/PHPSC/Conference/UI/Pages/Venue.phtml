@@ -1,3 +1,4 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Venue */ ?>
 <div>
     <header class="page-header">
     	<h1>O Local</h1>
@@ -23,7 +24,7 @@
 </div>
 <?php if ($this->displayMap()) { ?>
 <script type="text/javascript">
-    var lat = <?php echo $this->getEvent()->getLocation()->getLatitude(); ?>;
-    var lng = <?php echo $this->getEvent()->getLocation()->getLongitude(); ?>;
+    var lat = <?php echo $this->event->getLocation()->getLatitude(); ?>;
+    var lng = <?php echo $this->event->getLocation()->getLongitude(); ?>;
 </script>
 <?php } ?>

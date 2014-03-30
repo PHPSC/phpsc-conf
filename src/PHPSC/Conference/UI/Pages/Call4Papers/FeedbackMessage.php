@@ -1,8 +1,8 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
-class FeedbackMessage extends UIComponent
+class FeedbackMessage extends Component
 {
 }

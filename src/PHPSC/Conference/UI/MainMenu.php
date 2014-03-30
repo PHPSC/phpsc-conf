@@ -1,35 +1,13 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
-use PHPSC\Conference\Domain\Entity\Event;
-use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class MainMenu extends UIComponent
+class MainMenu extends Component
 {
-    /**
-     * @var Event
-     */
-    protected $event;
-
-    /**
-     * @var User
-     */
-    protected $user;
-
-    /**
-     * @param Event $event
-     * @param User $user
-     */
-    public function __construct(Event $event, User $user = null)
-    {
-        $this->event = $event;
-        $this->user = $user;
-    }
-
     /**
      * @return string
      */

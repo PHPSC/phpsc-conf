@@ -1,3 +1,4 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Status */ ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -36,11 +37,14 @@
     <body>
         <div>
         	<div class="container" style="padding-top: 30px;">
+                <?php if ($this->event->hasLogo()) { ?>
         	    <div class="row">
                     <div class="col-md-12" style="text-align: center;">
-                        <img src="<?php echo $this->getUrl('img/logo-grande.png'); ?>" alt="PHPSC Conference" height="250" />
+                        <img src="<?php echo $this->getUrl('event/' . $this->event->getId()); ?>?h=250"
+                            alt="PHPSC Conference" height="250" />
                     </div>
                 </div>
+                <?php } ?>
         	    <div class="row" style="padding-top: 30px">
                     <div class="col-md-2 col-md-offset-3"><h2 id="nrInscricoes"></h2></div>
                     <div class="col-md-2 col-md-offset-2"><h2 id="nrPresencas"></h2></div>

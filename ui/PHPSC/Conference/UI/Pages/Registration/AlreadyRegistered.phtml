@@ -1,7 +1,8 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Registration\AlreadyRegistered */ ?>
 <div class="jumbotron" style="padding: 30px;">
-    <?php if (!$this->getAttendee()->isWaitingForPayment()) { ?>
+    <?php if (!$this->attendee->isWaitingForPayment()) { ?>
     <h2>Você já está inscrito!</h2>
-    <p style="margin-left: 10px; text-align: justify;">Sua inscrição no <?php echo $this->getEvent()->getName(); ?> está registrada com sucesso.</p>
+    <p style="margin-left: 10px; text-align: justify;">Sua inscrição no <?php echo $this->event->getName(); ?> está registrada com sucesso.</p>
     <div style="margin-top: 15px;">
         <p>Não perca tempo, convide seus amigos para participar deste evento também!</p>
         <p><?= $this->getShareButton(); ?></p>
@@ -9,7 +10,7 @@
     <?php } else { ?>
     <h2>Atenção!</h2>
     <p style="margin-left: 10px; text-align: justify;">
-        Sua inscrição no <?php echo $this->getEvent()->getName(); ?> foi registrada, entretanto seu pagamento ainda não foi confirmado.
+        Sua inscrição no <?php echo $this->event->getName(); ?> foi registrada, entretanto seu pagamento ainda não foi confirmado.
     </p>
     <p style="margin-left: 10px; text-align: justify;">
         Caso você já tenha realizado o pagamento através do PagSeguro, em breve receberemos a confirmação e esta mensagem não aparecerá novamente.

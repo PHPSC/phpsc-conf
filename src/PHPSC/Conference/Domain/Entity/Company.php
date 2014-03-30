@@ -34,8 +34,10 @@ class Company implements Entity
     private $name;
 
     /**
-     * @Column(type="blob")
-     * @var resource
+     * @ManyToOne(targetEntity="Logo", cascade={"all"})
+     * @JoinColumn(name="logo_id", referencedColumnName="id", nullable=false)
+     *
+     * @var Logo
      */
     private $logo;
 
@@ -138,7 +140,7 @@ class Company implements Entity
     }
 
     /**
-     * @return resource
+     * @return Logo
      */
     public function getLogo()
     {
@@ -146,9 +148,9 @@ class Company implements Entity
     }
 
     /**
-     * @param resource $logo
+     * @param Logo $logo
      */
-    public function setLogo($logo)
+    public function setLogo(Logo $logo)
     {
         $this->logo = $logo;
     }

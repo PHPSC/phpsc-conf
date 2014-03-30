@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use PHPSC\Conference\Infra\Images\ImageFactory;
 use PHPSC\Conference\Infra\Images\ImageValidator;
 use PHPSC\Conference\Domain\Entity\Company;
+use PHPSC\Conference\Domain\Entity\Logo;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -59,7 +60,7 @@ class CompanyFactory
         $company = new Company();
         $company->setSocialId($socialId);
         $company->setName($name);
-        $company->setLogo($this->createResource($logo));
+        $company->setLogo($this->createLogo($logo));
         $company->setEmail($email);
         $company->setPhone($phone);
         $company->setWebsite($website);
@@ -68,6 +69,19 @@ class CompanyFactory
         $company->setCreationTime(new DateTime());
 
         return $company;
+    }
+
+    /**
+     * @param string $filename
+     * @return Logo
+     */
+    protected function createLogo($filename)
+    {
+        $logo = new Logo();
+        $logo->setImage($this->createResource($filename));
+        $logo->setCreatedAt(new DateTime());
+
+        return $logo;
     }
 
     /**

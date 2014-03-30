@@ -10,7 +10,7 @@ class OAuth extends Controller
 {
     public function choose()
     {
-        return Main::create(new Auth(), $this->application);
+        return new Main(new Auth());
     }
 
     /**

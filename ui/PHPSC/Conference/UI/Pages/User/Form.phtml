@@ -1,3 +1,4 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\User\Form */ ?>
 <form id="userForm" class="well" role="form" action="<?php echo $this->getFormAction(); ?>" method="post">
     <fieldset>
         <legend><?php echo $this->getTitle(); ?></legend>
@@ -8,15 +9,15 @@
             </div>
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" id="name" required="required" name="name" value="<?php echo $this->getUser()->getName(); ?>" class="form-control" placeholder="Digite seu nome..." maxlength="80">
+                <input type="text" id="name" required="required" name="name" value="<?php echo $this->user->getName(); ?>" class="form-control" placeholder="Digite seu nome..." maxlength="80">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" required="required" name="email" value="<?php echo $this->getUser()->getEmail(); ?>" class="form-control" placeholder="Digite seu email..." maxlength="160">
+                <input type="email" id="email" required="required" name="email" value="<?php echo $this->user->getEmail(); ?>" class="form-control" placeholder="Digite seu email..." maxlength="160">
             </div>
             <div class="form-group">
                 <label for="bio">Biografia</label>
-                <textarea rows="5" cols="1" class="form-control" id="bio" name="bio" placeholder="Conte-nos um pouco sobre você..."><?php echo $this->getUser()->getBio(); ?></textarea>
+                <textarea rows="5" cols="1" class="form-control" id="bio" name="bio" placeholder="Conte-nos um pouco sobre você..."><?php echo $this->user->getBio(); ?></textarea>
             </div>
             <div class="control-group">
                 <div class="controls">
