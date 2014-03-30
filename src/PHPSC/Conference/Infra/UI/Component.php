@@ -22,14 +22,19 @@ abstract class Component extends UIComponent
         Component::$sharedData = $sharedData;
     }
 
+    public static function get($name)
+    {
+        if (Component::$sharedData !== null && isset(Component::$sharedData[$name])) {
+            return Component::$sharedData[$name];
+        }
+    }
+
     /**
      * @param string $name
      * @return multitype:
      */
     public function __get($name)
     {
-        if (Component::$sharedData !== null && isset(Component::$sharedData[$name])) {
-            return Component::$sharedData[$name];
-        }
+        return Component::get($name);
     }
 }
