@@ -79,7 +79,7 @@ class Talk implements Entity
     private $longDescription;
 
     /**
-     * @Column(type="string", columnDefinition="ENUM('L','M','H') NOT NULL DEFAULT 'L'")
+     * @Column(type="string", length=1, options={"default":"L"})
      * @var string
      */
     private $complexity;
