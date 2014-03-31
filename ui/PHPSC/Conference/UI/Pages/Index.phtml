@@ -19,8 +19,12 @@ function(d, s, id)
 <div class="jumbotron">
     <div class="container">
         <h1>
-            PHPSC Conference 2013<br />
-            <small>25 e 26 de outubro de 2013, Unochapecó, Chapecó, SC</small>
+            <?= $this->event->getName(); ?><br />
+            <small>
+                de <?= $this->event->getStartDate()->format('d/m/Y'); ?>
+                à <?= $this->event->getEndDate()->format('d/m/Y'); ?>,
+                <a href="<?= $this->getUrl('venue'); ?>"><?= $this->event->getLocation()->getName(); ?> - <?= $this->event->getLocation()->getDescription(); ?>, SC</a>
+            </small>
         </h1>
         <p>
             <a class="btn btn-primary btn-lg" href="<?php echo $this->getUrl('about'); ?>">Maiores Informações &raquo;</a>
