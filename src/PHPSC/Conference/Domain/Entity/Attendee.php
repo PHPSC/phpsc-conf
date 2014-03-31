@@ -74,6 +74,13 @@ class Attendee implements Entity
     private $arrived;
 
     /**
+     * @ManyToOne(targetEntity="DiscountCoupon")
+     * @JoinColumn(name="coupon_id", referencedColumnName="id")
+     * @var DiscountCoupon
+     */
+    private $discount;
+
+    /**
      * @Column(type="datetime", name="creation_time", nullable=false)
      * @var DateTime
      */
@@ -255,6 +262,34 @@ class Attendee implements Entity
     }
 
     /**
+     * @return DiscountCoupon
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param DiscountCoupon $discount
+     */
+    public function setDiscount(DiscountCoupon $discount = null)
+    {
+        $this->discount = $discount;
+    }
+
+    /**
+     * @param DiscountCoupon $discount
+     */
+    public function applyDiscount(DiscountCoupon $discount)
+    {
+        $this->setDiscount($discount);
+
+        if ($this->isWaitingForPayment() && !$discount->isParcialDiscount()) {
+            $this->setStatus(static::APPROVED);
+        }
+    }
+
+    /**
      * @return DateTime
      */
     public function getCreationTime()
@@ -349,5 +384,37 @@ class Attendee implements Entity
     public static function createStudentAttendee(Event $event, User $user)
     {
         return static::create($event, $user, static::CHECK_PAYMENT);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusDescription()
+    {
+        switch (true) {
+            case $this->isPaymentNotNecessary():
+                return 'Pagamento dispensado';
+            case $this->isPaymentNotVerified():
+                return 'Verificar pagamento';
+            case $this->isWaitingForPayment():
+                return 'Aguardando pagamento';
+                return 'Verificar pagamento';
+            case $this->isApproved():
+                return 'Pagamento confirmado';
+            case $this->isCancelled():
+                return 'Inscrição cancelada';
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getUser()->getName(),
+            'status' => $this->getStatus()
+        );
     }
 }

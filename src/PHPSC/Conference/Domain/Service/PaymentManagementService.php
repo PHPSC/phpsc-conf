@@ -97,10 +97,14 @@ class PaymentManagementService
     /**
      * @param Payment $payment
      */
-    protected function approvePayment(Payment $payment)
+    public function approvePayment(Payment $payment, $dispatch = true)
     {
         $payment->approve();
         $this->repository->update($payment);
+
+        if (!$dispatch) {
+            return ;
+        }
 
         $this->eventManager->dispatchEvent(
             PaymentConfirmationListener::CONFIRM_PAYMENT,

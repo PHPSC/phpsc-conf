@@ -4,20 +4,36 @@
 	xsi:schemaLocation="http://lcobucci.com/action-mapper/schema ../vendor/lcobucci/action-mapper/src/Lcobucci/ActionMapper2/Config/schema/routing.xsd ">
 	<routes>
 		<route pattern="/*" class="\PHPSC\Conference\Application\Action\Home" />
-		<route pattern="/contact/*" class="\PHPSC\Conference\Application\Action\Contact" />
-		<route pattern="/oauth" class="\PHPSC\Conference\Application\Action\OAuth" method="choose" />
+
+        <route pattern="/oauth" class="\PHPSC\Conference\Application\Action\OAuth" method="choose" />
 		<route pattern="/oauth/(provider)/*" class="\PHPSC\Conference\Application\Action\OAuth" />
-		<route pattern="/user/*" class="\PHPSC\Conference\Application\Action\User" />
+		
+        <route pattern="/attendee/(id)*" class="\PHPSC\Conference\Application\Action\Attendee" />
+		<route pattern="/contact/*" class="\PHPSC\Conference\Application\Action\Contact" />
+        <route pattern="/user/*" class="\PHPSC\Conference\Application\Action\User" />
 		<route pattern="/call4papers/*" class="\PHPSC\Conference\Application\Action\Call4Papers" />
 		<route pattern="/payment/*" class="\PHPSC\Conference\Application\Action\Payment" />
 		<route pattern="/registration/*" class="\PHPSC\Conference\Application\Action\Registration" />
-		<route pattern="/talks/*" class="\PHPSC\Conference\Application\Action\Talks" />
 		<route pattern="/status" class="\PHPSC\Conference\Application\Action\Status" />
 		<route pattern="/logoff" class="\PHPSC\Conference\Application\Action\Logoff" />
 		<route pattern="/companies/*" class="\PHPSC\Conference\Application\Action\Companies" />
-		<route pattern="/adm/supporters" class="\PHPSC\Conference\Application\Action\Admin\Supporters" />
-		<route pattern="/supporters/*" class="\PHPSC\Conference\Application\Action\Supporters" />
+		<route pattern="/schedule" class="\PHPSC\Conference\Application\Action\Schedule" />
+
+		<route pattern="/evaluation/(id)/*" class="\PHPSC\Conference\Application\Action\Evaluations\Evaluation" />
+		<route pattern="/evaluations/*" class="\PHPSC\Conference\Application\Action\Evaluations\Evaluations" />
+
+		<route pattern="/talk/(id)/*" class="\PHPSC\Conference\Application\Action\Talk" />
+		<route pattern="/talks/*" class="\PHPSC\Conference\Application\Action\Talks" />
+
+        <route pattern="/supporters/*" class="\PHPSC\Conference\Application\Action\Supporters" />
 		<route pattern="/supporter/(id)" class="\PHPSC\Conference\Application\Action\Supporter" />
+
+		<route pattern="/adm/credentialing" class="\PHPSC\Conference\Application\Action\Admin\Credentialing" />
+		<route pattern="/adm/supporters" class="\PHPSC\Conference\Application\Action\Admin\Supporters" />
+		<route pattern="/adm/talks" class="\PHPSC\Conference\Application\Action\Admin\Talks" />
+        
+		<route pattern="/event/(id)" class="\PHPSC\Conference\Application\Action\Event" />
+		<route pattern="/location/(id)" class="\PHPSC\Conference\Application\Action\Location" />
 	</routes>
 	<filters>
 		<filter pattern="/user/*" class="\PHPSC\Conference\Application\Filter\UserFilter" />
@@ -26,7 +42,10 @@
 		<filter pattern="/call4papers/feedback" class="\PHPSC\Conference\Application\Filter\CommunityFeedbackFilter" />
 		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
 		<filter pattern="/registration/registered" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
-		<filter pattern="/adm/*" class="\PHPSC\Conference\Application\Filter\AdministratorFilter" />
+		<filter pattern="/adm/supporters" class="\PHPSC\Conference\Application\Filter\AdministratorFilter" />
+		<filter pattern="/adm/talks" class="\PHPSC\Conference\Application\Filter\ManagerFilter" />
 		<filter pattern="/supporters" class="\PHPSC\Conference\Application\Filter\ApiManagementFilter" httpMethods="POST" />
+		<filter pattern="/evaluations" class="\PHPSC\Conference\Application\Filter\ApiEvaluatorFilter" httpMethods="POST,PUT" />
+		<filter pattern="/*" class="\PHPSC\Conference\Application\Filter\UIFilter" httpMethods="GET" />
 	</filters>
 </routing>

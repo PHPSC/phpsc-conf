@@ -1,7 +1,7 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \PHPSC\Conference\Infra\Persistence\Entity;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\OpinionRepository")
@@ -25,14 +25,14 @@ class Opinion implements Entity
     /**
      * @ManyToOne(targetEntity="User", cascade={"all"})
      * @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\User
+     * @var User
      */
     private $user;
 
     /**
-     * @ManyToOne(targetEntity="Talk", cascade={"all"}, inversedBy="opinions")
+     * @ManyToOne(targetEntity="Talk", cascade={"all"})
      * @JoinColumn(name="talk_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\Talk
+     * @var Talk
      */
     private $talk;
 
@@ -59,7 +59,7 @@ class Opinion implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -67,7 +67,7 @@ class Opinion implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param User $user
      */
     public function setUser(User $user)
     {
@@ -75,7 +75,7 @@ class Opinion implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Talk
+     * @return Talk
      */
     public function getTalk()
     {
@@ -83,7 +83,7 @@ class Opinion implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Talk $talk
+     * @param Talk $talk
      */
     public function setTalk(Talk $talk)
     {
@@ -106,10 +106,10 @@ class Opinion implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @param \PHPSC\Conference\Domain\Entity\Talk $talk
+     * @param User $user
+     * @param Talk $talk
      * @param boolean $likes
-     * @return \PHPSC\Conference\Domain\Entity\Opinion
+     * @return Opinion
      */
     public static function create(User $user, Talk $talk, $likes)
     {

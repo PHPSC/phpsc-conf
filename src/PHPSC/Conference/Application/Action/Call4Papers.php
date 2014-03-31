@@ -1,16 +1,16 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \PHPSC\Conference\UI\Pages\Call4Papers\FeedbackMessage;
-use \PHPSC\Conference\UI\Pages\Call4Papers\FeedbackList;
-use \PHPSC\Conference\UI\Pages\Call4Papers\Form;
-use \PHPSC\Conference\UI\Pages\Call4Papers\Index;
-use \PHPSC\Conference\UI\Pages\Call4Papers\Grid;
-use \PHPSC\Conference\UI\Main;
-use \PHPSC\Conference\Domain\Entity\Event;
-
-use \Lcobucci\ActionMapper2\Routing\Controller;
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\Call4Papers\FeedbackMessage;
+use PHPSC\Conference\UI\Pages\Call4Papers\FeedbackList;
+use PHPSC\Conference\UI\Pages\Call4Papers\Form;
+use PHPSC\Conference\UI\Pages\Call4Papers\Index;
+use PHPSC\Conference\UI\Pages\Call4Papers\Grid;
 
 class Call4Papers extends Controller
 {
@@ -19,9 +19,7 @@ class Call4Papers extends Controller
      */
     public function renderIndex()
     {
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        return Main::create(new Index($event), $this->application);
+        return new Main(new Index());
     }
 
     /**
@@ -29,11 +27,14 @@ class Call4Papers extends Controller
      */
     public function listTalks()
     {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
-        $talks = $this->getTalkManagement()->findByUserAndEvent($user, $event);
-
-        return Main::create(new Grid($event, $talks), $this->application);
+        return new Main(
+            new Grid(
+                $this->getTalkManagement()->findByUserAndEvent(
+                    Component::get('user'),
+                    Component::get('event')
+                )
+            )
+        );
     }
 
     /**
@@ -58,7 +59,7 @@ class Call4Papers extends Controller
      */
     public function talkForm()
     {
-        return Main::create(new Form(), $this->application);
+        return new Main(new Form());
     }
 
     /**
@@ -94,12 +95,8 @@ class Call4Papers extends Controller
      */
     public function feedbackList()
     {
-        $user = $this->getAuthenticationService()->getLoggedUser();
-        $event = $this->getEventManagement()->findCurrentEvent();
-
-        return Main::create(
-            $this->getFeedbackListFor($event, $user),
-            $this->application
+        return new Main(
+            $this->getFeedbackListFor(Component::get('event'), Component::get('user'))
         );
     }
 

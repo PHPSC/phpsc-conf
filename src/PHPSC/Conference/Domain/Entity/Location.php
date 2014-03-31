@@ -26,6 +26,12 @@ class Location implements Entity
     private $name;
 
     /**
+     * @Column(type="string", length=60, nullable=true)
+     * @var string
+     */
+    private $website;
+
+    /**
      * @Column(type="text")
      * @var string
      */
@@ -42,6 +48,14 @@ class Location implements Entity
      * @var float
      */
     private $latitude;
+
+    /**
+     * @ManyToOne(targetEntity="Logo", cascade={"all"})
+     * @JoinColumn(name="logo_id", referencedColumnName="id", nullable=true)
+     *
+     * @var Logo
+     */
+    private $logo;
 
     /**
      * @return number
@@ -153,5 +167,45 @@ class Location implements Entity
     public function hasGeoPoint()
     {
         return $this->getLatitude() !== null && $this->getLongitude() !== null;
+    }
+
+    /**
+     * @return Logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param Logo $website
+     */
+    public function setLogo(Logo $logo = null)
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasLogo()
+    {
+        return $this->getLogo() !== null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param string $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
     }
 }

@@ -9,7 +9,9 @@ use PHPSC\Conference\Domain\Entity\Attendee;
 
 class AttendeeRepository extends EntityRepository
 {
+
     /**
+     *
      * @param Event $event
      * @param User $user
      * @return array
@@ -17,11 +19,30 @@ class AttendeeRepository extends EntityRepository
     public function findByEventAndUser(Event $event, User $user)
     {
         $query = $this->createQueryBuilder('attendee')
+            ->andWhere('attendee.event = ?1')
+            ->andWhere('attendee.user = ?2')
+            ->setParameter(1, $event)
+            ->setParameter(2, $user)
+            ->orderBy('attendee.id', 'DESC')
+            ->getQuery();
+
+        $query->useQueryCache(true);
+
+        return $query->getResult();
+    }
+
+    /**
+     *
+     * @param Event $event
+     * @return array
+     */
+    public function findByEvent(Event $event)
+    {
+        $query = $this->createQueryBuilder('attendee')
+                      ->leftJoin('attendee.user', 'user')
                       ->andWhere('attendee.event = ?1')
-                      ->andWhere('attendee.user = ?2')
                       ->setParameter(1, $event)
-                      ->setParameter(2, $user)
-                      ->orderBy('attendee.id', 'DESC')
+                      ->orderBy('user.name')
                       ->getQuery();
 
         $query->useQueryCache(true);
@@ -30,16 +51,17 @@ class AttendeeRepository extends EntityRepository
     }
 
     /**
+     *
      * @param Payment $payment
      * @return Attendee
      */
     public function findOneByPayment(Payment $payment)
     {
         $query = $this->createQueryBuilder('attendee')
-                      ->andWhere('?1 MEMBER OF attendee.payments')
-                      ->setParameter(1, $payment)
-                      ->setMaxResults(1)
-                      ->getQuery();
+            ->andWhere('?1 MEMBER OF attendee.payments')
+            ->setParameter(1, $payment)
+            ->setMaxResults(1)
+            ->getQuery();
 
         $query->useQueryCache(true);
 
@@ -47,19 +69,20 @@ class AttendeeRepository extends EntityRepository
     }
 
     /**
+     *
      * @param Event $event
      * @return number
      */
     public function getCountOfActiveAttendee(Event $event)
     {
         $query = $this->createQueryBuilder('attendee')
-                      ->select('COUNT(attendee.id)')
-                      ->andWhere('attendee.event = ?1')
-                      ->andWhere('attendee.status NOT IN (?2, ?3)')
-                      ->setParameter(1, $event)
-                      ->setParameter(2, '2')
-                      ->setParameter(3, '4')
-                      ->getQuery();
+            ->select('COUNT(attendee.id)')
+            ->andWhere('attendee.event = ?1')
+            ->andWhere('attendee.status NOT IN (?2, ?3)')
+            ->setParameter(1, $event)
+            ->setParameter(2, '2')
+            ->setParameter(3, '4')
+            ->getQuery();
 
         $query->useQueryCache(true);
 
@@ -67,21 +90,22 @@ class AttendeeRepository extends EntityRepository
     }
 
     /**
+     *
      * @param Event $event
      * @return number
      */
     public function getCountOfArrivedAttendee(Event $event)
     {
         $query = $this->createQueryBuilder('attendee')
-                      ->select('COUNT(attendee.id)')
-                      ->andWhere('attendee.event = ?1')
-                      ->andWhere('attendee.arrived = ?2')
-                      ->andWhere('attendee.status NOT IN (?3, ?4)')
-                      ->setParameter(1, $event)
-                      ->setParameter(2, true)
-                      ->setParameter(3, '2')
-                      ->setParameter(4, '4')
-                      ->getQuery();
+            ->select('COUNT(attendee.id)')
+            ->andWhere('attendee.event = ?1')
+            ->andWhere('attendee.arrived = ?2')
+            ->andWhere('attendee.status NOT IN (?3, ?4)')
+            ->setParameter(1, $event)
+            ->setParameter(2, true)
+            ->setParameter(3, '2')
+            ->setParameter(4, '4')
+            ->getQuery();
 
         $query->useQueryCache(true);
 

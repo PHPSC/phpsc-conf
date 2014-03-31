@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services ../../vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Loader/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="event.management.service" class="PHPSC\Conference\Domain\Service\EventManagementService">
+            <argument type="service" id="event.repository" />
+        </service>
+        <service id="location.locator" class="PHPSC\Conference\Domain\Service\LocationLocator">
+            <argument type="service" id="location.repository" />
+        </service>
+        
+        <service id="location.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Location</argument>
+        </service>
+        <service id="event.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Event</argument>
+        </service>
+    </services>
+</container>

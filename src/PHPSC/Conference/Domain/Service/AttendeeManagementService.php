@@ -3,6 +3,7 @@ namespace PHPSC\Conference\Domain\Service;
 
 use InvalidArgumentException;
 use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Entity\DiscountCoupon;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\Payment;
 use PHPSC\Conference\Domain\Entity\User;
@@ -62,6 +63,15 @@ class AttendeeManagementService
 
     /**
      * @param Event $event
+     * @return multitype:Attendee
+     */
+    public function findByEvent(Event $event)
+    {
+        return $this->repository->findByEvent($event);
+    }
+
+    /**
+     * @param Event $event
      * @param User $user
      * @return Attendee
      */
@@ -90,10 +100,15 @@ class AttendeeManagementService
      * @param Event $event
      * @param User $user
      * @param boolean $isStudent
+     * @param DiscountCoupon $coupon
      * @return Attendee
      */
-    public function create(Event $event, User $user, $isStudent = false)
-    {
+    public function create(
+        Event $event,
+        User $user,
+        $isStudent = false,
+        DiscountCoupon $coupon = null
+    ) {
         if ($this->hasAnActiveRegistration($event, $user)) {
             throw new InvalidArgumentException(
                 'Você já possui uma inscrição neste evento'
@@ -101,6 +116,11 @@ class AttendeeManagementService
         }
 
         $attendee = $this->createAttendee($event, $user, $isStudent);
+
+        if ($coupon) {
+            $attendee->applyDiscount($coupon);
+        }
+
         $this->repository->append($attendee);
 
         $message = $this->deliveryService->getMessageFromTemplate(

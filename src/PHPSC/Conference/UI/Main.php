@@ -1,23 +1,14 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \Lcobucci\ActionMapper2\Application;
+use Lcobucci\DisplayObjects\Core\UIComponent;
+use Lcobucci\ActionMapper2\Application;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Main extends UIComponent
+class Main extends Component
 {
     /**
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @var \Lcobucci\ActionMapper2\Application
-     */
-    protected $application;
-
-    /**
-     * @var \Lcobucci\DisplayObjects\Core\UIComponent
+     * @var UIComponent
      */
     protected $content;
 
@@ -27,24 +18,7 @@ class Main extends UIComponent
     protected static $scripts;
 
     /**
-     * @param \Lcobucci\DisplayObjects\Core\UIComponent $content
-     * @param \Lcobucci\ActionMapper2\Application $application
-     * @return \PHPSC\Conference\UI\Main
-     */
-    public static function create(
-        UIComponent $content,
-        Application $application,
-        $description = ''
-    ) {
-        $component = new static($content);
-        $component->setApplication($application);
-        $component->setDescription($description);
-
-        return $component;
-    }
-
-    /**
-     * @param \Lcobucci\DisplayObjects\Core\UIComponent $content
+     * @param UIComponent $content
      */
     public function __construct(UIComponent $content)
     {
@@ -55,31 +29,7 @@ class Main extends UIComponent
     }
 
     /**
-     * @param \Lcobucci\ActionMapper2\Application $application
-     */
-    public function setApplication(Application $application)
-    {
-        $this->application = $application;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return \Lcobucci\DisplayObjects\Core\UIComponent
+     * @return UIComponent
      */
     public function renderContent()
     {
@@ -87,20 +37,15 @@ class Main extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\UI\NavigationBar
+     * @return NavigationBar
      */
     public function renderNavigation()
     {
-        $container = $this->application->getDependencyContainer();
-
-        return new NavigationBar(
-            $container->get('event.management.service'),
-            $container->get('authentication.service')
-        );
+        return new NavigationBar();
     }
 
     /**
-     * @return \PHPSC\Conference\UI\Footer
+     * @return Footer
      */
     public function renderFooter()
     {

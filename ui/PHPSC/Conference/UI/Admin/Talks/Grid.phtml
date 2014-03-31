@@ -1,0 +1,19 @@
+<?php /* @var $this PHPSC\Conference\UI\Admin\Talks\Grid */ ?>
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-12">
+        <h2>
+            Palestras submetidas<br />
+            <small><?= $this->event->getName(); ?></small>
+        </h2>
+    </div>
+</div>
+<div id="confirmationMsg" class="row hide">
+    <div class="col-md-12">
+        <div class="alert alert-block">
+            <h4 class="alert-heading"></h4>
+            <span></span>
+        </div>
+    </div>
+</div>
+<?= $this->getDatagrid(); ?>
+<?= $this->getEvaluationWindow(); ?>

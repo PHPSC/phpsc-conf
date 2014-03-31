@@ -13,6 +13,6 @@ class Contact extends Controller
      */
     public function displayForm()
     {
-        return Main::create(new ContactForm(), $this->application);
+        return new Main(new ContactForm());
     }
 }

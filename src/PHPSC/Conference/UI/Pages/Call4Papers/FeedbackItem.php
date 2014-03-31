@@ -1,7 +1,7 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Call4Papers;
 
-use \Lcobucci\DisplayObjects\Core\ItemRenderer;
+use Lcobucci\DisplayObjects\Core\ItemRenderer;
 
 class FeedbackItem extends ItemRenderer
 {

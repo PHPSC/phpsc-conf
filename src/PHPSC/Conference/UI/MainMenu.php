@@ -1,27 +1,13 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
-use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
-class MainMenu extends UIComponent
+class MainMenu extends Component
 {
-    /**
-     * @var User
-     */
-    protected $user;
-
-    /**
-     * @param User $user
-     */
-    public function __construct(User $user = null)
-    {
-        $this->user = $user;
-    }
-
     /**
      * @return string
      */
@@ -44,15 +30,29 @@ class MainMenu extends UIComponent
             'Trabalhos submetidos' => $this->getUrl('call4papers/submissions')
         );
 
-        if ($this->user->isAdmin()) {
-            $items[] = null;
-            $items['Gerenciar apoiadores'] = $this->getUrl('adm/supporters');
+        if ($this->user->hasManagementPrivilegesOn($this->event)) {
+            $this->appendAdministrativesItems($items);
         }
 
         $items[] = null;
         $items['Sair'] = $this->getUrl('logoff');
 
         return $items;
+    }
+
+    /**
+     * @param array $items
+     */
+    protected function appendAdministrativesItems(array &$items)
+    {
+        $items[] = null;
+
+        if ($this->user->isAdmin()) {
+            $items['Gerenciar apoiadores'] = $this->getUrl('adm/supporters');
+            $items['Gerenciar inscritos'] = $this->getUrl('adm/credentialing');
+        }
+
+        $items['Ver palestras'] = $this->getUrl('adm/talks');
     }
 
     /**

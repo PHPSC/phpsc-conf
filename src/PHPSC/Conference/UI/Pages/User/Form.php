@@ -2,19 +2,18 @@
 namespace PHPSC\Conference\UI\Pages\User;
 
 use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Domain\Entity\User;
+use PHPSC\Conference\Infra\UI\Component;
 
-use \PHPSC\Conference\Domain\Entity\User;
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-
-class Form extends UIComponent
+class Form extends Component
 {
     /**
-     * @var \PHPSC\Conference\Domain\Entity\User
+     * @var User
      */
     protected $user;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -28,19 +27,11 @@ class Form extends UIComponent
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * @return string
      */
     public function getFirstName()
     {
-        $name = $this->getUser()->getName();
+        $name = $this->user->getName();
         $name = substr($name, 0, strpos($name, ' '));
 
         return $name;

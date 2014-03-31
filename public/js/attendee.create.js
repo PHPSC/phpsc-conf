@@ -4,20 +4,25 @@ $(document).ready(function() {
 			$('#regularAttendee').hide();
 			$('#studentAttendee').show();
 			$('#studentRules').modal('show');
+			$('#discountCoupon').prop('disabled', true);
+			$('#discountCoupon').val('');
 			
 			return true;
 		}
 		
 		$('#regularAttendee').show();
 		$('#studentAttendee').hide();
+		$('#discountCoupon').prop('disabled', false);
+		$('#discountCoupon').val('');
 	});
 	
 	$('#revertIsStudent').click(function() {
 		$('#regularAttendee').show();
 		$('#studentAttendee').hide();
+		$('#discountCoupon').prop('disabled', false);
+		$('#discountCoupon').val('');
 		$('#isStudent').prop('checked', false);
 	});
-	
 	
 	$('#attendeeForm').submit(function () {
 		$('#attendeeForm button').prop('disabled', true);
@@ -28,7 +33,8 @@ $(document).ready(function() {
 				url: $('#attendeeForm').prop('action'),
 				type: $('#attendeeForm').prop('method').toUpperCase(),
 				data: {
-					isStudent: $('#isStudent').prop('checked')
+					isStudent: $('#isStudent').prop('checked'),
+					discountCoupon: $('#discountCoupon').val()
 				},
 				success: function(response)
 				{

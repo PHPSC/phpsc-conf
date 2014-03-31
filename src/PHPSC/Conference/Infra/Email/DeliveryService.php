@@ -43,9 +43,12 @@ class DeliveryService
      */
     public function send(Swift_Message $message)
     {
-        $message->setFrom($this->sender, $this->senderName);
+        $failures = array();
 
-        if (!(boolean) $this->mailer->send($message)) {
+        $message->setFrom($this->sender, $this->senderName);
+        $this->mailer->send($message, $failures);
+
+        if (isset($failures[0])) {
             throw new DeliveryException('Não foi possível enviar o e-mail');
         }
     }

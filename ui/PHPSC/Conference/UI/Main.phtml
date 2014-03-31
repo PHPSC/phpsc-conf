@@ -1,10 +1,11 @@
+<?php /* @var $this PHPSC\Conference\UI\Main */ ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
     <meta charset="utf-8">
         <title>PHPSC Conference</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="<?php echo $this->getDescription(); ?>">
+        <meta name="description" content="A maior conferência de PHP de Santa Catarina">
         <meta name="author" content="Grupo de Usuários de PHP de Santa Catarina">
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
         <link href="<?php echo $this->getUrl('css/bootstrap.min.css'); ?>" rel="stylesheet">
@@ -20,16 +21,19 @@
 
     <body>
     	<div id="wrap">
-    	   <?php echo $this->renderNavigation(); ?>
+            <?php echo $this->renderNavigation(); ?>
 
         	<div id="main" class="container clear-top">
         	   <div class="row">
-                	<div class="col-md-2">
+        	       <?php if ($this->event->hasLogo()) { ?>
+        	       <div class="col-md-2">
                 	   <a href="<?= $this->getBaseUrl(); ?>">
-                            <img alt="PHPSC Conference" src="<?= $this->getUrl('img/logo.png'); ?>" />
+                            <img alt="PHPSC Conference"
+                                src="<?= $this->getUrl('event/' . $this->event->getId()); ?>?w=180&h=170" />
                         </a>
                     </div>
-                	<div class="col-md-10">
+                    <?php } ?>
+                	<div class="col-md-<?= $this->event->hasLogo() ? 10 : 12; ?>">
                 	   <h1 style="padding-top: 55px; text-align: right;">
                 	       PHPSC Conference<br />
                 	       <small>A maior conferência de PHP de Santa Catarina</small>

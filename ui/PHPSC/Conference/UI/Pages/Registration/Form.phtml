@@ -1,6 +1,7 @@
-<form role="form" id="attendeeForm" class="well" action="<?php echo $this->getUrl('registration'); ?>" method="post">
+<?php /* @var $this PHPSC\Conference\UI\Pages\Registration\Form */ ?>
+<form role="form" id="attendeeForm" class="well form-horizontal" action="<?php echo $this->getUrl('registration'); ?>" method="post">
     <fieldset>
-        <legend>Inscrição - <?php echo $this->getEvent()->getName(); ?></legend>
+        <legend>Inscrição - <?php echo $this->event->getName(); ?></legend>
         <div class="formItems">
             <?php if ($this->isSpeakerWithApprovedTalks()) { ?>
             <div class="alert alert-info">
@@ -26,7 +27,7 @@
                 <p>O valor da inscrição para as palestras muda de acordo com o período em que a inscrição é realizada.</p>
                 <p>
                     <strong>Inscrições antecipadas</strong> possuem desconto, e são aquelas que ocorreram antes da aprovação de ao menos uma
-                    palestra no sistema (a data final de submissão de trabalhos é <?php echo $this->getEvent()->getSubmissionEnd()->format('d/m/Y H:i:s'); ?>).
+                    palestra no sistema (a data final de submissão de trabalhos é <?php echo $this->event->getSubmissionEnd()->format('d/m/Y H:i:s'); ?>).
                 </p>
                 <p>As inscrições realizadas após este período são as <strong>inscrições regulares</strong>.</p>
                 <p>No dia do evento também aceitaremos <strong>inscrições tardias</strong>, porém custarão mais que as <strong>inscrições antecipadas</strong> ou <strong>regulares</strong>.</p>
@@ -34,16 +35,26 @@
             <div>
                 <p id="regularAttendee">
                     O custo da sua inscrição para as palestras será de <strong>R$ <?php echo number_format($this->getCost(), 2, ',', '.'); ?></strong>, devendo ser pago
-                    através do PagSeguro (de acordo com os <a href="#terms" data-toggle="modal">termos de participacão</a>).
+                    <?php if (!$this->event->isLateRegistrationPeriod(new \DateTime())) { ?>através do PagSeguro<?php } else { ?>em dinheiro durante o credenciamento<?php } ?> (de acordo com os <a href="#terms" data-toggle="modal">termos de participacão</a>).
                 </p>
                 <p id="studentAttendee" class="hide">A sua inscrição para as palestras será gratuita.</p>
             </div>
-            <?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
+            <?php if ($this->event->getRegistrationInfo()->hasStudentDiscount()) { ?>
             <div class="form-group">
-                <input id="isStudent" name="isStudent" type="checkbox" />
-                <label for="isStudent" style="display: inline;"><?php echo $this->getEvent()->getRegistrationInfo()->getStudentLabel(); ?></label>
+                <label for="isStudent" class="control-label" style="margin-left: 27px">
+                    <input id="isStudent" name="isStudent" type="checkbox"  />
+                    <?php echo $this->event->getRegistrationInfo()->getStudentLabel(); ?>
+                </label>
             </div>
             <?php } ?>
+            <div class="form-group">
+                <label for="discountCoupon" class="control-label col-md-2">Cupom de desconto:</label>
+                <div class="col-md-3">
+                    <input id="discountCoupon" name="discountCoupon" value=""
+                        type="text" class="form-control" placeholder="Digite seu cupom promocional..."
+                        maxlength="13" />
+                </div>
+            </div>
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Concordo com os termos e desejo participar &raquo;</button>&nbsp;&nbsp;
@@ -69,7 +80,8 @@
                 </p>
                 <h4 style="margin-bottom: 10px;">Pagamento (palestras)</h4>
                 <p style="text-align: justify; margin-left: 15px;">
-                    O pagamento da inscrição para as palestras deverá ser realizado através do PagSeguro,
+                    O pagamento da inscrição para as palestras deverá ser realizado em dinheiro durante o credenciamento (para inscrições <strong>tardias</strong>) ou
+                    através do PagSeguro (para inscrições <strong>antecipadas</strong> ou <strong>regulares</strong>),
                     utilizando a conta pessoal de um dos coordenadores do PHPSC. Isto se dá pelos seguintes motivos:
                 </p>
                 <div style="text-align: justify; margin-left: 15px;">
@@ -96,7 +108,7 @@
         </div>
     </div>
 </div>
-<?php if ($this->getEvent()->getRegistrationInfo()->hasStudentDiscount()) { ?>
+<?php if ($this->event->getRegistrationInfo()->hasStudentDiscount()) { ?>
 <div id="studentRules" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="studentRules" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,7 +117,7 @@
                 <h3>Atenção</h3>
             </div>
             <div class="modal-body">
-                <?php echo $this->getEvent()->getRegistrationInfo()->getStudentRules(); ?>
+                <?php echo $this->event->getRegistrationInfo()->getStudentRules(); ?>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" id="revertIsStudent" data-dismiss="modal">Não sou aluno</button>

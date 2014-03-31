@@ -1,12 +1,13 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\UI\Pages\Index;
-use \PHPSC\Conference\UI\Pages\About;
-use \PHPSC\Conference\UI\Pages\Venue;
-use \PHPSC\Conference\UI\Main;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\About;
+use PHPSC\Conference\UI\Pages\Index;
+use PHPSC\Conference\UI\Pages\Venue;
 
 class Home extends Controller
 {
@@ -15,7 +16,16 @@ class Home extends Controller
      */
     public function displayHome()
     {
-        return Main::create(new Index(), $this->application);
+        return new Main(new Index($this->hasApprovedTalks()));
+    }
+
+    /**
+     * @return boolean
+     */
+    protected function hasApprovedTalks()
+    {
+        return $this->get('talk.management.service')
+                    ->eventHasAnyApprovedTalk(Component::get('event'));
     }
 
     /**
@@ -23,7 +33,7 @@ class Home extends Controller
      */
     public function displayAbout()
     {
-        return Main::create(new About(), $this->application);
+        return new Main(new About());
     }
 
     /**
@@ -31,17 +41,6 @@ class Home extends Controller
      */
     public function displayVenue()
     {
-        return Main::create(
-            new Venue($this->getEventManagement()->findCurrentEvent()),
-            $this->application
-        );
-    }
-
-    /**
-     * @return \PHPSC\Conference\Domain\Service\EventManagementService
-     */
-    protected function getEventManagement()
-    {
-        return $this->get('event.management.service');
+        return new Main(new Venue());
     }
 }

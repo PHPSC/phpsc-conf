@@ -1,3 +1,4 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Status */ ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -16,6 +17,7 @@
     	<script src="<?php echo $this->getUrl('js/vendor/jquery-1.10.2.min.js'); ?>" type="text/javascript"></script>
     	<script src="<?php echo $this->getUrl('js/vendor/bootstrap.min.js'); ?>" type="text/javascript"></script>
     	<script src="<?php echo $this->getUrl('js/status.js'); ?>" type="text/javascript"></script>
+    	<script src="<?php echo $this->getUrl('js/supporters.list.js'); ?>" type="text/javascript"></script>
     	<style type="text/css">
             body {
             	background-color: #F5F5F5;
@@ -35,38 +37,23 @@
     <body>
         <div>
         	<div class="container" style="padding-top: 30px;">
+                <?php if ($this->event->hasLogo()) { ?>
         	    <div class="row">
                     <div class="col-md-12" style="text-align: center;">
-                        <img src="<?php echo $this->getUrl('img/logo-grande.png'); ?>" alt="PHPSC Conference 2012" height="250" />
+                        <img src="<?php echo $this->getUrl('event/' . $this->event->getId()); ?>?h=250"
+                            alt="PHPSC Conference" height="250" />
                     </div>
                 </div>
+                <?php } ?>
         	    <div class="row" style="padding-top: 30px">
                     <div class="col-md-2 col-md-offset-3"><h2 id="nrInscricoes"></h2></div>
                     <div class="col-md-2 col-md-offset-2"><h2 id="nrPresencas"></h2></div>
                 </div>
             </div>
         </div>
-        <div style="background-color: white; margin-top: 60px">
+        <div style="background-color: white; margin-top: 60px; padding-bottom: 20px;">
             <div class="container">
-                <div class="row">
-                	<div class="col-md-12">
-                		<div class="page-header">
-                			<h3>Realização</h3>
-                		</div>
-                	</div>
-                </div>
-                <div class="row">
-                	<div class="col-md-2" style="padding-top: 10px; text-align: center;">
-                    	<a href="http://www.phpsc.com.br/" target="_blank" title="Grupo de Usuários de PHP de Santa Catarina">
-                        	<img src="<?php echo $this->getUrl('img/logo-phpsc.png'); ?>" height="95" alt="Grupo de Usuários de PHP de Santa Catarina">
-                		</a>
-                	</div>
-                	<div class="col-md-2" style="padding-top: 10px; text-align: center;">
-                    	<a href="http://www.unochapeco.edu.br/" target="_blank" title="Universidade Comunitária da Região de Chapecó - UNOCHAPECÓ">
-                        	<img src="<?php echo $this->getUrl('img/supporters/logo_unochapeco.png'); ?>" alt="Universidade Comunitária da Região de Chapecó - UNOCHAPECÓ">
-                		</a>
-                	</div>
-                </div>
+                <?= $this->getSponsors(); ?>
             </div>
         </div>
     </body>

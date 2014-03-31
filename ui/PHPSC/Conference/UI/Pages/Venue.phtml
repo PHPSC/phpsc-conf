@@ -1,3 +1,4 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Venue */ ?>
 <div>
     <header class="page-header">
     	<h1>O Local</h1>
@@ -5,12 +6,43 @@
 </div>
 <div class="row" style="padding-top: 10px;">
     <div class="<?= $this->displayMap() ? 'col-md-5' : 'col-md-12'; ?>">
-        <p>Esse ano, o evento será realizado em Chapecó na Unochapecó.</p>
-        <p style="margin-top: 10px;">
-            <strong>Campus Chapecó</strong><br/>
-            Av. Senador Attílio Fontana, 591-E<br />
-            Efapi - Chapecó - Santa Catarina<br />
-        </p>
+        <p>Esse ano, o evento será realizado em Joinville na UNIVILLE.</p>
+
+        <section style="margin-top: 10px;">
+            <h3>Endereço</h3>
+            <p>
+                R. Paulo Malschitzki, 10<br />
+                Zona Industrial Norte - Joinville - Santa Catarina<br />
+            </p>
+        </section>
+
+        <section style="margin-top: 35px;">
+            <h3>Hotéis próximos</h3>
+            <dl>
+                <dt>Hotel Plaza Norte</dt>
+                <dd><a href="http://www.hotelplazanorte.com.br" target="_blank">hotelplazanorte.com.br</a></dd>
+                <dt>Hotel 10</dt>
+                <dd><a href="http://www.hotel10.com.br/cidades/joinville" target="_blank">hotel10.com.br/cidades/joinville</a></dd>
+            </dl>
+        </section>
+
+        <section style="margin-top: 35px;">
+            <h3>Restaurantes próximos</h3>
+            <dl>
+                <dt>Mr. Abass Grill e Gastronomia (dentro do campus da UNIVILLE)</dt>
+                <dd><a href="http://www.manarefeicoes.com.br/index.php?pg=abass" target="_blank">manarefeicoes.com.br/index.php?pg=abass</a></dd>
+                <dt>Garten Shopping</dt>
+                <dd><a href="http://www.joinvillegartenshopping.com.br/gastronomia" target="_blank">oinvillegartenshopping.com.br/gastronomia</a></dd>
+            </dl>
+        </section>
+
+        <section style="margin-top: 35px;">
+            <h3>Horários de ônibus</h3>
+            <dl>
+                <dt>Gidion Transporte e Turismo</dt>
+                <dd><a href="http://www.gidion.com.br/horarios-e-itinerarios" target="_blank">gidion.com.br/horarios-e-itinerarios</a></dd>
+            </dl>
+        </section>
     </div>
     <?php if ($this->displayMap()) { ?>
     <div class="col-md-7">
@@ -23,7 +55,7 @@
 </div>
 <?php if ($this->displayMap()) { ?>
 <script type="text/javascript">
-    var lat = <?php echo $this->getEvent()->getLocation()->getLatitude(); ?>;
-    var lng = <?php echo $this->getEvent()->getLocation()->getLongitude(); ?>;
+    var lat = <?php echo $this->event->getLocation()->getLatitude(); ?>;
+    var lng = <?php echo $this->event->getLocation()->getLongitude(); ?>;
 </script>
 <?php } ?>

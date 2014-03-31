@@ -3,41 +3,25 @@ namespace PHPSC\Conference\UI\Admin\Supporters;
 
 use Lcobucci\DisplayObjects\Components\Datagrid\Datagrid;
 use Lcobucci\DisplayObjects\Components\Datagrid\DatagridColumn;
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
-use PHPSC\Conference\Domain\Entity\Event;
 
-class Grid extends UIComponent
+class Grid extends Component
 {
-    /**
-     * @var Event
-     */
-    protected $event;
-
     /**
      * @var array
      */
     protected $supporters;
 
     /**
-     * @param Event $event
      * @param array $supporters
      */
-    public function __construct(Event $event, array $supporters)
+    public function __construct(array $supporters)
     {
         Main::appendScript($this->getUrl('js/vendor/jquery.form.min.js'));
         Main::appendScript($this->getUrl('js/adm/supporter/window.js'));
 
-        $this->event = $event;
         $this->supporters = $supporters;
-    }
-
-    /**
-     * @return Event
-     */
-    protected function getEvent()
-    {
-        return $this->event;
     }
 
     /**
@@ -75,14 +59,14 @@ class Grid extends UIComponent
                         return '<div class="pull-right">
                                     <a href="#"
                                         id="edit-' . $id . '"
-                                        class="btn btn-xs btn-info"
-                                        title="Editar" disabled="disabled">
+                                        class="btn btn-xs btn-info disabled"
+                                        title="Editar">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                     <a href="#"
                                         id="remove-' . $id . '"
-                                        class="btn btn-xs btn-danger"
-                                        title="Remover" disabled="disabled">
+                                        class="btn btn-xs btn-danger disabled"
+                                        title="Remover">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </a>
                                 </div>';

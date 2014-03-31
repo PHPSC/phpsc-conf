@@ -65,7 +65,7 @@ class TalkJsonService
                 $shortDescription,
                 $longDescription,
                 $complexity,
-                !empty($tags) ? $tags : null
+                !empty($tags) ? explode(',', $tags) : null
             );
 
             return json_encode(
@@ -127,7 +127,7 @@ class TalkJsonService
                 $shortDescription,
                 $longDescription,
                 $complexity,
-                !empty($tags) ? $tags : null
+                !empty($tags) ? explode(',', $tags) : null
             );
 
             return json_encode(
@@ -186,7 +186,7 @@ class TalkJsonService
                 'shortDescription' => $talk->getShortDescription(),
                 'longDescription' => $talk->getLongDescription(),
                 'complexity' => $talk->getComplexity(),
-                'tags' => explode(',', $talk->getTags()),
+                'tags' => $talk->getTags(),
                 'approved' => $talk->getApproved(),
                 'creationTime' => $talk->getCreationTime()->format(\DateTime::RFC3339)
             );

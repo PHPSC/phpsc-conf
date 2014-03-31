@@ -1,0 +1,73 @@
+<?php /* @var $this PHPSC\Conference\UI\Admin\Talks\EvaluationWindow */ ?>
+<div class="modal fade" id="evaluation" tabindex="-1" role="dialog" aria-labelledby="evaluation" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Avaliando <span></span><br /><small style="font-size: 87%;"></small></h3>
+            </div>
+            <form role="form" action="" style="margin: 0px;">
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="formItems" style="padding-top: 0px;">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div id="speakers" class="form-group">
+                                        <label></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-5" id="community-evaluation" style="display: none"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Resumo</label>
+                                <p id="shortDescription" class="well"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Descrição</label>
+                                <p id="longDescription" class="well"></p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="originality">Originalidade</label>
+                                        <input name="originality" id="originality" type="number"
+                                            class="form-control" min="0" max="5" required="required"
+                                            placeholder="Nota de 0 a 5...">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="relevance">Relevância</label>
+                                        <input name="relevance" id="relevance" type="number"
+                                            class="form-control" min="0" max="5" required="required"
+                                            placeholder="Nota de 0 a 5...">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="quality">Qualidade Técnica</label>
+                                        <input name="quality" id="quality" type="number"
+                                            class="form-control" min="0" max="5" required="required"
+                                            placeholder="Nota de 0 a 5...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Observações</label>
+                                <textarea rows="3" cols="1" class="form-control"
+                                    id="notes" name="notes"
+                                    placeholder="Se quiser, digite aqui suas observações e ajude o palestrante a se aprimorar..."></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="talk" name="talk" />
+                    <input type="hidden" id="evaluationId" name="evaluationId" disabled="disabled" />
+                    <button class="btn btn-primary">Salvar</button>
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Fechar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

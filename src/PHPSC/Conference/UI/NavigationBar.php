@@ -1,42 +1,17 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use \Lcobucci\DisplayObjects\Core\UIComponent;
+use DateTime;
 use PHPSC\Conference\Domain\Entity\SocialProfile;
-use PHPSC\Conference\Domain\Service\EventManagementService;
-use PHPSC\Conference\Application\Service\AuthenticationService;
+use PHPSC\Conference\Infra\UI\Component;
 
-class NavigationBar extends UIComponent
+class NavigationBar extends Component
 {
-    /**
-     * @var EventManagementService
-     */
-    protected $eventService;
-
-    /**
-     * @var AuthenticationService
-     */
-    protected $authService;
-
-    /**
-     * @param EventManagementService $eventService
-     * @param AuthenticationService $authService
-     */
-    public function __construct(
-        EventManagementService $eventService,
-        AuthenticationService $authService
-    ) {
-        $this->eventService = $eventService;
-        $this->authService = $authService;
-    }
-
     /**
      * @return array
      */
     public function getOptions()
     {
-        $event = $this->eventService->findCurrentEvent();
-
         $items = array(
             array('Página Inicial', ''),
             array('Sobre o Evento', 'about'),
@@ -44,10 +19,10 @@ class NavigationBar extends UIComponent
             array('Inscrições', 'registration')
         );
 
-        if ($event->isSubmissionsInterval(new \DateTime())) {
+        if ($this->event->isSubmissionsInterval(new DateTime())) {
             $items[] = array('Chamada de Trabalhos', 'call4papers');
         } else {
-            $items[] = array('Grade de Palestras', 'talks');
+            $items[] = array('Programação', 'talks');
         }
 
         $items[] = array('Contato', 'contact');
@@ -62,8 +37,8 @@ class NavigationBar extends UIComponent
      */
     public function getProfile()
     {
-        if ($user = $this->authService->getLoggedUser()) {
-            return $user->getDefaultProfile();
+        if ($this->user) {
+            return $this->user->getDefaultProfile();
         }
     }
 
@@ -72,6 +47,6 @@ class NavigationBar extends UIComponent
      */
     protected function getMenu()
     {
-        return new MainMenu($this->authService->getLoggedUser());
+        return new MainMenu();
     }
 }

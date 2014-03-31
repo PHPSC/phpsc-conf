@@ -1,37 +1,24 @@
 <?php
 namespace PHPSC\Conference\UI\Pages\Talks;
 
-use \Lcobucci\DisplayObjects\Core\UIComponent;
-use \PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\UI\Main;
 
-class Index extends UIComponent
+class Index extends Component
 {
-    /**
-     * @var \PHPSC\Conference\Domain\Entity\Event
-     */
-    protected $event;
-
     /**
      * @var boolean
      */
     protected $hasApprovedTalks;
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
      * @param boolean $hasApprovedTalks
      */
-    public function __construct(Event $event, $hasApprovedTalks = false)
+    public function __construct($hasApprovedTalks = false)
     {
-        $this->event = $event;
         $this->hasApprovedTalks = $hasApprovedTalks;
-    }
 
-    /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
-     */
-    public function getEvent()
-    {
-        return $this->event;
+        Main::appendScript($this->getUrl('js/talks/schedule.js'));
     }
 
     /**
@@ -40,5 +27,13 @@ class Index extends UIComponent
     public function hasApprovedTalks()
     {
         return $this->hasApprovedTalks;
+    }
+
+    /**
+     * @return TalkWindow
+     */
+    public function getWindow()
+    {
+        return new TalkWindow();
     }
 }

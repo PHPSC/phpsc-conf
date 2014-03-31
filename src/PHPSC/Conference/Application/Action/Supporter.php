@@ -3,6 +3,7 @@ namespace PHPSC\Conference\Application\Action;
 
 use Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Domain\Entity\Supporter as SupporterEntity;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -15,14 +16,11 @@ class Supporter extends Controller
      */
     public function displayLogo($id)
     {
+        /* @var $supporter SupporterEntity */
         $supporter = $this->get('supporter.management.service')->findById($id);
-
-        $this->response->setContentType('image/png');
-        $this->response->setLastModified($supporter->getCompany()->getCreationTime());
 
         return $this->get('image.rendering.service')->resize(
             $supporter->getCompany()->getLogo(),
-            md5('supporter' . $id),
             $this->request->query->get('w'),
             $this->request->query->get('h'),
             $this->request,

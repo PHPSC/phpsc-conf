@@ -1,51 +1,65 @@
 $(document).ready(function() {
-	$('#talkForm').submit(function () {
-		$('#talkForm button').prop('disabled', true);
-		$('html, body').animate({scrollTop:0}, 'fast');
-		
-		$.ajax(
-			{
-				url: $('#talkForm').prop('action'),
-				type: $('#talkForm').prop('method').toUpperCase(),
-				data: {
-					title: $('#title').val(),
-			        type: $('#type').val(),
-			        shortDescription: $('#shortDescription').val(),
-			        longDescription: $('#longDescription').val(),
-			        complexity: $('#complexity').val(),
-			        tags: $('#tags').val()
-				},
-				success: function(response)
+    if ($('#talkForm').length) {
+		$('#talkForm').submit(function () {
+			$('#talkForm button').prop('disabled', true);
+			$('html, body').animate({scrollTop:0}, 'fast');
+			
+			$.ajax(
 				{
-					$('.alert').removeClass('alert-danger')
-							   .removeClass('alert-success')
-							   .removeClass('alert-info');
-					
-					if (response.error) {
-						$('.alert h4').html('Erro ao realizar seu cadastro');
-						$('.alert span').html(response.error);
-						$('.alert').addClass('alert-danger').fadeIn();
+					url: $('#talkForm').prop('action'),
+					type: $('#talkForm').prop('method').toUpperCase(),
+					data: {
+						title: $('#title').val(),
+				        type: $('#type').val(),
+				        shortDescription: $('#shortDescription').val(),
+				        longDescription: $('#longDescription').val(),
+				        complexity: $('#complexity').val(),
+				        tags: $('#tags').val()
+					},
+					success: function(response)
+					{
+						$('.alert').removeClass('alert-danger')
+								   .removeClass('alert-success')
+								   .removeClass('alert-info');
 						
-						$('#talkForm button').prop('disabled', false);
+						if (response.error) {
+							$('.alert h4').html('Erro ao realizar seu cadastro');
+							$('.alert span').html(response.error);
+							$('.alert').addClass('alert-danger').fadeIn();
+							
+							$('#talkForm button').prop('disabled', false);
+							
+							return ;
+						}
 						
-						return ;
+						$('.alert h4').html('Cadastro realizado com sucesso');
+						$('.alert span').html('A proposta "' + response.data.title + '" foi cadastrada com sucesso!');
+						$('.alert').addClass('alert-success').fadeIn();
+						
+						setTimeout(
+							function()
+							{
+								window.location = baseUrl + 'call4papers/submissions';
+							},
+							1000
+						);
 					}
-					
-					$('.alert h4').html('Cadastro realizado com sucesso');
-					$('.alert span').html('A proposta "' + response.data.title + '" foi cadastrada com sucesso!');
-					$('.alert').addClass('alert-success').fadeIn();
-					
-					setTimeout(
-						function()
-						{
-							window.location = baseUrl + 'call4papers/submissions';
-						},
-						1000
-					);
 				}
-			}
-		);
-		
-		return false;
-	});
+			);
+			
+			return false;
+		});
+    }
+	
+	$('#tags').selectize({
+	    delimiter: ',',
+	    persist: false,
+	    addPrecedence: false,
+	    create: function(input) {
+	        return {
+	            value: input,
+	            text: input
+	        };
+	    }
+	});	
 });

@@ -19,7 +19,12 @@ class ImageResizer
     {
         $this->createPath($path);
 
-        $image->resizeImage($maxWidth, $maxHeight, Imagick::FILTER_LANCZOS, 1, true);
+        $image->resizeImage($maxWidth, 0, Imagick::FILTER_LANCZOS, 1);
+
+        if ($image->getImageHeight() > $maxHeight) {
+            $image->resizeImage(0, $maxHeight, Imagick::FILTER_LANCZOS, 1);
+        }
+
         $image->writeImage($path);
     }
 

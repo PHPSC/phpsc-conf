@@ -60,7 +60,7 @@ function displayMsg(title, description, isError)
 {
     $('#confirmationMsg .alert h4').html(title);
     $('#confirmationMsg .alert span').html(description);
-    $('#confirmationMsg .alert').addClass(isError ? 'alert-danger' : 'alert-succes');
+    $('#confirmationMsg .alert').addClass(isError ? 'alert-danger' : 'alert-success');
     $('#confirmationMsg').css('display', 'none').removeClass('hide').fadeIn();
 }
 

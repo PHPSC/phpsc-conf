@@ -1,9 +1,9 @@
 <?php
 namespace PHPSC\Conference\UI;
 
-use Lcobucci\DisplayObjects\Core\UIComponent;
+use PHPSC\Conference\Infra\UI\Component;
 
-class Sponsors extends UIComponent
+class Sponsors extends Component
 {
     public function __construct()
     {

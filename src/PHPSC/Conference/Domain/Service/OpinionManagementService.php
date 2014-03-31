@@ -1,23 +1,21 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
-use PHPSC\Conference\Domain\Entity\Opinion;
-
-use PHPSC\Conference\Domain\Entity\Talk;
-
 use PHPSC\Conference\Domain\Entity\Event;
+use PHPSC\Conference\Domain\Entity\Opinion;
+use PHPSC\Conference\Domain\Entity\Talk;
 use PHPSC\Conference\Domain\Entity\User;
-use \PHPSC\Conference\Domain\Repository\OpinionRepository;
+use PHPSC\Conference\Domain\Repository\OpinionRepository;
 
 class OpinionManagementService
 {
     /**
-     * @var \PHPSC\Conference\Domain\Repository\OpinionRepository
+     * @var OpinionRepository
      */
     private $repository;
 
     /**
-     * @param \PHPSC\Conference\Domain\Repository\OpinionRepository $repository
+     * @param OpinionRepository $repository
      */
     public function __construct(OpinionRepository $repository)
     {
@@ -25,8 +23,8 @@ class OpinionManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $user
+     * @param Event $event
+     * @param User $user
      * @return number
      */
     public function getLikesCount(Event $event, User $user)
@@ -35,10 +33,19 @@ class OpinionManagementService
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\User $user
-     * @param \PHPSC\Conference\Domain\Entity\Talk $talk
+     * @param Talk $talk
+     * @return array
+     */
+    public function getByTalk(Talk $talk)
+    {
+        return $this->repository->findByTalk($talk);
+    }
+
+    /**
+     * @param User $user
+     * @param Talk $talk
      * @param boolean $likes
-     * @return \PHPSC\Conference\Domain\Entity\Opinion
+     * @return Opinion
      */
     public function create(User $user, Talk $talk, $likes)
     {

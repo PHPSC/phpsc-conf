@@ -1,10 +1,10 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \Doctrine\Common\Collections\ArrayCollection;
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity(repositoryClass="PHPSC\Conference\Domain\Repository\TalkRepository")
@@ -39,7 +39,7 @@ class Talk implements Entity
     /**
      * @ManyToOne(targetEntity="Event")
      * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\Event
+     * @var Event
      */
     private $event;
 
@@ -49,7 +49,7 @@ class Talk implements Entity
      *      joinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="user_id", referencedColumnName="id")}
      * )
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      */
     private $speakers;
 
@@ -62,7 +62,7 @@ class Talk implements Entity
     /**
      * @ManyToOne(targetEntity="TalkType")
      * @JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
-     * @var \PHPSC\Conference\Domain\Entity\TalkType
+     * @var TalkType
      */
     private $type;
 
@@ -79,22 +79,22 @@ class Talk implements Entity
     private $longDescription;
 
     /**
-     * @Column(type="string", columnDefinition="ENUM('L','M','H') NOT NULL DEFAULT 'L'")
+     * @Column(type="string", length=1, options={"default":"L"})
      * @var string
      */
     private $complexity;
 
     /**
-     * @Column(type="string", length=120, nullable=true)
-     * @var string
+     * @Column(type="decimal", precision=13, scale=2, nullable=true)
+     * @var float
      */
-    private $tags;
+    private $cost;
 
     /**
-     * @Column(type="datetime", name="start_time", nullable=true)
-     * @var \DateTime
+     * @Column(type="json_array", length=120, nullable=true)
+     * @var array
      */
-    private $startTime;
+    private $tags;
 
     /**
      * @Column(type="boolean", nullable=true)
@@ -104,7 +104,7 @@ class Talk implements Entity
 
     /**
      * @Column(type="datetime", nullable=false, name="creation_time")
-     * @var \DateTime
+     * @var DateTime
      */
     private $creationTime;
 
@@ -139,7 +139,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -147,7 +147,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
+     * @param Event $event
      */
     public function setEvent(Event $event)
     {
@@ -155,7 +155,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getSpeakers()
     {
@@ -163,7 +163,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $speakers
+     * @param ArrayCollection $speakers
      */
     public function setSpeakers(ArrayCollection $speakers)
     {
@@ -191,7 +191,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Entity\TalkType
+     * @return TalkType
      */
     public function getType()
     {
@@ -199,7 +199,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\TalkType $type
+     * @param TalkType $type
      */
     public function setType(TalkType $type)
     {
@@ -229,7 +229,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return string$type
+     * @return string $type
      */
     public function getLongDescription()
     {
@@ -279,7 +279,29 @@ class Talk implements Entity
     }
 
     /**
-     * @return string
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     */
+    public function setCost($cost)
+    {
+        if ($cost !== null && (float) $cost <= 0) {
+            throw new InvalidArgumentException(
+                'O custo da palestra deve ser maior que ZERO'
+            );
+        }
+
+        $this->cost = $cost;
+    }
+
+    /**
+     * @return array
      */
     public function getTags()
     {
@@ -287,46 +309,17 @@ class Talk implements Entity
     }
 
     /**
-     * @param string $tags
+     * @param array $tags
      */
-    public function setTags($tags)
+    public function setTags(array $tags)
     {
-        if ($tags !== null) {
-            $tags = strtolower((string) $tags);
-
-            if (empty($tags)) {
-                throw new InvalidArgumentException(
-                    'As tags não podem ser vazias'
-                );
-            }
-
-            $tags = explode(',', $tags);
-            array_walk(
-                $tags,
-                function (&$value) {
-                    $value = trim($value);
-                }
+        if (empty($tags)) {
+            throw new InvalidArgumentException(
+                'As tags não podem ser vazias'
             );
-            $tags = implode(',', $tags);
         }
 
         $this->tags = $tags;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param \DateTime $startTime
-     */
-    public function setStartTime(DateTime $startTime = null)
-    {
-        $this->startTime = $startTime;
     }
 
     /**
@@ -352,7 +345,7 @@ class Talk implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreationTime()
     {
@@ -360,7 +353,7 @@ class Talk implements Entity
     }
 
     /**
-     * @param \DateTime $creationTime
+     * @param DateTime $creationTime
      */
     public function setCreationTime(DateTime $creationTime)
     {
@@ -368,15 +361,16 @@ class Talk implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Entity\Event $event
-     * @param \PHPSC\Conference\Domain\Entity\User $speaker
-     * @param \PHPSC\Conference\Domain\Entity\TalkType $type
+     * @param Event $event
+     * @param User $speaker
+     * @param TalkType $type
      * @param string $title
      * @param string $shortDescription
      * @param string $longDescription
      * @param string $complexity
-     * @param string $tags
-     * @return \PHPSC\Conference\Domain\Entity\Talk
+     * @param array $tags
+     * @param float $cost
+     * @return Talk
      */
     public static function create(
         Event $event,
@@ -386,7 +380,8 @@ class Talk implements Entity
         $shortDescription,
         $longDescription,
         $complexity,
-        $tags = null
+        array $tags,
+        $cost = null
     ) {
         $talk = new static();
 
@@ -394,6 +389,7 @@ class Talk implements Entity
         $talk->setType($type);
         $talk->setTitle($title);
         $talk->setComplexity($complexity);
+        $talk->setCost($cost);
         $talk->setTags($tags);
         $talk->setShortDescription($shortDescription);
         $talk->setLongDescription($longDescription);
