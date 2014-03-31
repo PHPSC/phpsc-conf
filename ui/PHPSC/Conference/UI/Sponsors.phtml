@@ -14,26 +14,21 @@
 	</div>
 	<?php if ($this->event->getLocation()->hasLogo()) { ?>
 	<div class="col-md-2" style="padding-top: 10px; text-align: center; line-height: 80px;">
-    	<a href="<?= $this->event->getLocation()->getWebsite(); ?>" target="_blank" title="<?= $this->event->getLocation()->getName(); ?>">
+    	<a href="<?= $this->event->getLocation()->getWebsite(); ?>" target="_blank" title="<?= $this->event->getLocation()->getDescription(); ?>">
         	<img src="<?php echo $this->getUrl('location/' . $this->event->getLocation()->getId()); ?>?h=80&w=160"
-        	   alt="<?= $this->event->getLocation()->getName(); ?>">
+        	   alt="<?= $this->event->getLocation()->getDescription(); ?>">
 		</a>
 	</div>
 	<?php } ?>
 </div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="page-header">
-			<h3>Patrocínio</h3>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-2" style="padding-top: 10px; text-align: center; line-height: 80px;">
-    	<a href="http://meritt.com.br/" target="_blank" title="Meritt Informação Educacional">
-        	<img src="<?php echo $this->getUrl('img/supporters/logo_meritt.png'); ?>" width="160" alt="Meritt Informação Educacional">
-		</a>
-	</div>
+<div id="sponsorsContainer" class="hide">
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="page-header">
+    			<h3>Patrocínio</h3>
+    		</div>
+    	</div>
+    </div>
 </div>
 <div id="supportersContainer" class="hide">
     <div class="row">
