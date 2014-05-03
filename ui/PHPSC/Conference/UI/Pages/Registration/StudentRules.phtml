@@ -1,0 +1,17 @@
+<?php /* @var $this PHPSC\Conference\UI\Pages\Registration\StudentRules */ ?>
+<p>
+    Estudantes e professores da <?= $this->event->getLocation()->getName(); ?> (<?= $this->event->getLocation()->getDescription(); ?>)
+    serão contemplados com <strong><?= number_format($this->event->getRegistrationInfo()->getStudentDiscount(), 2); ?>%</strong>
+    de desconto <strong>no valor da inscrição do evento</strong>.
+</p>
+<p>
+    Será <strong>obrigatória</strong> a apresentação do comprovante de matrícula dos estudantes
+    no credenciamento, no início do evento.
+</p>
+<p>
+    <strong>Importante:</strong> as pessoas que se inscreverem como alunos/professores
+    da <?= $this->event->getLocation()->getName(); ?> e não apresentarem o comprovante
+    de matrícula deverão pagar, no credenciamento, o valor de
+    <strong>R$ <?= number_format($this->event->getRegistrationInfo()->getLatePrice(), 2, ',', '.'); ?></strong>
+    (correspondente à inscrições realizadas no dia do evento).
+</p>

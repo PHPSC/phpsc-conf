@@ -1,9 +1,9 @@
 <?php
 namespace PHPSC\Conference\Domain\Entity;
 
-use \PHPSC\Conference\Infra\Persistence\Entity;
-use \InvalidArgumentException;
-use \DateTime;
+use DateTime;
+use InvalidArgumentException;
+use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
  * @Entity
@@ -16,6 +16,7 @@ class RegistrationInfo implements Entity
      * @Id
      * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
+     *
      * @var int
      */
     private $id;
@@ -23,51 +24,52 @@ class RegistrationInfo implements Entity
     /**
      * @OneToOne(targetEntity="Event", inversedBy="registrationInfo")
      * @JoinColumn(name="event_id", referencedColumnName="id", unique=true, nullable=false)
-     * @var \PHPSC\Conference\Domain\Event
+     *
+     * @var Event
      */
     private $event;
 
     /**
      * @Column(type="datetime", nullable=false)
-     * @var \DateTime
+     *
+     * @var DateTime
      */
     private $start;
 
     /**
      * @Column(type="datetime", nullable=false)
-     * @var \DateTime
+     *
+     * @var DateTime
      */
     private $end;
 
     /**
      * @Column(type="decimal", precision=13, scale=2, nullable=false, name="regular_price")
+     *
      * @var float
      */
     private $regularPrice;
 
     /**
      * @Column(type="decimal", precision=13, scale=2, name="early_price", nullable=true)
+     *
      * @var float
      */
     private $earlyPrice;
 
     /**
      * @Column(type="decimal", precision=13, scale=2, name="late_price", nullable=true)
+     *
      * @var float
      */
     private $latePrice;
 
     /**
-     * @Column(type="string", length=45, name="student_label", nullable=true)
-     * @var string
+     * @Column(type="decimal", precision=13, scale=2, name="student_discount", nullable=true)
+     *
+     * @var float
      */
-    private $studentLabel;
-
-    /**
-     * @Column(type="text", name="student_rules", nullable=true)
-     * @var string
-     */
-    private $studentRules;
+    private $studentDiscount;
 
     /**
      * @return number
@@ -207,37 +209,20 @@ class RegistrationInfo implements Entity
         return $this->getLatePrice() !== null;
     }
 
-
     /**
-     * @return string
+     * @return number
      */
-    public function getStudentLabel()
+    public function getStudentDiscount()
     {
-        return $this->studentLabel;
+        return $this->studentDiscount;
     }
 
     /**
-     * @param string $studentLabel
+     * @param float $studentDiscount
      */
-    public function setStudentLabel($studentLabel)
+    public function setStudentDiscount($studentDiscount)
     {
-        $this->studentLabel = $studentLabel;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStudentRules()
-    {
-        return $this->studentRules;
-    }
-
-    /**
-     * @param string $studentRules
-     */
-    public function setStudentRules($studentRules)
-    {
-        $this->studentRules = $studentRules;
+        $this->studentDiscount = $studentDiscount;
     }
 
     /**
@@ -245,6 +230,6 @@ class RegistrationInfo implements Entity
      */
     public function hasStudentDiscount()
     {
-        return $this->getStudentRules() !== null;
+        return $this->getStudentDiscount() !== null;
     }
 }

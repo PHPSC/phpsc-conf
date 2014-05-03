@@ -45,6 +45,14 @@ class Form extends Component
     }
 
     /**
+     * @return StudentRules
+     */
+    public function getStudentRules()
+    {
+        return new StudentRules();
+    }
+
+    /**
      * @return boolean
      */
     public function isSpeakerWithApprovedTalks()
