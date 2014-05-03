@@ -27,6 +27,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getComplexity
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setComplexity
      */
     public function setComplexitySuccessfully()
     {
@@ -50,6 +53,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O valor inválido para nível
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setComplexity
      */
     public function setComplexityWithEmptyValueMustThrowAnException()
     {
@@ -60,6 +65,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O valor inválido para nível
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setComplexity
      */
     public function setComplexityWithNullValueMustThrowAnException()
     {
@@ -70,6 +77,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O valor inválido para nível
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setComplexity
      */
     public function setComplexityWithUnknownValueMustThrowAnException()
     {
@@ -78,6 +87,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getTitle
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setTitle
      */
     public function setTitleSuccessfully()
     {
@@ -93,6 +105,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O título não pode ser vazio
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setTitle
      */
     public function setTitleWithEmptyValueMustThrowAnException()
     {
@@ -101,6 +115,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getEvent
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setEvent
      */
     public function setEventSuccessfully()
     {
@@ -114,6 +131,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getType
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setType
      */
     public function setTypeSuccessfully()
     {
@@ -127,6 +147,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getTags
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setTags
      */
     public function setTagsSuccessfully()
     {
@@ -142,6 +165,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage As tags não podem ser vazias
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setTags
      */
     public function setTagsWithEmptyArrayMustThrowAnException()
     {
@@ -150,6 +175,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getShortDescription
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setShortDescription
      */
     public function setShortDescriptionSuccessfully()
     {
@@ -165,6 +193,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O resumo não pode ser vazio
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setShortDescription
      */
     public function setShortDescriptionWithEmptyValueMustThrowAnException()
     {
@@ -173,6 +203,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getLongDescription
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setLongDescription
      */
     public function setLongDescriptionSuccessfully()
     {
@@ -188,6 +221,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage A descrição não pode ser vazia
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setLongDescription
      */
     public function setLongDescriptionWithEmptyValueMustThrowAnException()
     {
@@ -196,6 +231,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getCost
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setCost
      */
     public function setCostSuccessfully()
     {
@@ -211,6 +249,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O custo da palestra deve ser maior que ZERO
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setCost
      */
     public function setCostWithZeroAsValueMustThrowAnException()
     {
@@ -219,6 +259,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getApproved
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setApproved
      */
     public function setApprovedSuccessfully()
     {
@@ -238,6 +281,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Aprovado deve ser TRUE ou FALSE
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setApproved
      */
     public function setApprovedWithInvalidValueMustThrowAnException()
     {
@@ -246,6 +291,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getId
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setId
      */
     public function setIdSuccessfully()
     {
@@ -261,6 +309,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage O id deve ser maior ou igual à ZERO
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setId
      */
     public function setIdWithZeroAsValueMustThrowAnException()
     {
@@ -269,6 +319,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getCreationTime
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setCreationTime
      */
     public function setCreationTimeSuccessfully()
     {
@@ -282,6 +335,9 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers PHPSC\Conference\Domain\Entity\Talk::__construct
+     * @covers PHPSC\Conference\Domain\Entity\Talk::getSpeakers
+     * @covers PHPSC\Conference\Domain\Entity\Talk::setSpeakers
      */
     public function setSpeakers()
     {
