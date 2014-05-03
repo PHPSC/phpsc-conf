@@ -1,7 +1,7 @@
 <?php
 namespace PHPSC\Test\PHPSC\Conference\Domain\Entity;
 
-use \DateTime;
+use DateTime;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\Talk;
 use PHPSC\Conference\Domain\Entity\TalkType;
@@ -17,21 +17,12 @@ class TalkTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->creationTime = $this->getMock('\DateTime', array('getDateTime'));
-        $this->event = $this->getMock('PHPSC\Conference\Domain\Entity\Event');
         $this->talk = new Talk();
-        $this->type = $this->getMock('PHPSC\Conference\Domain\Entity\TalkType');
-        $this->speakers = $this->getMock('Doctrine\Common\Collections\ArrayCollection');
 
-        $userWilliam = $this->getMock('\PHPSC\Conference\Domain\Entity\User');
-        $userWilliam->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue('William G. Comnisky'));
-
-        $this->speakers->expects($this->any())
-            ->method('get')
-            ->withAnyParameters()
-            ->will($this->returnValue($userWilliam));
+        $this->creationTime = $this->getMock(DateTime::class, ['getDateTime']);
+        $this->event = $this->getMock(Event::class, [], [], '', false);
+        $this->type = $this->getMock(TalkType::class);
+        $this->speakers = $this->getMock(ArrayCollection::class);
     }
 
     /**
@@ -117,8 +108,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->talk->getEvent());
 
         $this->talk->setEvent($this->event);
-        $this->assertAttributeInstanceOf('PHPSC\Conference\Domain\Entity\Event', 'event', $this->talk);
-        $this->assertInstanceOf('PHPSC\Conference\Domain\Entity\Event', $this->talk->getEvent());
+        $this->assertAttributeSame($this->event, 'event', $this->talk);
+        $this->assertSame($this->event, $this->talk->getEvent());
     }
 
     /**
@@ -130,8 +121,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->talk->getType());
 
         $this->talk->setType($this->type);
-        $this->assertAttributeInstanceOf('PHPSC\Conference\Domain\Entity\TalkType', 'type', $this->talk);
-        $this->assertInstanceOf('PHPSC\Conference\Domain\Entity\TalkType', $this->talk->getType());
+        $this->assertAttributeSame($this->type, 'type', $this->talk);
+        $this->assertSame($this->type, $this->talk->getType());
     }
 
     /**
@@ -285,8 +276,8 @@ class TalkTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->talk->getCreationTime());
 
         $this->talk->setCreationTime($this->creationTime);
-        $this->assertAttributeEquals($this->creationTime, 'creationTime', $this->talk);
-        $this->assertEquals($this->creationTime, $this->talk->getCreationTime());
+        $this->assertAttributeSame($this->creationTime, 'creationTime', $this->talk);
+        $this->assertSame($this->creationTime, $this->talk->getCreationTime());
     }
 
     /**
@@ -295,12 +286,11 @@ class TalkTest extends \PHPUnit_Framework_TestCase
     public function setSpeakers()
     {
         $this->assertAttributeEmpty('speakers', $this->talk);
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $this->talk->getSpeakers());
+        $this->assertInstanceOf(ArrayCollection::class, $this->talk->getSpeakers());
         $this->assertEmpty($this->talk->getSpeakers());
 
         $this->talk->setSpeakers($this->speakers);
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $this->talk->getSpeakers());
-        $this->assertInstanceOf('\PHPSC\Conference\Domain\Entity\User', $this->talk->getSpeakers()->get(0));
-        $this->assertEquals('William G. Comnisky', $this->talk->getSpeakers()->get(0)->getName());
+        $this->assertAttributeSame($this->speakers, 'speakers', $this->talk);
+        $this->assertSame($this->speakers, $this->talk->getSpeakers());
     }
 }
