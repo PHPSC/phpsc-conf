@@ -44,25 +44,25 @@ class RegistrationInfo implements Entity
     private $end;
 
     /**
-     * @Column(type="decimal", precision=13, scale=2, nullable=false, name="regular_price")
+     * @Column(type="decimal", precision=13, scale=2, nullable=false, name="workshops_price")
      *
      * @var float
      */
-    private $regularPrice;
+    private $workshopsPrice;
 
     /**
-     * @Column(type="decimal", precision=13, scale=2, name="early_price", nullable=true)
+     * @Column(type="decimal", precision=13, scale=2, nullable=false, name="talks_price")
      *
      * @var float
      */
-    private $earlyPrice;
+    private $talksPrice;
 
     /**
-     * @Column(type="decimal", precision=13, scale=2, name="late_price", nullable=true)
+     * @Column(type="decimal", precision=13, scale=2, name="cost_variation", nullable=false)
      *
      * @var float
      */
-    private $latePrice;
+    private $costVariation;
 
     /**
      * @Column(type="decimal", precision=13, scale=2, name="student_discount", nullable=true)
@@ -85,16 +85,14 @@ class RegistrationInfo implements Entity
     public function setId($id)
     {
         if ($id <= 0) {
-            throw new InvalidArgumentException(
-                'O id deve ser maior ou igual à ZERO'
-            );
+            throw new InvalidArgumentException('O id deve ser maior ou igual à ZERO');
         }
 
         $this->id = (int) $id;
     }
 
     /**
-     * @return \PHPSC\Conference\Domain\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -102,7 +100,7 @@ class RegistrationInfo implements Entity
     }
 
     /**
-     * @param \PHPSC\Conference\Domain\Event $event
+     * @param Event $event
      */
     public function setEvent(Event $event)
     {
@@ -110,7 +108,7 @@ class RegistrationInfo implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStart()
     {
@@ -118,7 +116,7 @@ class RegistrationInfo implements Entity
     }
 
     /**
-     * @param \DateTime $start
+     * @param DateTime $start
      */
     public function setStart(DateTime $start)
     {
@@ -126,7 +124,7 @@ class RegistrationInfo implements Entity
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEnd()
     {
@@ -134,7 +132,7 @@ class RegistrationInfo implements Entity
     }
 
     /**
-     * @param \DateTime $end
+     * @param DateTime $end
      */
     public function setEnd(DateTime $end)
     {
@@ -142,75 +140,55 @@ class RegistrationInfo implements Entity
     }
 
     /**
-     * @return number
+     * @return float
      */
-    public function getRegularPrice()
+    public function getWorkshopsPrice()
     {
-        return $this->regularPrice;
+        return $this->workshopsPrice;
     }
 
     /**
-     * @param number $regularPrice
+     * @param float $workshopsPrice
      */
-    public function setRegularPrice($regularPrice)
+    public function setWorkshopsPrice($workshopsPrice)
     {
-        $this->regularPrice = (float) $regularPrice;
+        $this->workshopsPrice = $workshopsPrice;
     }
 
     /**
-     * @return number
+     * @return float
      */
-    public function getEarlyPrice()
+    public function getTalksPrice()
     {
-        return $this->earlyPrice;
+        return $this->talksPrice;
     }
 
     /**
-     * @param number $earlyPrice
+     * @param float $talksPrice
      */
-    public function setEarlyPrice($earlyPrice)
+    public function setTalksPrice($talksPrice)
     {
-        if ($earlyPrice !== null) {
-            $this->earlyPrice = (float) $earlyPrice;
-        }
+        $this->talksPrice = $talksPrice;
     }
 
     /**
-     * @return boolean
+     * @return float
      */
-    public function hasEarlyPrice()
+    public function getCostVariation()
     {
-        return $this->getEarlyPrice() !== null;
+        return $this->costVariation;
     }
 
     /**
-     * @return number
+     * @param float $costVariation
      */
-    public function getLatePrice()
+    public function setCostVariation($costVariation)
     {
-        return $this->latePrice;
+        $this->costVariation = $costVariation;
     }
 
     /**
-     * @param number $latePrice
-     */
-    public function setLatePrice($latePrice)
-    {
-        if ($latePrice !== null) {
-            $this->latePrice = (float) $latePrice;
-        }
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasLatePrice()
-    {
-        return $this->getLatePrice() !== null;
-    }
-
-    /**
-     * @return number
+     * @return float
      */
     public function getStudentDiscount()
     {

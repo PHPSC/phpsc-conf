@@ -24,11 +24,10 @@ class RegistrationInfoFixture extends BaseFixture implements DependentFixture
         $info->setEvent($this->findEvent());
         $info->setStart(DateTime::createFromFormat('H:i:s', '00:00:00'));
         $info->setEnd(DateTime::createFromFormat('H:i:s', '23:59:59'));
-        $info->setRegularPrice(15);
-        $info->setEarlyPrice(10);
+        $info->setTalksPrice(60);
+        $info->setWorkshopsPrice(40);
+        $info->setCostVariation(25);
         $info->setStudentDiscount(50);
-        $info->setStudentLabel('Sou estudante');
-        $info->setStudentRules('<p>Instruções e regras para preços de estudantes</p>');
 
         $info->getEnd()->modify('+29 days');
 
