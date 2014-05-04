@@ -40,9 +40,20 @@ class Attendee implements Entity
     const CANCELLED = '4';
 
     /**
+     * @var string
+     */
+    const TALKS_ONLY = '0';
+
+    /**
+     * @var string
+     */
+    const WORKSHOPS_AND_TALKS = '1';
+
+    /**
      * @Id
      * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
+     *
      * @var int
      */
     private $id;
@@ -50,6 +61,7 @@ class Attendee implements Entity
     /**
      * @ManyToOne(targetEntity="Event", cascade={"all"})
      * @JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
+     *
      * @var Event
      */
     private $event;
@@ -57,31 +69,50 @@ class Attendee implements Entity
     /**
      * @ManyToOne(targetEntity="User", cascade={"all"})
      * @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     *
      * @var User
      */
     private $user;
 
     /**
      * @Column(type="string", columnDefinition="ENUM('0', '1', '2', '3', '4') NOT NULL")
+     *
      * @var string
      */
     private $status;
 
     /**
      * @Column(type="boolean", options={"default" = 0}, nullable=false)
+     *
      * @var boolean
      */
     private $arrived;
 
     /**
+     * @Column(type="string", name="registration_type", length=1, options={"default" = "0"}, nullable=false)
+     *
+     * @var string
+     */
+    private $registrationType;
+
+    /**
+     * @Column(type="boolean", name="student_registration", options={"default" = 0}, nullable=false)
+     *
+     * @var boolean
+     */
+    private $studentRegistration;
+
+    /**
      * @ManyToOne(targetEntity="DiscountCoupon")
      * @JoinColumn(name="coupon_id", referencedColumnName="id")
+     *
      * @var DiscountCoupon
      */
     private $discount;
 
     /**
      * @Column(type="datetime", name="creation_time", nullable=false)
+     *
      * @var DateTime
      */
     private $creationTime;
@@ -93,6 +124,7 @@ class Attendee implements Entity
      *      joinColumns={@JoinColumn(name="attendee_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="payment_id", referencedColumnName="id", unique=true)}
      * )
+     *
      * @var ArrayCollection
      **/
     private $payments;
@@ -119,9 +151,7 @@ class Attendee implements Entity
     public function setId($id)
     {
         if ($id <= 0) {
-            throw new InvalidArgumentException(
-                'O id deve ser maior ou igual à ZERO'
-            );
+            throw new InvalidArgumentException('O id deve ser maior ou igual à ZERO');
         }
 
         $this->id = (int) $id;
@@ -157,6 +187,54 @@ class Attendee implements Entity
     public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegistrationType()
+    {
+        return $this->registrationType;
+    }
+
+    /**
+     * @param string $registrationType
+     */
+    public function setRegistrationType($registrationType)
+    {
+        $this->registrationType = $registrationType;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function canAttendTalksDayOnly()
+    {
+        return $this->getRegistrationType() === self::TALKS_ONLY;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function canAttendAllDays()
+    {
+        return $this->getRegistrationType() === self::WORKSHOPS_AND_TALKS;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStudentRegistration()
+    {
+        return $this->studentRegistration === true;
+    }
+
+    /**
+     * @param boolean $studentRegistration
+     */
+    public function setStudentRegistration($studentRegistration)
+    {
+        $this->studentRegistration = $studentRegistration;
     }
 
     /**
@@ -398,7 +476,6 @@ class Attendee implements Entity
                 return 'Verificar pagamento';
             case $this->isWaitingForPayment():
                 return 'Aguardando pagamento';
-                return 'Verificar pagamento';
             case $this->isApproved():
                 return 'Pagamento confirmado';
             case $this->isCancelled():
