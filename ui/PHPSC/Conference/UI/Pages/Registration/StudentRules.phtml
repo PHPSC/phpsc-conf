@@ -2,15 +2,15 @@
 <p>
     Estudantes e professores da <?= $this->event->getLocation()->getName(); ?> (<?= $this->event->getLocation()->getDescription(); ?>)
     serão contemplados com <strong><?= number_format($this->event->getRegistrationInfo()->getStudentDiscount(), 2); ?>%</strong>
-    de desconto <strong>no valor da inscrição do evento</strong>.
+    de desconto <strong>no valor da inscrição</strong>.
 </p>
 <p>
-    Será <strong>obrigatória</strong> a apresentação do comprovante de matrícula dos estudantes
-    no credenciamento, no início do evento.
+    Será <strong>obrigatória</strong> a apresentação do comprovante de vínculo com a <?= $this->event->getLocation()->getName(); ?>
+    dos estudantes e professores no credenciamento, no início do evento.
 </p>
 <p>
     <strong>Importante:</strong> as pessoas que se inscreverem como alunos/professores
     da <?= $this->event->getLocation()->getName(); ?> e não apresentarem o comprovante
-    de matrícula deverão pagar, no credenciamento, o valor correspondente à inscrições
-    tardias (realizadas no dia do evento).
+    de de vínculo deverão pagar, no credenciamento, a diferença entre o valor pago e o valor correspondente
+    à <strong>inscrições tardias</strong> (realizadas no dia do evento).
 </p>

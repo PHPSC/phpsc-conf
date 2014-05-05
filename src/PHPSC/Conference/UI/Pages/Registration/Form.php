@@ -30,13 +30,14 @@ class Form extends Component
         $this->talkService = $talkService;
         $this->costCalculator = $costCalculator;
 
+        Main::appendScript($this->getUrl('js/vendor/jquery.price_format.2.0.min.js'));
         Main::appendScript($this->getUrl('js/attendee.create.js'));
     }
 
     /**
      * @return number
      */
-    public function getCost($talksOnly = false)
+    public function getCost($talksOnly)
     {
         return $this->costCalculator->getBaseCost(
             $this->event,
