@@ -1,17 +1,15 @@
 <?php
 namespace PHPSC\Conference\Application\Action;
 
-use PHPSC\Conference\UI\Pages\Registration\AlreadyRegistered;
-
-use PHPSC\Conference\UI\Pages\Registration\Confirmation;
-
-use \PHPSC\Conference\UI\Pages\Registration\Index;
-use \PHPSC\Conference\UI\Pages\Registration\Form;
-use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
-use \Lcobucci\ActionMapper2\Routing\Controller;
-use \PHPSC\Conference\UI\Main;
+use Lcobucci\ActionMapper2\Routing\Annotation\Route;
+use Lcobucci\ActionMapper2\Routing\Controller;
+use PHPSC\Conference\Domain\Entity\Attendee as AttendeeEntity;
 use PHPSC\Conference\Infra\UI\Component;
-use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\UI\Pages\Registration\AlreadyRegistered;
+use PHPSC\Conference\UI\Pages\Registration\Confirmation;
+use PHPSC\Conference\UI\Pages\Registration\Form;
+use PHPSC\Conference\UI\Pages\Registration\Index;
 
 class Registration extends Controller
 {
@@ -33,8 +31,8 @@ class Registration extends Controller
         return $this->getAttendeeJsonService()->create(
             $this->request->request->get('isStudent') == 'true',
             $this->request->request->get('canAttendAllDays') == 'true'
-                ? Attendee::WORKSHOPS_AND_TALKS
-                : Attendee::TALKS_ONLY,
+                ? AttendeeEntity::WORKSHOPS_AND_TALKS
+                : AttendeeEntity::TALKS_ONLY,
             $this->request->request->get('discountCoupon'),
             $this->request->getUriForPath('/registration/confirmation')
         );
