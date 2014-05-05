@@ -160,7 +160,12 @@ class AttendeeManagementService
             return ;
         }
 
-        $attendee->approve();
+        // TODO refactor this!
+        if ($attendee->isStudentRegistration()) {
+            $attendee->setStatus(Attendee::CHECK_PAYMENT);
+        } else {
+            $attendee->approve();
+        }
 
         $this->repository->update($attendee);
 
