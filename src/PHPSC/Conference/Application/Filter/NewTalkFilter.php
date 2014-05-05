@@ -17,7 +17,7 @@ class NewTalkFilter extends BasicFilter
 
         if ($this->request->getRequestedPath() == '/call4papers/submissions/new'
             && $this->request->isMethod('get')
-            && !$event->isSubmissionsInterval(new DateTime())) {
+            && !$event->isSubmissionsPeriod(new DateTime())) {
             $this->application->redirect('/call4papers');
         }
     }

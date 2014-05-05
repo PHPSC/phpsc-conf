@@ -4,7 +4,6 @@
     backupGlobals="false" 
     backupStaticAttributes="false" 
     bootstrap="vendor/autoload.php"
-    verbose="true"
     strict="true">
 
     <testsuites>
@@ -22,4 +21,8 @@
             <directory suffix=".php">vendor</directory>
         </blacklist>
     </filter>
+
+    <logging>
+        <log type="coverage-html" target="test/coverage" title="PHPSC-Conf" highlight="true"/>
+    </logging>
 </phpunit>

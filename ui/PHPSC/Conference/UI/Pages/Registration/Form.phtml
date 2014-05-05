@@ -27,26 +27,48 @@
                 <p>O valor da inscrição para as palestras muda de acordo com o período em que a inscrição é realizada.</p>
                 <p>
                     <strong>Inscrições antecipadas</strong> possuem desconto, e são aquelas que ocorreram antes da aprovação de ao menos uma
-                    palestra no sistema (a data final de submissão de trabalhos é <?php echo $this->event->getSubmissionEnd()->format('d/m/Y H:i:s'); ?>).
+                    palestra no sistema (a data final de avaliação para trabalhos é
+                    <?php echo $this->event->getTalkEvaluationEnd()->format('d/m/Y H:i:s'); ?>).
                 </p>
                 <p>As inscrições realizadas após este período são as <strong>inscrições regulares</strong>.</p>
-                <p>No dia do evento também aceitaremos <strong>inscrições tardias</strong>, porém custarão mais que as <strong>inscrições antecipadas</strong> ou <strong>regulares</strong>.</p>
-            </div>
-            <div>
-                <p id="regularAttendee">
-                    O custo da sua inscrição para as palestras será de <strong>R$ <?php echo number_format($this->getCost(), 2, ',', '.'); ?></strong>, devendo ser pago
-                    <?php if (!$this->event->isLateRegistrationPeriod(new \DateTime())) { ?>através do PagSeguro<?php } else { ?>em dinheiro durante o credenciamento<?php } ?> (de acordo com os <a href="#terms" data-toggle="modal">termos de participacão</a>).
+                <p>
+                    No dia do evento também aceitaremos <strong>inscrições tardias</strong>, porém custarão mais que as
+                    <strong>inscrições antecipadas</strong> ou <strong>regulares</strong>.
                 </p>
-                <p id="studentAttendee" class="hide">A sua inscrição para as palestras será gratuita.</p>
+            </div>
+            <div class="form-group">
+                <label for="registrationType0" class="control-label" style="margin-left: 27px">
+                    <input id="registrationType0" name="registrationType" type="radio" value="0" checked="checked" />
+                    Quero participar de todo evento (minicursos e palestras)
+                </label>
+                <label for="registrationType1" class="control-label" style="margin-left: 27px">
+                    <input id="registrationType1" name="registrationType" type="radio" value="1" />
+                    Quero participar apenas das palestras
+                </label>
             </div>
             <?php if ($this->event->getRegistrationInfo()->hasStudentDiscount()) { ?>
             <div class="form-group">
                 <label for="isStudent" class="control-label" style="margin-left: 27px">
                     <input id="isStudent" name="isStudent" type="checkbox"  />
-                    <?php echo $this->event->getRegistrationInfo()->getStudentLabel(); ?>
+                    Sou estudante/professor da <?= $this->event->getLocation()->getName(); ?>
                 </label>
             </div>
             <?php } ?>
+            <div>
+                <p>
+                    O custo da sua inscrição para as palestras será de
+                    <strong id="registrationCost" data-all-days="<?= $this->getCost(false); ?>" data-talks-only="<?= $this->getCost(true); ?>"
+                        data-student-discount="<?= $this->event->getRegistrationInfo()->getStudentDiscount(); ?>">
+                        R$ <?php echo number_format($this->getCost(false), 2, ',', '.'); ?>
+                    </strong>, devendo ser pago
+                    <?php if (!$this->event->isLateRegistrationPeriod(new \DateTime())) { ?>
+                    através do PagSeguro
+                    <?php } else { ?>
+                    em dinheiro durante o credenciamento
+                    <?php } ?>
+                    (de acordo com os <a href="#terms" data-toggle="modal">termos de participacão</a>).
+                </p>
+            </div>
             <div class="form-group">
                 <label for="discountCoupon" class="control-label col-md-2">Cupom de desconto:</label>
                 <div class="col-md-3">
@@ -73,14 +95,9 @@
                 <h3>Termos de participação</h3>
             </div>
             <div class="modal-body">
-                <h4 style="margin: 10px 0px;">Minicursos</h4>
+                <h4 style="margin-bottom: 10px;">Pagamento</h4>
                 <p style="text-align: justify; margin-left: 15px;">
-                    No evento, poderão ser ofertados minicursos.
-                    A inscrição e o pagamento dos minicursos deverá ser realizada pessoalmente, no dia do evento (durante o credenciamento).
-                </p>
-                <h4 style="margin-bottom: 10px;">Pagamento (palestras)</h4>
-                <p style="text-align: justify; margin-left: 15px;">
-                    O pagamento da inscrição para as palestras deverá ser realizado em dinheiro durante o credenciamento (para inscrições <strong>tardias</strong>) ou
+                    O pagamento da inscrição deverá ser realizado em dinheiro durante o credenciamento (para inscrições <strong>tardias</strong>) ou
                     através do PagSeguro (para inscrições <strong>antecipadas</strong> ou <strong>regulares</strong>),
                     utilizando a conta pessoal de um dos coordenadores do PHPSC. Isto se dá pelos seguintes motivos:
                 </p>
@@ -91,9 +108,15 @@
                 	</ol>
             	</div>
             	<p style="text-align: justify; margin-left: 15px;">
-            	    O pagamento da inscrição no evento <strong>apenas dá direito ao participante de assistir as palestras</strong>.
-            	    Caso o participante tenha interesse nos minicursos, ele deverá se inscrever e realizar o pagamento destes
-            	    no dia do evento (durante o credenciamento).
+            	    Ao realizar a inscrição o participante escolhe se que participar de todos os dias ou apenas o dia
+            	    de palestras.
+
+            	    Caso escolha participar de todos os dias, terá direito de assistir as palestras e
+            	    dois minicursos à sua escolha. Senão apenas poderá assistir as palestras.
+        	    </p>
+            	<p style="text-align: justify; margin-left: 15px;">
+            	    A seleção dos minicursos poderá ser realizada antecipadamente (pelo site, assim que houverem minicursos aprovados)
+            	    ou no dia do evento.
         	    </p>
                 <h4 style="margin: 10px 0px;">Sigilo das informações</h4>
                 <p style="text-align: justify; margin-left: 15px;">
@@ -116,12 +139,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3>Atenção</h3>
             </div>
-            <div class="modal-body">
-                <?php echo $this->event->getRegistrationInfo()->getStudentRules(); ?>
-            </div>
+            <div class="modal-body"><?= $this->getStudentRules(); ?></div>
             <div class="modal-footer">
-                <button class="btn btn-default" id="revertIsStudent" data-dismiss="modal">Não sou aluno</button>
-                <button class="btn btn-primary" data-dismiss="modal">Sou aluno e levarei o comprovante de matrícula</button>
+                <button class="btn btn-default" id="revertIsStudent" data-dismiss="modal">Não sou aluno/professor</button>
+                <button class="btn btn-primary" data-dismiss="modal">Sou aluno/professor e levarei o comprovante</button>
             </div>
         </div>
     </div>

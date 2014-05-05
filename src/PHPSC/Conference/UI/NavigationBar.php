@@ -19,7 +19,7 @@ class NavigationBar extends Component
             array('Inscrições', 'registration')
         );
 
-        if ($this->event->isSubmissionsInterval(new DateTime())) {
+        if ($this->event->isSubmissionsPeriod(new DateTime())) {
             $items[] = array('Chamada de Trabalhos', 'call4papers');
         } else {
             $items[] = array('Programação', 'talks');

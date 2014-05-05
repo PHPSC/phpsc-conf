@@ -15,7 +15,7 @@ class NewAttendeeFilter extends BasicFilter
 
         $event = $this->getEventManagement()->findCurrentEvent();
 
-        if (!$event->isRegistrationInterval(new DateTime())) {
+        if (!$event->isRegistrationPeriod(new DateTime())) {
             $this->application->redirect('/registration');
         }
     }

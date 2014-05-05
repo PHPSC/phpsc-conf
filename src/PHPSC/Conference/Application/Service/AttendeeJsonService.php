@@ -54,10 +54,13 @@ class AttendeeJsonService
 
     /**
      * @param boolean $isStudent
+     * @param string $registrationType
+     * @param string $discountCode
      * @param string $redirectTo
+     *
      * @return string
      */
-    public function create($isStudent, $discountCode, $redirectTo)
+    public function create($isStudent, $registrationType, $discountCode, $redirectTo)
     {
         return $this->handleExceptions(
             function (
@@ -68,12 +71,14 @@ class AttendeeJsonService
             ) use (
                 $isStudent,
                 $discountCode,
+                $registrationType,
                 $redirectTo
             ) {
                 return $attendeeRegistrator->create(
                     $event,
                     $user,
                     $isStudent,
+                    $registrationType,
                     $redirectTo,
                     !empty($discountCode) ? $couponValidator->validate($discountCode) : null
                 );
@@ -119,29 +124,13 @@ class AttendeeJsonService
         try {
             return json_encode(call_user_func_array($function, $params));
         } catch (InvalidArgumentException $error) {
-            return json_encode(
-                array(
-                    'error' => $error->getMessage()
-                )
-            );
+            return json_encode(['error' => $error->getMessage()]);
         } catch (PDOException $error) {
-            return json_encode(
-                array(
-                    'error' => 'Não foi possível salvar os dados na camada de persistência'
-                )
-            );
+            return json_encode(['error' => 'Não foi possível salvar os dados na camada de persistência']);
         } catch (PagSeguroException $error) {
-            return json_encode(
-                array(
-                    'error' => 'Erro de comunicação com o pagseguro'
-                )
-            );
+            return json_encode(['error' => 'Erro de comunicação com o pagseguro']);
         } catch (Exception $error) {
-            return json_encode(
-                array(
-                    'error' => 'Erro interno no processamento da requisição'
-                )
-            );
+            return json_encode(['error' => 'Erro interno no processamento da requisição']);
         }
     }
 }

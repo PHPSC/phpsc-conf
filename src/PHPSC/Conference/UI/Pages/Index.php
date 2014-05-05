@@ -24,7 +24,7 @@ class Index extends Component
      */
     protected function isSubmissionInterval()
     {
-        return $this->event->isSubmissionsInterval(new DateTime());
+        return $this->event->isSubmissionsPeriod(new DateTime());
     }
 
     /**
