@@ -12,7 +12,7 @@
         
         <service id="attendee.management.service" class="PHPSC\Conference\Domain\Service\AttendeeManagementService">
             <argument type="service" id="attendee.repository" />
-            <argument type="service" id="talk.management.service" />
+            <argument type="service" id="attendee.factory" />
             <argument type="service" id="email.delivery.service" />
         </service>
         <service id="attendee.credentialing.service" class="PHPSC\Conference\Domain\Service\AttendeeCredentialingService">
@@ -28,6 +28,10 @@
             <argument type="service" id="attendee.cost.calculator" />
         </service>
         <service id="attendee.cost.calculator" class="PHPSC\Conference\Domain\Service\RegistrationCostCalculator">
+            <argument type="service" id="talk.management.service" />
+        </service>
+
+        <service id="attendee.factory" class="PHPSC\Conference\Domain\Factory\AttendeeFactory">
             <argument type="service" id="talk.management.service" />
         </service>
         

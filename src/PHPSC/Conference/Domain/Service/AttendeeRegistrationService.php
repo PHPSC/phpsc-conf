@@ -60,6 +60,7 @@ class AttendeeRegistrationService
         Event $event,
         User $user,
         $isStudent,
+        $registrationType,
         $redirectTo,
         DiscountCoupon $coupon = null
     ) {
@@ -67,6 +68,7 @@ class AttendeeRegistrationService
             $event,
             $user,
             $isStudent,
+            $registrationType,
             $coupon
         );
 

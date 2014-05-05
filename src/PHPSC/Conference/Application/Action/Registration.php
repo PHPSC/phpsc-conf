@@ -11,6 +11,7 @@ use \Lcobucci\ActionMapper2\Routing\Annotation\Route;
 use \Lcobucci\ActionMapper2\Routing\Controller;
 use \PHPSC\Conference\UI\Main;
 use PHPSC\Conference\Infra\UI\Component;
+use PHPSC\Conference\Domain\Entity\Attendee;
 
 class Registration extends Controller
 {
@@ -31,6 +32,9 @@ class Registration extends Controller
 
         return $this->getAttendeeJsonService()->create(
             $this->request->request->get('isStudent') == 'true',
+            $this->request->request->get('canAttendAllDays') == 'true'
+                ? Attendee::WORKSHOPS_AND_TALKS
+                : Attendee::TALKS_ONLY,
             $this->request->request->get('discountCoupon'),
             $this->request->getUriForPath('/registration/confirmation')
         );

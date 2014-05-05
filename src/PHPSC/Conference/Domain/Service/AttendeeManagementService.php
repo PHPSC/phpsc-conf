@@ -9,6 +9,7 @@ use PHPSC\Conference\Domain\Entity\Payment;
 use PHPSC\Conference\Domain\Entity\User;
 use PHPSC\Conference\Domain\Repository\AttendeeRepository;
 use PHPSC\Conference\Infra\Email\DeliveryService;
+use PHPSC\Conference\Domain\Factory\AttendeeFactory;
 
 class AttendeeManagementService
 {
@@ -18,9 +19,9 @@ class AttendeeManagementService
     private $repository;
 
     /**
-     * @var TalkManagementService
+     * @var AttendeeFactory
      */
-    private $talkService;
+    private $attendeeFactory;
 
     /**
      * @var DeliveryService
@@ -29,16 +30,16 @@ class AttendeeManagementService
 
     /**
      * @param AttendeeRepository $repository
-     * @param TalkManagementService $talkService
+     * @param AttendeeFactory $attendeeFactory
      * @param DeliveryService $deliveryService
      */
     public function __construct(
         AttendeeRepository $repository,
-        TalkManagementService $talkService,
+        AttendeeFactory $attendeeFactory,
         DeliveryService $deliveryService
     ) {
         $this->repository = $repository;
-        $this->talkService = $talkService;
+        $this->attendeeFactory = $attendeeFactory;
         $this->deliveryService = $deliveryService;
     }
 
@@ -107,15 +108,14 @@ class AttendeeManagementService
         Event $event,
         User $user,
         $isStudent = false,
+        $registrationType = Attendee::TALKS_ONLY,
         DiscountCoupon $coupon = null
     ) {
         if ($this->hasAnActiveRegistration($event, $user)) {
-            throw new InvalidArgumentException(
-                'Você já possui uma inscrição neste evento'
-            );
+            throw new InvalidArgumentException('Você já possui uma inscrição neste evento');
         }
 
-        $attendee = $this->createAttendee($event, $user, $isStudent);
+        $attendee = $this->attendeeFactory->create($event, $user, $isStudent, $registrationType);
 
         if ($coupon) {
             $attendee->applyDiscount($coupon);
@@ -146,25 +146,6 @@ class AttendeeManagementService
         $attendee->addPayment($payment);
 
         $this->repository->update($attendee);
-    }
-
-    /**
-     * @param Event $event
-     * @param User $user
-     * @param boolean $isStudent
-     * @return Attendee
-     */
-    protected function createAttendee(Event $event, User $user, $isStudent)
-    {
-        if ($this->talkService->userHasAnyApprovedTalk($user, $event)) {
-            return Attendee::createSpeakerAttendee($event, $user);
-        }
-
-        if ($isStudent) {
-            return Attendee::createStudentAttendee($event, $user);
-        }
-
-        return Attendee::createRegularAttendee($event, $user);
     }
 
     /**

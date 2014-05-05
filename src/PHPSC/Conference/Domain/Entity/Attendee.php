@@ -416,55 +416,6 @@ class Attendee implements Entity
     }
 
     /**
-     * @param Event $event
-     * @param User $user
-     * @param string $status
-     * @return Attendee
-     */
-    protected static function create(Event $event, User $user, $status)
-    {
-        $attendee = new Attendee();
-
-        $attendee->setEvent($event);
-        $attendee->setUser($user);
-        $attendee->setStatus($status);
-        $attendee->setArrived(false);
-        $attendee->setCreationTime(new DateTime());
-
-        return $attendee;
-    }
-
-    /**
-     * @param Event $event
-     * @param User $user
-     * @return Attendee
-     */
-    public static function createRegularAttendee(Event $event, User $user)
-    {
-        return static::create($event, $user, static::WAITING_PAYMENT);
-    }
-
-    /**
-     * @param Event $event
-     * @param User $user
-     * @return Attendee
-     */
-    public static function createSpeakerAttendee(Event $event, User $user)
-    {
-        return static::create($event, $user, static::PAYMENT_NOT_NECESSARY);
-    }
-
-    /**
-     * @param Event $event
-     * @param User $user
-     * @return Attendee
-     */
-    public static function createStudentAttendee(Event $event, User $user)
-    {
-        return static::create($event, $user, static::CHECK_PAYMENT);
-    }
-
-    /**
      * @return string
      */
     public function getStatusDescription()
