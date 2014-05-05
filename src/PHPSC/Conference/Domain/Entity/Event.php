@@ -4,7 +4,6 @@ namespace PHPSC\Conference\Domain\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use InvalidArgumentException;
-use PHPSC\Conference\Domain\Service\TalkManagementService;
 use PHPSC\Conference\Infra\Persistence\Entity;
 
 /**
@@ -16,6 +15,7 @@ use PHPSC\Conference\Infra\Persistence\Entity;
  *         @Index(name="event_index1", columns={"submissions_start", "submissions_end"})
  *     }
  * )
+ *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  */
 class Event implements Entity
@@ -24,12 +24,14 @@ class Event implements Entity
      * @Id
      * @Column(type="integer")
      * @generatedValue(strategy="IDENTITY")
+     *
      * @var int
      */
     private $id;
 
     /**
      * @Column(type="string", length=80, nullable=false)
+     *
      * @var string
      */
     private $name;
@@ -37,12 +39,14 @@ class Event implements Entity
     /**
      * @ManyToOne(targetEntity="Location", cascade={"all"})
      * @JoinColumn(name="location_id", referencedColumnName="id", nullable=false)
+     *
      * @var Location
      */
     private $location;
 
     /**
      * @OneToOne(targetEntity="RegistrationInfo", mappedBy="event")
+     *
      * @var RegistrationInfo
      */
     private $registrationInfo;
@@ -53,30 +57,35 @@ class Event implements Entity
      *      joinColumns={@JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="user_id", referencedColumnName="id")}
      * )
+     *
      * @var ArrayCollection
      */
     private $evaluators;
 
     /**
      * @Column(type="date", nullable=false, name="start")
+     *
      * @var DateTime
      */
     private $startDate;
 
     /**
      * @Column(type="date", nullable=false, name="end")
+     *
      * @var DateTime
      */
     private $endDate;
 
     /**
      * @Column(type="datetime", name="submissions_start", nullable=true)
+     *
      * @var DateTime
      */
     private $submissionStart;
 
     /**
      * @Column(type="datetime", name="submissions_end", nullable=true)
+     *
      * @var DateTime
      */
     private $submissionEnd;
@@ -97,6 +106,7 @@ class Event implements Entity
         $this->evaluators = new ArrayCollection();
     }
 
+
     /**
      * @return number
      */
@@ -111,9 +121,7 @@ class Event implements Entity
     public function setId($id)
     {
         if ($id <= 0) {
-            throw new InvalidArgumentException(
-                'O id deve ser maior ou igual à ZERO'
-            );
+            throw new InvalidArgumentException('O id deve ser maior ou igual à ZERO');
         }
 
         $this->id = (int) $id;
@@ -205,139 +213,6 @@ class Event implements Entity
     }
 
     /**
-     * @param DateTime $date
-     * @return boolean
-     */
-    public function isRegistrationInterval(DateTime $date)
-    {
-        if (!$this->hasAttendeeRegistration()) {
-            return false;
-        }
-
-        if ($date >= $this->getRegistrationInfo()->getStart()
-            && $date <= $this->getRegistrationInfo()->getEnd()) {
-            return true;
-        }
-
-        return $this->isEventPeriod($date);
-    }
-
-    /**
-     * @param Attendee $attendee
-     * @param TalkManagementService $talkService
-     * @return float
-     */
-    public function getRegistrationCost(
-        Attendee $attendee,
-        TalkManagementService $talkService
-    ) {
-        if (!$this->hasAttendeeRegistration()) {
-            return 0;
-        }
-
-        $cost = $this->getRegistrationBaseCost($attendee->getUser(), $talkService);
-
-        if ($discount = $attendee->getDiscount()) {
-            $cost = $discount->applyDiscountTo($cost);
-        }
-
-        return $cost;
-    }
-
-    /**
-     * @param User $user
-     * @param TalkManagementService $talkService
-     * @return number
-     */
-    public function getRegistrationBaseCost(
-        User $user,
-        TalkManagementService $talkService
-    ) {
-        $now = new DateTime();
-
-        if ($cost = $this->getEarlyRegistrationPrice($user, $talkService, $now)) {
-            return $cost;
-        }
-
-        if ($cost = $this->getLateRegistrationPrice($now)) {
-            return $cost;
-        }
-
-        return $this->getRegistrationInfo()->getRegularPrice();
-    }
-
-    /**
-     * @param User $user
-     * @param TalkManagementService $talkService
-     * @param DateTime $now
-     * @return float
-     */
-    protected function getEarlyRegistrationPrice(
-        User $user,
-        TalkManagementService $talkService,
-        DateTime $now
-    ) {
-        if (!$this->getRegistrationInfo()->hasEarlyPrice()) {
-            return null;
-        }
-
-        if ($talkService->userHasAnyTalk($user, $this)
-            && $this->isSpeakerPromotionalInterval($now)) {
-            return $this->getRegistrationInfo()->getEarlyPrice();
-        }
-
-        if (!$talkService->eventHasAnyApprovedTalk($this)) {
-            return $this->getRegistrationInfo()->getEarlyPrice();
-        }
-    }
-
-    /**
-     * @param DateTime $now
-     * @return float
-     */
-    protected function getLateRegistrationPrice(DateTime $now)
-    {
-        if (!$this->isLateRegistrationPeriod($now)) {
-            return null;
-        }
-
-        return $this->getRegistrationInfo()->getLatePrice();
-    }
-
-    /**
-     * @param DateTime $now
-     * @return boolean
-     */
-    public function isRegularRegistrationPeriod(DateTime $now)
-    {
-        return $now <= $this->getRegistrationInfo()->getEnd();
-    }
-
-    /**
-     * @param DateTime $now
-     * @return boolean
-     */
-    public function isLateRegistrationPeriod(DateTime $now)
-    {
-        if (!$this->getRegistrationInfo()->hasLatePrice() || $this->isRegularRegistrationPeriod($now)) {
-            return false;
-        }
-
-        return $this->isEventPeriod($now);
-    }
-
-    /**
-     * @param DateTime $now
-     * @return boolean
-     */
-    public function isEventPeriod(DateTime $now)
-    {
-        $end = new DateTime($this->getEndDate()->format('Y/m/d') . ' 23:59:59');
-
-        return $now >= $this->getStartDate() && $now <= $end;
-    }
-
-    /**
      * @return DateTime
      */
     public function getStartDate()
@@ -367,6 +242,49 @@ class Event implements Entity
     public function setEndDate(DateTime $endDate)
     {
         $this->endDate = $endDate;
+    }
+
+    /**
+     * @param DateTime $date
+     * @return boolean
+     */
+    public function isRegistrationPeriod(DateTime $date)
+    {
+        if (!$this->hasAttendeeRegistration()) {
+            return false;
+        }
+
+        return $date >= $this->getRegistrationInfo()->getStart()
+               && $date <= $this->getRegistrationInfo()->getEnd();
+    }
+
+    /**
+     * @param DateTime $now
+     * @return boolean
+     */
+    public function isEventPeriod(DateTime $now)
+    {
+        $end = new DateTime($this->getEndDate()->format('Y/m/d') . ' 23:59:59');
+
+        return $now >= $this->getStartDate() && $now <= $end;
+    }
+
+    /**
+     * @param DateTime $now
+     * @return boolean
+     */
+    public function isLateRegistrationPeriod(DateTime $now)
+    {
+        return $this->isRegistrationPeriod($now) && $this->isEventPeriod($now);
+    }
+
+    /**
+     * @param DateTime $now
+     * @return boolean
+     */
+    public function isRegularRegistrationPeriod(DateTime $now)
+    {
+        return $this->isRegistrationPeriod($now) && !$this->isEventPeriod($now);
     }
 
     /**
@@ -410,40 +328,10 @@ class Event implements Entity
     }
 
     /**
-     * @return DateTime
-     */
-    public function getTalkApprovalEnd()
-    {
-        if (!$this->hasTalkSubmissions()) {
-            return null;
-        }
-
-        $approvalEnd = clone $this->getSubmissionEnd();
-        $approvalEnd->modify('+7 days');
-
-        return $approvalEnd;
-    }
-
-    /**
      * @param DateTime $date
      * @return boolean
      */
-    public function isSpeakerPromotionalInterval(DateTime $date)
-    {
-        if ($approvalEnd = $this->getTalkApprovalEnd()) {
-            $approvalEnd->modify('+7 days');
-
-            return $date <= $approvalEnd;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param DateTime $date
-     * @return boolean
-     */
-    public function isSubmissionsInterval(DateTime $date)
+    public function isSubmissionsPeriod(DateTime $date)
     {
         if (!$this->hasTalkSubmissions()) {
             return false;
@@ -451,6 +339,52 @@ class Event implements Entity
 
         return $date >= $this->getSubmissionStart()
                && $date <= $this->getSubmissionEnd();
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getTalkEvaluationStart()
+    {
+        if (!$this->hasTalkSubmissions()) {
+            return null;
+        }
+
+        $evaluationStart = clone $this->getSubmissionEnd();
+        $evaluationStart->modify('+1 second');
+
+        return $evaluationStart;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getTalkEvaluationEnd()
+    {
+        if (!$this->hasTalkSubmissions()) {
+            return null;
+        }
+
+        $evaluationEnd = clone $this->getSubmissionEnd();
+        $evaluationEnd->modify('+7 days');
+
+        return $evaluationEnd;
+    }
+
+    /**
+     * @param DateTime $date
+     * @return boolean
+     */
+    public function isSpeakerPromotionalPeriod(DateTime $date)
+    {
+        if ($evaluationEnd = $this->getTalkEvaluationEnd()) {
+            $promotionEnd = clone $evaluationEnd;
+            $promotionEnd->modify('+7 days');
+
+            return $date > $evaluationEnd && $date <= $promotionEnd;
+        }
+
+        return false;
     }
 
     /**

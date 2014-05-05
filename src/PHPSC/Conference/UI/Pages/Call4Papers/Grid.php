@@ -71,7 +71,7 @@ class Grid extends Component
      */
     public function allowSubmission()
     {
-        return $this->event->isSubmissionsInterval(new \DateTime());
+        return $this->event->isSubmissionsPeriod(new \DateTime());
     }
 
     /**
