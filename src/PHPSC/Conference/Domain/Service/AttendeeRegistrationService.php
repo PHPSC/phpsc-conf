@@ -1,11 +1,11 @@
 <?php
 namespace PHPSC\Conference\Domain\Service;
 
-
+use DateTime;
 use PHPSC\Conference\Domain\Entity\Attendee;
+use PHPSC\Conference\Domain\Entity\DiscountCoupon;
 use PHPSC\Conference\Domain\Entity\Event;
 use PHPSC\Conference\Domain\Entity\User;
-use PHPSC\Conference\Domain\Entity\DiscountCoupon;
 
 /**
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
@@ -23,24 +23,31 @@ class AttendeeRegistrationService
     protected $paymentManager;
 
     /**
+     * @var RegistrationCostCalculator
+     */
+    protected $costCalculator;
+
+    /**
      * @var TalkManagementService
      */
     private $talkService;
 
     /**
-     * @param AuthenticationService $authService
      * @param AttendeeManagementService $talkManager
      * @param PaymentManagementService $paymentManager
      * @param TalkManagementService $talkService
+     * @param RegistrationCostCalculator $costCalculator
      */
     public function __construct(
         AttendeeManagementService $attendeeManager,
         PaymentManagementService $paymentManager,
-        TalkManagementService $talkService
+        TalkManagementService $talkService,
+        RegistrationCostCalculator $costCalculator
     ) {
         $this->attendeeManager = $attendeeManager;
         $this->paymentManager = $paymentManager;
         $this->talkService = $talkService;
+        $this->costCalculator = $costCalculator;
     }
 
     /**
@@ -113,7 +120,7 @@ class AttendeeRegistrationService
     public function createPayment(Attendee $attendee, $redirectTo)
     {
         $payment = $this->paymentManager->create(
-            $attendee->getEvent()->getRegistrationCost($attendee, $this->talkService),
+            $this->costCalculator->getCost($attendee, new DateTime()),
             $this->getItemDescription($attendee->getEvent())
         );
 

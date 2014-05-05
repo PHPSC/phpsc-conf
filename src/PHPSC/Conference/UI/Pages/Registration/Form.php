@@ -5,6 +5,7 @@ use DateTime;
 use PHPSC\Conference\Domain\Service\TalkManagementService;
 use PHPSC\Conference\Infra\UI\Component;
 use PHPSC\Conference\UI\Main;
+use PHPSC\Conference\Domain\Service\RegistrationCostCalculator;
 
 class Form extends Component
 {
@@ -14,11 +15,20 @@ class Form extends Component
     protected $talkService;
 
     /**
-     * @param TalkManagementService $talkService
+     * @var RegistrationCostCalculator
      */
-    public function __construct(TalkManagementService $talkService)
-    {
+    protected $costCalculator;
+
+    /**
+     * @param TalkManagementService $talkService
+     * @param RegistrationCostCalculator $costCalculator
+     */
+    public function __construct(
+        TalkManagementService $talkService,
+        RegistrationCostCalculator $costCalculator
+    ) {
         $this->talkService = $talkService;
+        $this->costCalculator = $costCalculator;
 
         Main::appendScript($this->getUrl('js/attendee.create.js'));
     }
@@ -26,11 +36,13 @@ class Form extends Component
     /**
      * @return number
      */
-    public function getCost()
+    public function getCost($talksOnly = false)
     {
-        return $this->event->getRegistrationBaseCost(
+        return $this->costCalculator->getBaseCost(
+            $this->event,
             $this->user,
-            $this->talkService
+            new DateTime(),
+            $talksOnly
         );
     }
 
@@ -41,7 +53,7 @@ class Form extends Component
     {
         //TODO this method is duplicate from another place
         return $this->talkService->userHasAnyTalk($this->user, $this->event)
-               && new DateTime() <= $this->event->getTalkApprovalEnd();
+               && new DateTime() <= $this->event->getTalkEvaluationEnd();
     }
 
     /**

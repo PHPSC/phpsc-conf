@@ -5,7 +5,7 @@
     <div style="margin-top: 15px;">
         <?php if (!$this->event->hasAttendeeRegistration()) { ?>
             <p>Ainda não foram registrados as datas de inscrição de participantes, aguarde!</p>
-        <?php } elseif (!$this->event->isRegistrationInterval(new \DateTime())) { ?>
+        <?php } elseif (!$this->event->isRegistrationPeriod(new \DateTime())) { ?>
             <p>Não está no período de inscrições!</p>
             <p>Data Início: <strong><?php echo $this->event->getRegistrationInfo()->getStart()->format('d/m/Y H:i'); ?></strong>
             <br />Data Fim: <strong><?php echo $this->event->getRegistrationInfo()->getEnd()->format('d/m/Y H:i'); ?></strong></p>
@@ -31,7 +31,7 @@
     <div class="col-md-9">
         <h3>Palestrantes</h3>
         <p>A inscrição de palestrantes com propostas aprovadas será <strong>automática</strong>, não sendo necessário nenhuma intervenção.</p>
-        <p>Os palestrantes que não tiverem nenhuma proposta aprovada, deverão realizar a inscrição a partir de <strong><?php echo $this->event->getTalkApprovalEnd()->format('d/m/Y H:i:s'); ?></strong>.</p>
+        <p>Os palestrantes que não tiverem nenhuma proposta aprovada, deverão realizar a inscrição a partir de <strong><?php echo $this->event->getTalkEvaluationEnd()->format('d/m/Y H:i:s'); ?></strong>.</p>
     </div>
 </div>
 <?php } ?>

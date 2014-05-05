@@ -50,7 +50,12 @@ class Registration extends Controller
             $this->redirect('/registration/registered');
         }
 
-        return new Main(new Form($this->getTalkManagement()));
+        return new Main(
+            new Form(
+                $this->getTalkManagement(),
+                $this->get('attendee.cost.calculator')
+            )
+        );
     }
 
     /**

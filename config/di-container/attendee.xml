@@ -25,6 +25,10 @@
             <argument type="service" id="attendee.management.service" />
             <argument type="service" id="payment.management.service" />
             <argument type="service" id="talk.management.service" />
+            <argument type="service" id="attendee.cost.calculator" />
+        </service>
+        <service id="attendee.cost.calculator" class="PHPSC\Conference\Domain\Service\RegistrationCostCalculator">
+            <argument type="service" id="talk.management.service" />
         </service>
         
         <service id="attendee.repository" factory-service="entityManager" factory-method="getRepository">
