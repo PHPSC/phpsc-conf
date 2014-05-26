@@ -9,6 +9,21 @@
             <argument>PHPSC Conference</argument>
         </service>
 
+        <service id="swiftmailer.transport" class="Swift_SmtpTransport" factory-class="Swift_SmtpTransport" factory-method="newInstance">
+            <argument>%smtp.host%</argument>
+            <argument>%smtp.port%></argument>
+            <argument>%smtp.encryption%</argument>
+            <call method="setUsername">
+                <argument>%smtp.username%</argument>
+            </call>
+            <call method="setPassword">
+                <argument>%smtp.password%</argument>
+            </call>
+            <call method="setAuthMode">
+                <argument>%smtp.auth_mode%</argument>
+            </call>
+        </service>
+
         <service id="swiftmailer.mailer" class="Swift_Mailer" factory-class="Swift_Mailer" factory-method="newInstance">
             <argument type="service" id="swiftmailer.transport" />
         </service>
