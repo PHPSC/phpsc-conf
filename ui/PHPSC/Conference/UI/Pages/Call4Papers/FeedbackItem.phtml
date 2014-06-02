@@ -13,7 +13,7 @@
     <?php if ($this->getItem()->getTags()) { ?>
     <div class="row" style="margin-bottom: 15px;">
         <div class="col-md-12">
-            <?php foreach (explode(',', $this->getItem()->getTags()) as $index => $tag) { ?>
+            <?php foreach ($this->getItem()->getTags() as $index => $tag) { ?>
                 <span class="<?php echo $this->getLabel($index); ?>"><?php echo ucfirst($tag); ?></span>
             <?php } ?>
         </div>
