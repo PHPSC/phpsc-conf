@@ -10,7 +10,7 @@ use PHPSC\Conference\Infra\Persistence\Entity;
  * @Table(
  *     "social_profile",
  *     uniqueConstraints={
- *         @UniqueConstraint(name="social_profile_index0",columns={"provider", "user_id"}),
+ *         @UniqueConstraint(name="social_profile_index0",columns={"provider", "user_id", "email"}),
  *         @UniqueConstraint(name="social_profile_index1",columns={"provider", "social_id"}),
  *     },
  *     indexes={
