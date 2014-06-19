@@ -11,7 +11,7 @@ use PHPSC\Conference\Infra\Errors\ErrorHandler;
 
 $app = ApplicationBuilder::build(
     __DIR__ . '/../config/routes.xml',
-    require __DIR__ . '/../config/di-container.php',
+    require __DIR__ . '/../config/di-config.php',
     new ErrorHandler(),
     'app.cache'
 );

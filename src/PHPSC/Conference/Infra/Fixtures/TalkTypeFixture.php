@@ -15,6 +15,7 @@ class TalkTypeFixture extends BaseFixture
     public function import()
     {
         $this->createType(1, 'Minicurso', '4:00');
+        $this->createType(5, 'Minicurso Longo', '8:00');
         $this->createType(2, 'Palestra', '1:00');
         $this->createType(3, 'Palestra Curta', '0:20');
         $this->createType(4, 'Mesa Redonda', '1:00');
