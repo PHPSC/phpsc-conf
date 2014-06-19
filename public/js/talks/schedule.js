@@ -157,8 +157,13 @@ function createHeader(rooms)
         }
         
         var room = rooms.items[i];
+        var name = room.name;
         
-        header += '<th>' + room.name + ' <small>(' + room.details + ')</small></th>';
+        if (room.details) {
+        	name  += ' <small>(' + room.details + ')</small>';
+        }
+        
+        header += '<th>' + name + '</th>';
     }
     
     header += '</tr></thead>';
@@ -174,9 +179,7 @@ function createBody(items)
         var item = items.data[items.i];
         
         body += '<tr>';
-        
-        var time = new Date(item.startTime);
-        body += '<th>' + time.toLocaleTimeString().substring(0, 5) + '</th>'
+        body += '<th>' + getItemTime(item.startTime) + '</th>'
 
         if (!item.room) {
             body += '<td colspan="' + items.rooms.length + '" style="text-align: center;">' + item.label + '</td>'
@@ -190,6 +193,16 @@ function createBody(items)
     body += '</tbody>';
     
     return body;
+}
+
+function getItemTime(timeString)
+{
+    var time = (new Date(timeString)).toLocaleTimeString();
+    
+    time = time.replace(/\u200E/g, '');
+    time = time.replace(/^([^\d]*\d{1,2}:\d{1,2}):\d{1,2}([^\d]*)$/, '$1$2');
+    
+    return time;
 }
 
 function getItemsColumns(current, items)
