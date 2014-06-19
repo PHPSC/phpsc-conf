@@ -1,11 +1,6 @@
 <?php
-use Lcobucci\ActionMapper2\DependencyInjection\ContainerConfig;
+use Lcobucci\DependencyInjection\XmlContainerBuilder;
 
-return new ContainerConfig(
-    __DIR__ . '/services.xml',
-    __DIR__ . '/../tmp',
-    '\PHPSC\Conference\Infra\DependencyInjection\Container',
-    array(
-        'app.baseDir' => realpath(__DIR__ . '/../') . '/'
-    )
-);
+$builder = new XmlContainerBuilder();
+
+return $builder->getContainer(require __DIR__ . '/di-config.php');
