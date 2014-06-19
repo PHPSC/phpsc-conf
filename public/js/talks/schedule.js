@@ -245,7 +245,11 @@ function renderColumn(item, next, colspan)
         }
         
         for (var i = 0; i < item.talk.speakers.length; ++i) {
-            column += '<br /><span class="speakers" style="line-height: 35px; vertical-align: middle; cursor: pointer" title="' + item.talk.speakers[i].name + '" data-content="' + item.talk.speakers[i].bio + '" data-placement="auto" data-trigger="hover">';
+        	if (item.talk.speakers[i].bio) {
+        		column += '<br /><span class="speakers" style="line-height: 35px; vertical-align: middle; cursor: pointer" title="' + item.talk.speakers[i].name + '" data-content="' + item.talk.speakers[i].bio + '" data-placement="auto" data-trigger="hover">';
+        	} else {
+        		column += '<br /><span style="line-height: 35px; vertical-align: middle;">';
+        	}
             column += '<img src="' + item.talk.speakers[i].avatar + '" class="img-thumbnail" style="width: 35px; padding: 2px; margin-right: 4px " />';
             column += item.talk.speakers[i].name + '</span>';
         }
