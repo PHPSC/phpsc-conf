@@ -30,11 +30,11 @@ function hideTable(tableId)
     $('#' + tableId).parent().parent().fadeOut('fast');
 }
 
-function renderItems(tableId, items)
+function renderItems(tableId, scheduledItems)
 {
-    var rooms = extractRooms(items);
+    var rooms = extractRooms(scheduledItems);
     var items = {
-        data: items,
+        data: scheduledItems,
         rooms: rooms,
         i: null
     };
@@ -150,20 +150,15 @@ function showTalkSummary(talk)
 function createHeader(rooms)
 {
     var header = '<thead><tr><th class="col-md-1"></th>';
+    var room;
     
-    for (var i in rooms.items) {
-        if (!rooms.items[i]) {
-            return ;
-        }
+    for (var i = 0; i < rooms.length; ++i) {
+    	room = rooms[i];
         
-        var room = rooms.items[i];
-        var name = room.name;
-        
-        if (room.details) {
-        	name  += ' <small>(' + room.details + ')</small>';
-        }
-        
-        header += '<th>' + name + '</th>';
+        header += '<th>'
+        	+ room.name
+        	+ (room.details ? ' <small>(' + room.details + ')</small>' : '')
+        	+ '</th>';
     }
     
     header += '</tr></thead>';
@@ -209,13 +204,22 @@ function getItemsColumns(current, items)
 {
     var columns = '';
     
-    while (current.startTime == items.data[items.i].startTime) {
-        columns += renderColumn(items.data[items.i], items.data[items.i + 1], items.rooms.length);
-        ++items.i;
-        
-        if (!items.data[items.i]) {
-            break;
-        }
+    for (var i = 0; i < items.rooms.length; ++i) {
+    	if (current.startTime != items.data[items.i].startTime) {
+    		break;
+    	}
+    	
+    	if (items.data[items.i].room.id != items.rooms[i].id) {
+    		columns += '<td />';
+    		continue;
+    	}
+    	
+    	columns += renderColumn(items.data[items.i], items.data[items.i + 1], items.rooms.length - i);
+    	++items.i;
+    	
+    	if (!items.data[items.i]) {
+    		break;
+    	}
     }
     
     --items.i;
@@ -257,17 +261,19 @@ function renderColumn(item, next, colspan)
 
 function extractRooms(items)
 {
-    var rooms = {
-        length: 0,
-        items: []
-    };
+    var rooms = [];
+    var added = [];
     
     for (var i = 0; i < items.length; ++i) {
-        if (items[i].room && !rooms.items[items[i].room.id]) {
-            rooms.items[items[i].room.id] = items[i].room;
-            ++rooms.length;
-        }
+    	if (!items[i].room || added[items[i].room.id]) {
+    		continue;
+    	}
+    	
+    	rooms.push(items[i].room);
+    	added[items[i].room.id] = true;
     }
+    
+    rooms.sort(function (one, other) {return one.id - other.id; });
     
     return rooms;
 }
