@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/boot.php';
+require __DIR__ . '/../boot.php';
 
 use PHPSC\Conference\Domain\Entity\Logo;
 
@@ -13,7 +13,7 @@ $logo = new Logo();
 $logo->setImage(fopen($argv[1], 'rb'));
 $logo->setCreatedAt(new \DateTime());
 
-$container = require __DIR__ . '/config/di-container.php';
+$container = require __DIR__ . '/../config/di-container.php';
 $em = $container->get('entityManager');
 
 $em->persist($logo);

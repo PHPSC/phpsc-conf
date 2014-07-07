@@ -9,6 +9,10 @@
         <service id="supporter.json.service" class="PHPSC\Conference\Application\Service\SupporterJsonService">
             <argument type="service" id="supporter.management.service" />
             <argument type="service" id="company.management.service" />
+            <argument type="service" id="authentication.service" />
+        </service>
+        <service id="sponsor.app.service" class="PHPSC\Conference\Application\Service\SponsorManagementService">
+            <argument type="service" id="sponsor.repository" />
         </service>
 
         <service id="supporter.management.service" class="PHPSC\Conference\Domain\Service\SupporterManagementService">
@@ -25,6 +29,12 @@
         </service>
         <service id="supporter.repository" factory-service="entityManager" factory-method="getRepository">
             <argument>PHPSC\Conference\Domain\Entity\Supporter</argument>
+        </service>
+        <service id="sponsorshipQuota.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\SponsorshipQuota</argument>
+        </service>
+        <service id="sponsor.repository" factory-service="entityManager" factory-method="getRepository">
+            <argument>PHPSC\Conference\Domain\Entity\Sponsor</argument>
         </service>
         
         <service id="supporter.factory" class="PHPSC\Conference\Domain\Factory\SupporterFactory" />
