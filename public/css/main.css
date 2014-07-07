@@ -41,3 +41,58 @@ footer div.social_links a {
     height: 24px !important;
  	background: transparent url(../img/social-icons/glyphicons_social_04_yahoo.png) no-repeat center center;
 }
+
+
+div.sponsors {
+    padding-top: 10px;
+    text-align: center;
+}
+
+div.sponsors h4 {
+    display:block;
+    font-size: 140%;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    margin-left: 12px;
+}
+
+div.sponsors h5 {
+    font-weight: bold;
+}
+
+div.sponsors.platinum h4 {
+    background-color: #e5e4e2;
+    color: #b7b4ae;
+}
+
+div.sponsors.platinum div {
+    text-align: left;
+}
+
+div.sponsors.platinum div > div:first-child {
+    line-height: 120px;
+}
+
+div.sponsors.gold h4 {
+    background-color: #ffd700;
+}
+
+div.sponsors.gold > div {
+    line-height: 100px;
+}
+
+div.sponsors.silver h4 {
+    background-color: #c0c0c0;
+}
+
+div.sponsors.silver > div {
+    line-height: 80px;
+}
+
+div.sponsors.brass h4 {
+    background-color: #b5a642;
+}
+
+div.sponsors.brass > div {
+    line-height: 60px;
+}

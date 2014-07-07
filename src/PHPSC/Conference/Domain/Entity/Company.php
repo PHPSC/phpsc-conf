@@ -43,9 +43,17 @@ class Company implements Entity
 
     /**
      * @Column(type="string", length=160, unique=true)
+     *
      * @var string
      */
     private $email;
+
+    /**
+     * @Column(type="text", nullable=true)
+     *
+     * @var string
+     */
+    private $details;
 
     /**
      * @Column(type="string", length=30, nullable=true)
@@ -173,6 +181,22 @@ class Company implements Entity
         }
 
         $this->email = (string) $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    /**
+     * @param string $details
+     */
+    public function setDetails($details)
+    {
+        $this->details = $details;
     }
 
     /**

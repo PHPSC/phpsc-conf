@@ -30,11 +30,11 @@ function hideTable(tableId)
     $('#' + tableId).parent().parent().fadeOut('fast');
 }
 
-function renderItems(tableId, items)
+function renderItems(tableId, scheduledItems)
 {
-    var rooms = extractRooms(items);
+    var rooms = extractRooms(scheduledItems);
     var items = {
-        data: items,
+        data: scheduledItems,
         rooms: rooms,
         i: null
     };
@@ -150,15 +150,15 @@ function showTalkSummary(talk)
 function createHeader(rooms)
 {
     var header = '<thead><tr><th class="col-md-1"></th>';
+    var room;
     
-    for (var i in rooms.items) {
-        if (!rooms.items[i]) {
-            return ;
-        }
+    for (var i = 0; i < rooms.length; ++i) {
+    	room = rooms[i];
         
-        var room = rooms.items[i];
-        
-        header += '<th>' + room.name + ' <small>(' + room.details + ')</small></th>';
+        header += '<th>'
+        	+ room.name
+        	+ (room.details ? ' <small>(' + room.details + ')</small>' : '')
+        	+ '</th>';
     }
     
     header += '</tr></thead>';
@@ -174,9 +174,7 @@ function createBody(items)
         var item = items.data[items.i];
         
         body += '<tr>';
-        
-        var time = new Date(item.startTime);
-        body += '<th>' + time.toLocaleTimeString().substring(0, 5) + '</th>'
+        body += '<th>' + getItemTime(item.startTime) + '</th>'
 
         if (!item.room) {
             body += '<td colspan="' + items.rooms.length + '" style="text-align: center;">' + item.label + '</td>'
@@ -192,17 +190,36 @@ function createBody(items)
     return body;
 }
 
+function getItemTime(timeString)
+{
+    var time = (new Date(timeString)).toLocaleTimeString();
+    
+    time = time.replace(/\u200E/g, '');
+    time = time.replace(/^([^\d]*\d{1,2}:\d{1,2}):\d{1,2}([^\d]*)$/, '$1$2');
+    
+    return time;
+}
+
 function getItemsColumns(current, items)
 {
     var columns = '';
     
-    while (current.startTime == items.data[items.i].startTime) {
-        columns += renderColumn(items.data[items.i], items.data[items.i + 1], items.rooms.length);
-        ++items.i;
-        
-        if (!items.data[items.i]) {
-            break;
-        }
+    for (var i = 0; i < items.rooms.length; ++i) {
+    	if (current.startTime != items.data[items.i].startTime) {
+    		break;
+    	}
+    	
+    	if (items.data[items.i].room.id != items.rooms[i].id) {
+    		columns += '<td />';
+    		continue;
+    	}
+    	
+    	columns += renderColumn(items.data[items.i], items.data[items.i + 1], items.rooms.length - i);
+    	++items.i;
+    	
+    	if (!items.data[items.i]) {
+    		break;
+    	}
     }
     
     --items.i;
@@ -228,7 +245,11 @@ function renderColumn(item, next, colspan)
         }
         
         for (var i = 0; i < item.talk.speakers.length; ++i) {
-            column += '<br /><span class="speakers" style="line-height: 35px; vertical-align: middle; cursor: pointer" title="' + item.talk.speakers[i].name + '" data-content="' + item.talk.speakers[i].bio + '" data-placement="auto" data-trigger="hover">';
+        	if (item.talk.speakers[i].bio) {
+        		column += '<br /><span class="speakers" style="line-height: 35px; vertical-align: middle; cursor: pointer" title="' + item.talk.speakers[i].name + '" data-content="' + item.talk.speakers[i].bio + '" data-placement="auto" data-trigger="hover">';
+        	} else {
+        		column += '<br /><span style="line-height: 35px; vertical-align: middle;">';
+        	}
             column += '<img src="' + item.talk.speakers[i].avatar + '" class="img-thumbnail" style="width: 35px; padding: 2px; margin-right: 4px " />';
             column += item.talk.speakers[i].name + '</span>';
         }
@@ -244,17 +265,19 @@ function renderColumn(item, next, colspan)
 
 function extractRooms(items)
 {
-    var rooms = {
-        length: 0,
-        items: []
-    };
+    var rooms = [];
+    var added = [];
     
     for (var i = 0; i < items.length; ++i) {
-        if (items[i].room && !rooms.items[items[i].room.id]) {
-            rooms.items[items[i].room.id] = items[i].room;
-            ++rooms.length;
-        }
+    	if (!items[i].room || added[items[i].room.id]) {
+    		continue;
+    	}
+    	
+    	rooms.push(items[i].room);
+    	added[items[i].room.id] = true;
     }
+    
+    rooms.sort(function (one, other) {return one.id - other.id; });
     
     return rooms;
 }

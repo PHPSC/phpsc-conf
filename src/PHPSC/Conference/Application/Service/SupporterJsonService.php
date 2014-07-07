@@ -28,15 +28,23 @@ class SupporterJsonService
     private $companyManager;
 
     /**
+     * @var AuthenticationService
+     */
+    private $authService;
+
+    /**
      * @param SupporterManagementService $supporterManager
      * @param CompanyManagementService $companyManager
+     * @param AuthenticationService $authService
      */
     public function __construct(
         SupporterManagementService $supporterManager,
-        CompanyManagementService $companyManager
+        CompanyManagementService $companyManager,
+        AuthenticationService $authService
     ) {
         $this->supporterManager = $supporterManager;
         $this->companyManager = $companyManager;
+        $this->authService = $authService;
     }
 
     /**
@@ -151,6 +159,14 @@ class SupporterJsonService
      */
     protected function toArray(Supporter $supporter)
     {
+        if (!$this->isAdmin()) {
+            return array(
+                'id' => $supporter->getId(),
+                'name' => $supporter->getCompany()->getName(),
+                'website' => $supporter->getCompany()->getWebsite()
+            );
+        }
+
         return array(
             'id' => $supporter->getId(),
             'socialId' => $supporter->getCompany()->getSocialId(),
@@ -161,5 +177,15 @@ class SupporterJsonService
             'twitterId' => $supporter->getCompany()->getTwitterId(),
             'fanpage' => $supporter->getCompany()->getFanpage()
         );
+    }
+
+    /**
+     * @return boolean
+     */
+    private function isAdmin()
+    {
+        $user = $this->authService->getLoggedUser();
+
+        return $user !== null && $user->isAdmin();
     }
 }

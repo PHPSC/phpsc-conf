@@ -39,13 +39,13 @@ class ScheduledItem
 
     /**
      * @ManyToOne(targetEntity="Talk")
-     * @JoinColumn(name="talk_id", referencedColumnName="id", nullable=true, unique=true)
+     * @JoinColumn(name="talk_id", referencedColumnName="id", nullable=true)
      * @var Talk
      */
     private $talk;
 
     /**
-     * @Column(type="string", length=80)
+     * @Column(type="string", length=120)
      * @var string
      */
     private $label;

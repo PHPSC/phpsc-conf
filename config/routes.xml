@@ -27,6 +27,8 @@
 
         <route pattern="/supporters/*" class="\PHPSC\Conference\Application\Action\Supporters" />
 		<route pattern="/supporter/(id)" class="\PHPSC\Conference\Application\Action\Supporter" />
+        <route pattern="/sponsors/*" class="\PHPSC\Conference\Application\Action\Sponsors" />
+		<route pattern="/sponsor/(id)" class="\PHPSC\Conference\Application\Action\Sponsor" />
 
 		<route pattern="/adm/credentialing" class="\PHPSC\Conference\Application\Action\Admin\Credentialing" />
 		<route pattern="/adm/supporters" class="\PHPSC\Conference\Application\Action\Admin\Supporters" />
@@ -42,6 +44,7 @@
 		<filter pattern="/call4papers/feedback" class="\PHPSC\Conference\Application\Filter\CommunityFeedbackFilter" />
 		<filter pattern="/registration/new" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
 		<filter pattern="/registration/registered" class="\PHPSC\Conference\Application\Filter\NewAttendeeFilter" />
+		<filter pattern="/adm/credentialing" class="\PHPSC\Conference\Application\Filter\AdministratorFilter" />
 		<filter pattern="/adm/supporters" class="\PHPSC\Conference\Application\Filter\AdministratorFilter" />
 		<filter pattern="/adm/talks" class="\PHPSC\Conference\Application\Filter\ManagerFilter" />
 		<filter pattern="/supporters" class="\PHPSC\Conference\Application\Filter\ApiManagementFilter" httpMethods="POST" />

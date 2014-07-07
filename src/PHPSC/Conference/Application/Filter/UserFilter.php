@@ -19,5 +19,7 @@ class UserFilter extends BasicFilter
             && !$this->request->getSession()->has('oauth2.data')) {
             $this->application->redirect('/oauth');
         }
+
+        $this->validateUserAuthentication();
     }
 }
