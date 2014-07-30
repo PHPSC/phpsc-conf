@@ -3,7 +3,7 @@ $(document).ready(function () {
 	    {id: 1, label: "Platina", rowCss: "platinum", perRow: 2, logo: {w: 250, h: 120}, details: true},
 	    {id: 2, label: "Ouro", rowCss: "gold", perRow: 4, logo: {w: 200, h: 100}, details: false},
 	    {id: 3, label: "Prata", rowCss: "silver", perRow: 6, logo: {w: 160, h: 80}, details: false},
-	    {id: 4, label: "Bronze", rowCss: "brass", perRow: 12, logo: {w: 80, h: 60}, details: false}
+	    {id: 4, label: "Bronze", rowCss: "brass", perRow: 6, logo: {w: 160, h: 80}, details: false}
     ];
 	
 	findSponsors(0);
