@@ -192,12 +192,12 @@ function createBody(items)
 
 function getItemTime(timeString)
 {
-    var time = (new Date(timeString));
+    var time = (new Date(timeString)).toLocaleTimeString();
     
-    hours = time.getHours();
-    minutes = time.getMinutes();
+    time = time.replace(/\u200E/g, '');
+    time = time.replace(/^([^\d]*\d{1,2}:\d{1,2}):\d{1,2}([^\d]*)$/, '$1$2');
     
-    return hours+":"+minutes;
+    return time;
 }
 
 function getItemsColumns(current, items)
