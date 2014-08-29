@@ -37,6 +37,14 @@ class Grid extends Component
                 new DatagridColumn('Nome', 'user.name', 'col-md-3'),
                 new DatagridColumn('Email', 'user.email', 'col-md-3'),
                 new DatagridColumn(
+                    'Tipo',
+                    'canAttendAllDays()',
+                    'col-md-2',
+                    function ($canAttendAllDays) {
+                        return $canAttendAllDays ? 'Minicursos e paletras' : 'Somente palestras';
+                    }
+                ),
+                new DatagridColumn(
                     'Status',
                     'getStatusDescription()',
                     'col-md-2',

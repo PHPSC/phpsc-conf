@@ -182,7 +182,7 @@ class ScheduledItem
         $data = array(
             'id' => $this->getId(),
             'label' => $this->getLabel(),
-            'startTime' => $this->getStartTime()->format(DateTime::ISO8601),
+            'startTime' => $this->getStartTime()->format(DateTime::W3C),
             'room' => null,
             'talk' => null
         );
