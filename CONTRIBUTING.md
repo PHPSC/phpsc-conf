@@ -78,7 +78,7 @@ branch master origin/master```);
       $hotfix deverá ser a versão atual, incrementando o número
       da última posição (PATCH).
 
-Se tiver dúvidas a respeito do versionamento, leia [esta especificação](https://github.com/wendtecnologia/semver/blob/2.0.0-rc.1/semver.pt-br.md) ([ou sua versão original, em inglês](http://semver.org/spec/v2.0.0.html)).
+Se tiver dúvidas a respeito do versionamento, leia [esta especificação](http://semver.org/lang/pt-BR/).
 
 ## Configuração do container de injeção dependência
 
