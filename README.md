@@ -14,46 +14,6 @@ Sistema criado pelo PHPSC com o objetivo de gerenciar os eventos realizados pelo
 Se tem interesse em nos ajudar, dê uma olhada [neste conteúdo](https://github.com/PHPSC/phpsc-conf/blob/develop/CONTRIBUTING.md).
 
 
-## Roadmap
-
-<table>
-    <tr>
-        <th>Data</th>
-        <th>Release</th>
-        <th>Descrição</th>
-    </tr>
-    <tr>
-        <td>2012-10-02</td>
-        <td>0.6.0</td>
-        <td>Permitir comunidade opinar nas submissões e alterações nas páginas fixas (temporárias)</td>
-    </tr>
-    <tr>
-        <td>2012-09-01</td>
-        <td>0.5.0</td>
-        <td>Adição das informações sobre o evento (temporário)</td>
-    </tr>
-    <tr>
-        <td>2012-08-07</td>
-        <td>0.4.0</td>
-        <td>Realização de inscrições e pagamentos através do pagseguro</td>
-    </tr>
-    <tr>
-        <td>2012-07-26</td>
-        <td>0.3.0</td>
-        <td>Adição da edição de dados pessoais, compartilhamento das submissões através do twitter</td>
-    </tr>
-    <tr>
-        <td>2012-07-26</td>
-        <td>0.2.0</td>
-        <td>Exibição do local com mapa do google maps, correções do frontend</td>
-    </tr>
-    <tr>
-        <td>2012-06-12</td>
-        <td>0.1.0</td>
-        <td>Estrutura inicial do projeto, login pelo twitter e estrutura para submissão de palestras</td>
-    </tr>
-</table>
-
 ## Licença de uso
 
 Copyright (c) 2013-2014, Grupo de usuários de PHP de Santa Catarina (PHPSC)
