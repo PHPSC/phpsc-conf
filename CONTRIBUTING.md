@@ -50,8 +50,7 @@ annotations.
 
 ## Requisitos mínimos
 
-No momento estamos limitados ao PHP 5.3, então todas as modificações devem
-ser compatíveis com esta versão da linguagem.
+PHP 5.5 ou superior.
 
 ## Code style
 
